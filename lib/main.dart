@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
               navigatorKey: navigatorKey,
               theme: themeCubit.state,
               debugShowCheckedModeBanner: false,
-              initialRoute: AppRoutesNames.splashScreen,
+              initialRoute: AppRoutesNames.homeSearchScreen,
               locale: context.locale,
               supportedLocales: context.supportedLocales,
               localizationsDelegates: context.localizationDelegates,
