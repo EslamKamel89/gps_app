@@ -4,6 +4,7 @@ import 'package:gps_app/core/router/middleware.dart';
 import 'package:gps_app/core/screens_example/splash_screen/splash_screen.dart';
 import 'package:gps_app/features/wireframe/screens/diet_selection_screen.dart';
 import 'package:gps_app/features/wireframe/screens/home_search_screen.dart';
+import 'package:gps_app/features/wireframe/screens/login_screen.dart';
 import 'package:gps_app/features/wireframe/screens/resturant_details_screen.dart';
 import 'package:gps_app/features/wireframe/screens/splash_screen.dart';
 
@@ -30,6 +31,8 @@ class AppRouter {
         );
       case AppRoutesNames.gpsSplashScreen:
         return CustomPageRoute(builder: (context) => GPSSplashScreen(), settings: routeSettings);
+      case AppRoutesNames.loginScreen:
+        return CustomPageRoute(builder: (context) => LoginScreen(), settings: routeSettings);
       // case AppRoutesNames.uiComponentScreen:
       //   return CustomPageRoute(
       //     builder: (context) => const UiComponentScreen(),
