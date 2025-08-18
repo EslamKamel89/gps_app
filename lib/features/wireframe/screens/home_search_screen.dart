@@ -85,7 +85,6 @@ class _HomeSearchScreenState extends State<HomeSearchScreen> {
   }
 }
 
-/// ----------------------------- TOP BAR ------------------------------------
 class _TopBar extends StatelessWidget {
   const _TopBar();
 
@@ -142,7 +141,6 @@ class _RoundIcon extends StatelessWidget {
   }
 }
 
-/// --------------------------- SEARCH ROW -----------------------------------
 class _SearchRow extends StatelessWidget {
   const _SearchRow();
 
@@ -217,7 +215,6 @@ class _RoundSquareButton extends StatelessWidget {
   }
 }
 
-/// --------------------------- FILTER CHIPS ---------------------------------
 class _FilterChipsRow extends StatelessWidget {
   const _FilterChipsRow();
 
@@ -297,7 +294,6 @@ class _TagChip extends StatelessWidget {
   }
 }
 
-/// ------------------------------ PROMO -------------------------------------
 class _PromoCard extends StatelessWidget {
   const _PromoCard();
 
@@ -352,7 +348,6 @@ class _PromoCard extends StatelessWidget {
   }
 }
 
-/// --------------------------- FEATURED CARD --------------------------------
 class _FeaturedRestaurantCard extends StatelessWidget {
   const _FeaturedRestaurantCard();
 
@@ -417,7 +412,6 @@ class _FeaturedRestaurantCard extends StatelessWidget {
   }
 }
 
-/// --------------------------- LIST ITEM ------------------------------------
 class _RestaurantListItem extends StatelessWidget {
   const _RestaurantListItem({
     required this.title,
@@ -556,7 +550,6 @@ class _MetaRow extends StatelessWidget {
   }
 }
 
-/// ------------------------- BOTTOM NAV -------------------------------------
 class _GPSBottomNav extends StatelessWidget {
   const _GPSBottomNav({required this.currentIndex, required this.onChanged});
   final int currentIndex;
