@@ -4,4 +4,5 @@ class AppRoutesNames {
   static const String dietSelectionScreen = '/dietSelectionScreen';
   static const String homeSearchScreen = '/homeSearchScreen';
   static const String restaurantDetailScreen = '/restaurantDetailScreen';
+  static const String gpsSplashScreen = '/gpsSplashScreen';
 }
