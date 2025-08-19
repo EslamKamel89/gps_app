@@ -36,7 +36,6 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
                   background: Stack(
                     fit: StackFit.expand,
                     children: [
-                      // Header photo (use your asset/network)
                       Image.network(
                             'https://images.unsplash.com/photo-1550547660-d9450f859349?q=80&w=1600&auto=format&fit=crop',
                             fit: BoxFit.cover,
@@ -147,7 +146,6 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
   }
 }
 
-/// ----------------------------- WIDGETS ------------------------------------
 class _CircleBack extends StatelessWidget {
   const _CircleBack({this.onTap});
   final VoidCallback? onTap;

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:gps_app/core/router/app_routes_names.dart';
 import 'package:gps_app/features/wireframe/design/gps_colors.dart';
 import 'package:gps_app/features/wireframe/design/gps_gaps.dart';
 
@@ -49,9 +50,13 @@ class _HomeSearchScreenState extends State<HomeSearchScreen> {
             ),
             SliverList(
               delegate: SliverChildListDelegate([
-                const _FeaturedRestaurantCard(),
+                _FeaturedRestaurantCard(
+                  onTap: () {
+                    Navigator.of(context).pushNamed(AppRoutesNames.restaurantDetailScreen);
+                  },
+                ),
                 GPSGaps.h12,
-                const _RestaurantListItem(
+                _RestaurantListItem(
                   title: 'Farm to Fork',
                   subtitle: '100% grass-fed or organic, gluten free',
                   time: '45–10 min',
@@ -59,9 +64,12 @@ class _HomeSearchScreenState extends State<HomeSearchScreen> {
                   verified: true,
                   imageUrl:
                       'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=1200&auto=format&fit=crop',
+                  onTap: () {
+                    Navigator.of(context).pushNamed(AppRoutesNames.restaurantDetailScreen);
+                  },
                 ),
                 GPSGaps.h12,
-                const _RestaurantListItem(
+                _RestaurantListItem(
                   title: 'Greenhouse Cafe',
                   subtitle: '100% organic, gluten free',
                   time: '30–1 hr',
@@ -69,6 +77,9 @@ class _HomeSearchScreenState extends State<HomeSearchScreen> {
                   verified: false,
                   imageUrl:
                       'https://images.unsplash.com/photo-1543353071-10c8ba85a904?q=80&w=1200&auto=format&fit=crop',
+                  onTap: () {
+                    Navigator.of(context).pushNamed(AppRoutesNames.restaurantDetailScreen);
+                  },
                 ),
                 GPSGaps.h24,
                 GPSGaps.h24,
@@ -349,65 +360,68 @@ class _PromoCard extends StatelessWidget {
 }
 
 class _FeaturedRestaurantCard extends StatelessWidget {
-  const _FeaturedRestaurantCard();
-
+  const _FeaturedRestaurantCard({required this.onTap});
+  final void Function()? onTap;
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: GPSColors.cardBorder),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ClipRRect(
-              borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
-              child: AspectRatio(
-                aspectRatio: 16 / 9,
-                child: Image.network(
-                  'https://images.unsplash.com/photo-1466637574441-749b8f19452f?q=80&w=1200&auto=format&fit=crop',
-                  fit: BoxFit.cover,
+    return InkWell(
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: GPSColors.cardBorder),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ClipRRect(
+                borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+                child: AspectRatio(
+                  aspectRatio: 16 / 9,
+                  child: Image.network(
+                    'https://images.unsplash.com/photo-1466637574441-749b8f19452f?q=80&w=1200&auto=format&fit=crop',
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(12),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      _VerifiedBadge(verified: true),
-                      GPSGaps.w8,
-                      Text(
-                        'GPS Verified',
-                        style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                          color: GPSColors.mutedText,
-                          fontWeight: FontWeight.w700,
+              Padding(
+                padding: const EdgeInsets.all(12),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        _VerifiedBadge(verified: true),
+                        GPSGaps.w8,
+                        Text(
+                          'GPS Verified',
+                          style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                            color: GPSColors.mutedText,
+                            fontWeight: FontWeight.w700,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                  GPSGaps.h8,
-                  Text(
-                    'Farm to Fork',
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      color: GPSColors.text,
-                      fontWeight: FontWeight.w800,
+                      ],
                     ),
-                  ),
-                  GPSGaps.h8,
-                  _MetaRow(time: '45–10 min', distance: '2.9 mi'),
-                ],
+                    GPSGaps.h8,
+                    Text(
+                      'Farm to Fork',
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        color: GPSColors.text,
+                        fontWeight: FontWeight.w800,
+                      ),
+                    ),
+                    GPSGaps.h8,
+                    _MetaRow(time: '45–10 min', distance: '2.9 mi'),
+                  ],
+                ),
               ),
-            ),
-          ],
-        ),
-      ).animate().fadeIn(duration: 320.ms).slideY(begin: .1),
+            ],
+          ),
+        ).animate().fadeIn(duration: 320.ms).slideY(begin: .1),
+      ),
     );
   }
 }
@@ -420,6 +434,7 @@ class _RestaurantListItem extends StatelessWidget {
     required this.distance,
     required this.verified,
     required this.imageUrl,
+    required this.onTap,
   });
 
   final String title;
@@ -428,72 +443,75 @@ class _RestaurantListItem extends StatelessWidget {
   final String distance;
   final bool verified;
   final String imageUrl;
-
+  final void Function()? onTap;
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: GPSColors.cardBorder),
-        ),
-        child: Row(
-          children: [
-            ClipRRect(
-              borderRadius: const BorderRadius.horizontal(left: Radius.circular(16)),
-              child: SizedBox(
-                width: 96,
-                height: 96,
-                child: Image.network(imageUrl, fit: BoxFit.cover),
-              ),
-            ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(12),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        if (verified) const _VerifiedBadge(verified: true),
-                        if (verified) ...[
-                          GPSGaps.w8,
-                          Text(
-                            'GPS Verified',
-                            style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                              color: GPSColors.mutedText,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                        ],
-                      ],
-                    ),
-                    GPSGaps.h8,
-                    Text(
-                      title,
-                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        color: GPSColors.text,
-                        fontWeight: FontWeight.w800,
-                      ),
-                    ),
-                    GPSGaps.h8,
-                    Text(
-                      subtitle,
-                      style: Theme.of(
-                        context,
-                      ).textTheme.bodySmall?.copyWith(color: GPSColors.mutedText),
-                    ),
-                    GPSGaps.h8,
-                    _MetaRow(time: time, distance: distance),
-                  ],
+    return InkWell(
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: GPSColors.cardBorder),
+          ),
+          child: Row(
+            children: [
+              ClipRRect(
+                borderRadius: const BorderRadius.horizontal(left: Radius.circular(16)),
+                child: SizedBox(
+                  width: 96,
+                  height: 96,
+                  child: Image.network(imageUrl, fit: BoxFit.cover),
                 ),
               ),
-            ),
-          ],
-        ),
-      ).animate().fadeIn(duration: 320.ms).slideX(begin: .1),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(12),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          if (verified) const _VerifiedBadge(verified: true),
+                          if (verified) ...[
+                            GPSGaps.w8,
+                            Text(
+                              'GPS Verified',
+                              style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                                color: GPSColors.mutedText,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                          ],
+                        ],
+                      ),
+                      GPSGaps.h8,
+                      Text(
+                        title,
+                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                          color: GPSColors.text,
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
+                      GPSGaps.h8,
+                      Text(
+                        subtitle,
+                        style: Theme.of(
+                          context,
+                        ).textTheme.bodySmall?.copyWith(color: GPSColors.mutedText),
+                      ),
+                      GPSGaps.h8,
+                      _MetaRow(time: time, distance: distance),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ).animate().fadeIn(duration: 320.ms).slideX(begin: .1),
+      ),
     );
   }
 }

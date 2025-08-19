@@ -1,15 +1,14 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:gps_app/core/router/app_routes_names.dart';
 import 'package:gps_app/features/wireframe/design/gps_colors.dart';
 import 'package:gps_app/features/wireframe/design/gps_gaps.dart';
+import 'package:gps_app/features/wireframe/widgets/gps_description.dart';
+import 'package:gps_app/features/wireframe/widgets/pinleaf_logo.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key, this.onLogin, this.onGoRegister, this.onGoReset});
-
-  final Future<void> Function(String emailOrUser, String password)? onLogin;
-  final VoidCallback? onGoRegister;
-  final VoidCallback? onGoReset;
+  const LoginScreen({super.key});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -20,7 +19,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final _emailCtrl = TextEditingController();
   final _passCtrl = TextEditingController();
   bool _obscure = true;
-  bool _loading = false;
+  final bool _loading = false;
 
   @override
   void dispose() {
@@ -30,22 +29,8 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future<void> _submit() async {
-    if (!(_formKey.currentState?.validate() ?? false)) return;
-    setState(() => _loading = true);
-    try {
-      if (widget.onLogin != null) {
-        await widget.onLogin!(_emailCtrl.text.trim(), _passCtrl.text);
-      } else {
-        // default demo: show snackbar
-        if (mounted) {
-          ScaffoldMessenger.of(
-            context,
-          ).showSnackBar(SnackBar(content: Text('Logging in as ${_emailCtrl.text.trim()}')));
-        }
-      }
-    } finally {
-      if (mounted) setState(() => _loading = false);
-    }
+    Navigator.of(context).pushNamed(AppRoutesNames.homeSearchScreen);
+    // if (!(_formKey.currentState?.validate() ?? false)) return;
   }
 
   @override
@@ -60,35 +45,26 @@ class _LoginScreenState extends State<LoginScreen> {
               key: _formKey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  // Logo / Title
-                  const _LogoTitle()
-                      .animate()
-                      .fadeIn(duration: 400.ms)
-                      .slideY(begin: .2, curve: Curves.easeOutQuad),
-
+                  const PinLeafLogo(size: 140),
+                  GPSGaps.h24,
+                  Center(child: GpsShortDescription()),
                   GPSGaps.h24,
 
-                  // Email/Username
-                  _LabeledField(
+                  LabeledField(
                     label: 'Email or Username',
                     child: TextFormField(
                       controller: _emailCtrl,
                       keyboardType: TextInputType.emailAddress,
                       textInputAction: TextInputAction.next,
                       decoration: _inputDecoration('Enter your email or username'),
-                      validator:
-                          (v) =>
-                              (v == null || v.trim().isEmpty)
-                                  ? 'Please enter email or username'
-                                  : null,
                     ),
-                  ).animate().fadeIn(duration: 300.ms).slideY(begin: .12),
+                  ),
 
                   GPSGaps.h16,
 
-                  // Password
-                  _LabeledField(
+                  LabeledField(
                     label: 'Password',
                     child: TextFormField(
                       controller: _passCtrl,
@@ -102,10 +78,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           onPressed: () => setState(() => _obscure = !_obscure),
                         ),
                       ),
-                      validator: (v) => (v == null || v.isEmpty) ? 'Please enter password' : null,
-                      onFieldSubmitted: (_) => _submit(),
                     ),
-                  ).animate().fadeIn(duration: 300.ms, delay: 80.ms).slideY(begin: .12),
+                  ),
 
                   GPSGaps.h20,
 
@@ -150,7 +124,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             color: GPSColors.primary,
                             fontWeight: FontWeight.w800,
                           ),
-                          recognizer: TapGestureRecognizer()..onTap = widget.onGoRegister,
+                          recognizer: TapGestureRecognizer()..onTap = () {},
                         ),
                       ],
                     ),
@@ -172,7 +146,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             color: GPSColors.primary,
                             fontWeight: FontWeight.w800,
                           ),
-                          recognizer: TapGestureRecognizer()..onTap = widget.onGoReset,
+                          recognizer: TapGestureRecognizer()..onTap = () {},
                         ),
                         const TextSpan(text: '?'),
                       ],
@@ -211,38 +185,8 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 }
 
-/// --------------------------- SUBWIDGETS -----------------------------------
-class _LogoTitle extends StatelessWidget {
-  const _LogoTitle();
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          width: 72,
-          height: 72,
-          decoration: BoxDecoration(
-            color: GPSColors.cardSelected,
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: GPSColors.cardBorder),
-          ),
-          child: const Icon(Icons.pin_drop_rounded, color: GPSColors.primary),
-        ),
-        GPSGaps.h12,
-        Text(
-          'Welcome back',
-          style: Theme.of(
-            context,
-          ).textTheme.titleLarge?.copyWith(color: GPSColors.text, fontWeight: FontWeight.w800),
-        ),
-      ],
-    );
-  }
-}
-
-class _LabeledField extends StatelessWidget {
-  const _LabeledField({required this.label, required this.child});
+class LabeledField extends StatelessWidget {
+  const LabeledField({super.key, required this.label, required this.child});
   final String label;
   final Widget child;
 
@@ -260,6 +204,6 @@ class _LabeledField extends StatelessWidget {
         GPSGaps.h8,
         child,
       ],
-    );
+    ).animate().fadeIn(duration: 300.ms).slideY(begin: .12);
   }
 }

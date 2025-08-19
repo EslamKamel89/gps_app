@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:gps_app/core/router/app_routes_names.dart';
 import 'package:gps_app/features/wireframe/design/gps_colors.dart';
 import 'package:gps_app/features/wireframe/design/gps_gaps.dart';
 import 'package:gps_app/features/wireframe/entities/diet_options.dart';
+import 'package:gps_app/features/wireframe/widgets/header.dart';
 
 const _dietOptions = <DietOption>[
   DietOption(id: 'keto', label: 'Ketogenic', emoji: '🥑'),
@@ -45,10 +47,10 @@ class _DietSelectionScreenState extends State<DietSelectionScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              // Header
-              _Header(
+              GPSGaps.h24,
+              GpsHeader(
                 title: 'Which of these diets do you follow?',
-                onBack: () => Navigator.of(context).maybePop(),
+                // onBack: () => Navigator.of(context).maybePop(),
               ).animate().fadeIn(duration: 300.ms).slideY(begin: .2, curve: Curves.easeOutQuad),
               GPSGaps.h24,
 
@@ -89,7 +91,7 @@ class _DietSelectionScreenState extends State<DietSelectionScreen> {
               // Footer actions
               _Footer(
                 onSkip: () {
-                  Navigator.of(context).pop();
+                  Navigator.of(context).pushNamed(AppRoutesNames.loginScreen);
                 },
                 onNext:
                     _selected.isNotEmpty
@@ -98,6 +100,9 @@ class _DietSelectionScreenState extends State<DietSelectionScreen> {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(content: Text('Selected: ${_selected.join(', ')}')),
                           );
+                          Future.delayed(300.ms, () {
+                            Navigator.of(context).pushNamed(AppRoutesNames.loginScreen);
+                          });
                         }
                         : null,
               ),
@@ -106,61 +111,6 @@ class _DietSelectionScreenState extends State<DietSelectionScreen> {
         ),
       ),
     );
-  }
-}
-
-class _Header extends StatelessWidget {
-  const _Header({required this.title, this.onBack});
-  final String title;
-  final VoidCallback? onBack;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        _CircleIconButton(icon: Icons.arrow_back_ios_new, onTap: onBack),
-        GPSGaps.w12,
-        Expanded(
-          child: Text(
-            title,
-            style: Theme.of(
-              context,
-            ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w700, color: GPSColors.text),
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class _CircleIconButton extends StatelessWidget {
-  const _CircleIconButton({required this.icon, this.onTap});
-  final IconData icon;
-  final VoidCallback? onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    final w = GestureDetector(
-      onTap: onTap,
-      child: Container(
-            width: 40,
-            height: 40,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: GPSColors.cardBorder),
-              boxShadow: const [
-                BoxShadow(color: Color(0x14000000), blurRadius: 8, offset: Offset(0, 2)),
-              ],
-            ),
-            child: Icon(icon, size: 18, color: GPSColors.text),
-          )
-          .animate(onPlay: (c) => c.repeat(reverse: true))
-          .scale(begin: const Offset(1.0, 1.0), end: const Offset(1.0, 1.0)) // keep size
-          .shimmer(delay: 2.seconds, duration: 1200.ms),
-    );
-
-    return w;
   }
 }
 

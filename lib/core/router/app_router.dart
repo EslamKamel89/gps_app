@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gps_app/core/router/app_routes_names.dart';
 import 'package:gps_app/core/router/middleware.dart';
-import 'package:gps_app/core/screens_example/splash_screen/splash_screen.dart';
 import 'package:gps_app/features/wireframe/screens/diet_selection_screen.dart';
 import 'package:gps_app/features/wireframe/screens/home_search_screen.dart';
 import 'package:gps_app/features/wireframe/screens/login_screen.dart';
@@ -15,8 +14,6 @@ class AppRouter {
     final args = routeSettings.arguments;
     String? routeName = appMiddleWare.middlleware(routeSettings.name);
     switch (routeName) {
-      case AppRoutesNames.splashScreen:
-        return CustomPageRoute(builder: (context) => const SplashScreen(), settings: routeSettings);
       case AppRoutesNames.dietSelectionScreen:
         return CustomPageRoute(
           builder: (context) => DietSelectionScreen(),
