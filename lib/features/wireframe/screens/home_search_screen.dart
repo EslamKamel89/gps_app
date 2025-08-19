@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:gps_app/core/extensions/context-extensions.dart';
 import 'package:gps_app/core/router/app_routes_names.dart';
 import 'package:gps_app/features/wireframe/design/gps_colors.dart';
 import 'package:gps_app/features/wireframe/design/gps_gaps.dart';
+import 'package:gps_app/features/wireframe/widgets/gps_bottom_nav.dart';
+import 'package:gps_app/features/wireframe/widgets/restrunats_shortcut.dart';
 
 class HomeSearchScreen extends StatefulWidget {
   const HomeSearchScreen({super.key});
@@ -14,83 +17,291 @@ class HomeSearchScreen extends StatefulWidget {
 class _HomeSearchScreenState extends State<HomeSearchScreen> {
   int _currentTab = 0;
 
+  // Map/search overlay state
+  final TextEditingController _searchCtrl = TextEditingController();
+  final FocusNode _searchFocus = FocusNode();
+
+  bool _showMap = false; // becomes true when user starts typing or taps search
+  bool _showSuggestions = false; // visible while typing and query not empty
+
+  // Dummy suggestion data
+  final List<String> _allRestaurants = const [
+    'Farm to Fork',
+    'Greenhouse Cafe',
+    'True Acre',
+    'Grass & Grain',
+    'Wild Catch Kitchen',
+    'Roots & Regenerative',
+    'Pure Pastures',
+  ];
+  // NEW: demo images for the shortcut row (replace with your assets or CDN)
+  final List<RestaurantMini> _shortcutItems = const [
+    RestaurantMini(
+      name: 'Farm to Fork',
+      imageUrl:
+          'https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?q=80&w=1200&auto=format&fit=crop',
+    ),
+    RestaurantMini(
+      name: 'Greenhouse Cafe',
+      imageUrl:
+          'https://images.unsplash.com/photo-1559339352-11d035aa65de?q=80&w=1200&auto=format&fit=crop',
+    ),
+    RestaurantMini(
+      name: 'True Acre',
+      imageUrl:
+          'https://images.unsplash.com/photo-1498654200943-1088dd4438ae?q=80&w=1200&auto=format&fit=crop',
+    ),
+    RestaurantMini(
+      name: 'Roots & Regenerative',
+      imageUrl:
+          'https://images.unsplash.com/photo-1490474418585-ba9bad8fd0ea?q=80&w=1200&auto=format&fit=crop',
+    ),
+    RestaurantMini(
+      name: 'Wild Catch',
+      imageUrl:
+          'https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=1200&auto=format&fit=crop',
+    ),
+    RestaurantMini(
+      name: 'Pure Pastures',
+      imageUrl:
+          'https://images.unsplash.com/photo-1546793665-c74683f339c1?q=80&w=1200&auto=format&fit=crop',
+    ),
+  ];
+
+  List<String> get _filtered {
+    final q = _searchCtrl.text.trim().toLowerCase();
+    if (q.isEmpty) return _allRestaurants;
+    return _allRestaurants.where((r) => r.toLowerCase().contains(q)).toList();
+  }
+
+  @override
+  void dispose() {
+    _searchCtrl.dispose();
+    _searchFocus.dispose();
+    super.dispose();
+  }
+
+  void _enterSearchMode() {
+    if (!_showMap) {
+      setState(() {
+        _showMap = true;
+        _showSuggestions = _searchCtrl.text.trim().isNotEmpty;
+      });
+    }
+    _searchFocus.requestFocus();
+  }
+
+  void _onQueryChanged(String _) {
+    final hasText = _searchCtrl.text.trim().isNotEmpty;
+    setState(() {
+      _showMap = hasText || _showMap; // once shown, keep it unless explicitly cleared
+      _showSuggestions = hasText;
+    });
+  }
+
+  void _selectSuggestion(String value) {
+    _searchCtrl.text = value;
+    setState(() {
+      _showSuggestions = false; // hide list
+      _showMap = true; // keep map visible
+    });
+    // Close keyboard
+    FocusScope.of(context).unfocus();
+  }
+
+  void _exitSearchIfCleared() {
+    if (_searchCtrl.text.trim().isEmpty) {
+      setState(() {
+        _showSuggestions = false;
+        _showMap = false;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: GPSColors.background,
-      body: SafeArea(
-        bottom: false,
-        child: CustomScrollView(
-          slivers: [
-            SliverToBoxAdapter(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  const _TopBar(),
-                  GPSGaps.h16,
-                  const _SearchRow(),
-                  GPSGaps.h16,
-                  const _FilterChipsRow(),
-                  GPSGaps.h16,
-                  const _PromoCard(),
-                  GPSGaps.h20,
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Text(
-                      'Farm to Fork',
-                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                        color: GPSColors.text,
-                        fontWeight: FontWeight.w800,
-                      ),
-                    ).animate().fadeIn(duration: 300.ms).slideY(begin: .2),
+      body: Stack(
+        children: [
+          SizedBox(width: context.width, height: context.height),
+          if (!_showMap)
+            SafeArea(
+              bottom: false,
+              child: CustomScrollView(
+                slivers: [
+                  SliverToBoxAdapter(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        const _TopBar(),
+                        GPSGaps.h16,
+                        _SearchRow(
+                          controller: _searchCtrl,
+                          focusNode: _searchFocus,
+                          editable: false,
+                          hint: 'Search by city or zip code',
+                          onTap: _enterSearchMode,
+                          onChanged: _onQueryChanged,
+                          onClear: () {
+                            _searchCtrl.clear();
+                            _exitSearchIfCleared();
+                          },
+                        ),
+                        GPSGaps.h16,
+                        const _FilterChipsRow(),
+                        GPSGaps.h16,
+                        RestrunatsShortcut(items: _shortcutItems),
+                        GPSGaps.h20,
+                        const _PromoCard(),
+                        GPSGaps.h20,
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          child: Text(
+                            'Farm to Fork',
+                            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                              color: GPSColors.text,
+                              fontWeight: FontWeight.w800,
+                            ),
+                          ).animate().fadeIn(duration: 300.ms).slideY(begin: .2),
+                        ),
+                        GPSGaps.h12,
+                      ],
+                    ),
                   ),
-                  GPSGaps.h12,
+                  SliverList(
+                    delegate: SliverChildListDelegate([
+                      _FeaturedRestaurantCard(
+                        onTap: () {
+                          Navigator.of(context).pushNamed(AppRoutesNames.restaurantDetailScreen);
+                        },
+                      ),
+                      GPSGaps.h12,
+                      _RestaurantListItem(
+                        title: 'Farm to Fork',
+                        subtitle: '100% grass-fed or organic, gluten free',
+                        time: '45–10 min',
+                        distance: '2.9 mi',
+                        verified: true,
+                        imageUrl:
+                            'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=1200&auto=format&fit=crop',
+                        onTap: () {
+                          Navigator.of(context).pushNamed(AppRoutesNames.restaurantDetailScreen);
+                        },
+                      ),
+                      GPSGaps.h12,
+                      _RestaurantListItem(
+                        title: 'Greenhouse Cafe',
+                        subtitle: '100% organic, gluten free',
+                        time: '30–1 hr',
+                        distance: '3.0 mi',
+                        verified: false,
+                        imageUrl:
+                            'https://images.unsplash.com/photo-1543353071-10c8ba85a904?q=80&w=1200&auto=format&fit=crop',
+                        onTap: () {
+                          Navigator.of(context).pushNamed(AppRoutesNames.restaurantDetailScreen);
+                        },
+                      ),
+                      GPSGaps.h24,
+                      GPSGaps.h24,
+                    ]),
+                  ),
                 ],
               ),
             ),
-            SliverList(
-              delegate: SliverChildListDelegate([
-                _FeaturedRestaurantCard(
+
+          // Map overlay (when typing / after selection)
+          if (_showMap) ...[
+            // Map image as full background; whole map is tappable → go to details
+            Positioned(
+              bottom: 0,
+              top: 0,
+              child: SizedBox(
+                width: context.width,
+                height: context.height,
+                child: GestureDetector(
                   onTap: () {
+                    FocusScope.of(context).unfocus(); // just in case
                     Navigator.of(context).pushNamed(AppRoutesNames.restaurantDetailScreen);
                   },
+                  child: Stack(
+                    fit: StackFit.expand,
+                    children: [
+                      // Replace with GoogleMap later — for now a static map with markers vibe
+                      Image.network(
+                        // royalty-free looking map w/ markers vibe
+                        'https://media.wired.com/photos/59269cd37034dc5f91bec0f1/3:2/w_2240,c_limit/GoogleMapTA.jpg',
+                        fit: BoxFit.cover,
+                        width: context.width,
+                        height: context.height,
+                      ),
+                      // slight vignette so top UI remains readable
+                      Container(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [
+                              Colors.black.withOpacity(.20),
+                              Colors.transparent,
+                              Colors.black.withOpacity(.15),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-                GPSGaps.h12,
-                _RestaurantListItem(
-                  title: 'Farm to Fork',
-                  subtitle: '100% grass-fed or organic, gluten free',
-                  time: '45–10 min',
-                  distance: '2.9 mi',
-                  verified: true,
-                  imageUrl:
-                      'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=1200&auto=format&fit=crop',
-                  onTap: () {
-                    Navigator.of(context).pushNamed(AppRoutesNames.restaurantDetailScreen);
-                  },
-                ),
-                GPSGaps.h12,
-                _RestaurantListItem(
-                  title: 'Greenhouse Cafe',
-                  subtitle: '100% organic, gluten free',
-                  time: '30–1 hr',
-                  distance: '3.0 mi',
-                  verified: false,
-                  imageUrl:
-                      'https://images.unsplash.com/photo-1543353071-10c8ba85a904?q=80&w=1200&auto=format&fit=crop',
-                  onTap: () {
-                    Navigator.of(context).pushNamed(AppRoutesNames.restaurantDetailScreen);
-                  },
-                ),
-                GPSGaps.h24,
-                GPSGaps.h24,
-              ]),
+              ),
+            ).animate().fadeIn(duration: 220.ms),
+
+            SafeArea(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const _TopBar(),
+                  GPSGaps.h16,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: _SearchRow(
+                      controller: _searchCtrl,
+                      focusNode: _searchFocus,
+                      editable: true,
+                      hint: 'Search by city or zip code',
+                      onTap: _enterSearchMode,
+                      onChanged: _onQueryChanged,
+                      onClear: () {
+                        _searchCtrl.clear();
+                        _searchFocus.requestFocus();
+                        _exitSearchIfCleared();
+                      },
+                    ),
+                  ),
+                  // Suggestions list
+                  AnimatedSwitcher(
+                    duration: 200.ms,
+                    child:
+                        _showSuggestions
+                            ? Padding(
+                              padding: const EdgeInsets.fromLTRB(16, 10, 16, 0),
+                              child: _SuggestionsList(
+                                items: _filtered,
+                                onSelect: _selectSuggestion,
+                              ),
+                            )
+                            : const SizedBox.shrink(),
+                  ),
+                ],
+              ),
             ),
           ],
-        ),
+        ],
       ),
-      bottomNavigationBar: _GPSBottomNav(
+      bottomNavigationBar: GPSBottomNav(
         currentIndex: _currentTab,
-        onChanged: (i) => setState(() => _currentTab = i),
+        onChanged: (i) {
+          setState(() => _currentTab = i);
+        },
       ),
     );
   }
@@ -152,53 +363,97 @@ class _RoundIcon extends StatelessWidget {
   }
 }
 
+/// Search row used in both feed mode (non-editable) and map mode (editable)
 class _SearchRow extends StatelessWidget {
-  const _SearchRow();
+  const _SearchRow({
+    this.hint = '',
+    this.onTap,
+    this.onChanged,
+    this.onClear,
+    required this.controller,
+    required this.focusNode,
+    required this.editable,
+  });
 
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Row(
-        children: [
-          Expanded(child: _SearchField(hint: 'Search by city or zip code', onTap: () {})),
-          GPSGaps.w12,
-          _RoundSquareButton(icon: Icons.tune_rounded, onTap: () {}),
-        ],
-      ),
-    );
-  }
-}
-
-class _SearchField extends StatelessWidget {
-  const _SearchField({required this.hint, this.onTap});
   final String hint;
   final VoidCallback? onTap;
+  final ValueChanged<String>? onChanged;
+  final VoidCallback? onClear;
+  final TextEditingController controller;
+  final FocusNode focusNode;
+  final bool editable;
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
-        decoration: BoxDecoration(
-          color: const Color(0xFFE3EFE9),
-          borderRadius: BorderRadius.circular(14),
-          border: Border.all(color: GPSColors.cardBorder),
-        ),
-        child: Row(
-          children: [
-            const Icon(Icons.search_rounded, color: GPSColors.primary),
-            GPSGaps.w12,
-            Expanded(
-              child: Text(
-                hint,
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: GPSColors.mutedText),
+    final field =
+        editable
+            ? TextField(
+              controller: controller,
+              focusNode: focusNode,
+              onChanged: onChanged,
+              decoration: _decoration(hint).copyWith(
+                prefixIcon: const Icon(Icons.search_rounded, color: GPSColors.primary),
+                suffixIcon:
+                    controller.text.isEmpty
+                        ? null
+                        : IconButton(
+                          icon: const Icon(Icons.close_rounded, color: GPSColors.mutedText),
+                          onPressed: onClear,
+                        ),
               ),
-            ),
-          ],
-        ),
-      ).animate().fadeIn(duration: 300.ms).slideY(begin: .1),
+            )
+            : GestureDetector(
+              onTap: onTap,
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFE3EFE9),
+                  borderRadius: BorderRadius.circular(14),
+                  border: Border.all(color: GPSColors.cardBorder),
+                ),
+                child: Row(
+                  children: [
+                    const Icon(Icons.search_rounded, color: GPSColors.primary),
+                    GPSGaps.w12,
+                    Expanded(
+                      child: Text(
+                        hint,
+                        style: Theme.of(
+                          context,
+                        ).textTheme.bodyMedium?.copyWith(color: GPSColors.mutedText),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+
+    return Row(
+      children: [
+        Expanded(child: field.animate().fadeIn(duration: 300.ms).slideY(begin: .1)),
+        if (!editable) ...[GPSGaps.w12, _RoundSquareButton(icon: Icons.tune_rounded, onTap: () {})],
+      ],
+    );
+  }
+
+  InputDecoration _decoration(String hint) {
+    return InputDecoration(
+      hintText: hint,
+      filled: true,
+      fillColor: Colors.white,
+      contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(14),
+        borderSide: const BorderSide(color: GPSColors.cardBorder),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(14),
+        borderSide: const BorderSide(color: GPSColors.cardBorder),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(14),
+        borderSide: const BorderSide(color: GPSColors.primary, width: 1.6),
+      ),
     );
   }
 }
@@ -568,59 +823,66 @@ class _MetaRow extends StatelessWidget {
   }
 }
 
-class _GPSBottomNav extends StatelessWidget {
-  const _GPSBottomNav({required this.currentIndex, required this.onChanged});
-  final int currentIndex;
-  final ValueChanged<int> onChanged;
+/// Suggestions dropdown used in search overlay
+class _SuggestionsList extends StatelessWidget {
+  const _SuggestionsList({required this.items, required this.onSelect});
+  final List<String> items;
+  final ValueChanged<String> onSelect;
 
   @override
   Widget build(BuildContext context) {
-    const items = [
-      Icons.home_filled,
-      Icons.map_rounded,
-      Icons.favorite_rounded,
-      Icons.bookmark_rounded,
-      Icons.person_rounded,
-    ];
+    if (items.isEmpty) {
+      return Container(
+        decoration: _box,
+        padding: const EdgeInsets.all(14),
+        child: Text(
+          'No matches. Try a different term.',
+          style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: GPSColors.mutedText),
+        ),
+      ).animate().fadeIn(duration: 150.ms);
+    }
 
     return Container(
-      padding: const EdgeInsets.fromLTRB(12, 8, 12, 20),
-      decoration: const BoxDecoration(
-        color: GPSColors.primary,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          for (int i = 0; i < items.length; i++)
-            _NavIcon(icon: items[i], selected: currentIndex == i, onTap: () => onChanged(i)),
-        ].animate(interval: 60.ms).fadeIn(duration: 300.ms).slideY(begin: .1),
-      ),
-    );
-  }
-}
-
-class _NavIcon extends StatelessWidget {
-  const _NavIcon({required this.icon, required this.selected, required this.onTap});
-  final IconData icon;
-  final bool selected;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: AnimatedContainer(
-            duration: 180.ms,
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              color: selected ? Colors.white : Colors.white.withOpacity(.12),
-              borderRadius: BorderRadius.circular(14),
+      decoration: _box,
+      constraints: const BoxConstraints(maxHeight: 280),
+      child: ListView.separated(
+        shrinkWrap: true,
+        itemCount: items.length,
+        separatorBuilder: (_, __) => const Divider(height: 1, color: GPSColors.cardBorder),
+        itemBuilder: (context, i) {
+          final label = items[i];
+          return InkWell(
+            onTap: () => onSelect(label),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+              child: Row(
+                children: [
+                  const Icon(Icons.place_rounded, size: 18, color: GPSColors.primary),
+                  GPSGaps.w12,
+                  Expanded(
+                    child: Text(
+                      label,
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        color: GPSColors.text,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
-            child: Icon(icon, color: selected ? GPSColors.primary : Colors.white, size: 22),
-          )
-          .animate(target: selected ? 1 : 0)
-          .scale(begin: const Offset(1, 1), end: const Offset(1.08, 1.08)),
-    );
+          );
+        },
+      ),
+    ).animate().fadeIn(duration: 180.ms).slideY(begin: -.06);
   }
+
+  BoxDecoration get _box => BoxDecoration(
+    color: Colors.white,
+    borderRadius: BorderRadius.circular(14),
+    border: Border.all(color: GPSColors.cardBorder),
+    boxShadow: [
+      BoxShadow(color: Colors.black.withOpacity(.08), blurRadius: 16, offset: const Offset(0, 6)),
+    ],
+  );
 }

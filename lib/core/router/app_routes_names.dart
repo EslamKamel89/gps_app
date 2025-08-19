@@ -6,4 +6,5 @@ class AppRoutesNames {
   static const String restaurantDetailScreen = '/restaurantDetailScreen';
   static const String loginScreen = '/loginScreen';
   static const String registerScreen = '/registerScreen';
+  static const String marketPlaceScreen = '/marketPlaceScreen';
 }
