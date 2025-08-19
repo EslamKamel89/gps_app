@@ -124,7 +124,11 @@ class _LoginScreenState extends State<LoginScreen> {
                             color: GPSColors.primary,
                             fontWeight: FontWeight.w800,
                           ),
-                          recognizer: TapGestureRecognizer()..onTap = () {},
+                          recognizer:
+                              TapGestureRecognizer()
+                                ..onTap = () {
+                                  Navigator.of(context).pushNamed(AppRoutesNames.registerScreen);
+                                },
                         ),
                       ],
                     ),

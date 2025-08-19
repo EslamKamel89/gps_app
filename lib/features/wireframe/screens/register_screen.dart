@@ -148,24 +148,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                   ),
 
-                  GPSGaps.h16,
-
-                  // Country
-                  GpsLabeledField(
-                    label: 'Country',
-                    child: DropdownButtonFormField<String>(
-                      value: _selectedCountry,
-                      items:
-                          _countryCities.keys
-                              .map((c) => DropdownMenuItem<String>(value: c, child: Text(c)))
-                              .toList(),
-                      onChanged: _onCountryChanged,
-                      decoration: _inputDecoration('Select your country'),
-                      icon: const Icon(Icons.keyboard_arrow_down_rounded),
-                    ),
-                  ),
-
-                  // City (dependent) — appears only after country is selected
+                  // GPSGaps.h16,
                   AnimatedSwitcher(
                     duration: 250.ms,
                     switchInCurve: Curves.easeOut,
@@ -196,6 +179,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               ),
                             ),
                   ).animate().fadeIn(duration: 220.ms),
+
+                  GPSGaps.h16,
+                  GpsLabeledField(
+                    label: 'Country',
+                    child: DropdownButtonFormField<String>(
+                      value: _selectedCountry,
+                      items:
+                          _countryCities.keys
+                              .map((c) => DropdownMenuItem<String>(value: c, child: Text(c)))
+                              .toList(),
+                      onChanged: _onCountryChanged,
+                      decoration: _inputDecoration('Select your country'),
+                      icon: const Icon(Icons.keyboard_arrow_down_rounded),
+                    ),
+                  ),
 
                   GPSGaps.h16,
 
