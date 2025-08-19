@@ -91,7 +91,7 @@ class _DietSelectionScreenState extends State<DietSelectionScreen> {
               // Footer actions
               _Footer(
                 onSkip: () {
-                  Navigator.of(context).pushNamed(AppRoutesNames.loginScreen);
+                  Navigator.of(context).pushNamed(AppRoutesNames.homeSearchScreen);
                 },
                 onNext:
                     _selected.isNotEmpty
@@ -101,7 +101,7 @@ class _DietSelectionScreenState extends State<DietSelectionScreen> {
                             SnackBar(content: Text('Selected: ${_selected.join(', ')}')),
                           );
                           Future.delayed(300.ms, () {
-                            Navigator.of(context).pushNamed(AppRoutesNames.loginScreen);
+                            Navigator.of(context).pushNamed(AppRoutesNames.homeSearchScreen);
                           });
                         }
                         : null,

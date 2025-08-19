@@ -24,7 +24,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _mobileCtrl = TextEditingController();
 
   bool _obscure = true;
-  bool _loading = false;
+  final bool _loading = false;
 
   // Sample real-ish data for dependent dropdowns
   final Map<String, List<String>> _countryCities = const {
@@ -54,14 +54,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   Future<void> _onRegister() async {
-    // UI-only: you can wire your API here later.
-    setState(() => _loading = true);
-    await Future.delayed(400.ms);
-    setState(() => _loading = false);
-
-    if (!mounted) return;
-    // Go to login after mock register, or push to onboarding/home as you prefer.
-    Navigator.of(context).pushReplacementNamed(AppRoutesNames.loginScreen);
+    Navigator.of(context).pushReplacementNamed(AppRoutesNames.dietSelectionScreen);
   }
 
   @override

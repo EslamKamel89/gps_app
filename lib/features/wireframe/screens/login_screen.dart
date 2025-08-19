@@ -29,7 +29,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future<void> _submit() async {
-    Navigator.of(context).pushNamed(AppRoutesNames.homeSearchScreen);
+    Navigator.of(context).pushNamed(AppRoutesNames.dietSelectionScreen);
     // if (!(_formKey.currentState?.validate() ?? false)) return;
   }
 
