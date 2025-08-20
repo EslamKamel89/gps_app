@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gps_app/core/router/app_routes_names.dart';
 import 'package:gps_app/core/router/middleware.dart';
+import 'package:gps_app/features/wireframe/screens/category_selection_screen.dart';
 import 'package:gps_app/features/wireframe/screens/diet_selection_screen.dart';
 import 'package:gps_app/features/wireframe/screens/home_search_screen.dart';
 import 'package:gps_app/features/wireframe/screens/login_screen.dart';
@@ -36,6 +37,11 @@ class AppRouter {
         return CustomPageRoute(builder: (context) => RegisterScreen(), settings: routeSettings);
       case AppRoutesNames.marketPlaceScreen:
         return CustomPageRoute(builder: (context) => MarketPlaceScreen(), settings: routeSettings);
+      case AppRoutesNames.categorySelectionScreen:
+        return CustomPageRoute(
+          builder: (context) => CategorySelectionScreen(),
+          settings: routeSettings,
+        );
 
       default:
         return null;

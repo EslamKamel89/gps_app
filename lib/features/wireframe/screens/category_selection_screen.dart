@@ -3,26 +3,71 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:gps_app/core/router/app_routes_names.dart';
 import 'package:gps_app/features/wireframe/design/gps_colors.dart';
 import 'package:gps_app/features/wireframe/design/gps_gaps.dart';
-import 'package:gps_app/features/wireframe/entities/diet_options.dart';
 import 'package:gps_app/features/wireframe/widgets/header.dart';
+import 'package:gps_app/utils/assets/assets.dart';
 
-const _dietOptions = <DietOption>[
-  DietOption(id: 'keto', label: 'Ketogenic', emoji: '🥑'),
-  DietOption(id: 'paleo', label: 'Paleo', emoji: '🥕'),
-  DietOption(id: 'vegan', label: 'Vegan', emoji: '🌱'),
-  DietOption(id: 'vegetarian', label: 'Vegetarian', emoji: '🥬'),
-  DietOption(id: 'pescatarian', label: 'Pescatarian', emoji: '🐟'),
-  DietOption(id: 'carnivore', label: 'Carnivore', emoji: '🥩'),
-];
+class CategoryOption {
+  final String id;
+  final String label;
+  final String description; // NEW
+  final String assetPath; // asset image path
 
-class DietSelectionScreen extends StatefulWidget {
-  const DietSelectionScreen({super.key});
-
-  @override
-  State<DietSelectionScreen> createState() => _DietSelectionScreenState();
+  const CategoryOption({
+    required this.id,
+    required this.label,
+    required this.description,
+    required this.assetPath,
+  });
 }
 
-class _DietSelectionScreenState extends State<DietSelectionScreen> {
+// Example using the 6 icons we just extracted from your screenshot:
+const _categories = <CategoryOption>[
+  CategoryOption(
+    id: 'meat',
+    label: 'Meat',
+    description: 'Grass-fed, pasture-raised',
+    assetPath: AssetsData.meat,
+  ),
+  CategoryOption(
+    id: 'dairy',
+    label: 'Dairy',
+    description: 'Organic milk, cheese, yogurt',
+    assetPath: AssetsData.dairy,
+  ),
+  CategoryOption(
+    id: 'fruits_vegetables',
+    label: 'Fruits & Vegetables',
+    description: 'Fresh, seasonal, pesticide-free',
+    assetPath: AssetsData.fruitsVegetables,
+  ),
+  CategoryOption(
+    id: 'groceries',
+    label: 'Groceries',
+    description: 'Grains, oils, flour, pantry staples',
+    assetPath: AssetsData.groceries,
+  ),
+  CategoryOption(
+    id: 'cookware',
+    label: 'Cookware',
+    description: 'Cast iron, stainless steel, non-toxic',
+    assetPath: AssetsData.cookware,
+  ),
+  CategoryOption(
+    id: 'supplements',
+    label: 'Supplements',
+    description: 'Vitamins, herbal, natural oils',
+    assetPath: AssetsData.supplements,
+  ),
+];
+
+class CategorySelectionScreen extends StatefulWidget {
+  const CategorySelectionScreen({super.key});
+
+  @override
+  State<CategorySelectionScreen> createState() => _CategorySelectionScreenState();
+}
+
+class _CategorySelectionScreenState extends State<CategorySelectionScreen> {
   final Set<String> _selected = <String>{};
 
   void _toggle(String id) {
@@ -48,13 +93,11 @@ class _DietSelectionScreenState extends State<DietSelectionScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               GPSGaps.h24,
-              GpsHeader(
-                title: 'Which of these diets do you follow?',
-                // onBack: () => Navigator.of(context).maybePop(),
+              const GpsHeader(
+                title: 'Which categories are you interested in?',
               ).animate().fadeIn(duration: 300.ms).slideY(begin: .2, curve: Curves.easeOutQuad),
               GPSGaps.h24,
 
-              // Grid of options
               Expanded(
                 child: GridView.builder(
                   padding: EdgeInsets.zero,
@@ -64,44 +107,40 @@ class _DietSelectionScreenState extends State<DietSelectionScreen> {
                     crossAxisSpacing: 14,
                     childAspectRatio: 1.05,
                   ),
-                  itemCount: _dietOptions.length,
+                  itemCount: _categories.length,
                   itemBuilder: (context, index) {
-                    final item = _dietOptions[index];
+                    final item = _categories[index];
                     final selected = _selected.contains(item.id);
 
-                    final card = _DietCard(
-                      emoji: item.emoji,
+                    final card = _AssetCategoryCard(
                       label: item.label,
+                      description: item.description, // NEW
+                      assetPath: item.assetPath,
                       selected: selected,
                       onTap: () => _toggle(item.id),
                     );
 
-                    // Staggered entrance animation per card
                     return card
                         .animate(delay: (80 * index).ms)
                         .fadeIn(duration: 300.ms)
                         .slideY(begin: .15)
-                        .scale(begin: const Offset(0.98, 0.98), curve: Curves.easeOutBack);
+                        .scale(begin: const Offset(.98, .98), curve: Curves.easeOutBack);
                   },
                 ),
               ),
 
               GPSGaps.h12,
 
-              // Footer actions
               _Footer(
-                onSkip: () {
-                  Navigator.of(context).pushNamed(AppRoutesNames.categorySelectionScreen);
-                },
+                onSkip: () => Navigator.of(context).pushNamed(AppRoutesNames.homeSearchScreen),
                 onNext:
                     _selected.isNotEmpty
                         ? () {
-                          // In a real flow, pass selections forward
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(content: Text('Selected: ${_selected.join(', ')}')),
                           );
                           Future.delayed(300.ms, () {
-                            Navigator.of(context).pushNamed(AppRoutesNames.categorySelectionScreen);
+                            Navigator.of(context).pushNamed(AppRoutesNames.homeSearchScreen);
                           });
                         }
                         : null,
@@ -114,16 +153,18 @@ class _DietSelectionScreenState extends State<DietSelectionScreen> {
   }
 }
 
-class _DietCard extends StatelessWidget {
-  const _DietCard({
-    required this.emoji,
+class _AssetCategoryCard extends StatelessWidget {
+  const _AssetCategoryCard({
     required this.label,
+    required this.description,
+    required this.assetPath,
     required this.selected,
     required this.onTap,
   });
 
-  final String emoji;
   final String label;
+  final String description; // NEW
+  final String assetPath;
   final bool selected;
   final VoidCallback onTap;
 
@@ -131,6 +172,11 @@ class _DietCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final borderColor = selected ? GPSColors.primary : GPSColors.cardBorder;
     final bg = selected ? GPSColors.cardSelected : Colors.white;
+
+    final image = ClipRRect(
+      borderRadius: BorderRadius.circular(12),
+      child: Image.asset(assetPath, fit: BoxFit.contain, width: double.infinity, height: 70),
+    );
 
     final card = Container(
       decoration: BoxDecoration(
@@ -141,38 +187,50 @@ class _DietCard extends StatelessWidget {
       child: InkWell(
         borderRadius: BorderRadius.circular(16),
         onTap: onTap,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              emoji,
-              style: const TextStyle(fontSize: 42),
-            ).animate(target: selected ? 1 : 0).scaleXY(begin: 1, end: 1.08, duration: 180.ms),
-            GPSGaps.h12,
-            Text(
-              label,
-              textAlign: TextAlign.center,
-              style: Theme.of(
-                context,
-              ).textTheme.titleMedium?.copyWith(color: GPSColors.text, fontWeight: FontWeight.w600),
-            ),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.all(10),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              image
+                  .animate(target: selected ? 1 : 0)
+                  .scaleXY(begin: 1, end: 1.04, duration: 180.ms),
+              GPSGaps.h12,
+              Text(
+                label,
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  color: GPSColors.text,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              GPSGaps.h8,
+              Text(
+                description,
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  color: GPSColors.text.withOpacity(.70), // lighter
+                  height: 1.25,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
 
     return card
-        .animate(onPlay: (controller) => controller.forward())
-        // .shadow(color: const Color(0x1A000000), begin: 0, end: 12, duration: 300.ms, curve: Curves.easeOut)
+        .animate(onPlay: (c) => c.forward())
         .then()
-        .shake(hz: selected ? 2 : 0, duration: selected ? 200.ms : 1.ms); // subtle tap feedback
+        .shake(hz: selected ? 2 : 0, duration: selected ? 200.ms : 1.ms);
   }
 }
 
+// Same footer pattern you use
 class _Footer extends StatelessWidget {
   const _Footer({required this.onSkip, required this.onNext});
   final VoidCallback onSkip;
-  final VoidCallback? onNext; // null → disabled
+  final VoidCallback? onNext;
 
   @override
   Widget build(BuildContext context) {
