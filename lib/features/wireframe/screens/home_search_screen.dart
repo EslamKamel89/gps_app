@@ -6,6 +6,7 @@ import 'package:gps_app/features/wireframe/design/gps_colors.dart';
 import 'package:gps_app/features/wireframe/design/gps_gaps.dart';
 import 'package:gps_app/features/wireframe/widgets/gps_bottom_nav.dart';
 import 'package:gps_app/features/wireframe/widgets/restrunats_shortcut.dart';
+import 'package:gps_app/utils/assets/assets.dart';
 
 class HomeSearchScreen extends StatefulWidget {
   const HomeSearchScreen({super.key});
@@ -323,14 +324,23 @@ class _TopBar extends StatelessWidget {
           _RoundIcon(icon: Icons.menu_rounded, onTap: () {}),
           GPSGaps.w12,
           Expanded(
-            child: Text(
-              'GPS',
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                color: Colors.white,
-                fontWeight: FontWeight.w800,
-                letterSpacing: .4,
-              ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(AssetsData.logo3d, width: 30, height: 30),
+                GPSGaps.w4,
+                Text(
+                  'GPS',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: Colors.white,
+                    fontWeight: FontWeight.w800,
+                    letterSpacing: .4,
+                  ),
+                ),
+              ],
             ),
           ),
           GPSGaps.w12,

@@ -11,10 +11,9 @@ class RestaurantMini {
 }
 
 class RestrunatsShortcut extends StatelessWidget {
-  const RestrunatsShortcut({super.key, required this.items, this.title = 'Popular near you'});
+  const RestrunatsShortcut({super.key, required this.items});
 
   final List<RestaurantMini> items;
-  final String title;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +28,7 @@ class RestrunatsShortcut extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Text(
-              title,
+              "Most 💖 Categories",
               style: Theme.of(
                 context,
               ).textTheme.titleLarge?.copyWith(color: GPSColors.text, fontWeight: FontWeight.w800),
