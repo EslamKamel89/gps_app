@@ -24,15 +24,15 @@ class _GPSSplashScreenState extends State<GPSSplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: GPSColors.primary.withValues(alpha: 1.2),
+      backgroundColor: GPSColors.primary,
       body: SafeArea(
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const PinLeafLogo(size: 140),
+              const PinLeafLogo(size: 140, isSplashScreen: true),
               GPSGaps.h24,
-              GpsShortDescription(),
+              GpsShortDescription(isSplashScreen: true),
               GPSGaps.h24,
             ],
           ),

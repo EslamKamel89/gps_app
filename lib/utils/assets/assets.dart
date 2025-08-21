@@ -8,6 +8,8 @@ class AssetsData {
   static const String onBoarding_6 = "$_relativePath/onboarding_6.png";
   static const String logo = "$_relativePath/logo.png";
   static const String logoSmall = "$_relativePath/logo_small.png";
+  static const String logo3d = "$_relativePath/logo_3d.png";
+  static const String logoLarge3d = "$_relativePath/logo_3d_large.png";
   static const String meat = "$_relativePath/meat.png";
   static const String dairy = "$_relativePath/dairy.png";
   static const String fruitsVegetables = "$_relativePath/fruits_vegetables.png";

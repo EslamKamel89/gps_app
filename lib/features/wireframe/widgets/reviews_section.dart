@@ -3,18 +3,15 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:gps_app/features/wireframe/design/gps_colors.dart';
 import 'package:gps_app/features/wireframe/design/gps_gaps.dart';
 
-/// Simple review model
 class Review {
   final String reviewerName;
   final String comment;
 
-  /// rating from 0..5 (can be double like 4.5 if you want)
   final double rating;
 
   const Review({required this.reviewerName, required this.comment, required this.rating});
 }
 
-/// Reviews section (no replies, just a list)
 class ReviewsSection extends StatelessWidget {
   const ReviewsSection({
     super.key,
@@ -57,8 +54,6 @@ class ReviewsSection extends StatelessWidget {
         // ).animate().fadeIn(duration: 220.ms).slideY(begin: .08),
 
         // GPSGaps.h12,
-
-        // Reviews list
         if (reviews.isEmpty)
           Container(
             width: double.infinity,
@@ -166,7 +161,6 @@ class _ReviewCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Name + stars
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -197,7 +191,7 @@ class _ReviewCard extends StatelessWidget {
 class _StarRow extends StatelessWidget {
   const _StarRow({required this.rating, this.size = 20, this.color});
 
-  final double rating; // 0..5
+  final double rating;
   final double size;
   final Color? color;
 

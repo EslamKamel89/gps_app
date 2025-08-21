@@ -15,7 +15,6 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen>
     with SingleTickerProviderStateMixin {
   bool _isFav = false;
 
-  // Realistic sample data
   late final Map<String, List<MenuItem>> _menus = {
     'Meat Lovers': [
       MenuItem(
@@ -153,7 +152,6 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen>
                   ),
                 ),
 
-                // Top "card-like" info section
                 SliverToBoxAdapter(
                   child: Container(
                     decoration: const BoxDecoration(
@@ -348,7 +346,6 @@ class _MenuItemCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Title + price badge
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
