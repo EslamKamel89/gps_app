@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:gps_app/features/wireframe/design/gps_colors.dart';
-import 'package:gps_app/features/wireframe/design/gps_gaps.dart';
+import 'package:gps_app/features/design/utils/gps_colors.dart';
+import 'package:gps_app/features/design/utils/gps_gaps.dart';
 
 class GpsHeader extends StatelessWidget {
   const GpsHeader({super.key, required this.title, this.onBack});

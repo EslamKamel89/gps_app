@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:gps_app/features/wireframe/design/gps_colors.dart';
-import 'package:gps_app/features/wireframe/widgets/gps_bottom_nav.dart';
+import 'package:gps_app/features/design/utils/gps_colors.dart';
+import 'package:gps_app/features/design/widgets/gps_bottom_nav.dart';
 
 class MarketPlaceScreen extends StatefulWidget {
   const MarketPlaceScreen({super.key});

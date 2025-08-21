@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:gps_app/core/router/app_routes_names.dart';
-import 'package:gps_app/features/wireframe/design/gps_colors.dart';
-import 'package:gps_app/features/wireframe/design/gps_gaps.dart';
-import 'package:gps_app/features/wireframe/widgets/gps_description.dart';
-import 'package:gps_app/features/wireframe/widgets/pinleaf_logo.dart';
+import 'package:gps_app/features/design/utils/gps_colors.dart';
+import 'package:gps_app/features/design/utils/gps_gaps.dart';
+import 'package:gps_app/features/design/widgets/gps_description.dart';
+import 'package:gps_app/features/design/widgets/pinleaf_logo.dart';
 
 class GPSSplashScreen extends StatefulWidget {
   const GPSSplashScreen({super.key});
