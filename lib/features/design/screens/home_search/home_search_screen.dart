@@ -4,6 +4,7 @@ import 'package:gps_app/core/extensions/context-extensions.dart';
 import 'package:gps_app/core/router/app_routes_names.dart';
 import 'package:gps_app/features/design/screens/home_search/widgets/featured_resturant_card.dart';
 import 'package:gps_app/features/design/screens/home_search/widgets/filter_chip_row.dart';
+import 'package:gps_app/features/design/screens/home_search/widgets/filter_dialog.dart';
 import 'package:gps_app/features/design/screens/home_search/widgets/promo_card.dart';
 import 'package:gps_app/features/design/screens/home_search/widgets/resturant_list_item.dart';
 import 'package:gps_app/features/design/screens/home_search/widgets/search_row.dart';
@@ -23,15 +24,37 @@ class HomeSearchScreen extends StatefulWidget {
 
 class _HomeSearchScreenState extends State<HomeSearchScreen> {
   int _currentTab = 0;
+  HomeFilters? _filters;
 
-  // Map/search overlay state
+  Future<void> _openFilters() async {
+    final result = await showDialog<HomeFilters>(
+      context: context,
+      builder: (_) => FilterDialog(initial: _filters ?? HomeFilters()),
+    );
+    if (result != null) {
+      setState(() => _filters = result);
+    }
+  }
+
+  void _clearDistance() =>
+      setState(() => _filters = (_filters ?? HomeFilters()).copyWith(distance: null));
+  void _clearCategory() => setState(
+    () => _filters = (_filters ?? HomeFilters()).copyWith(category: null, subcategory: null),
+  );
+  void _clearSubcategory() =>
+      setState(() => _filters = (_filters ?? HomeFilters()).copyWith(subcategory: null));
+  void _removeDiet(String d) {
+    final f = _filters ?? HomeFilters();
+    final next = Set<String>.from(f.diets)..remove(d);
+    setState(() => _filters = f.copyWith(diets: next));
+  }
+
   final TextEditingController _searchCtrl = TextEditingController();
   final FocusNode _searchFocus = FocusNode();
 
-  bool _showMap = false; // becomes true when user starts typing or taps search
-  bool _showSuggestions = false; // visible while typing and query not empty
+  bool _showMap = false;
+  bool _showSuggestions = false;
 
-  // Dummy suggestion data
   final List<String> _allRestaurants = const [
     'Farm to Fork',
     'Greenhouse Cafe',
@@ -41,7 +64,6 @@ class _HomeSearchScreenState extends State<HomeSearchScreen> {
     'Roots & Regenerative',
     'Pure Pastures',
   ];
-  // NEW: demo images for the shortcut row (replace with your assets or CDN)
   final List<RestaurantMini> _shortcutItems = const [
     RestaurantMini(
       name: 'Farm to Fork',
@@ -101,7 +123,7 @@ class _HomeSearchScreenState extends State<HomeSearchScreen> {
   void _onQueryChanged(String _) {
     final hasText = _searchCtrl.text.trim().isNotEmpty;
     setState(() {
-      _showMap = hasText || _showMap; // once shown, keep it unless explicitly cleared
+      _showMap = hasText || _showMap;
       _showSuggestions = hasText;
     });
   }
@@ -109,10 +131,9 @@ class _HomeSearchScreenState extends State<HomeSearchScreen> {
   void _selectSuggestion(String value) {
     _searchCtrl.text = value;
     setState(() {
-      _showSuggestions = false; // hide list
-      _showMap = true; // keep map visible
+      _showSuggestions = false;
+      _showMap = true;
     });
-    // Close keyboard
     FocusScope.of(context).unfocus();
   }
 
@@ -149,12 +170,14 @@ class _HomeSearchScreenState extends State<HomeSearchScreen> {
                           editable: false,
                           hint: 'Search by city or zip code',
                           onTap: _enterSearchMode,
+                          filtersOnTap: _openFilters,
                           onChanged: _onQueryChanged,
                           onClear: () {
                             _searchCtrl.clear();
                             _exitSearchIfCleared();
                           },
                         ),
+                        _buildFilters(),
                         GPSGaps.h16,
                         const FilterChipsRow(),
                         GPSGaps.h16,
@@ -217,9 +240,7 @@ class _HomeSearchScreenState extends State<HomeSearchScreen> {
               ),
             ),
 
-          // Map overlay (when typing / after selection)
           if (_showMap) ...[
-            // Map image as full background; whole map is tappable → go to details
             Positioned(
               bottom: 0,
               top: 0,
@@ -228,21 +249,18 @@ class _HomeSearchScreenState extends State<HomeSearchScreen> {
                 height: context.height,
                 child: GestureDetector(
                   onTap: () {
-                    FocusScope.of(context).unfocus(); // just in case
+                    FocusScope.of(context).unfocus();
                     Navigator.of(context).pushNamed(AppRoutesNames.restaurantDetailScreen);
                   },
                   child: Stack(
                     fit: StackFit.expand,
                     children: [
-                      // Replace with GoogleMap later — for now a static map with markers vibe
                       Image.network(
-                        // royalty-free looking map w/ markers vibe
                         'https://media.wired.com/photos/59269cd37034dc5f91bec0f1/3:2/w_2240,c_limit/GoogleMapTA.jpg',
                         fit: BoxFit.cover,
                         width: context.width,
                         height: context.height,
                       ),
-                      // slight vignette so top UI remains readable
                       Container(
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
@@ -284,7 +302,7 @@ class _HomeSearchScreenState extends State<HomeSearchScreen> {
                       },
                     ),
                   ),
-                  // Suggestions list
+                  _buildFilters(),
                   AnimatedSwitcher(
                     duration: 200.ms,
                     child:
@@ -308,5 +326,43 @@ class _HomeSearchScreenState extends State<HomeSearchScreen> {
         },
       ),
     );
+  }
+
+  Widget _buildFilters() {
+    return (_filters != null &&
+            (_filters?.distance != null ||
+                _filters?.category != null ||
+                _filters?.subcategory != null ||
+                _filters?.diets.isNotEmpty == true))
+        ? Column(
+          children: [
+            GPSGaps.h16,
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: [
+                if (_filters?.distance != null)
+                  InputChip(
+                    label: Text('Distance: ${_filters?.distance}'),
+                    onDeleted: _clearDistance,
+                  ),
+                if (_filters?.category != null)
+                  InputChip(
+                    label: Text('Category: ${_filters?.category}'),
+                    onDeleted: _clearCategory,
+                  ),
+                if (_filters?.subcategory != null)
+                  InputChip(
+                    label: Text('Sub: ${_filters?.subcategory}'),
+                    onDeleted: _clearSubcategory,
+                  ),
+                ...(_filters?.diets ?? {}).map(
+                  (d) => InputChip(label: Text(d), onDeleted: () => _removeDiet(d)),
+                ),
+              ],
+            ),
+          ],
+        )
+        : SizedBox();
   }
 }

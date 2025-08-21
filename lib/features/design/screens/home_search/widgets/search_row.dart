@@ -11,6 +11,7 @@ class SearchRow extends StatelessWidget {
     this.onTap,
     this.onChanged,
     this.onClear,
+    this.filtersOnTap,
     required this.controller,
     required this.focusNode,
     required this.editable,
@@ -18,6 +19,7 @@ class SearchRow extends StatelessWidget {
 
   final String hint;
   final VoidCallback? onTap;
+  final VoidCallback? filtersOnTap;
   final ValueChanged<String>? onChanged;
   final VoidCallback? onClear;
   final TextEditingController controller;
@@ -72,7 +74,10 @@ class SearchRow extends StatelessWidget {
     return Row(
       children: [
         Expanded(child: field.animate().fadeIn(duration: 300.ms).slideY(begin: .1)),
-        if (!editable) ...[GPSGaps.w12, RoundSquareButton(icon: Icons.tune_rounded, onTap: () {})],
+        if (!editable) ...[
+          GPSGaps.w12,
+          RoundSquareButton(icon: Icons.tune_rounded, onTap: filtersOnTap),
+        ],
       ],
     );
   }
