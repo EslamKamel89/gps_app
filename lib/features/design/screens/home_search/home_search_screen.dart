@@ -55,14 +55,70 @@ class _HomeSearchScreenState extends State<HomeSearchScreen> {
   bool _showMap = false;
   bool _showSuggestions = false;
 
-  final List<String> _allRestaurants = const [
-    'Farm to Fork',
-    'Greenhouse Cafe',
-    'True Acre',
-    'Grass & Grain',
-    'Wild Catch Kitchen',
-    'Roots & Regenerative',
-    'Pure Pastures',
+  final List<RestaurantSuggestion> _allRestaurants = const [
+    RestaurantSuggestion(
+      id: 'rt-farm-to-fork',
+      name: 'Farm to Fork',
+      rating: 4.7,
+      address: '241 Cedar Ave, Springfield',
+      imageUrl:
+          'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=1200&auto=format&fit=crop',
+      distanceMiles: 2.9,
+    ),
+    RestaurantSuggestion(
+      id: 'rt-greenhouse-cafe',
+      name: 'Greenhouse Cafe',
+      rating: 4.4,
+      address: '88 Maple St, Brookfield',
+      imageUrl:
+          'https://images.unsplash.com/photo-1543353071-10c8ba85a904?q=80&w=1200&auto=format&fit=crop',
+      distanceMiles: 3.0,
+    ),
+    RestaurantSuggestion(
+      id: 'rt-true-acre',
+      name: 'True Acre',
+      rating: 4.6,
+      address: '19 Harvest Rd, Riverton',
+      imageUrl:
+          'https://images.unsplash.com/photo-1498654200943-1088dd4438ae?q=80&w=1200&auto=format&fit=crop',
+      distanceMiles: 1.4,
+    ),
+    RestaurantSuggestion(
+      id: 'rt-grass-grain',
+      name: 'Grass & Grain',
+      rating: 4.5,
+      address: '501 Oak Blvd, Lakeside',
+      imageUrl:
+          'https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?q=80&w=1200&auto=format&fit=crop',
+      distanceMiles: 0.8,
+    ),
+    RestaurantSuggestion(
+      id: 'rt-wild-catch-kitchen',
+      name: 'Wild Catch Kitchen',
+      rating: 4.3,
+      address: '12 Marina Way, Bayshore',
+      imageUrl:
+          'https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=1200&auto=format&fit=crop',
+      distanceMiles: 4.6,
+    ),
+    RestaurantSuggestion(
+      id: 'rt-roots-regenerative',
+      name: 'Roots & Regenerative',
+      rating: 4.8,
+      address: '702 Orchard Ln, Meadowview',
+      imageUrl:
+          'https://images.unsplash.com/photo-1490474418585-ba9bad8fd0ea?q=80&w=1200&auto=format&fit=crop',
+      distanceMiles: 2.1,
+    ),
+    RestaurantSuggestion(
+      id: 'rt-pure-pastures',
+      name: 'Pure Pastures',
+      rating: 4.2,
+      address: '330 Willow Dr, Hillcrest',
+      imageUrl:
+          'https://images.unsplash.com/photo-1546793665-c74683f339c1?q=80&w=1200&auto=format&fit=crop',
+      distanceMiles: 3.8,
+    ),
   ];
   final List<RestaurantMini> _shortcutItems = const [
     RestaurantMini(
@@ -97,10 +153,12 @@ class _HomeSearchScreenState extends State<HomeSearchScreen> {
     ),
   ];
 
-  List<String> get _filtered {
+  List<RestaurantSuggestion> get _filtered {
     final q = _searchCtrl.text.trim().toLowerCase();
     if (q.isEmpty) return _allRestaurants;
-    return _allRestaurants.where((r) => r.toLowerCase().contains(q)).toList();
+    return _allRestaurants.where((r) {
+      return r.name.toLowerCase().contains(q) || r.address.toLowerCase().contains(q);
+    }).toList();
   }
 
   @override
@@ -128,13 +186,16 @@ class _HomeSearchScreenState extends State<HomeSearchScreen> {
     });
   }
 
-  void _selectSuggestion(String value) {
-    _searchCtrl.text = value;
+  void _selectSuggestion(RestaurantSuggestion value) {
+    _searchCtrl.text = value.name; // keep UX consistent
     setState(() {
       _showSuggestions = false;
       _showMap = true;
     });
     FocusScope.of(context).unfocus();
+
+    // Optional: navigate to details here if desired
+    // Navigator.of(context).pushNamed(AppRoutesNames.restaurantDetailScreen);
   }
 
   void _exitSearchIfCleared() {
@@ -309,7 +370,12 @@ class _HomeSearchScreenState extends State<HomeSearchScreen> {
                         _showSuggestions
                             ? Padding(
                               padding: const EdgeInsets.fromLTRB(16, 10, 16, 0),
-                              child: SuggestionsList(items: _filtered, onSelect: _selectSuggestion),
+                              child: SuggestionsList(
+                                items: _filtered,
+                                onSelect: _selectSuggestion,
+                                favorites: {},
+                                onToggleFavorite: (_) {},
+                              ),
                             )
                             : const SizedBox.shrink(),
                   ),

@@ -6,7 +6,8 @@ import 'package:gps_app/features/design/utils/gps_gaps.dart';
 import 'package:gps_app/utils/assets/assets.dart';
 
 class TopBar extends StatelessWidget {
-  const TopBar({super.key});
+  const TopBar({super.key, this.title = 'GPS'});
+  final String title;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +29,7 @@ class TopBar extends StatelessWidget {
                 Image.asset(AssetsData.logo3d, width: 30, height: 30),
                 GPSGaps.w4,
                 Text(
-                  'GPS',
+                  title,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 20,
