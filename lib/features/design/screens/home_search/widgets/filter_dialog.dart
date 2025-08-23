@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
+import 'package:gps_app/features/design/utils/gps_gaps.dart';
 
 class HomeFilters {
   String? distance;
@@ -28,8 +29,8 @@ class HomeFilters {
 class FilterDialog extends StatefulWidget {
   final HomeFilters initial;
 
-  const FilterDialog({super.key, required this.initial});
-
+  const FilterDialog({super.key, required this.initial, this.isBottomSheet = false});
+  final bool isBottomSheet;
   @override
   State<FilterDialog> createState() => _FilterDialogState();
 }
@@ -70,91 +71,98 @@ class _FilterDialogState extends State<FilterDialog> {
   @override
   Widget build(BuildContext context) {
     final subcats = _category != null ? _categories[_category] ?? [] : <String>[];
+    final content = SingleChildScrollView(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          DropdownButtonFormField<String>(
+            value: _distance,
+            decoration: const InputDecoration(labelText: 'Distance'),
+            items: _distances.map((d) => DropdownMenuItem(value: d, child: Text(d))).toList(),
+            onChanged: (v) => setState(() => _distance = v),
+          ),
+          const SizedBox(height: 12),
 
+          DropdownButtonFormField<String>(
+            value: _category,
+            decoration: const InputDecoration(labelText: 'Category'),
+            items: _categories.keys.map((c) => DropdownMenuItem(value: c, child: Text(c))).toList(),
+            onChanged: (v) {
+              setState(() {
+                _category = v;
+                _subcategory = null;
+              });
+            },
+          ),
+          const SizedBox(height: 12),
+
+          DropdownButtonFormField<String>(
+            value: _subcategory,
+            decoration: const InputDecoration(labelText: 'Subcategory'),
+            items: subcats.map((s) => DropdownMenuItem(value: s, child: Text(s))).toList(),
+            onChanged: (_category == null) ? null : (v) => setState(() => _subcategory = v),
+          ),
+          const SizedBox(height: 16),
+
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Text('Diets', style: Theme.of(context).textTheme.titleMedium),
+          ),
+          const SizedBox(height: 8),
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children:
+                _diets.map((d) {
+                  final isSelected = _dietsSel.contains(d);
+                  return FilterChip(
+                    label: Text(d),
+                    selected: isSelected,
+                    onSelected: (val) {
+                      setState(() {
+                        if (val) {
+                          _dietsSel.add(d);
+                        } else {
+                          _dietsSel.remove(d);
+                        }
+                      });
+                    },
+                  );
+                }).toList(),
+          ),
+        ],
+      ),
+    );
+    final actions = [
+      TextButton(
+        onPressed: () => Navigator.pop<HomeFilters>(context, null),
+        child: const Text('Cancel'),
+      ),
+      FilledButton(
+        onPressed: () {
+          final result = HomeFilters(
+            distance: _distance == 'Any' ? null : _distance,
+            category: _category,
+            subcategory: _subcategory,
+            diets: _dietsSel,
+          );
+          Navigator.pop<HomeFilters>(context, result);
+        },
+        child: const Text('apply'),
+      ),
+    ];
+    if (widget.isBottomSheet) {
+      return Container(
+        color: GPSColors.primary.withOpacity(0.4),
+        padding: EdgeInsets.all(20),
+        child: Column(children: [content, GPSGaps.h20, Row(children: actions)]),
+      );
+    }
     return AlertDialog(
       backgroundColor: GPSColors.background.withOpacity(0.9),
       title: const Text('Filters'),
-      content: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            DropdownButtonFormField<String>(
-              value: _distance,
-              decoration: const InputDecoration(labelText: 'Distance'),
-              items: _distances.map((d) => DropdownMenuItem(value: d, child: Text(d))).toList(),
-              onChanged: (v) => setState(() => _distance = v),
-            ),
-            const SizedBox(height: 12),
-
-            DropdownButtonFormField<String>(
-              value: _category,
-              decoration: const InputDecoration(labelText: 'Category'),
-              items:
-                  _categories.keys.map((c) => DropdownMenuItem(value: c, child: Text(c))).toList(),
-              onChanged: (v) {
-                setState(() {
-                  _category = v;
-                  _subcategory = null;
-                });
-              },
-            ),
-            const SizedBox(height: 12),
-
-            DropdownButtonFormField<String>(
-              value: _subcategory,
-              decoration: const InputDecoration(labelText: 'Subcategory'),
-              items: subcats.map((s) => DropdownMenuItem(value: s, child: Text(s))).toList(),
-              onChanged: (_category == null) ? null : (v) => setState(() => _subcategory = v),
-            ),
-            const SizedBox(height: 16),
-
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Text('Diets', style: Theme.of(context).textTheme.titleMedium),
-            ),
-            const SizedBox(height: 8),
-            Wrap(
-              spacing: 8,
-              runSpacing: 8,
-              children:
-                  _diets.map((d) {
-                    final isSelected = _dietsSel.contains(d);
-                    return FilterChip(
-                      label: Text(d),
-                      selected: isSelected,
-                      onSelected: (val) {
-                        setState(() {
-                          if (val) {
-                            _dietsSel.add(d);
-                          } else {
-                            _dietsSel.remove(d);
-                          }
-                        });
-                      },
-                    );
-                  }).toList(),
-            ),
-          ],
-        ),
-      ),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.pop<HomeFilters>(context, null),
-          child: const Text('Cancel'),
-        ),
-        FilledButton(
-          onPressed: () {
-            final result = HomeFilters(
-              distance: _distance == 'Any' ? null : _distance,
-              category: _category,
-              subcategory: _subcategory,
-              diets: _dietsSel,
-            );
-            Navigator.pop<HomeFilters>(context, result);
-          },
-          child: const Text('apply'),
-        ),
-      ],
+      content: content,
+      actions: actions,
     );
   }
 }

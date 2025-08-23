@@ -26,11 +26,21 @@ class _HomeSearchScreenState extends State<HomeSearchScreen> {
   int _currentTab = 0;
   HomeFilters? _filters;
 
-  Future<void> _openFilters() async {
-    final result = await showDialog<HomeFilters>(
-      context: context,
-      builder: (_) => FilterDialog(initial: _filters ?? HomeFilters()),
-    );
+  Future<void> _openFilters({bool isBottomSheet = false}) async {
+    HomeFilters? result;
+    if (isBottomSheet) {
+      result = await showModalBottomSheet<HomeFilters>(
+        context: context,
+        builder: (_) {
+          return FilterDialog(initial: _filters ?? HomeFilters(), isBottomSheet: isBottomSheet);
+        },
+      );
+    } else {
+      result = await showDialog<HomeFilters>(
+        context: context,
+        builder: (_) => FilterDialog(initial: _filters ?? HomeFilters()),
+      );
+    }
     if (result != null) {
       setState(() => _filters = result);
     }
@@ -230,7 +240,7 @@ class _HomeSearchScreenState extends State<HomeSearchScreen> {
                           editable: false,
                           hint: 'Search by city or zip code',
                           onTap: _enterSearchMode,
-                          filtersOnTap: _openFilters,
+                          filtersOnTap: () => _openFilters(isBottomSheet: true),
                           onChanged: _onQueryChanged,
                           onClear: () {
                             _searchCtrl.clear();
