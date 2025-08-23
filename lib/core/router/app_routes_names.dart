@@ -9,4 +9,6 @@ class AppRoutesNames {
   static const String marketPlaceScreen = '/marketPlaceScreen';
   static const String categorySelectionScreen = '/categorySelectionScreen';
   static const String foodSelectionScreen = '/foodSelectionScreen';
+  static const String scanImageScreen = '/scanImageScreen';
+  static const String marketCategorySelectionScreen = '/marketCategorySelectionScreen';
 }

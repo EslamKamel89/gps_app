@@ -209,15 +209,14 @@ class _HomeSearchScreenState extends State<HomeSearchScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: GPSColors.background,
-      body: Stack(
-        children: [
-          SizedBox(width: context.width, height: context.height),
-          if (!_showMap)
-            SafeArea(
-              bottom: false,
-              child: CustomScrollView(
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: GPSColors.background,
+        body: Stack(
+          children: [
+            SizedBox(width: context.width, height: context.height),
+            if (!_showMap)
+              CustomScrollView(
                 slivers: [
                   SliverToBoxAdapter(
                     child: Column(
@@ -299,97 +298,97 @@ class _HomeSearchScreenState extends State<HomeSearchScreen> {
                   ),
                 ],
               ),
-            ),
 
-          if (_showMap) ...[
-            Positioned(
-              bottom: 0,
-              top: 0,
-              child: SizedBox(
-                width: context.width,
-                height: context.height,
-                child: GestureDetector(
-                  onTap: () {
-                    FocusScope.of(context).unfocus();
-                    Navigator.of(context).pushNamed(AppRoutesNames.restaurantDetailScreen);
-                  },
-                  child: Stack(
-                    fit: StackFit.expand,
-                    children: [
-                      Image.network(
-                        'https://media.wired.com/photos/59269cd37034dc5f91bec0f1/3:2/w_2240,c_limit/GoogleMapTA.jpg',
-                        fit: BoxFit.cover,
-                        width: context.width,
-                        height: context.height,
-                      ),
-                      Container(
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            colors: [
-                              Colors.black.withOpacity(.20),
-                              Colors.transparent,
-                              Colors.black.withOpacity(.15),
-                            ],
+            if (_showMap) ...[
+              Positioned(
+                bottom: 0,
+                top: 0,
+                child: SizedBox(
+                  width: context.width,
+                  height: context.height,
+                  child: GestureDetector(
+                    onTap: () {
+                      FocusScope.of(context).unfocus();
+                      Navigator.of(context).pushNamed(AppRoutesNames.restaurantDetailScreen);
+                    },
+                    child: Stack(
+                      fit: StackFit.expand,
+                      children: [
+                        Image.network(
+                          'https://media.wired.com/photos/59269cd37034dc5f91bec0f1/3:2/w_2240,c_limit/GoogleMapTA.jpg',
+                          fit: BoxFit.cover,
+                          width: context.width,
+                          height: context.height,
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [
+                                Colors.black.withOpacity(.20),
+                                Colors.transparent,
+                                Colors.black.withOpacity(.15),
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ).animate().fadeIn(duration: 220.ms),
-
-            SafeArea(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const TopBar(),
-                  GPSGaps.h16,
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: SearchRow(
-                      controller: _searchCtrl,
-                      focusNode: _searchFocus,
-                      editable: true,
-                      hint: 'Search by city or zip code',
-                      onTap: _enterSearchMode,
-                      onChanged: _onQueryChanged,
-                      onClear: () {
-                        _searchCtrl.clear();
-                        _searchFocus.requestFocus();
-                        _exitSearchIfCleared();
-                      },
+                      ],
                     ),
                   ),
-                  _buildFilters(),
-                  AnimatedSwitcher(
-                    duration: 200.ms,
-                    child:
-                        _showSuggestions
-                            ? Padding(
-                              padding: const EdgeInsets.fromLTRB(16, 10, 16, 0),
-                              child: SuggestionsList(
-                                items: _filtered,
-                                onSelect: _selectSuggestion,
-                                favorites: {},
-                                onToggleFavorite: (_) {},
-                              ),
-                            )
-                            : const SizedBox.shrink(),
-                  ),
-                ],
+                ),
+              ).animate().fadeIn(duration: 220.ms),
+
+              SafeArea(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const TopBar(),
+                    GPSGaps.h16,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: SearchRow(
+                        controller: _searchCtrl,
+                        focusNode: _searchFocus,
+                        editable: true,
+                        hint: 'Search by city or zip code',
+                        onTap: _enterSearchMode,
+                        onChanged: _onQueryChanged,
+                        onClear: () {
+                          _searchCtrl.clear();
+                          _searchFocus.requestFocus();
+                          _exitSearchIfCleared();
+                        },
+                      ),
+                    ),
+                    _buildFilters(),
+                    AnimatedSwitcher(
+                      duration: 200.ms,
+                      child:
+                          _showSuggestions
+                              ? Padding(
+                                padding: const EdgeInsets.fromLTRB(16, 10, 16, 0),
+                                child: SuggestionsList(
+                                  items: _filtered,
+                                  onSelect: _selectSuggestion,
+                                  favorites: {},
+                                  onToggleFavorite: (_) {},
+                                ),
+                              )
+                              : const SizedBox.shrink(),
+                    ),
+                  ],
+                ),
               ),
-            ),
+            ],
           ],
-        ],
-      ),
-      bottomNavigationBar: GPSBottomNav(
-        currentIndex: _currentTab,
-        onChanged: (i) {
-          setState(() => _currentTab = i);
-        },
+        ),
+        bottomNavigationBar: GPSBottomNav(
+          currentIndex: _currentTab,
+          onChanged: (i) {
+            setState(() => _currentTab = i);
+          },
+        ),
       ),
     );
   }

@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:gps_app/core/router/app_routes_names.dart';
 import 'package:gps_app/features/design/screens/category_selection/widgets/asset_category_card.dart';
+import 'package:gps_app/features/design/screens/home_search/widgets/top_bar.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 import 'package:gps_app/features/design/widgets/footer.dart';
-import 'package:gps_app/features/design/widgets/header.dart';
+import 'package:gps_app/features/design/widgets/gps_bottom_nav.dart';
 import 'package:gps_app/utils/assets/assets.dart';
 
 class CategoryOption {
@@ -23,6 +24,18 @@ class CategoryOption {
 }
 
 const _categories = <CategoryOption>[
+  CategoryOption(
+    id: 'cookware',
+    label: 'Cookware',
+    description: 'Cast iron, stainless steel, non-toxic',
+    assetPath: AssetsData.cookware,
+  ),
+  CategoryOption(
+    id: 'supplements',
+    label: 'Supplements',
+    description: 'Vitamins, herbal, natural oils',
+    assetPath: AssetsData.supplements,
+  ),
   CategoryOption(
     id: 'meat',
     label: 'Meat',
@@ -47,29 +60,18 @@ const _categories = <CategoryOption>[
     description: 'Grains, oils, flour, pantry staples',
     assetPath: AssetsData.groceries,
   ),
-  // CategoryOption(
-  //   id: 'cookware',
-  //   label: 'Cookware',
-  //   description: 'Cast iron, stainless steel, non-toxic',
-  //   assetPath: AssetsData.cookware,
-  // ),
-  // CategoryOption(
-  //   id: 'supplements',
-  //   label: 'Supplements',
-  //   description: 'Vitamins, herbal, natural oils',
-  //   assetPath: AssetsData.supplements,
-  // ),
 ];
 
-class CategorySelectionScreen extends StatefulWidget {
-  const CategorySelectionScreen({super.key});
+class MarketCategorySelectionScreen extends StatefulWidget {
+  const MarketCategorySelectionScreen({super.key});
 
   @override
-  State<CategorySelectionScreen> createState() => _CategorySelectionScreenState();
+  State<MarketCategorySelectionScreen> createState() => _MarketCategorySelectionScreenState();
 }
 
-class _CategorySelectionScreenState extends State<CategorySelectionScreen> {
+class _MarketCategorySelectionScreenState extends State<MarketCategorySelectionScreen> {
   final Set<String> _selected = <String>{};
+  int _currentTab = 1;
 
   void _toggle(String id) {
     setState(() {
@@ -85,21 +87,23 @@ class _CategorySelectionScreenState extends State<CategorySelectionScreen> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return Scaffold(
-      backgroundColor: GPSColors.background,
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              GPSGaps.h24,
-              const GpsHeader(
-                title: 'Which categories are you interested in?',
-              ).animate().fadeIn(duration: 300.ms).slideY(begin: .2, curve: Curves.easeOutQuad),
-              GPSGaps.h24,
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: GPSColors.background,
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            const TopBar(
+              title: 'Pick Categories?',
+            ).animate().fadeIn(duration: 300.ms).slideY(begin: .2, curve: Curves.easeOutQuad),
 
-              Expanded(
+            // const GpsHeader(
+            //   title: 'Which categories are you interested in?',
+            // ).animate().fadeIn(duration: 300.ms).slideY(begin: .2, curve: Curves.easeOutQuad),
+            // GPSGaps.h24,
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
                 child: GridView.builder(
                   padding: EdgeInsets.zero,
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -129,11 +133,14 @@ class _CategorySelectionScreenState extends State<CategorySelectionScreen> {
                   },
                 ),
               ),
+            ),
 
-              GPSGaps.h12,
+            GPSGaps.h12,
 
-              Footer(
-                onSkip: () => Navigator.of(context).pushNamed(AppRoutesNames.foodSelectionScreen),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Footer(
+                onSkip: () => Navigator.of(context).pushNamed(AppRoutesNames.marketPlaceScreen),
                 onNext:
                     _selected.isNotEmpty
                         ? () {
@@ -141,13 +148,20 @@ class _CategorySelectionScreenState extends State<CategorySelectionScreen> {
                             SnackBar(content: Text('Selected: ${_selected.join(', ')}')),
                           );
                           Future.delayed(300.ms, () {
-                            Navigator.of(context).pushNamed(AppRoutesNames.foodSelectionScreen);
+                            Navigator.of(context).pushNamed(AppRoutesNames.marketPlaceScreen);
                           });
                         }
                         : null,
               ),
-            ],
-          ),
+            ),
+            GPSGaps.h12,
+          ],
+        ),
+        bottomNavigationBar: GPSBottomNav(
+          currentIndex: _currentTab,
+          onChanged: (i) {
+            setState(() => _currentTab = i);
+          },
         ),
       ),
     );

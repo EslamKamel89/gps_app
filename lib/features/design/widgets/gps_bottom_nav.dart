@@ -13,9 +13,9 @@ class GPSBottomNav extends StatelessWidget {
     const items = [
       Icons.home_filled,
       Icons.shop,
+      Icons.camera,
       Icons.favorite_rounded,
       Icons.bookmark_rounded,
-      Icons.person_rounded,
     ];
 
     return Container(
@@ -39,9 +39,15 @@ class GPSBottomNav extends StatelessWidget {
                   ).pushNamedAndRemoveUntil(AppRoutesNames.homeSearchScreen, (_) => false);
                 }
                 if (i == 1) {
+                  Navigator.of(context).pushNamedAndRemoveUntil(
+                    AppRoutesNames.marketCategorySelectionScreen,
+                    (_) => false,
+                  );
+                }
+                if (i == 2) {
                   Navigator.of(
                     context,
-                  ).pushNamedAndRemoveUntil(AppRoutesNames.marketPlaceScreen, (_) => false);
+                  ).pushNamedAndRemoveUntil(AppRoutesNames.scanImageScreen, (_) => false);
                 }
               },
             ),

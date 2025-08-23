@@ -54,10 +54,10 @@ class _MarketPlaceScreenState extends State<MarketPlaceScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      body: SafeArea(
-        child: Column(
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        body: Column(
           children: [
             const TopBar(title: 'Market'),
             Expanded(
@@ -95,12 +95,12 @@ class _MarketPlaceScreenState extends State<MarketPlaceScreen> {
             ),
           ],
         ),
-      ),
-      bottomNavigationBar: GPSBottomNav(
-        currentIndex: _currentTab,
-        onChanged: (i) {
-          setState(() => _currentTab = i);
-        },
+        bottomNavigationBar: GPSBottomNav(
+          currentIndex: _currentTab,
+          onChanged: (i) {
+            setState(() => _currentTab = i);
+          },
+        ),
       ),
     );
   }

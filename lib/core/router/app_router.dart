@@ -6,9 +6,11 @@ import 'package:gps_app/features/design/screens/diet_selection/diet_selection_sc
 import 'package:gps_app/features/design/screens/food_selection/food_selection_screen.dart';
 import 'package:gps_app/features/design/screens/home_search/home_search_screen.dart';
 import 'package:gps_app/features/design/screens/login/login_screen.dart';
+import 'package:gps_app/features/design/screens/market_category_selection/market_category_selection_screen.dart';
 import 'package:gps_app/features/design/screens/market_place/market_place_screen.dart';
 import 'package:gps_app/features/design/screens/register/register_screen.dart';
 import 'package:gps_app/features/design/screens/resturant_details/resturant_details_screen.dart';
+import 'package:gps_app/features/design/screens/scann_image/scan_image_screen.dart';
 import 'package:gps_app/features/design/screens/splash/splash_screen.dart';
 
 class AppRouter {
@@ -46,6 +48,13 @@ class AppRouter {
       case AppRoutesNames.foodSelectionScreen:
         return CustomPageRoute(
           builder: (context) => FoodSelectionScreen(),
+          settings: routeSettings,
+        );
+      case AppRoutesNames.scanImageScreen:
+        return CustomPageRoute(builder: (context) => ScanImageScreen(), settings: routeSettings);
+      case AppRoutesNames.marketCategorySelectionScreen:
+        return CustomPageRoute(
+          builder: (context) => MarketCategorySelectionScreen(),
           settings: routeSettings,
         );
 

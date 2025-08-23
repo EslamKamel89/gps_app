@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:gps_app/features/design/screens/food_selection/widgets/check_badge.dart';
-import 'package:gps_app/features/design/screens/food_selection/widgets/dots_loader.dart';
 import 'package:gps_app/features/design/screens/food_selection/widgets/image_error_fallback.dart';
 
 class FoodItem {
@@ -63,7 +62,7 @@ class FoodCard extends StatelessWidget {
                     return Container(
                       color: Theme.of(context).colorScheme.surfaceContainerHighest.withOpacity(0.4),
                       alignment: Alignment.center,
-                      child: const DotsLoader(),
+                      child: CircularProgressIndicator(),
                     );
                   },
                   errorBuilder: (context, error, stack) => ImageErrorFallback(name: item.name),
