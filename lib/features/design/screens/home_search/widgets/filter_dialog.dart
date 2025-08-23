@@ -35,7 +35,7 @@ class FilterDialog extends StatefulWidget {
 }
 
 class _FilterDialogState extends State<FilterDialog> {
-  static const _distances = <String>['Any', '1 km', '3 km', '5 km', '10 km', '20 km'];
+  static const _distances = <String>['Any', '1 mil', '3 mil', '5 mil', '10 mil', '20 mil'];
 
   static const Map<String, List<String>> _categories = {
     'Burgers': ['Beef Burger', 'Chicken Burger', 'Veggie Burger'],

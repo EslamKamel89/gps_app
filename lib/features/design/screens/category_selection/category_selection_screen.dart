@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:gps_app/core/router/app_routes_names.dart';
 import 'package:gps_app/features/design/screens/category_selection/widgets/asset_category_card.dart';
-import 'package:gps_app/features/design/screens/category_selection/widgets/footer.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
+import 'package:gps_app/features/design/widgets/footer.dart';
 import 'package:gps_app/features/design/widgets/header.dart';
 import 'package:gps_app/utils/assets/assets.dart';
 
@@ -134,7 +134,7 @@ class _CategorySelectionScreenState extends State<CategorySelectionScreen> {
               GPSGaps.h12,
 
               Footer(
-                onSkip: () => Navigator.of(context).pushNamed(AppRoutesNames.homeSearchScreen),
+                onSkip: () => Navigator.of(context).pushNamed(AppRoutesNames.foodSelectionScreen),
                 onNext:
                     _selected.isNotEmpty
                         ? () {
@@ -142,7 +142,7 @@ class _CategorySelectionScreenState extends State<CategorySelectionScreen> {
                             SnackBar(content: Text('Selected: ${_selected.join(', ')}')),
                           );
                           Future.delayed(300.ms, () {
-                            Navigator.of(context).pushNamed(AppRoutesNames.homeSearchScreen);
+                            Navigator.of(context).pushNamed(AppRoutesNames.foodSelectionScreen);
                           });
                         }
                         : null,

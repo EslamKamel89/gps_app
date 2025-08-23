@@ -3,9 +3,9 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:gps_app/core/router/app_routes_names.dart';
 import 'package:gps_app/features/design/entities/diet_options.dart';
 import 'package:gps_app/features/design/screens/diet_selection/widgets/diet_card.dart';
-import 'package:gps_app/features/design/screens/diet_selection/widgets/footer.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
+import 'package:gps_app/features/design/widgets/footer.dart';
 import 'package:gps_app/features/design/widgets/header.dart';
 
 const _dietOptions = <DietOption>[

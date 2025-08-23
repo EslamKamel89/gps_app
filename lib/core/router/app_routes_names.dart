@@ -8,4 +8,5 @@ class AppRoutesNames {
   static const String registerScreen = '/registerScreen';
   static const String marketPlaceScreen = '/marketPlaceScreen';
   static const String categorySelectionScreen = '/categorySelectionScreen';
+  static const String foodSelectionScreen = '/foodSelectionScreen';
 }
