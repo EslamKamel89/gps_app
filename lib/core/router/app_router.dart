@@ -3,6 +3,7 @@ import 'package:gps_app/core/router/app_routes_names.dart';
 import 'package:gps_app/core/router/middleware.dart';
 import 'package:gps_app/features/design/screens/category_selection/category_selection_screen.dart';
 import 'package:gps_app/features/design/screens/diet_selection/diet_selection_screen.dart';
+import 'package:gps_app/features/design/screens/food_selection/food_selection_screen.dart';
 import 'package:gps_app/features/design/screens/home_search/home_search_screen.dart';
 import 'package:gps_app/features/design/screens/login/login_screen.dart';
 import 'package:gps_app/features/design/screens/market_place/market_place_screen.dart';
@@ -40,6 +41,11 @@ class AppRouter {
       case AppRoutesNames.categorySelectionScreen:
         return CustomPageRoute(
           builder: (context) => CategorySelectionScreen(),
+          settings: routeSettings,
+        );
+      case AppRoutesNames.foodSelectionScreen:
+        return CustomPageRoute(
+          builder: (context) => FoodSelectionScreen(),
           settings: routeSettings,
         );
 
