@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:gps_app/features/design/screens/home_search/widgets/filter_chip_pill.dart';
-import 'package:gps_app/features/design/screens/home_search/widgets/tag_chip.dart';
+import 'package:gps_app/features/design/screens/user/home_search/widgets/filter_chip_pill.dart';
+import 'package:gps_app/features/design/screens/user/home_search/widgets/tag_chip.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 
 class FilterChipsRow extends StatelessWidget {

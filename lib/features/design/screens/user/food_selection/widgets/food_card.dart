@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:gps_app/features/design/screens/food_selection/widgets/check_badge.dart';
-import 'package:gps_app/features/design/screens/food_selection/widgets/image_error_fallback.dart';
+import 'package:gps_app/features/design/screens/user/food_selection/widgets/check_badge.dart';
+import 'package:gps_app/features/design/screens/user/food_selection/widgets/image_error_fallback.dart';
 
 class FoodItem {
   final String id;

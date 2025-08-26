@@ -1,74 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:gps_app/core/router/app_routes_names.dart';
-import 'package:gps_app/features/design/screens/category_selection/widgets/asset_category_card.dart';
+import 'package:gps_app/features/design/entities/diet_options.dart';
+import 'package:gps_app/features/design/screens/user/diet_selection/widgets/diet_card.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 import 'package:gps_app/features/design/widgets/footer.dart';
 import 'package:gps_app/features/design/widgets/header.dart';
-import 'package:gps_app/utils/assets/assets.dart';
 
-class CategoryOption {
-  final String id;
-  final String label;
-  final String description; // NEW
-  final String assetPath; // asset image path
-
-  const CategoryOption({
-    required this.id,
-    required this.label,
-    required this.description,
-    required this.assetPath,
-  });
-}
-
-const _categories = <CategoryOption>[
-  CategoryOption(
-    id: 'meat',
-    label: 'Meat',
-    description: 'Grass-fed, pasture-raised',
-    assetPath: AssetsData.meat,
-  ),
-  CategoryOption(
-    id: 'dairy',
-    label: 'Dairy',
-    description: 'Organic milk, cheese, yogurt',
-    assetPath: AssetsData.dairy,
-  ),
-  CategoryOption(
-    id: 'fruits_vegetables',
-    label: 'Fruits & Vegetables',
-    description: 'Fresh, seasonal, pesticide-free',
-    assetPath: AssetsData.fruitsVegetables,
-  ),
-  CategoryOption(
-    id: 'groceries',
-    label: 'Groceries',
-    description: 'Grains, oils, flour, pantry staples',
-    assetPath: AssetsData.groceries,
-  ),
-  // CategoryOption(
-  //   id: 'cookware',
-  //   label: 'Cookware',
-  //   description: 'Cast iron, stainless steel, non-toxic',
-  //   assetPath: AssetsData.cookware,
-  // ),
-  // CategoryOption(
-  //   id: 'supplements',
-  //   label: 'Supplements',
-  //   description: 'Vitamins, herbal, natural oils',
-  //   assetPath: AssetsData.supplements,
-  // ),
+const _dietOptions = <DietOption>[
+  DietOption(id: 'keto', label: 'Ketogenic', emoji: '🥑'),
+  DietOption(id: 'paleo', label: 'Paleo', emoji: '🥕'),
+  DietOption(id: 'vegan', label: 'Vegan', emoji: '🌱'),
+  DietOption(id: 'vegetarian', label: 'Vegetarian', emoji: '🥬'),
+  DietOption(id: 'pescatarian', label: 'Pescatarian', emoji: '🐟'),
+  DietOption(id: 'carnivore', label: 'Carnivore', emoji: '🥩'),
 ];
 
-class CategorySelectionScreen extends StatefulWidget {
-  const CategorySelectionScreen({super.key});
+class DietSelectionScreen extends StatefulWidget {
+  const DietSelectionScreen({super.key});
 
   @override
-  State<CategorySelectionScreen> createState() => _CategorySelectionScreenState();
+  State<DietSelectionScreen> createState() => _DietSelectionScreenState();
 }
 
-class _CategorySelectionScreenState extends State<CategorySelectionScreen> {
+class _DietSelectionScreenState extends State<DietSelectionScreen> {
   final Set<String> _selected = <String>{};
 
   void _toggle(String id) {
@@ -94,11 +50,13 @@ class _CategorySelectionScreenState extends State<CategorySelectionScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               GPSGaps.h24,
-              const GpsHeader(
-                title: 'Which categories are you interested in?',
+              GpsHeader(
+                title: 'Which of these diets do you follow?',
+                // onBack: () => Navigator.of(context).maybePop(),
               ).animate().fadeIn(duration: 300.ms).slideY(begin: .2, curve: Curves.easeOutQuad),
               GPSGaps.h24,
 
+              // Grid of options
               Expanded(
                 child: GridView.builder(
                   padding: EdgeInsets.zero,
@@ -108,40 +66,44 @@ class _CategorySelectionScreenState extends State<CategorySelectionScreen> {
                     crossAxisSpacing: 14,
                     childAspectRatio: 1.05,
                   ),
-                  itemCount: _categories.length,
+                  itemCount: _dietOptions.length,
                   itemBuilder: (context, index) {
-                    final item = _categories[index];
+                    final item = _dietOptions[index];
                     final selected = _selected.contains(item.id);
 
-                    final card = AssetCategoryCard(
+                    final card = DietCard(
+                      emoji: item.emoji,
                       label: item.label,
-                      description: item.description, // NEW
-                      assetPath: item.assetPath,
                       selected: selected,
                       onTap: () => _toggle(item.id),
                     );
 
+                    // Staggered entrance animation per card
                     return card
                         .animate(delay: (80 * index).ms)
                         .fadeIn(duration: 300.ms)
                         .slideY(begin: .15)
-                        .scale(begin: const Offset(.98, .98), curve: Curves.easeOutBack);
+                        .scale(begin: const Offset(0.98, 0.98), curve: Curves.easeOutBack);
                   },
                 ),
               ),
 
               GPSGaps.h12,
 
+              // Footer actions
               Footer(
-                onSkip: () => Navigator.of(context).pushNamed(AppRoutesNames.foodSelectionScreen),
+                onSkip: () {
+                  Navigator.of(context).pushNamed(AppRoutesNames.categorySelectionScreen);
+                },
                 onNext:
                     _selected.isNotEmpty
                         ? () {
+                          // In a real flow, pass selections forward
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(content: Text('Selected: ${_selected.join(', ')}')),
                           );
                           Future.delayed(300.ms, () {
-                            Navigator.of(context).pushNamed(AppRoutesNames.foodSelectionScreen);
+                            Navigator.of(context).pushNamed(AppRoutesNames.categorySelectionScreen);
                           });
                         }
                         : null,

@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:gps_app/core/router/app_routes_names.dart';
 import 'package:gps_app/core/router/middleware.dart';
-import 'package:gps_app/features/design/screens/category_selection/category_selection_screen.dart';
-import 'package:gps_app/features/design/screens/diet_selection/diet_selection_screen.dart';
-import 'package:gps_app/features/design/screens/food_selection/food_selection_screen.dart';
-import 'package:gps_app/features/design/screens/home_search/home_search_screen.dart';
-import 'package:gps_app/features/design/screens/login/login_screen.dart';
-import 'package:gps_app/features/design/screens/market_category_selection/market_category_selection_screen.dart';
-import 'package:gps_app/features/design/screens/market_place/market_place_screen.dart';
-import 'package:gps_app/features/design/screens/register/register_screen.dart';
-import 'package:gps_app/features/design/screens/resturant_details/resturant_details_screen.dart';
-import 'package:gps_app/features/design/screens/scann_image/scan_image_screen.dart';
-import 'package:gps_app/features/design/screens/splash/splash_screen.dart';
+import 'package:gps_app/features/design/screens/user/category_selection/category_selection_screen.dart';
+import 'package:gps_app/features/design/screens/user/diet_selection/diet_selection_screen.dart';
+import 'package:gps_app/features/design/screens/user/food_selection/food_selection_screen.dart';
+import 'package:gps_app/features/design/screens/user/home_search/home_search_screen.dart';
+import 'package:gps_app/features/design/screens/user/login/login_screen.dart';
+import 'package:gps_app/features/design/screens/user/market_category_selection/market_category_selection_screen.dart';
+import 'package:gps_app/features/design/screens/user/market_place/market_place_screen.dart';
+import 'package:gps_app/features/design/screens/user/register/register_screen.dart';
+import 'package:gps_app/features/design/screens/user/resturant_details/resturant_details_screen.dart';
+import 'package:gps_app/features/design/screens/user/scann_image/scan_image_screen.dart';
+import 'package:gps_app/features/design/screens/user/splash/splash_screen.dart';
 
 class AppRouter {
   AppMiddleWare appMiddleWare;

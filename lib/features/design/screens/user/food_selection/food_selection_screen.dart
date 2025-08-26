@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:gps_app/core/router/app_routes_names.dart';
-import 'package:gps_app/features/design/screens/food_selection/widgets/food_card.dart';
-import 'package:gps_app/features/design/screens/food_selection/widgets/header.dart';
+import 'package:gps_app/features/design/screens/user/food_selection/widgets/food_card.dart';
+import 'package:gps_app/features/design/screens/user/food_selection/widgets/header.dart';
 import 'package:gps_app/features/design/widgets/footer.dart';
 
 class FoodSelectionScreen extends StatefulWidget {

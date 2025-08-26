@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:gps_app/features/design/screens/resturant_details/resturant_details_screen.dart';
-import 'package:gps_app/features/design/screens/resturant_details/widgets/menu_item_card.dart';
+import 'package:gps_app/features/design/screens/user/resturant_details/resturant_details_screen.dart';
+import 'package:gps_app/features/design/screens/user/resturant_details/widgets/menu_item_card.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 
 class MenuListView extends StatelessWidget {

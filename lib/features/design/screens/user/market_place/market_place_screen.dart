@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:gps_app/features/design/screens/home_search/widgets/top_bar.dart';
-import 'package:gps_app/features/design/screens/market_place/widgets/product_card.dart';
+import 'package:gps_app/features/design/screens/user/home_search/widgets/top_bar.dart';
+import 'package:gps_app/features/design/screens/user/market_place/widgets/product_card.dart';
 import 'package:gps_app/features/design/widgets/gps_bottom_nav.dart';
 
 class MarketPlaceScreen extends StatefulWidget {

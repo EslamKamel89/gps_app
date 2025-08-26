@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:gps_app/features/design/screens/home_search/widgets/top_bar.dart';
+import 'package:gps_app/features/design/screens/user/home_search/widgets/top_bar.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/widgets/gps_bottom_nav.dart';
 

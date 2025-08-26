@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:gps_app/features/design/screens/resturant_details/resturant_details_screen.dart';
-import 'package:gps_app/features/design/screens/resturant_details/widgets/icon_action.dart';
-import 'package:gps_app/features/design/screens/resturant_details/widgets/pill.dart';
-import 'package:gps_app/features/design/screens/resturant_details/widgets/price_badge.dart';
-import 'package:gps_app/features/design/screens/resturant_details/widgets/thumb.dart';
+import 'package:gps_app/features/design/screens/user/resturant_details/resturant_details_screen.dart';
+import 'package:gps_app/features/design/screens/user/resturant_details/widgets/icon_action.dart';
+import 'package:gps_app/features/design/screens/user/resturant_details/widgets/pill.dart';
+import 'package:gps_app/features/design/screens/user/resturant_details/widgets/price_badge.dart';
+import 'package:gps_app/features/design/screens/user/resturant_details/widgets/thumb.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 

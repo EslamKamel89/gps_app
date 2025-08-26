@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:gps_app/features/design/screens/resturant_details/widgets/badge_chip.dart';
-import 'package:gps_app/features/design/screens/resturant_details/widgets/circle_back.dart';
-import 'package:gps_app/features/design/screens/resturant_details/widgets/menu_list_view.dart';
-import 'package:gps_app/features/design/screens/resturant_details/widgets/section_header.dart';
-import 'package:gps_app/features/design/screens/resturant_details/widgets/tabbar_delegate.dart';
+import 'package:gps_app/features/design/screens/user/resturant_details/widgets/badge_chip.dart';
+import 'package:gps_app/features/design/screens/user/resturant_details/widgets/circle_back.dart';
+import 'package:gps_app/features/design/screens/user/resturant_details/widgets/menu_list_view.dart';
+import 'package:gps_app/features/design/screens/user/resturant_details/widgets/section_header.dart';
+import 'package:gps_app/features/design/screens/user/resturant_details/widgets/tabbar_delegate.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 import 'package:gps_app/features/design/widgets/reviews_section.dart';
