@@ -12,8 +12,9 @@ import 'package:gps_app/features/design/screens/user/home_search/widgets/suggest
 import 'package:gps_app/features/design/screens/user/home_search/widgets/top_bar.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
+import 'package:gps_app/features/design/widgets/categories_shortcut.dart';
 import 'package:gps_app/features/design/widgets/gps_bottom_nav.dart';
-import 'package:gps_app/features/design/widgets/restrunats_shortcut.dart';
+import 'package:gps_app/features/design/widgets/most_loved_restaurants.dart';
 
 class HomeSearchScreen extends StatefulWidget {
   const HomeSearchScreen({super.key});
@@ -130,39 +131,96 @@ class _HomeSearchScreenState extends State<HomeSearchScreen> {
       distanceMiles: 3.8,
     ),
   ];
-  final List<RestaurantMini> _shortcutItems = const [
-    RestaurantMini(
+  final List<CategoryItem> _shortcutItems = const [
+    CategoryItem(
       name: 'Farm to Fork',
       imageUrl:
           'https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?q=80&w=1200&auto=format&fit=crop',
     ),
-    RestaurantMini(
+    CategoryItem(
       name: 'Greenhouse Cafe',
       imageUrl:
           'https://images.unsplash.com/photo-1559339352-11d035aa65de?q=80&w=1200&auto=format&fit=crop',
     ),
-    RestaurantMini(
+    CategoryItem(
       name: 'True Acre',
       imageUrl:
           'https://images.unsplash.com/photo-1498654200943-1088dd4438ae?q=80&w=1200&auto=format&fit=crop',
     ),
-    RestaurantMini(
+    CategoryItem(
       name: 'Roots & Regenerative',
       imageUrl:
           'https://images.unsplash.com/photo-1490474418585-ba9bad8fd0ea?q=80&w=1200&auto=format&fit=crop',
     ),
-    RestaurantMini(
+    CategoryItem(
       name: 'Wild Catch',
       imageUrl:
           'https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=1200&auto=format&fit=crop',
     ),
-    RestaurantMini(
+    CategoryItem(
       name: 'Pure Pastures',
       imageUrl:
           'https://images.unsplash.com/photo-1546793665-c74683f339c1?q=80&w=1200&auto=format&fit=crop',
     ),
   ];
-
+  final List<RestaurantItem> _mostLovedRestaurants = const [
+    RestaurantItem(
+      name: 'La Bella Vista',
+      imageUrl:
+          'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=1200&auto=format&fit=crop',
+      rating: 4.8,
+      cuisine: 'Italian',
+    ),
+    RestaurantItem(
+      name: 'Sakura Sushi',
+      imageUrl:
+          'https://images.unsplash.com/photo-1579871494447-9811cf80d66c?q=80&w=1200&auto=format&fit=crop',
+      rating: 4.9,
+      cuisine: 'Japanese',
+    ),
+    RestaurantItem(
+      name: 'El Fuego',
+      imageUrl:
+          'https://images.unsplash.com/photo-1424847651672-bf20a4b0982b?q=80&w=1200&auto=format&fit=crop',
+      rating: 4.7,
+      cuisine: 'Mexican',
+    ),
+    RestaurantItem(
+      name: 'Le Petit Paris',
+      imageUrl:
+          'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=1200&auto=format&fit=crop',
+      rating: 4.6,
+      cuisine: 'French',
+    ),
+    RestaurantItem(
+      name: 'Spice Garden',
+      imageUrl:
+          'https://images.unsplash.com/photo-1585937421612-70a008356fbe?q=80&w=1200&auto=format&fit=crop',
+      rating: 4.5,
+      cuisine: 'Indian',
+    ),
+    RestaurantItem(
+      name: 'Coastal Grill',
+      imageUrl:
+          'https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?q=80&w=1200&auto=format&fit=crop',
+      rating: 4.8,
+      cuisine: 'Seafood',
+    ),
+    RestaurantItem(
+      name: 'Golden Wok',
+      imageUrl:
+          'https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?q=80&w=1200&auto=format&fit=crop',
+      rating: 4.4,
+      cuisine: 'Chinese',
+    ),
+    RestaurantItem(
+      name: 'Mediterranean Breeze',
+      imageUrl:
+          'https://images.unsplash.com/photo-1600565193348-f74bd3c7ccdf?q=80&w=1200&auto=format&fit=crop',
+      rating: 4.7,
+      cuisine: 'Mediterranean',
+    ),
+  ];
   List<RestaurantSuggestion> get _filtered {
     final q = _searchCtrl.text.trim().toLowerCase();
     if (q.isEmpty) return _allRestaurants;
@@ -251,7 +309,9 @@ class _HomeSearchScreenState extends State<HomeSearchScreen> {
                         GPSGaps.h16,
                         const FilterChipsRow(),
                         GPSGaps.h16,
-                        RestrunatsShortcut(items: _shortcutItems),
+                        CategoryShortcutWidget(items: _shortcutItems),
+                        GPSGaps.h16,
+                        MostLovedRestaurantsWidget(items: _mostLovedRestaurants),
                         GPSGaps.h20,
                         const PromoCard(),
                         GPSGaps.h20,

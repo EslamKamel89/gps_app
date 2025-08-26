@@ -4,16 +4,16 @@ import 'package:gps_app/core/router/app_routes_names.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 
-class RestaurantMini {
+class CategoryItem {
   final String name;
   final String imageUrl;
-  const RestaurantMini({required this.name, required this.imageUrl});
+  const CategoryItem({required this.name, required this.imageUrl});
 }
 
-class RestrunatsShortcut extends StatelessWidget {
-  const RestrunatsShortcut({super.key, required this.items});
+class CategoryShortcutWidget extends StatelessWidget {
+  const CategoryShortcutWidget({super.key, required this.items});
 
-  final List<RestaurantMini> items;
+  final List<CategoryItem> items;
 
   @override
   Widget build(BuildContext context) {
