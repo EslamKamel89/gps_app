@@ -9,14 +9,14 @@ import 'package:gps_app/features/design/utils/gps_gaps.dart';
 import 'package:gps_app/features/design/widgets/gps_description.dart';
 import 'package:gps_app/features/design/widgets/pinleaf_logo.dart';
 
-class RegisterScreen extends StatefulWidget {
-  const RegisterScreen({super.key});
+class RestaurantRegisterScreen extends StatefulWidget {
+  const RestaurantRegisterScreen({super.key});
 
   @override
-  State<RegisterScreen> createState() => _RegisterScreenState();
+  State<RestaurantRegisterScreen> createState() => _RestaurantRegisterScreenState();
 }
 
-class _RegisterScreenState extends State<RegisterScreen> {
+class _RestaurantRegisterScreenState extends State<RestaurantRegisterScreen> {
   final _formKey = GlobalKey<FormState>();
 
   final _fullNameCtrl = TextEditingController();
@@ -24,16 +24,38 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _emailCtrl = TextEditingController();
   final _passwordCtrl = TextEditingController();
   final _mobileCtrl = TextEditingController();
+  final _restaurantNameCtrl = TextEditingController();
+  final _restaurantAddressCtrl = TextEditingController();
+  final _cuisineTypeCtrl = TextEditingController();
+  final _openingHoursCtrl = TextEditingController();
+  final _capacityCtrl = TextEditingController();
 
   bool _obscure = true;
   final bool _loading = false;
+  bool _hasDelivery = true;
+  bool _hasTakeaway = true;
+  String? _priceRange;
 
   // Sample real-ish data for dependent dropdowns
   final Map<String, List<String>> _countryCities = const {
     'United States': ['New York', 'Los Angeles', 'Austin', 'Miami'],
     'Canada': ['Toronto', 'Vancouver', 'Montreal'],
-    // 'Egypt': ['Cairo', 'Alexandria', 'Giza'],
   };
+
+  final List<String> _cuisineTypes = const [
+    'Italian',
+    'Mexican',
+    'Chinese',
+    'Indian',
+    'American',
+    'Japanese',
+    'Mediterranean',
+    'Thai',
+    'French',
+    'Other',
+  ];
+
+  final List<String> _priceRanges = const ['\$', '\$\$', '\$\$\$', '\$\$\$\$'];
 
   String? _selectedCountry;
   String? _selectedCity;
@@ -45,6 +67,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
     _emailCtrl.dispose();
     _passwordCtrl.dispose();
     _mobileCtrl.dispose();
+    _restaurantNameCtrl.dispose();
+    _restaurantAddressCtrl.dispose();
+    _cuisineTypeCtrl.dispose();
+    _openingHoursCtrl.dispose();
+    _capacityCtrl.dispose();
     super.dispose();
   }
 
@@ -82,21 +109,33 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ).animate().fadeIn(duration: 250.ms).scale(begin: const Offset(0.9, 0.9)),
                   GPSGaps.h16,
                   Center(
-                    child: GpsShortDescription(),
+                    child: GpsShortDescription(description: 'Restaurant Register'),
                   ).animate().fadeIn(duration: 240.ms).slideY(begin: .08),
                   GPSGaps.h12,
                   RoleToggle(isInLoginScreen: false),
                   GPSGaps.h24,
 
+                  // Restaurant Name
+                  GpsLabeledField(
+                    label: 'Restaurant Name',
+                    child: TextFormField(
+                      controller: _restaurantNameCtrl,
+                      textInputAction: TextInputAction.next,
+                      decoration: _inputDecoration('Enter restaurant name'),
+                    ),
+                  ).animate().fadeIn(duration: 200.ms),
+
+                  GPSGaps.h16,
+
                   // Full name
                   GpsLabeledField(
-                    label: 'Full name',
+                    label: 'Owner Full Name',
                     child: TextFormField(
                       controller: _fullNameCtrl,
                       textInputAction: TextInputAction.next,
                       decoration: _inputDecoration('Enter your full name'),
                     ),
-                  ),
+                  ).animate().fadeIn(duration: 210.ms),
 
                   GPSGaps.h16,
 
@@ -108,7 +147,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       textInputAction: TextInputAction.next,
                       decoration: _inputDecoration('Choose a username'),
                     ),
-                  ),
+                  ).animate().fadeIn(duration: 220.ms),
 
                   GPSGaps.h16,
 
@@ -121,7 +160,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       textInputAction: TextInputAction.next,
                       decoration: _inputDecoration('Enter your email'),
                     ),
-                  ),
+                  ).animate().fadeIn(duration: 230.ms),
 
                   GPSGaps.h16,
 
@@ -142,9 +181,79 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                       ),
                     ),
-                  ),
+                  ).animate().fadeIn(duration: 240.ms),
 
-                  // GPSGaps.h16,
+                  GPSGaps.h16,
+
+                  // Cuisine Type
+                  GpsLabeledField(
+                    label: 'Cuisine Type',
+                    child: DropdownButtonFormField<String>(
+                      value: _cuisineTypeCtrl.text.isEmpty ? null : _cuisineTypeCtrl.text,
+                      items:
+                          _cuisineTypes
+                              .map(
+                                (cuisine) =>
+                                    DropdownMenuItem<String>(value: cuisine, child: Text(cuisine)),
+                              )
+                              .toList(),
+                      onChanged: (v) => setState(() => _cuisineTypeCtrl.text = v ?? ''),
+                      decoration: _inputDecoration('Select cuisine type'),
+                      icon: const Icon(Icons.keyboard_arrow_down_rounded),
+                    ),
+                  ).animate().fadeIn(duration: 250.ms),
+
+                  GPSGaps.h16,
+
+                  // Price Range
+                  GpsLabeledField(
+                    label: 'Price Range',
+                    child: DropdownButtonFormField<String>(
+                      value: _priceRange,
+                      items:
+                          _priceRanges
+                              .map(
+                                (range) =>
+                                    DropdownMenuItem<String>(value: range, child: Text(range)),
+                              )
+                              .toList(),
+                      onChanged: (v) => setState(() => _priceRange = v),
+                      decoration: _inputDecoration('Select price range'),
+                      icon: const Icon(Icons.keyboard_arrow_down_rounded),
+                    ),
+                  ).animate().fadeIn(duration: 260.ms),
+
+                  GPSGaps.h16,
+
+                  // Restaurant Address
+                  GpsLabeledField(
+                    label: 'Restaurant Address',
+                    child: TextFormField(
+                      controller: _restaurantAddressCtrl,
+                      textInputAction: TextInputAction.next,
+                      maxLines: 2,
+                      decoration: _inputDecoration('Enter full address'),
+                    ),
+                  ).animate().fadeIn(duration: 270.ms),
+
+                  GPSGaps.h16,
+
+                  // Country
+                  GpsLabeledField(
+                    label: 'Country',
+                    child: DropdownButtonFormField<String>(
+                      value: _selectedCountry,
+                      items:
+                          _countryCities.keys
+                              .map((c) => DropdownMenuItem<String>(value: c, child: Text(c)))
+                              .toList(),
+                      onChanged: _onCountryChanged,
+                      decoration: _inputDecoration('Select your country'),
+                      icon: const Icon(Icons.keyboard_arrow_down_rounded),
+                    ),
+                  ).animate().fadeIn(duration: 280.ms),
+
+                  // City (conditional)
                   AnimatedSwitcher(
                     duration: 250.ms,
                     switchInCurve: Curves.easeOut,
@@ -174,22 +283,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 ),
                               ),
                             ),
-                  ).animate().fadeIn(duration: 220.ms),
-
-                  GPSGaps.h16,
-                  GpsLabeledField(
-                    label: 'Country',
-                    child: DropdownButtonFormField<String>(
-                      value: _selectedCountry,
-                      items:
-                          _countryCities.keys
-                              .map((c) => DropdownMenuItem<String>(value: c, child: Text(c)))
-                              .toList(),
-                      onChanged: _onCountryChanged,
-                      decoration: _inputDecoration('Select your country'),
-                      icon: const Icon(Icons.keyboard_arrow_down_rounded),
-                    ),
-                  ),
+                  ).animate().fadeIn(duration: 290.ms),
 
                   GPSGaps.h16,
 
@@ -199,10 +293,84 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     child: TextFormField(
                       controller: _mobileCtrl,
                       keyboardType: TextInputType.phone,
-                      textInputAction: TextInputAction.done,
+                      textInputAction: TextInputAction.next,
                       decoration: _inputDecoration('Enter your mobile number'),
                     ),
-                  ),
+                  ).animate().fadeIn(duration: 300.ms),
+
+                  GPSGaps.h16,
+
+                  // Capacity
+                  GpsLabeledField(
+                    label: 'Seating Capacity',
+                    child: TextFormField(
+                      controller: _capacityCtrl,
+                      keyboardType: TextInputType.number,
+                      textInputAction: TextInputAction.next,
+                      decoration: _inputDecoration('Enter seating capacity'),
+                    ),
+                  ).animate().fadeIn(duration: 310.ms),
+
+                  GPSGaps.h16,
+
+                  // Opening Hours
+                  GpsLabeledField(
+                    label: 'Opening Hours',
+                    child: TextFormField(
+                      controller: _openingHoursCtrl,
+                      textInputAction: TextInputAction.next,
+                      decoration: _inputDecoration('e.g., 9:00 AM - 10:00 PM'),
+                    ),
+                  ).animate().fadeIn(duration: 320.ms),
+
+                  GPSGaps.h16,
+
+                  // Service Options
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Service Options',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: GPSColors.mutedText,
+                        ),
+                      ),
+                      GPSGaps.h8,
+                      Row(
+                        children: [
+                          // Delivery
+                          Expanded(
+                            child: FilterChip(
+                              label: const Text('Delivery'),
+                              selected: _hasDelivery,
+                              onSelected: (selected) => setState(() => _hasDelivery = selected),
+                              checkmarkColor: Colors.white,
+                              selectedColor: GPSColors.primary,
+                              labelStyle: TextStyle(
+                                color: _hasDelivery ? Colors.white : GPSColors.mutedText,
+                              ),
+                            ),
+                          ),
+                          GPSGaps.w8,
+                          // Takeaway
+                          Expanded(
+                            child: FilterChip(
+                              label: const Text('Takeaway'),
+                              selected: _hasTakeaway,
+                              onSelected: (selected) => setState(() => _hasTakeaway = selected),
+                              checkmarkColor: Colors.white,
+                              selectedColor: GPSColors.primary,
+                              labelStyle: TextStyle(
+                                color: _hasTakeaway ? Colors.white : GPSColors.mutedText,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ).animate().fadeIn(duration: 330.ms),
 
                   GPSGaps.h20,
 
@@ -227,11 +395,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 ),
                               )
                               : const Text(
-                                'Create Account',
+                                'Create Restaurant Account',
                                 style: TextStyle(fontWeight: FontWeight.w700),
                               ),
                     ),
-                  ).animate().fadeIn(duration: 280.ms, delay: 90.ms).slideY(begin: .08),
+                  ).animate().fadeIn(duration: 340.ms, delay: 90.ms).slideY(begin: .08),
 
                   GPSGaps.h16,
 

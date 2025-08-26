@@ -12,6 +12,8 @@ import 'package:gps_app/features/design/screens/user/register/register_screen.da
 import 'package:gps_app/features/design/screens/user/resturant_details/resturant_details_screen.dart';
 import 'package:gps_app/features/design/screens/user/scann_image/scan_image_screen.dart';
 import 'package:gps_app/features/design/screens/user/splash/splash_screen.dart';
+import 'package:gps_app/features/design/screens/vendor/login/login_screen.dart';
+import 'package:gps_app/features/design/screens/vendor/register/register_screen.dart';
 
 class AppRouter {
   AppMiddleWare appMiddleWare;
@@ -55,6 +57,16 @@ class AppRouter {
       case AppRoutesNames.marketCategorySelectionScreen:
         return CustomPageRoute(
           builder: (context) => MarketCategorySelectionScreen(),
+          settings: routeSettings,
+        );
+      case AppRoutesNames.restaurantLoginScreen:
+        return CustomPageRoute(
+          builder: (context) => RestaurantLoginScreen(),
+          settings: routeSettings,
+        );
+      case AppRoutesNames.restaurantRegisterScreen:
+        return CustomPageRoute(
+          builder: (context) => RestaurantRegisterScreen(),
           settings: routeSettings,
         );
 
