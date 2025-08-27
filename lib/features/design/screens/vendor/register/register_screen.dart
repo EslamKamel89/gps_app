@@ -4,6 +4,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:gps_app/core/router/app_routes_names.dart';
 import 'package:gps_app/features/design/screens/user/login/widgets/role_toggle.dart';
 import 'package:gps_app/features/design/screens/user/register/widgets/gps_label_field.dart';
+import 'package:gps_app/features/design/screens/vendor/register/widgets/vendor_type_select.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 import 'package:gps_app/features/design/widgets/gps_description.dart';
@@ -83,7 +84,7 @@ class _RestaurantRegisterScreenState extends State<RestaurantRegisterScreen> {
   }
 
   Future<void> _onRegister() async {
-    Navigator.of(context).pushReplacementNamed(AppRoutesNames.dietSelectionScreen);
+    Navigator.of(context).pushNamed(AppRoutesNames.vendorOnboardingBranchesScreen);
   }
 
   @override
@@ -114,8 +115,9 @@ class _RestaurantRegisterScreenState extends State<RestaurantRegisterScreen> {
                   GPSGaps.h12,
                   RoleToggle(isInLoginScreen: false),
                   GPSGaps.h24,
-
+                  VendorTypeSelect(onChanged: (_) {}),
                   // Restaurant Name
+                  GPSGaps.h12,
                   GpsLabeledField(
                     label: 'Restaurant Name',
                     child: TextFormField(
