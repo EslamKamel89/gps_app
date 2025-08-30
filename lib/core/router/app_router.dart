@@ -14,6 +14,7 @@ import 'package:gps_app/features/design/screens/user/scann_image/scan_image_scre
 import 'package:gps_app/features/design/screens/user/splash/splash_screen.dart';
 import 'package:gps_app/features/design/screens/vendor/login/login_screen.dart';
 import 'package:gps_app/features/design/screens/vendor/on_boarding/screens/vendor_onboarding_branches_screen.dart';
+import 'package:gps_app/features/design/screens/vendor/on_boarding/screens/vendor_onboarding_menu_screen.dart';
 import 'package:gps_app/features/design/screens/vendor/register/register_screen.dart';
 
 class AppRouter {
@@ -67,12 +68,17 @@ class AppRouter {
         );
       case AppRoutesNames.restaurantRegisterScreen:
         return CustomPageRoute(
-          builder: (context) => RestaurantRegisterScreen(),
+          builder: (context) => VendorRegisterScreen(),
           settings: routeSettings,
         );
       case AppRoutesNames.vendorOnboardingBranchesScreen:
         return CustomPageRoute(
           builder: (context) => VendorOnboardingBranchesScreen(),
+          settings: routeSettings,
+        );
+      case AppRoutesNames.vendorOnboardingMenuScreen:
+        return CustomPageRoute(
+          builder: (context) => VendorOnboardingMenuScreen(),
           settings: routeSettings,
         );
 

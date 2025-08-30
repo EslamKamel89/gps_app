@@ -76,7 +76,7 @@ class _RoleToggleState extends State<RoleToggle> {
                     decoration: BoxDecoration(borderRadius: BorderRadius.circular(24)),
                     child: Center(
                       child: Text(
-                            'User',
+                            'Consumer',
                             style: TextStyle(
                               color: isUser() ? Colors.white : GPSColors.primary,
                               fontWeight: FontWeight.w600,
@@ -110,7 +110,7 @@ class _RoleToggleState extends State<RoleToggle> {
                     decoration: BoxDecoration(borderRadius: BorderRadius.circular(24)),
                     child: Center(
                       child: Text(
-                            'Restaurant',
+                            'Vendor',
                             style: TextStyle(
                               color: !isUser() ? Colors.white : GPSColors.primary,
                               fontWeight: FontWeight.w600,

@@ -14,4 +14,5 @@ class AppRoutesNames {
   static const String scanImageScreen = '/scanImageScreen';
   static const String marketCategorySelectionScreen = '/marketCategorySelectionScreen';
   static const String vendorOnboardingBranchesScreen = '/vendorOnboardingBranchesScreen';
+  static const String vendorOnboardingMenuScreen = '/vendorOnboardingMenuScreen';
 }

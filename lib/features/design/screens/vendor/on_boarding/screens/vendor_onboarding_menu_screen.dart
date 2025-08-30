@@ -1,49 +1,47 @@
-// features/vendor_onboarding/screens/vendor_onboarding_branches_screen.dart
+// features/vendor_onboarding/screens/vendor_onboarding_menu_screen.dart
 
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:gps_app/core/router/app_routes_names.dart';
 import 'package:gps_app/features/design/screens/user/resturant_details/widgets/add_button.dart';
-import 'package:gps_app/features/design/screens/vendor/on_boarding/models/branch.dart';
-import 'package:gps_app/features/design/screens/vendor/on_boarding/widgets/branch_card.dart';
+import 'package:gps_app/features/design/screens/vendor/on_boarding/models/menu.dart';
+import 'package:gps_app/features/design/screens/vendor/on_boarding/widgets/menu_card.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 
-class VendorOnboardingBranchesScreen extends StatefulWidget {
-  const VendorOnboardingBranchesScreen({super.key});
+class VendorOnboardingMenuScreen extends StatefulWidget {
+  const VendorOnboardingMenuScreen({super.key});
 
   @override
-  State<VendorOnboardingBranchesScreen> createState() => _VendorOnboardingBranchesScreenState();
+  State<VendorOnboardingMenuScreen> createState() => _VendorOnboardingMenuScreenState();
 }
 
-class _VendorOnboardingBranchesScreenState extends State<VendorOnboardingBranchesScreen> {
-  final List<VendorBranch> _branches = [VendorBranch.empty()];
+class _VendorOnboardingMenuScreenState extends State<VendorOnboardingMenuScreen> {
+  final List<VendorMenu> _menus = [VendorMenu.empty()];
 
-  void _addBranch() {
+  void _addMenu() {
     setState(() {
-      _branches.add(VendorBranch.empty());
+      _menus.add(VendorMenu.empty());
     });
   }
 
-  void _removeBranch(VendorBranch branch) {
+  void _removeMenu(VendorMenu menu) {
     setState(() {
-      _branches.remove(branch);
+      _menus.remove(menu);
     });
   }
 
-  void _onBranchChanged(VendorBranch updated) {
-    final index = _branches.indexWhere((b) => b.id == updated.id);
+  void _onMenuChanged(VendorMenu updated) {
+    final index = _menus.indexWhere((m) => m.id == updated.id);
     if (index != -1) {
       setState(() {
-        _branches[index] = updated;
+        _menus[index] = updated;
       });
     }
   }
 
   bool get _isNextEnabled {
     return true;
-    return _branches.isNotEmpty &&
-        _branches.every((b) => b.branchName.isNotEmpty && b.phoneNumber.isNotEmpty);
+    return _menus.isNotEmpty && _menus.any((m) => m.menuName.isNotEmpty);
   }
 
   @override
@@ -53,6 +51,7 @@ class _VendorOnboardingBranchesScreenState extends State<VendorOnboardingBranche
       body: SafeArea(
         child: Column(
           children: [
+            // Header
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               child: Row(
@@ -63,7 +62,7 @@ class _VendorOnboardingBranchesScreenState extends State<VendorOnboardingBranche
                   ),
                   const Spacer(),
                   Text(
-                    'Step 1 of 3',
+                    'Step 2 of 3',
                     style: Theme.of(
                       context,
                     ).textTheme.bodyMedium?.copyWith(color: GPSColors.mutedText),
@@ -78,42 +77,40 @@ class _VendorOnboardingBranchesScreenState extends State<VendorOnboardingBranche
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Title
                     Text(
-                      '📍 Add Your Restaurant Branches',
+                      'Create Your Menus',
                       style: Theme.of(context).textTheme.titleLarge?.copyWith(
                         fontWeight: FontWeight.w800,
-                        color: GPSColors.primary,
+                        color: Colors.black,
                       ),
                     ),
                     GPSGaps.h8,
                     Text(
-                      'Let’s set up all your restaurant locations. You can add multiple branches below.',
+                      'Add menus and items that customers will see. You can create multiple menus (e.g., Lunch, Dinner).',
                       style: Theme.of(
                         context,
                       ).textTheme.bodyMedium?.copyWith(color: GPSColors.mutedText, height: 1.4),
                     ),
                     GPSGaps.h24,
 
-                    // Branch Cards
-                    ..._branches.map((branch) {
-                      return BranchCard(
-                        branch: branch,
-                        onDelete: () => _removeBranch(branch),
-                        onChanged: _onBranchChanged,
+                    // Menu Cards
+                    ..._menus.map((menu) {
+                      return MenuCard(
+                        menu: menu,
+                        onDelete: () => _removeMenu(menu),
+                        onChanged: _onMenuChanged,
                       );
                     }),
 
-                    // Add Another
+                    // Add Another Menu
                     GPSGaps.h12,
-                    AddButton(label: '➕ Add Another Branch', onTap: _addBranch),
+                    AddButton(label: 'Add Another Menu', onTap: _addMenu),
                     GPSGaps.h24,
                   ],
                 ),
               ),
             ),
 
-            // Footer Buttons
             Padding(
               padding: const EdgeInsets.all(16),
               child: Row(
@@ -132,12 +129,9 @@ class _VendorOnboardingBranchesScreenState extends State<VendorOnboardingBranche
                         _isNextEnabled
                             ? () {
                               ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(content: Text("Proceeding to next step...")),
+                                const SnackBar(content: Text("Proceeding to certifications...")),
                               );
-                              // Navigate to Menu Step
-                              Navigator.of(
-                                context,
-                              ).pushNamed(AppRoutesNames.vendorOnboardingMenuScreen);
+                              // Navigator.push(context, MaterialPageRoute(builder: (_) => VendorOnboardingCertificationsScreen()));
                             }
                             : null,
                     style: ElevatedButton.styleFrom(

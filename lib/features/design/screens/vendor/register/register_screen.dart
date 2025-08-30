@@ -10,14 +10,14 @@ import 'package:gps_app/features/design/utils/gps_gaps.dart';
 import 'package:gps_app/features/design/widgets/gps_description.dart';
 import 'package:gps_app/features/design/widgets/pinleaf_logo.dart';
 
-class RestaurantRegisterScreen extends StatefulWidget {
-  const RestaurantRegisterScreen({super.key});
+class VendorRegisterScreen extends StatefulWidget {
+  const VendorRegisterScreen({super.key});
 
   @override
-  State<RestaurantRegisterScreen> createState() => _RestaurantRegisterScreenState();
+  State<VendorRegisterScreen> createState() => _VendorRegisterScreenState();
 }
 
-class _RestaurantRegisterScreenState extends State<RestaurantRegisterScreen> {
+class _VendorRegisterScreenState extends State<VendorRegisterScreen> {
   final _formKey = GlobalKey<FormState>();
 
   final _fullNameCtrl = TextEditingController();
@@ -110,16 +110,15 @@ class _RestaurantRegisterScreenState extends State<RestaurantRegisterScreen> {
                   ).animate().fadeIn(duration: 250.ms).scale(begin: const Offset(0.9, 0.9)),
                   GPSGaps.h16,
                   Center(
-                    child: GpsShortDescription(description: 'Restaurant Register'),
+                    child: GpsShortDescription(description: 'Vendor Register'),
                   ).animate().fadeIn(duration: 240.ms).slideY(begin: .08),
                   GPSGaps.h12,
                   RoleToggle(isInLoginScreen: false),
                   GPSGaps.h24,
                   VendorTypeSelect(onChanged: (_) {}),
-                  // Restaurant Name
                   GPSGaps.h12,
                   GpsLabeledField(
-                    label: 'Restaurant Name',
+                    label: 'Vendor Name',
                     child: TextFormField(
                       controller: _restaurantNameCtrl,
                       textInputAction: TextInputAction.next,
@@ -227,9 +226,8 @@ class _RestaurantRegisterScreenState extends State<RestaurantRegisterScreen> {
 
                   GPSGaps.h16,
 
-                  // Restaurant Address
                   GpsLabeledField(
-                    label: 'Restaurant Address',
+                    label: 'Vendor Address',
                     child: TextFormField(
                       controller: _restaurantAddressCtrl,
                       textInputAction: TextInputAction.next,
@@ -397,7 +395,7 @@ class _RestaurantRegisterScreenState extends State<RestaurantRegisterScreen> {
                                 ),
                               )
                               : const Text(
-                                'Create Restaurant Account',
+                                'Create Vendor Account',
                                 style: TextStyle(fontWeight: FontWeight.w700),
                               ),
                     ),
