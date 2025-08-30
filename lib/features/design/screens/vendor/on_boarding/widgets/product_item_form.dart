@@ -3,17 +3,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:gps_app/features/design/screens/user/register/widgets/gps_label_field.dart';
-import 'package:gps_app/features/design/screens/vendor/on_boarding/models/restaurant_menu.dart';
-import 'package:gps_app/features/design/screens/vendor/on_boarding/widgets/category_dropdown.dart';
+import 'package:gps_app/features/design/screens/vendor/on_boarding/models/category.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 
-class MenuItemForm extends StatefulWidget {
-  final MenuItem item;
+class ProductItemForm extends StatefulWidget {
+  final ProductItem item;
   final VoidCallback onRemove;
-  final ValueChanged<MenuItem> onChanged;
+  final ValueChanged<ProductItem> onChanged;
 
-  const MenuItemForm({
+  const ProductItemForm({
     super.key,
     required this.item,
     required this.onRemove,
@@ -21,11 +20,11 @@ class MenuItemForm extends StatefulWidget {
   });
 
   @override
-  State<MenuItemForm> createState() => _MenuItemFormState();
+  State<ProductItemForm> createState() => _ProductItemFormState();
 }
 
-class _MenuItemFormState extends State<MenuItemForm> {
-  late MenuItem _item;
+class _ProductItemFormState extends State<ProductItemForm> {
+  late ProductItem _item;
 
   @override
   void initState() {
@@ -109,32 +108,9 @@ class _MenuItemFormState extends State<MenuItemForm> {
               ),
             ),
           ),
-          GPSGaps.h12,
 
           // Category
-          GpsLabeledField(
-            label: 'Category',
-            child: CategoryDropdown(
-              value: _item.category,
-              onChanged: (v) => _update('category', v),
-            ),
-          ),
           GPSGaps.h12,
-
-          // Spicy Toggle
-          Row(
-            children: [
-              const Icon(Icons.local_fire_department_rounded, size: 16, color: Colors.orange),
-              GPSGaps.w8,
-              const Text('Spicy?', style: TextStyle(fontSize: 14)),
-              const Spacer(),
-              Switch(
-                value: _item.isSpicy,
-                onChanged: (v) => _update('isSpicy', v),
-                activeColor: Colors.orange,
-              ),
-            ],
-          ),
         ],
       ),
     ).animate().fadeIn(duration: 200.ms).slideY(begin: 0.06);

@@ -1,13 +1,11 @@
-// features/vendor_onboarding/models/menu.dart
-
-class VendorMenu {
+class RestaurantMenu {
   String id;
   String menuName;
   String? description;
   Map<String, String> availabilityHours;
   List<MenuItem> items;
 
-  VendorMenu({
+  RestaurantMenu({
     required this.id,
     required this.menuName,
     this.description,
@@ -15,7 +13,7 @@ class VendorMenu {
     required this.items,
   });
 
-  factory VendorMenu.empty() => VendorMenu(
+  factory RestaurantMenu.empty() => RestaurantMenu(
     id: DateTime.now().millisecondsSinceEpoch.toString(),
     menuName: '',
     availabilityHours: {'Mon-Fri': '11:00 AM - 3:00 PM'},

@@ -2,47 +2,46 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:gps_app/core/router/app_routes_names.dart';
 import 'package:gps_app/features/design/screens/user/resturant_details/widgets/add_button.dart';
-import 'package:gps_app/features/design/screens/vendor/on_boarding/models/restaurant_menu.dart';
-import 'package:gps_app/features/design/screens/vendor/on_boarding/widgets/menu_card.dart';
+import 'package:gps_app/features/design/screens/vendor/on_boarding/models/category.dart';
+import 'package:gps_app/features/design/screens/vendor/on_boarding/widgets/category_card.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 
-class RestaurantOnboardingMenuScreen extends StatefulWidget {
-  const RestaurantOnboardingMenuScreen({super.key});
+class StoreOnboardingProductsScreen extends StatefulWidget {
+  const StoreOnboardingProductsScreen({super.key});
 
   @override
-  State<RestaurantOnboardingMenuScreen> createState() => _RestaurantOnboardingMenuScreenState();
+  State<StoreOnboardingProductsScreen> createState() => _StoreOnboardingProductsScreenState();
 }
 
-class _RestaurantOnboardingMenuScreenState extends State<RestaurantOnboardingMenuScreen> {
-  final List<RestaurantMenu> _menus = [RestaurantMenu.empty()];
+class _StoreOnboardingProductsScreenState extends State<StoreOnboardingProductsScreen> {
+  final List<Category> _categories = [Category.empty()];
 
-  void _addMenu() {
+  void _addCategory() {
     setState(() {
-      _menus.add(RestaurantMenu.empty());
+      _categories.add(Category.empty());
     });
   }
 
-  void _removeMenu(RestaurantMenu menu) {
+  void _removeCategory(Category category) {
     setState(() {
-      _menus.remove(menu);
+      _categories.remove(category);
     });
   }
 
-  void _onMenuChanged(RestaurantMenu updated) {
-    final index = _menus.indexWhere((m) => m.id == updated.id);
+  void _onCategoryChanged(Category updated) {
+    final index = _categories.indexWhere((m) => m.id == updated.id);
     if (index != -1) {
       setState(() {
-        _menus[index] = updated;
+        _categories[index] = updated;
       });
     }
   }
 
   bool get _isNextEnabled {
     return true;
-    return _menus.isNotEmpty && _menus.any((m) => m.menuName.isNotEmpty);
+    return _categories.isNotEmpty && _categories.any((m) => m.menuName.isNotEmpty);
   }
 
   @override
@@ -63,7 +62,7 @@ class _RestaurantOnboardingMenuScreenState extends State<RestaurantOnboardingMen
                   ),
                   const Spacer(),
                   Text(
-                    'Step 2 of 3',
+                    'Store',
                     style: Theme.of(
                       context,
                     ).textTheme.bodyMedium?.copyWith(color: GPSColors.mutedText),
@@ -79,7 +78,7 @@ class _RestaurantOnboardingMenuScreenState extends State<RestaurantOnboardingMen
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Create Your Menus',
+                      'Create Your Categories',
                       style: Theme.of(context).textTheme.titleLarge?.copyWith(
                         fontWeight: FontWeight.w800,
                         color: Colors.black,
@@ -87,25 +86,23 @@ class _RestaurantOnboardingMenuScreenState extends State<RestaurantOnboardingMen
                     ),
                     GPSGaps.h8,
                     Text(
-                      'Add menus and items that customers will see. You can create multiple menus (e.g., Lunch, Dinner).',
+                      "Let's build your store! Create categories and add your products to show customers what you offer",
                       style: Theme.of(
                         context,
                       ).textTheme.bodyMedium?.copyWith(color: GPSColors.mutedText, height: 1.4),
                     ),
                     GPSGaps.h24,
 
-                    // Menu Cards
-                    ..._menus.map((menu) {
-                      return MenuCard(
-                        menu: menu,
-                        onDelete: () => _removeMenu(menu),
-                        onChanged: _onMenuChanged,
+                    ..._categories.map((category) {
+                      return CategoryCard(
+                        category: category,
+                        onDelete: () => _removeCategory(category),
+                        onChanged: _onCategoryChanged,
                       );
                     }),
 
-                    // Add Another Menu
                     GPSGaps.h12,
-                    AddButton(label: 'Add Another Menu', onTap: _addMenu),
+                    AddButton(label: 'Add Another Category', onTap: _addCategory),
                     GPSGaps.h24,
                   ],
                 ),
@@ -129,12 +126,12 @@ class _RestaurantOnboardingMenuScreenState extends State<RestaurantOnboardingMen
                     onPressed:
                         _isNextEnabled
                             ? () {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(content: Text("Proceeding to certifications...")),
-                              );
-                              Navigator.of(
-                                context,
-                              ).pushNamed(AppRoutesNames.restaurantOnboardingCertificationsScreen);
+                              // ScaffoldMessenger.of(context).showSnackBar(
+                              //   const SnackBar(content: Text("Proceeding to certifications...")),
+                              // );
+                              // Navigator.of(
+                              //   context,
+                              // ).pushNamed(AppRoutesNames.restaurantOnboardingCertificationsScreen);
                             }
                             : null,
                     style: ElevatedButton.styleFrom(

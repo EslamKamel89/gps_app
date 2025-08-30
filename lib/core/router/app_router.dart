@@ -13,9 +13,11 @@ import 'package:gps_app/features/design/screens/user/resturant_details/resturant
 import 'package:gps_app/features/design/screens/user/scann_image/scan_image_screen.dart';
 import 'package:gps_app/features/design/screens/user/splash/splash_screen.dart';
 import 'package:gps_app/features/design/screens/vendor/login/login_screen.dart';
+import 'package:gps_app/features/design/screens/vendor/on_boarding/screens/farm_onboarding_products.dart';
 import 'package:gps_app/features/design/screens/vendor/on_boarding/screens/restaurant_onboarding_branches_screen.dart';
 import 'package:gps_app/features/design/screens/vendor/on_boarding/screens/restaurant_onboarding_certifications_screen.dart';
 import 'package:gps_app/features/design/screens/vendor/on_boarding/screens/restaurant_onboarding_menu_screen.dart';
+import 'package:gps_app/features/design/screens/vendor/on_boarding/screens/store_onboarding_products.dart';
 import 'package:gps_app/features/design/screens/vendor/register/register_screen.dart';
 
 class AppRouter {
@@ -85,6 +87,16 @@ class AppRouter {
       case AppRoutesNames.restaurantOnboardingCertificationsScreen:
         return CustomPageRoute(
           builder: (context) => RestaurantOnboardingCertificationsScreen(),
+          settings: routeSettings,
+        );
+      case AppRoutesNames.storeOnboardingProductsScreen:
+        return CustomPageRoute(
+          builder: (context) => StoreOnboardingProductsScreen(),
+          settings: routeSettings,
+        );
+      case AppRoutesNames.farmOnboardingProductsScreen:
+        return CustomPageRoute(
+          builder: (context) => FarmOnboardingProductsScreen(),
           settings: routeSettings,
         );
 

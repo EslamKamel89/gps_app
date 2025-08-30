@@ -16,37 +16,29 @@ enum VendorType {
 }
 
 class VendorTypeSelect extends StatefulWidget {
-  final VendorType? value;
-  final ValueChanged<VendorType> onChanged;
-
-  const VendorTypeSelect({super.key, this.value, required this.onChanged});
+  const VendorTypeSelect({super.key});
 
   @override
   State<VendorTypeSelect> createState() => _VendorTypeSelectState();
 }
 
-class _VendorTypeSelectState extends State<VendorTypeSelect> {
-  late VendorType _selected;
+VendorType vendorType = VendorType.restaurant;
 
+class _VendorTypeSelectState extends State<VendorTypeSelect> {
   @override
   void initState() {
     super.initState();
-    _selected = widget.value ?? VendorType.restaurant;
   }
 
   @override
   void didUpdateWidget(covariant VendorTypeSelect oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (widget.value != null && widget.value != oldWidget.value) {
-      _selected = widget.value!;
-    }
   }
 
   void _onPressed(VendorType type) {
     setState(() {
-      _selected = type;
+      vendorType = type;
     });
-    widget.onChanged(type);
   }
 
   @override
@@ -64,7 +56,7 @@ class _VendorTypeSelectState extends State<VendorTypeSelect> {
         Row(
           children:
               VendorType.values.map((type) {
-                final selected = _selected == type;
+                final selected = vendorType == type;
                 return Expanded(
                   child: GestureDetector(
                     onTap: () => _onPressed(type),

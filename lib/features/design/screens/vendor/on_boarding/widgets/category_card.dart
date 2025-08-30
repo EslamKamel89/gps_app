@@ -6,59 +6,63 @@ import 'package:gps_app/core/extensions/context-extensions.dart';
 import 'package:gps_app/features/design/screens/user/register/widgets/gps_label_field.dart';
 import 'package:gps_app/features/design/screens/user/resturant_details/widgets/add_button.dart';
 import 'package:gps_app/features/design/screens/user/resturant_details/widgets/section_header.dart';
-import 'package:gps_app/features/design/screens/vendor/on_boarding/models/restaurant_menu.dart';
-import 'package:gps_app/features/design/screens/vendor/on_boarding/widgets/menu_item_form.dart';
-import 'package:gps_app/features/design/screens/vendor/on_boarding/widgets/opening_hours_editor.dart';
+import 'package:gps_app/features/design/screens/vendor/on_boarding/models/category.dart';
+import 'package:gps_app/features/design/screens/vendor/on_boarding/widgets/product_item_form.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 
-class MenuCard extends StatefulWidget {
-  final RestaurantMenu menu;
+class CategoryCard extends StatefulWidget {
+  final Category category;
   final VoidCallback onDelete;
-  final ValueChanged<RestaurantMenu> onChanged;
+  final ValueChanged<Category> onChanged;
 
-  const MenuCard({super.key, required this.menu, required this.onDelete, required this.onChanged});
+  const CategoryCard({
+    super.key,
+    required this.category,
+    required this.onDelete,
+    required this.onChanged,
+  });
 
   @override
-  State<MenuCard> createState() => _MenuCardState();
+  State<CategoryCard> createState() => _CategoryCardState();
 }
 
-class _MenuCardState extends State<MenuCard> {
-  late RestaurantMenu _menu;
+class _CategoryCardState extends State<CategoryCard> {
+  late Category _menu;
 
   @override
   void initState() {
-    _menu = widget.menu;
+    _menu = widget.category;
     super.initState();
   }
 
   void _update(String field, dynamic value) {
-    _menu = RestaurantMenu(
+    _menu = Category(
       id: _menu.id,
       menuName: field == 'menuName' ? (value as String) : _menu.menuName,
       description: field == 'description' ? (value as String?) : _menu.description,
       availabilityHours:
           field == 'availabilityHours' ? (value as Map<String, String>) : _menu.availabilityHours,
-      items: field == 'items' ? (value as List<MenuItem>) : _menu.items,
+      items: field == 'items' ? (value as List<ProductItem>) : _menu.items,
     );
     widget.onChanged(_menu);
   }
 
   void _addItem() {
     setState(() {
-      _menu.items.add(MenuItem.empty());
+      _menu.items.add(ProductItem.empty());
     });
     _update('items', _menu.items);
   }
 
-  void _removeItem(MenuItem item) {
+  void _removeItem(ProductItem item) {
     setState(() {
       _menu.items.remove(item);
     });
     _update('items', _menu.items);
   }
 
-  void _onItemChanged(MenuItem updated) {
+  void _onItemChanged(ProductItem updated) {
     final index = _menu.items.indexWhere((i) => i.id == updated.id);
     if (index != -1) {
       setState(() {
@@ -92,7 +96,7 @@ class _MenuCardState extends State<MenuCard> {
           Row(
             children: [
               Text(
-                'Menu • ${_menu.menuName.isEmpty ? 'Untitled' : _menu.menuName}',
+                'Category • ${_menu.menuName.isEmpty ? 'Untitled' : _menu.menuName}',
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
                   fontWeight: FontWeight.w700,
                   color: GPSColors.text,
@@ -102,7 +106,7 @@ class _MenuCardState extends State<MenuCard> {
               IconButton(
                 icon: const Icon(Icons.delete_outline, color: Colors.red),
                 onPressed: widget.onDelete,
-                tooltip: 'Delete Menu',
+                tooltip: 'Delete Category',
               ),
             ],
           ),
@@ -110,11 +114,11 @@ class _MenuCardState extends State<MenuCard> {
 
           // Menu Name
           GpsLabeledField(
-            label: 'Menu Name',
+            label: 'Category Name',
             child: TextFormField(
               initialValue: _menu.menuName,
               onChanged: (v) => _update('menuName', v),
-              decoration: const InputDecoration(hintText: 'e.g., Lunch Menu'),
+              decoration: const InputDecoration(hintText: 'e.g., Organic'),
             ),
           ),
           GPSGaps.h16,
@@ -129,17 +133,10 @@ class _MenuCardState extends State<MenuCard> {
               decoration: const InputDecoration(hintText: 'e.g., Weekday lunch specials'),
             ),
           ),
-          GPSGaps.h16,
 
-          // Availability Hours
-          OpeningHoursEditor(
-            hours: _menu.availabilityHours,
-            onChanged: (hours) => _update('availabilityHours', hours),
-          ),
           GPSGaps.h20,
 
-          // Menu Items Section
-          const SectionHeader(title: 'Menu Items'),
+          const SectionHeader(title: 'Category Items'),
           GPSGaps.h12,
           if (_menu.items.isEmpty)
             Text(
@@ -147,7 +144,7 @@ class _MenuCardState extends State<MenuCard> {
               style: Theme.of(context).textTheme.bodySmall?.copyWith(color: GPSColors.mutedText),
             ),
           ..._menu.items.map((item) {
-            return MenuItemForm(
+            return ProductItemForm(
               item: item,
               onRemove: () => _removeItem(item),
               onChanged: _onItemChanged,
@@ -159,7 +156,7 @@ class _MenuCardState extends State<MenuCard> {
             alignment: Alignment.centerRight,
             child: SizedBox(
               width: context.width * 0.5,
-              child: AddButton(label: 'Add Menu Item', onTap: _addItem),
+              child: AddButton(label: 'Add Category Item', onTap: _addItem),
             ),
           ),
         ],

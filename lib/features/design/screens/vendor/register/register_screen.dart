@@ -84,7 +84,13 @@ class _VendorRegisterScreenState extends State<VendorRegisterScreen> {
   }
 
   Future<void> _onRegister() async {
-    Navigator.of(context).pushNamed(AppRoutesNames.restaurantOnboardingBranchesScreen);
+    if (vendorType == VendorType.restaurant) {
+      Navigator.of(context).pushNamed(AppRoutesNames.restaurantOnboardingBranchesScreen);
+    } else if (vendorType == VendorType.farm) {
+      Navigator.of(context).pushNamed(AppRoutesNames.farmOnboardingProductsScreen);
+    } else if (vendorType == VendorType.store) {
+      Navigator.of(context).pushNamed(AppRoutesNames.storeOnboardingProductsScreen);
+    }
   }
 
   @override
@@ -115,7 +121,7 @@ class _VendorRegisterScreenState extends State<VendorRegisterScreen> {
                   GPSGaps.h12,
                   RoleToggle(isInLoginScreen: false),
                   GPSGaps.h24,
-                  VendorTypeSelect(onChanged: (_) {}),
+                  VendorTypeSelect(),
                   GPSGaps.h12,
                   GpsLabeledField(
                     label: 'Vendor Name',
