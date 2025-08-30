@@ -13,8 +13,8 @@ class AppRoutesNames {
   static const String foodSelectionScreen = '/foodSelectionScreen';
   static const String scanImageScreen = '/scanImageScreen';
   static const String marketCategorySelectionScreen = '/marketCategorySelectionScreen';
-  static const String vendorOnboardingBranchesScreen = '/vendorOnboardingBranchesScreen';
-  static const String vendorOnboardingMenuScreen = '/vendorOnboardingMenuScreen';
-  static const String vendorOnboardingCertificationsScreen =
-      '/vendorOnboardingCertificationsScreen';
+  static const String restaurantOnboardingBranchesScreen = '/restaurantOnboardingBranchesScreen';
+  static const String restaurantOnboardingMenuScreen = '/restaurantOnboardingMenuScreen';
+  static const String restaurantOnboardingCertificationsScreen =
+      '/restaurantOnboardingCertificationsScreen';
 }

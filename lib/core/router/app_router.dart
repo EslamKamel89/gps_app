@@ -13,9 +13,9 @@ import 'package:gps_app/features/design/screens/user/resturant_details/resturant
 import 'package:gps_app/features/design/screens/user/scann_image/scan_image_screen.dart';
 import 'package:gps_app/features/design/screens/user/splash/splash_screen.dart';
 import 'package:gps_app/features/design/screens/vendor/login/login_screen.dart';
-import 'package:gps_app/features/design/screens/vendor/on_boarding/screens/vendor_onboarding_branches_screen.dart';
-import 'package:gps_app/features/design/screens/vendor/on_boarding/screens/vendor_onboarding_certifications_screen.dart';
-import 'package:gps_app/features/design/screens/vendor/on_boarding/screens/vendor_onboarding_menu_screen.dart';
+import 'package:gps_app/features/design/screens/vendor/on_boarding/screens/restaurant_onboarding_branches_screen.dart';
+import 'package:gps_app/features/design/screens/vendor/on_boarding/screens/restaurant_onboarding_certifications_screen.dart';
+import 'package:gps_app/features/design/screens/vendor/on_boarding/screens/restaurant_onboarding_menu_screen.dart';
 import 'package:gps_app/features/design/screens/vendor/register/register_screen.dart';
 
 class AppRouter {
@@ -72,19 +72,19 @@ class AppRouter {
           builder: (context) => VendorRegisterScreen(),
           settings: routeSettings,
         );
-      case AppRoutesNames.vendorOnboardingBranchesScreen:
+      case AppRoutesNames.restaurantOnboardingBranchesScreen:
         return CustomPageRoute(
-          builder: (context) => VendorOnboardingBranchesScreen(),
+          builder: (context) => RestaurantOnboardingBranchesScreen(),
           settings: routeSettings,
         );
-      case AppRoutesNames.vendorOnboardingMenuScreen:
+      case AppRoutesNames.restaurantOnboardingMenuScreen:
         return CustomPageRoute(
-          builder: (context) => VendorOnboardingMenuScreen(),
+          builder: (context) => RestaurantOnboardingMenuScreen(),
           settings: routeSettings,
         );
-      case AppRoutesNames.vendorOnboardingCertificationsScreen:
+      case AppRoutesNames.restaurantOnboardingCertificationsScreen:
         return CustomPageRoute(
-          builder: (context) => VendorOnboardingCertificationsScreen(),
+          builder: (context) => RestaurantOnboardingCertificationsScreen(),
           settings: routeSettings,
         );
 

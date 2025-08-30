@@ -9,14 +9,14 @@ import 'package:gps_app/features/design/screens/vendor/on_boarding/widgets/menu_
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 
-class VendorOnboardingMenuScreen extends StatefulWidget {
-  const VendorOnboardingMenuScreen({super.key});
+class RestaurantOnboardingMenuScreen extends StatefulWidget {
+  const RestaurantOnboardingMenuScreen({super.key});
 
   @override
-  State<VendorOnboardingMenuScreen> createState() => _VendorOnboardingMenuScreenState();
+  State<RestaurantOnboardingMenuScreen> createState() => _RestaurantOnboardingMenuScreenState();
 }
 
-class _VendorOnboardingMenuScreenState extends State<VendorOnboardingMenuScreen> {
+class _RestaurantOnboardingMenuScreenState extends State<RestaurantOnboardingMenuScreen> {
   final List<VendorMenu> _menus = [VendorMenu.empty()];
 
   void _addMenu() {
@@ -134,7 +134,7 @@ class _VendorOnboardingMenuScreenState extends State<VendorOnboardingMenuScreen>
                               );
                               Navigator.of(
                                 context,
-                              ).pushNamed(AppRoutesNames.vendorOnboardingCertificationsScreen);
+                              ).pushNamed(AppRoutesNames.restaurantOnboardingCertificationsScreen);
                             }
                             : null,
                     style: ElevatedButton.styleFrom(

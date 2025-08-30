@@ -84,7 +84,7 @@ class _VendorRegisterScreenState extends State<VendorRegisterScreen> {
   }
 
   Future<void> _onRegister() async {
-    Navigator.of(context).pushNamed(AppRoutesNames.vendorOnboardingBranchesScreen);
+    Navigator.of(context).pushNamed(AppRoutesNames.restaurantOnboardingBranchesScreen);
   }
 
   @override

@@ -1,47 +1,51 @@
-// features/vendor_onboarding/screens/vendor_onboarding_certifications_screen.dart
+// features/vendor_onboarding/screens/vendor_onboarding_branches_screen.dart
 
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:gps_app/core/router/app_routes_names.dart';
 import 'package:gps_app/features/design/screens/user/resturant_details/widgets/add_button.dart';
-import 'package:gps_app/features/design/screens/vendor/on_boarding/models/proof.dart';
-import 'package:gps_app/features/design/screens/vendor/on_boarding/widgets/proof_card.dart';
+import 'package:gps_app/features/design/screens/vendor/on_boarding/models/branch.dart';
+import 'package:gps_app/features/design/screens/vendor/on_boarding/widgets/branch_card.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 
-class VendorOnboardingCertificationsScreen extends StatefulWidget {
-  const VendorOnboardingCertificationsScreen({super.key});
+class RestaurantOnboardingBranchesScreen extends StatefulWidget {
+  const RestaurantOnboardingBranchesScreen({super.key});
 
   @override
-  State<VendorOnboardingCertificationsScreen> createState() =>
-      _VendorOnboardingCertificationsScreenState();
+  State<RestaurantOnboardingBranchesScreen> createState() =>
+      _RestaurantOnboardingBranchesScreenState();
 }
 
-class _VendorOnboardingCertificationsScreenState
-    extends State<VendorOnboardingCertificationsScreen> {
-  final List<VendorProof> _proofs = [VendorProof.empty()];
+class _RestaurantOnboardingBranchesScreenState extends State<RestaurantOnboardingBranchesScreen> {
+  final List<VendorBranch> _branches = [VendorBranch.empty()];
 
-  void _addProof() {
+  void _addBranch() {
     setState(() {
-      _proofs.add(VendorProof.empty());
+      _branches.add(VendorBranch.empty());
     });
   }
 
-  void _removeProof(VendorProof proof) {
+  void _removeBranch(VendorBranch branch) {
     setState(() {
-      _proofs.remove(proof);
+      _branches.remove(branch);
     });
   }
 
-  void _onProofChanged(VendorProof updated) {
-    final index = _proofs.indexWhere((p) => p.id == updated.id);
+  void _onBranchChanged(VendorBranch updated) {
+    final index = _branches.indexWhere((b) => b.id == updated.id);
     if (index != -1) {
       setState(() {
-        _proofs[index] = updated;
+        _branches[index] = updated;
       });
     }
   }
 
-  bool get _isDoneEnabled => _proofs.any((p) => p.title.isNotEmpty);
+  bool get _isNextEnabled {
+    return true;
+    return _branches.isNotEmpty &&
+        _branches.every((b) => b.branchName.isNotEmpty && b.phoneNumber.isNotEmpty);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +54,6 @@ class _VendorOnboardingCertificationsScreenState
       body: SafeArea(
         child: Column(
           children: [
-            // Header
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               child: Row(
@@ -61,7 +64,7 @@ class _VendorOnboardingCertificationsScreenState
                   ),
                   const Spacer(),
                   Text(
-                    'Step 3 of 3',
+                    'Step 1 of 3',
                     style: Theme.of(
                       context,
                     ).textTheme.bodyMedium?.copyWith(color: GPSColors.mutedText),
@@ -78,33 +81,33 @@ class _VendorOnboardingCertificationsScreenState
                   children: [
                     // Title
                     Text(
-                      '📄 Add Your Certifications & Proofs',
+                      '📍 Add Your Restaurant Branches',
                       style: Theme.of(context).textTheme.titleLarge?.copyWith(
                         fontWeight: FontWeight.w800,
-                        color: Colors.black,
+                        color: GPSColors.primary,
                       ),
                     ),
                     GPSGaps.h8,
                     Text(
-                      'Upload licenses, permits, or certifications that verify your business or farm practices.',
+                      'Let’s set up all your restaurant locations. You can add multiple branches below.',
                       style: Theme.of(
                         context,
                       ).textTheme.bodyMedium?.copyWith(color: GPSColors.mutedText, height: 1.4),
                     ),
                     GPSGaps.h24,
 
-                    // Proof Cards
-                    ..._proofs.map((proof) {
-                      return ProofCard(
-                        proof: proof,
-                        onDelete: () => _removeProof(proof),
-                        onChanged: _onProofChanged,
+                    // Branch Cards
+                    ..._branches.map((branch) {
+                      return BranchCard(
+                        branch: branch,
+                        onDelete: () => _removeBranch(branch),
+                        onChanged: _onBranchChanged,
                       );
                     }),
 
-                    // Add Another Proof
+                    // Add Another
                     GPSGaps.h12,
-                    AddButton(label: 'Add Another Proof', onTap: _addProof),
+                    AddButton(label: '➕ Add Another Branch', onTap: _addBranch),
                     GPSGaps.h24,
                   ],
                 ),
@@ -127,20 +130,22 @@ class _VendorOnboardingCertificationsScreenState
                   const Spacer(),
                   ElevatedButton(
                     onPressed:
-                        _isDoneEnabled
+                        _isNextEnabled
                             ? () {
-                              ScaffoldMessenger.of(
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(content: Text("Proceeding to next step...")),
+                              );
+                              // Navigate to Menu Step
+                              Navigator.of(
                                 context,
-                              ).showSnackBar(const SnackBar(content: Text("Onboarding complete!")));
-                              // Navigate to dashboard
-                              // Navigator.pushReplacementNamed(context, AppRoutesNames.vendorDashboard);
+                              ).pushNamed(AppRoutesNames.restaurantOnboardingMenuScreen);
                             }
                             : null,
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
                     ),
-                    child: const Text('Done'),
+                    child: const Text('Next →'),
                   ),
                 ],
               ),
