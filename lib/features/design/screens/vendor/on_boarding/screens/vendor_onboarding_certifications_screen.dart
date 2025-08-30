@@ -1,49 +1,47 @@
-// features/vendor_onboarding/screens/vendor_onboarding_menu_screen.dart
+// features/vendor_onboarding/screens/vendor_onboarding_certifications_screen.dart
 
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:gps_app/core/router/app_routes_names.dart';
 import 'package:gps_app/features/design/screens/user/resturant_details/widgets/add_button.dart';
-import 'package:gps_app/features/design/screens/vendor/on_boarding/models/menu.dart';
-import 'package:gps_app/features/design/screens/vendor/on_boarding/widgets/menu_card.dart';
+import 'package:gps_app/features/design/screens/vendor/on_boarding/models/proof.dart';
+import 'package:gps_app/features/design/screens/vendor/on_boarding/widgets/proof_card.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 
-class VendorOnboardingMenuScreen extends StatefulWidget {
-  const VendorOnboardingMenuScreen({super.key});
+class VendorOnboardingCertificationsScreen extends StatefulWidget {
+  const VendorOnboardingCertificationsScreen({super.key});
 
   @override
-  State<VendorOnboardingMenuScreen> createState() => _VendorOnboardingMenuScreenState();
+  State<VendorOnboardingCertificationsScreen> createState() =>
+      _VendorOnboardingCertificationsScreenState();
 }
 
-class _VendorOnboardingMenuScreenState extends State<VendorOnboardingMenuScreen> {
-  final List<VendorMenu> _menus = [VendorMenu.empty()];
+class _VendorOnboardingCertificationsScreenState
+    extends State<VendorOnboardingCertificationsScreen> {
+  final List<VendorProof> _proofs = [VendorProof.empty()];
 
-  void _addMenu() {
+  void _addProof() {
     setState(() {
-      _menus.add(VendorMenu.empty());
+      _proofs.add(VendorProof.empty());
     });
   }
 
-  void _removeMenu(VendorMenu menu) {
+  void _removeProof(VendorProof proof) {
     setState(() {
-      _menus.remove(menu);
+      _proofs.remove(proof);
     });
   }
 
-  void _onMenuChanged(VendorMenu updated) {
-    final index = _menus.indexWhere((m) => m.id == updated.id);
+  void _onProofChanged(VendorProof updated) {
+    final index = _proofs.indexWhere((p) => p.id == updated.id);
     if (index != -1) {
       setState(() {
-        _menus[index] = updated;
+        _proofs[index] = updated;
       });
     }
   }
 
-  bool get _isNextEnabled {
-    return true;
-    return _menus.isNotEmpty && _menus.any((m) => m.menuName.isNotEmpty);
-  }
+  bool get _isDoneEnabled => _proofs.any((p) => p.title.isNotEmpty);
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +61,7 @@ class _VendorOnboardingMenuScreenState extends State<VendorOnboardingMenuScreen>
                   ),
                   const Spacer(),
                   Text(
-                    'Step 2 of 3',
+                    'Step 3 of 3',
                     style: Theme.of(
                       context,
                     ).textTheme.bodyMedium?.copyWith(color: GPSColors.mutedText),
@@ -78,8 +76,9 @@ class _VendorOnboardingMenuScreenState extends State<VendorOnboardingMenuScreen>
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    // Title
                     Text(
-                      'Create Your Menus',
+                      '📄 Add Your Certifications & Proofs',
                       style: Theme.of(context).textTheme.titleLarge?.copyWith(
                         fontWeight: FontWeight.w800,
                         color: Colors.black,
@@ -87,31 +86,32 @@ class _VendorOnboardingMenuScreenState extends State<VendorOnboardingMenuScreen>
                     ),
                     GPSGaps.h8,
                     Text(
-                      'Add menus and items that customers will see. You can create multiple menus (e.g., Lunch, Dinner).',
+                      'Upload licenses, permits, or certifications that verify your business or farm practices.',
                       style: Theme.of(
                         context,
                       ).textTheme.bodyMedium?.copyWith(color: GPSColors.mutedText, height: 1.4),
                     ),
                     GPSGaps.h24,
 
-                    // Menu Cards
-                    ..._menus.map((menu) {
-                      return MenuCard(
-                        menu: menu,
-                        onDelete: () => _removeMenu(menu),
-                        onChanged: _onMenuChanged,
+                    // Proof Cards
+                    ..._proofs.map((proof) {
+                      return ProofCard(
+                        proof: proof,
+                        onDelete: () => _removeProof(proof),
+                        onChanged: _onProofChanged,
                       );
                     }),
 
-                    // Add Another Menu
+                    // Add Another Proof
                     GPSGaps.h12,
-                    AddButton(label: 'Add Another Menu', onTap: _addMenu),
+                    AddButton(label: 'Add Another Proof', onTap: _addProof),
                     GPSGaps.h24,
                   ],
                 ),
               ),
             ),
 
+            // Footer Buttons
             Padding(
               padding: const EdgeInsets.all(16),
               child: Row(
@@ -127,21 +127,20 @@ class _VendorOnboardingMenuScreenState extends State<VendorOnboardingMenuScreen>
                   const Spacer(),
                   ElevatedButton(
                     onPressed:
-                        _isNextEnabled
+                        _isDoneEnabled
                             ? () {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(content: Text("Proceeding to certifications...")),
-                              );
-                              Navigator.of(
+                              ScaffoldMessenger.of(
                                 context,
-                              ).pushNamed(AppRoutesNames.vendorOnboardingCertificationsScreen);
+                              ).showSnackBar(const SnackBar(content: Text("Onboarding complete!")));
+                              // Navigate to dashboard
+                              // Navigator.pushReplacementNamed(context, AppRoutesNames.vendorDashboard);
                             }
                             : null,
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
                     ),
-                    child: const Text('Next →'),
+                    child: const Text('Done'),
                   ),
                 ],
               ),
