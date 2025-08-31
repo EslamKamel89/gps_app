@@ -1,8 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:gps_app/core/heleprs/snackbar.dart';
+import 'package:gps_app/core/helpers/snackbar.dart';
 import 'package:gps_app/core/static_data/app_strings.dart';
-import 'package:gps_app/core/themes/toogle_theme_switch.dart';
+import 'package:gps_app/core/themes/toggle_theme_switch.dart';
 import 'package:gps_app/core/widgets/bottom_navigation_bar.dart';
 import 'package:gps_app/core/widgets/default_drawer.dart';
 import 'package:gps_app/core/widgets/default_screen_padding.dart';

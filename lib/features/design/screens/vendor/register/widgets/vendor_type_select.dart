@@ -16,17 +16,19 @@ enum VendorType {
 }
 
 class VendorTypeSelect extends StatefulWidget {
-  const VendorTypeSelect({super.key});
+  const VendorTypeSelect({super.key, this.initialType, required this.onSelect});
+  final VendorType? initialType;
+  final Function(VendorType type) onSelect;
 
   @override
   State<VendorTypeSelect> createState() => _VendorTypeSelectState();
 }
 
-VendorType vendorType = VendorType.restaurant;
-
 class _VendorTypeSelectState extends State<VendorTypeSelect> {
+  VendorType? vendorType;
   @override
   void initState() {
+    vendorType = widget.initialType;
     super.initState();
   }
 
@@ -39,6 +41,7 @@ class _VendorTypeSelectState extends State<VendorTypeSelect> {
     setState(() {
       vendorType = type;
     });
+    widget.onSelect(type);
   }
 
   @override

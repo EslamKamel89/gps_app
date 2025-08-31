@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:gps_app/core/helpers/snackbar.dart';
 import 'package:gps_app/core/router/app_routes_names.dart';
 import 'package:gps_app/features/design/screens/user/login/widgets/role_toggle.dart';
 import 'package:gps_app/features/design/screens/user/register/widgets/gps_label_field.dart';
@@ -30,6 +31,7 @@ class _VendorRegisterScreenState extends State<VendorRegisterScreen> {
   final _cuisineTypeCtrl = TextEditingController();
   final _openingHoursCtrl = TextEditingController();
   final _capacityCtrl = TextEditingController();
+  VendorType? vendorType;
 
   bool _obscure = true;
   final bool _loading = false;
@@ -90,6 +92,20 @@ class _VendorRegisterScreenState extends State<VendorRegisterScreen> {
       Navigator.of(context).pushNamed(AppRoutesNames.farmOnboardingProductsScreen);
     } else if (vendorType == VendorType.store) {
       Navigator.of(context).pushNamed(AppRoutesNames.storeOnboardingProductsScreen);
+    } else {
+      showSnackbar('Error', 'Please select your business type', true);
+    }
+  }
+
+  String _vendorTypeName() {
+    if (vendorType == VendorType.restaurant) {
+      return 'Restaurant';
+    } else if (vendorType == VendorType.farm) {
+      return 'Farm';
+    } else if (vendorType == VendorType.store) {
+      return 'Store';
+    } else {
+      return 'Vendor';
     }
   }
 
@@ -116,15 +132,21 @@ class _VendorRegisterScreenState extends State<VendorRegisterScreen> {
                   ).animate().fadeIn(duration: 250.ms).scale(begin: const Offset(0.9, 0.9)),
                   GPSGaps.h16,
                   Center(
-                    child: GpsShortDescription(description: 'Vendor Register'),
+                    child: GpsShortDescription(description: '${_vendorTypeName()} Register'),
                   ).animate().fadeIn(duration: 240.ms).slideY(begin: .08),
                   GPSGaps.h12,
                   RoleToggle(isInLoginScreen: false),
                   GPSGaps.h24,
-                  VendorTypeSelect(),
+                  VendorTypeSelect(
+                    onSelect: (type) {
+                      setState(() {
+                        vendorType = type;
+                      });
+                    },
+                  ),
                   GPSGaps.h12,
                   GpsLabeledField(
-                    label: 'Vendor Name',
+                    label: '${_vendorTypeName()} Name',
                     child: TextFormField(
                       controller: _restaurantNameCtrl,
                       textInputAction: TextInputAction.next,
@@ -233,7 +255,7 @@ class _VendorRegisterScreenState extends State<VendorRegisterScreen> {
                   GPSGaps.h16,
 
                   GpsLabeledField(
-                    label: 'Vendor Address',
+                    label: '${_vendorTypeName()} Address',
                     child: TextFormField(
                       controller: _restaurantAddressCtrl,
                       textInputAction: TextInputAction.next,
@@ -400,8 +422,8 @@ class _VendorRegisterScreenState extends State<VendorRegisterScreen> {
                                   color: Colors.white,
                                 ),
                               )
-                              : const Text(
-                                'Create Vendor Account',
+                              : Text(
+                                'Create ${_vendorTypeName()} Account',
                                 style: TextStyle(fontWeight: FontWeight.w700),
                               ),
                     ),

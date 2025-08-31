@@ -1,4 +1,4 @@
-import 'package:gps_app/core/heleprs/print_helper.dart';
+import 'package:gps_app/core/helpers/print_helper.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 

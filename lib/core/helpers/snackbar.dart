@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gps_app/core/globals.dart';
-import 'package:gps_app/core/heleprs/print_helper.dart';
+import 'package:gps_app/core/helpers/print_helper.dart';
 
 void showSnackbar(String title, String message, bool isError) {
   if (navigatorKey.currentState != null) {
