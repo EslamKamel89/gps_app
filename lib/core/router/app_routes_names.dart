@@ -19,4 +19,5 @@ class AppRoutesNames {
       '/restaurantOnboardingCertificationsScreen';
   static const String storeOnboardingProductsScreen = '/storeOnboardingProductsScreen';
   static const String farmOnboardingProductsScreen = '/farmOnboardingProductsScreen';
+  static const String emptyScreen = '/emptyScreen';
 }
