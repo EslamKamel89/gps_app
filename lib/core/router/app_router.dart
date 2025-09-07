@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:gps_app/core/router/app_routes_names.dart';
 import 'package:gps_app/core/router/middleware.dart';
 import 'package:gps_app/features/design/screens/empty_screen.dart';
-import 'package:gps_app/features/design/screens/user/category_selection/category_selection_screen.dart';
 import 'package:gps_app/features/design/screens/user/diet_selection/diet_selection_screen.dart';
 import 'package:gps_app/features/design/screens/user/food_selection/food_selection_screen.dart';
 import 'package:gps_app/features/design/screens/user/home_search/home_search_screen.dart';
@@ -20,6 +19,7 @@ import 'package:gps_app/features/design/screens/vendor/on_boarding/screens/resta
 import 'package:gps_app/features/design/screens/vendor/on_boarding/screens/restaurant_onboarding_menu_screen.dart';
 import 'package:gps_app/features/design/screens/vendor/on_boarding/screens/store_onboarding_products.dart';
 import 'package:gps_app/features/design/screens/vendor/register/register_screen.dart';
+import 'package:gps_app/features/user/categories/presentation/category_selection_screen.dart';
 
 class AppRouter {
   AppMiddleWare appMiddleWare;
