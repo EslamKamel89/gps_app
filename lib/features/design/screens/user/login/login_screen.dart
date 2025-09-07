@@ -59,7 +59,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       controller: _emailCtrl,
                       keyboardType: TextInputType.emailAddress,
                       textInputAction: TextInputAction.next,
-                      decoration: _inputDecoration('Enter your email or username'),
+                      decoration: _inputDecoration(
+                        'Enter your email or username',
+                      ),
                     ),
                   ),
                   GPSGaps.h16,
@@ -68,7 +70,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: TextFormField(
                       controller: _passCtrl,
                       obscureText: _obscure,
-                      decoration: _inputDecoration('Enter your password').copyWith(
+                      decoration: _inputDecoration(
+                        'Enter your password',
+                      ).copyWith(
                         suffixIcon: IconButton(
                           icon: Icon(
                             _obscure ? Icons.visibility_off : Icons.visibility,
@@ -81,34 +85,44 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   GPSGaps.h20,
                   SizedBox(
-                    height: 52,
-                    child: ElevatedButton(
-                      onPressed: _loading ? null : _submit,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: GPSColors.primary,
-                        foregroundColor: Colors.white,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                      ),
-                      child:
-                          _loading
-                              ? const SizedBox(
-                                height: 22,
-                                width: 22,
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 2,
-                                  color: Colors.white,
-                                ),
-                              )
-                              : const Text('Login', style: TextStyle(fontWeight: FontWeight.w700)),
-                    ),
-                  ).animate().fadeIn(duration: 280.ms, delay: 120.ms).slideY(begin: .08),
+                        height: 52,
+                        child: ElevatedButton(
+                          onPressed: _loading ? null : _submit,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: GPSColors.primary,
+                            foregroundColor: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                          ),
+                          child:
+                              _loading
+                                  ? const SizedBox(
+                                    height: 22,
+                                    width: 22,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2,
+                                      color: Colors.white,
+                                    ),
+                                  )
+                                  : const Text(
+                                    'Login',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                        ),
+                      )
+                      .animate()
+                      .fadeIn(duration: 280.ms, delay: 120.ms)
+                      .slideY(begin: .08),
                   GPSGaps.h24,
                   RichText(
                     textAlign: TextAlign.center,
                     text: TextSpan(
-                      style: Theme.of(
-                        context,
-                      ).textTheme.bodyMedium?.copyWith(color: GPSColors.mutedText),
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        color: GPSColors.mutedText,
+                      ),
                       children: [
                         const TextSpan(text: "Don't have an account? Please "),
                         TextSpan(
@@ -120,7 +134,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           recognizer:
                               TapGestureRecognizer()
                                 ..onTap = () {
-                                  Navigator.of(context).pushNamed(AppRoutesNames.registerScreen);
+                                  Navigator.of(
+                                    context,
+                                  ).pushNamed(AppRoutesNames.registerScreen);
                                 },
                         ),
                       ],
@@ -130,9 +146,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   RichText(
                     textAlign: TextAlign.center,
                     text: TextSpan(
-                      style: Theme.of(
-                        context,
-                      ).textTheme.bodyMedium?.copyWith(color: GPSColors.mutedText),
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        color: GPSColors.mutedText,
+                      ),
                       children: [
                         const TextSpan(text: 'Forget '),
                         TextSpan(

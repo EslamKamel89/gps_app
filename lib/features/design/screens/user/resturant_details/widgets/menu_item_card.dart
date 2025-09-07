@@ -74,7 +74,10 @@ class MenuItemCard extends StatelessWidget {
                       runSpacing: 8,
                       children: [
                         if (item.isSpicy)
-                          const Pill(label: 'Spicy', icon: Icons.local_fire_department_rounded),
+                          const Pill(
+                            label: 'Spicy',
+                            icon: Icons.local_fire_department_rounded,
+                          ),
                         for (final t in item.tags) Pill(label: t),
                       ],
                     ),
@@ -84,7 +87,10 @@ class MenuItemCard extends StatelessWidget {
                         // Expanded(child: _AddButton(label: 'Add to order', onTap: () {})),
                         Spacer(),
                         // GPSGaps.w12,
-                        IconAction(icon: Icons.favorite_border_rounded, onTap: () {}),
+                        IconAction(
+                          icon: Icons.favorite_border_rounded,
+                          onTap: () {},
+                        ),
                       ],
                     ),
                   ],

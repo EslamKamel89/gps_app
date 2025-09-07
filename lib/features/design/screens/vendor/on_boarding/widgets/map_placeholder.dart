@@ -23,9 +23,10 @@ class MapPlaceholder extends StatelessWidget {
       children: [
         Text(
           'Location on Map',
-          style: Theme.of(
-            context,
-          ).textTheme.labelLarge?.copyWith(fontWeight: FontWeight.w600, color: GPSColors.text),
+          style: Theme.of(context).textTheme.labelLarge?.copyWith(
+            fontWeight: FontWeight.w600,
+            color: GPSColors.text,
+          ),
         ),
         GPSGaps.h8,
         Stack(
@@ -56,7 +57,10 @@ class MapPlaceholder extends StatelessWidget {
                       (ctx, err, st) => Container(
                         color: GPSColors.cardBorder,
                         child: const Center(
-                          child: Icon(Icons.map_outlined, color: GPSColors.mutedText),
+                          child: Icon(
+                            Icons.map_outlined,
+                            color: GPSColors.mutedText,
+                          ),
                         ),
                       ),
                 ),
@@ -71,7 +75,9 @@ class MapPlaceholder extends StatelessWidget {
               child: OutlinedButton.icon(
                 style: OutlinedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(vertical: 12),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(24),
+                  ),
                 ),
                 icon: const Icon(Icons.my_location_rounded, size: 16),
                 label: const Text('Use Current Location'),

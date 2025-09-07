@@ -6,7 +6,8 @@ class CheckBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bg = isSelected ? Theme.of(context).colorScheme.primary : Colors.white70;
+    final bg =
+        isSelected ? Theme.of(context).colorScheme.primary : Colors.white70;
     final fg = isSelected ? Colors.white : Colors.black87;
 
     return AnimatedContainer(

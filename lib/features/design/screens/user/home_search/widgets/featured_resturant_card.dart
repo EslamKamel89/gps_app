@@ -24,7 +24,9 @@ class FeaturedRestaurantCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ClipRRect(
-                borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+                borderRadius: const BorderRadius.vertical(
+                  top: Radius.circular(16),
+                ),
                 child: AspectRatio(
                   aspectRatio: 16 / 9,
                   child: Image.network(
@@ -44,7 +46,9 @@ class FeaturedRestaurantCard extends StatelessWidget {
                         GPSGaps.w8,
                         Text(
                           'GPS Verified',
-                          style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                          style: Theme.of(
+                            context,
+                          ).textTheme.labelMedium?.copyWith(
                             color: GPSColors.mutedText,
                             fontWeight: FontWeight.w700,
                           ),

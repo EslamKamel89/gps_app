@@ -29,9 +29,10 @@ class CategoryShortcutWidget extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Text(
               "Most 💖 Categories",
-              style: Theme.of(
-                context,
-              ).textTheme.titleLarge?.copyWith(color: GPSColors.text, fontWeight: FontWeight.w800),
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                color: GPSColors.text,
+                fontWeight: FontWeight.w800,
+              ),
             ).animate().fadeIn(duration: 250.ms).slideY(begin: .15),
           ),
           GPSGaps.h12,
@@ -48,7 +49,9 @@ class CategoryShortcutWidget extends StatelessWidget {
                       name: it.name,
                       imageUrl: it.imageUrl,
                       onTap: () {
-                        Navigator.of(context).pushNamed(AppRoutesNames.restaurantDetailScreen);
+                        Navigator.of(
+                          context,
+                        ).pushNamed(AppRoutesNames.restaurantDetailScreen);
                       },
                     )
                     // Stagger the entrance a bit for delight
@@ -66,7 +69,11 @@ class CategoryShortcutWidget extends StatelessWidget {
 
 /// Single shortcut card: circular image + name below.
 class _ShortcutItem extends StatelessWidget {
-  const _ShortcutItem({required this.name, required this.imageUrl, required this.onTap});
+  const _ShortcutItem({
+    required this.name,
+    required this.imageUrl,
+    required this.onTap,
+  });
 
   final String name;
   final String imageUrl;
@@ -103,9 +110,10 @@ class _ShortcutItem extends StatelessWidget {
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               textAlign: TextAlign.center,
-              style: Theme.of(
-                context,
-              ).textTheme.bodySmall?.copyWith(color: GPSColors.text, fontWeight: FontWeight.w700),
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                color: GPSColors.text,
+                fontWeight: FontWeight.w700,
+              ),
             ),
           ],
         ),

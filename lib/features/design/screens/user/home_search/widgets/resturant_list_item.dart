@@ -39,7 +39,9 @@ class RestaurantListItem extends StatelessWidget {
           child: Row(
             children: [
               ClipRRect(
-                borderRadius: const BorderRadius.horizontal(left: Radius.circular(16)),
+                borderRadius: const BorderRadius.horizontal(
+                  left: Radius.circular(16),
+                ),
                 child: SizedBox(
                   width: 96,
                   height: 96,
@@ -59,7 +61,9 @@ class RestaurantListItem extends StatelessWidget {
                             GPSGaps.w8,
                             Text(
                               'GPS Verified',
-                              style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                              style: Theme.of(
+                                context,
+                              ).textTheme.labelMedium?.copyWith(
                                 color: GPSColors.mutedText,
                                 fontWeight: FontWeight.w700,
                               ),
@@ -70,7 +74,9 @@ class RestaurantListItem extends StatelessWidget {
                       GPSGaps.h8,
                       Text(
                         title,
-                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        style: Theme.of(
+                          context,
+                        ).textTheme.titleMedium?.copyWith(
                           color: GPSColors.text,
                           fontWeight: FontWeight.w800,
                         ),
@@ -78,9 +84,9 @@ class RestaurantListItem extends StatelessWidget {
                       GPSGaps.h8,
                       Text(
                         subtitle,
-                        style: Theme.of(
-                          context,
-                        ).textTheme.bodySmall?.copyWith(color: GPSColors.mutedText),
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: GPSColors.mutedText,
+                        ),
                       ),
                       GPSGaps.h8,
                       MetaRow(time: time, distance: distance),

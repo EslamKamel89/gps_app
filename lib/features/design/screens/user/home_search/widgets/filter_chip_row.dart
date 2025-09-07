@@ -15,7 +15,11 @@ class FilterChipsRow extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.symmetric(horizontal: 16),
         children: [
-          FilterChipPill(label: 'Filters', icon: Icons.filter_list, onTap: () {}),
+          FilterChipPill(
+            label: 'Filters',
+            icon: Icons.filter_list,
+            onTap: () {},
+          ),
           GPSGaps.w12,
           const TagChip(label: '100% Grass-fed'),
           GPSGaps.w12,

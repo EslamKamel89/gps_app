@@ -12,10 +12,12 @@ class StoreOnboardingProductsScreen extends StatefulWidget {
   const StoreOnboardingProductsScreen({super.key});
 
   @override
-  State<StoreOnboardingProductsScreen> createState() => _StoreOnboardingProductsScreenState();
+  State<StoreOnboardingProductsScreen> createState() =>
+      _StoreOnboardingProductsScreenState();
 }
 
-class _StoreOnboardingProductsScreenState extends State<StoreOnboardingProductsScreen> {
+class _StoreOnboardingProductsScreenState
+    extends State<StoreOnboardingProductsScreen> {
   final List<Category> _categories = [Category.empty()];
 
   void _addCategory() {
@@ -41,7 +43,8 @@ class _StoreOnboardingProductsScreenState extends State<StoreOnboardingProductsS
 
   bool get _isNextEnabled {
     return true;
-    return _categories.isNotEmpty && _categories.any((m) => m.menuName.isNotEmpty);
+    return _categories.isNotEmpty &&
+        _categories.any((m) => m.menuName.isNotEmpty);
   }
 
   @override
@@ -63,9 +66,9 @@ class _StoreOnboardingProductsScreenState extends State<StoreOnboardingProductsS
                   const Spacer(),
                   Text(
                     'Store',
-                    style: Theme.of(
-                      context,
-                    ).textTheme.bodyMedium?.copyWith(color: GPSColors.mutedText),
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: GPSColors.mutedText,
+                    ),
                   ),
                 ],
               ),
@@ -87,9 +90,10 @@ class _StoreOnboardingProductsScreenState extends State<StoreOnboardingProductsS
                     GPSGaps.h8,
                     Text(
                       "Let's build your store! Create categories and add your products to show customers what you offer",
-                      style: Theme.of(
-                        context,
-                      ).textTheme.bodyMedium?.copyWith(color: GPSColors.mutedText, height: 1.4),
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        color: GPSColors.mutedText,
+                        height: 1.4,
+                      ),
                     ),
                     GPSGaps.h24,
 
@@ -102,7 +106,10 @@ class _StoreOnboardingProductsScreenState extends State<StoreOnboardingProductsS
                     }),
 
                     GPSGaps.h12,
-                    AddButton(label: 'Add Another Category', onTap: _addCategory),
+                    AddButton(
+                      label: 'Add Another Category',
+                      onTap: _addCategory,
+                    ),
                     GPSGaps.h24,
                   ],
                 ),
@@ -116,8 +123,13 @@ class _StoreOnboardingProductsScreenState extends State<StoreOnboardingProductsS
                   OutlinedButton(
                     onPressed: () => Navigator.maybePop(context),
                     style: OutlinedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 20,
+                        vertical: 14,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(24),
+                      ),
                     ),
                     child: const Text('← Previous'),
                   ),
@@ -135,8 +147,13 @@ class _StoreOnboardingProductsScreenState extends State<StoreOnboardingProductsS
                             }
                             : null,
                     style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 24,
+                        vertical: 14,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(24),
+                      ),
                     ),
                     child: const Text('Next →'),
                   ),

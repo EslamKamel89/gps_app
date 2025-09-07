@@ -19,7 +19,11 @@ class CategoryDropdown extends StatelessWidget {
     'Gluten-Free',
   ];
 
-  const CategoryDropdown({super.key, required this.value, required this.onChanged});
+  const CategoryDropdown({
+    super.key,
+    required this.value,
+    required this.onChanged,
+  });
 
   @override
   Widget build(BuildContext context) {

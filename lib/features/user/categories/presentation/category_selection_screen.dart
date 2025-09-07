@@ -65,7 +65,8 @@ class CategorySelectionScreen extends StatefulWidget {
   const CategorySelectionScreen({super.key});
 
   @override
-  State<CategorySelectionScreen> createState() => _CategorySelectionScreenState();
+  State<CategorySelectionScreen> createState() =>
+      _CategorySelectionScreenState();
 }
 
 class _CategorySelectionScreenState extends State<CategorySelectionScreen> {
@@ -94,9 +95,10 @@ class _CategorySelectionScreenState extends State<CategorySelectionScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               GPSGaps.h24,
-              const GpsHeader(
-                title: 'Which categories are you interested in?',
-              ).animate().fadeIn(duration: 300.ms).slideY(begin: .2, curve: Curves.easeOutQuad),
+              const GpsHeader(title: 'Which categories are you interested in?')
+                  .animate()
+                  .fadeIn(duration: 300.ms)
+                  .slideY(begin: .2, curve: Curves.easeOutQuad),
               GPSGaps.h24,
 
               Expanded(
@@ -125,7 +127,10 @@ class _CategorySelectionScreenState extends State<CategorySelectionScreen> {
                         .animate(delay: (80 * index).ms)
                         .fadeIn(duration: 300.ms)
                         .slideY(begin: .15)
-                        .scale(begin: const Offset(.98, .98), curve: Curves.easeOutBack);
+                        .scale(
+                          begin: const Offset(.98, .98),
+                          curve: Curves.easeOutBack,
+                        );
                   },
                 ),
               ),
@@ -133,15 +138,24 @@ class _CategorySelectionScreenState extends State<CategorySelectionScreen> {
               GPSGaps.h12,
 
               Footer(
-                onSkip: () => Navigator.of(context).pushNamed(AppRoutesNames.foodSelectionScreen),
+                onSkip:
+                    () => Navigator.of(
+                      context,
+                    ).pushNamed(AppRoutesNames.foodSelectionScreen),
                 onNext:
                     _selected.isNotEmpty
                         ? () {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('Selected: ${_selected.join(', ')}')),
+                            SnackBar(
+                              content: Text(
+                                'Selected: ${_selected.join(', ')}',
+                              ),
+                            ),
                           );
                           Future.delayed(300.ms, () {
-                            Navigator.of(context).pushNamed(AppRoutesNames.foodSelectionScreen);
+                            Navigator.of(
+                              context,
+                            ).pushNamed(AppRoutesNames.foodSelectionScreen);
                           });
                         }
                         : null,

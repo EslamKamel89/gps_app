@@ -36,9 +36,10 @@ class MostLovedRestaurantsWidget extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Text(
               "Most ❤️ Restaurants",
-              style: Theme.of(
-                context,
-              ).textTheme.titleLarge?.copyWith(color: GPSColors.text, fontWeight: FontWeight.w800),
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                color: GPSColors.text,
+                fontWeight: FontWeight.w800,
+              ),
             ).animate().fadeIn(duration: 250.ms).slideY(begin: .15),
           ),
           GPSGaps.h12,
@@ -52,11 +53,16 @@ class MostLovedRestaurantsWidget extends StatelessWidget {
               itemBuilder: (context, i) {
                 final it = items[i];
                 return _RestaurantItem(
-                  restaurant: it,
-                  onTap: () {
-                    Navigator.of(context).pushNamed(AppRoutesNames.restaurantDetailScreen);
-                  },
-                ).animate().fadeIn(duration: 280.ms, delay: (i * 60).ms).slideX(begin: .08);
+                      restaurant: it,
+                      onTap: () {
+                        Navigator.of(
+                          context,
+                        ).pushNamed(AppRoutesNames.restaurantDetailScreen);
+                      },
+                    )
+                    .animate()
+                    .fadeIn(duration: 280.ms, delay: (i * 60).ms)
+                    .slideX(begin: .08);
               },
             ),
           ),
@@ -91,14 +97,20 @@ class _RestaurantItem extends StatelessWidget {
                           border: Border.all(color: GPSColors.cardBorder),
                           shape: BoxShape.circle,
                         ),
-                        child: Image.network(restaurant.imageUrl, fit: BoxFit.cover),
+                        child: Image.network(
+                          restaurant.imageUrl,
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
                     Positioned(
                       bottom: 0,
                       right: 0,
                       child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 6,
+                          vertical: 2,
+                        ),
                         decoration: BoxDecoration(
                           color: GPSColors.primary,
                           borderRadius: BorderRadius.circular(12),
@@ -115,7 +127,11 @@ class _RestaurantItem extends StatelessWidget {
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            const Icon(Icons.star, color: Colors.white, size: 10),
+                            const Icon(
+                              Icons.star,
+                              color: Colors.white,
+                              size: 10,
+                            ),
                           ],
                         ),
                       ),
@@ -143,9 +159,10 @@ class _RestaurantItem extends StatelessWidget {
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               textAlign: TextAlign.center,
-              style: Theme.of(
-                context,
-              ).textTheme.bodySmall?.copyWith(color: GPSColors.mutedText, fontSize: 10),
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                color: GPSColors.mutedText,
+                fontSize: 10,
+              ),
             ),
           ],
         ),

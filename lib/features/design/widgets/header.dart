@@ -19,9 +19,10 @@ class GpsHeader extends StatelessWidget {
         Expanded(
           child: Text(
             title,
-            style: Theme.of(
-              context,
-            ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w700, color: GPSColors.text),
+            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+              fontWeight: FontWeight.w700,
+              color: GPSColors.text,
+            ),
           ),
         ),
       ],
@@ -46,13 +47,20 @@ class _CircleIconButton extends StatelessWidget {
               borderRadius: BorderRadius.circular(12),
               border: Border.all(color: GPSColors.cardBorder),
               boxShadow: const [
-                BoxShadow(color: Color(0x14000000), blurRadius: 8, offset: Offset(0, 2)),
+                BoxShadow(
+                  color: Color(0x14000000),
+                  blurRadius: 8,
+                  offset: Offset(0, 2),
+                ),
               ],
             ),
             child: Icon(icon, size: 18, color: GPSColors.text),
           )
           .animate(onPlay: (c) => c.repeat(reverse: true))
-          .scale(begin: const Offset(0.9, 0.9), end: const Offset(1.0, 1.0)) // keep size
+          .scale(
+            begin: const Offset(0.9, 0.9),
+            end: const Offset(1.0, 1.0),
+          ) // keep size
           .shimmer(delay: 2.seconds, duration: 1200.ms),
     );
 

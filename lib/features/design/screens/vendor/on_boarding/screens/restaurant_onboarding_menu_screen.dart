@@ -13,10 +13,12 @@ class RestaurantOnboardingMenuScreen extends StatefulWidget {
   const RestaurantOnboardingMenuScreen({super.key});
 
   @override
-  State<RestaurantOnboardingMenuScreen> createState() => _RestaurantOnboardingMenuScreenState();
+  State<RestaurantOnboardingMenuScreen> createState() =>
+      _RestaurantOnboardingMenuScreenState();
 }
 
-class _RestaurantOnboardingMenuScreenState extends State<RestaurantOnboardingMenuScreen> {
+class _RestaurantOnboardingMenuScreenState
+    extends State<RestaurantOnboardingMenuScreen> {
   final List<RestaurantMenu> _menus = [RestaurantMenu.empty()];
 
   void _addMenu() {
@@ -64,9 +66,9 @@ class _RestaurantOnboardingMenuScreenState extends State<RestaurantOnboardingMen
                   const Spacer(),
                   Text(
                     'Step 2 of 3',
-                    style: Theme.of(
-                      context,
-                    ).textTheme.bodyMedium?.copyWith(color: GPSColors.mutedText),
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: GPSColors.mutedText,
+                    ),
                   ),
                 ],
               ),
@@ -88,9 +90,10 @@ class _RestaurantOnboardingMenuScreenState extends State<RestaurantOnboardingMen
                     GPSGaps.h8,
                     Text(
                       'Add menus and items that customers will see. You can create multiple menus (e.g., Lunch, Dinner).',
-                      style: Theme.of(
-                        context,
-                      ).textTheme.bodyMedium?.copyWith(color: GPSColors.mutedText, height: 1.4),
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        color: GPSColors.mutedText,
+                        height: 1.4,
+                      ),
                     ),
                     GPSGaps.h24,
 
@@ -119,8 +122,13 @@ class _RestaurantOnboardingMenuScreenState extends State<RestaurantOnboardingMen
                   OutlinedButton(
                     onPressed: () => Navigator.maybePop(context),
                     style: OutlinedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 20,
+                        vertical: 14,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(24),
+                      ),
                     ),
                     child: const Text('← Previous'),
                   ),
@@ -130,16 +138,26 @@ class _RestaurantOnboardingMenuScreenState extends State<RestaurantOnboardingMen
                         _isNextEnabled
                             ? () {
                               ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(content: Text("Proceeding to certifications...")),
+                                const SnackBar(
+                                  content: Text(
+                                    "Proceeding to certifications...",
+                                  ),
+                                ),
                               );
-                              Navigator.of(
-                                context,
-                              ).pushNamed(AppRoutesNames.restaurantOnboardingCertificationsScreen);
+                              Navigator.of(context).pushNamed(
+                                AppRoutesNames
+                                    .restaurantOnboardingCertificationsScreen,
+                              );
                             }
                             : null,
                     style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 24,
+                        vertical: 14,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(24),
+                      ),
                     ),
                     child: const Text('Next →'),
                   ),

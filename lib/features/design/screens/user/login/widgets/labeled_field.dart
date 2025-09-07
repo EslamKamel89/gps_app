@@ -15,9 +15,10 @@ class LabeledField extends StatelessWidget {
       children: [
         Text(
           label,
-          style: Theme.of(
-            context,
-          ).textTheme.labelLarge?.copyWith(color: GPSColors.text, fontWeight: FontWeight.w700),
+          style: Theme.of(context).textTheme.labelLarge?.copyWith(
+            color: GPSColors.text,
+            fontWeight: FontWeight.w700,
+          ),
         ),
         GPSGaps.h8,
         child,

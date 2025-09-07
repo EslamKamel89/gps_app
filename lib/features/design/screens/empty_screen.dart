@@ -7,7 +7,10 @@ class EmptyScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Text('Welcome', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+        child: Text(
+          'Welcome',
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        ),
       ),
     );
   }

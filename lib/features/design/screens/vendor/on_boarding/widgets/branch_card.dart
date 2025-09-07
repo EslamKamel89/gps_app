@@ -85,7 +85,9 @@ class _BranchCardState extends State<BranchCard> {
             child: TextFormField(
               initialValue: _branch.branchName,
               onChanged: (v) => _update('branchName', v),
-              decoration: const InputDecoration(hintText: 'e.g., Downtown Branch'),
+              decoration: const InputDecoration(
+                hintText: 'e.g., Downtown Branch',
+              ),
             ),
           ),
           GPSGaps.h16,
@@ -97,7 +99,9 @@ class _BranchCardState extends State<BranchCard> {
               initialValue: _branch.phoneNumber,
               onChanged: (v) => _update('phoneNumber', v),
               keyboardType: TextInputType.phone,
-              decoration: const InputDecoration(hintText: 'e.g., +1 212 555 1234'),
+              decoration: const InputDecoration(
+                hintText: 'e.g., +1 212 555 1234',
+              ),
             ),
           ),
           GPSGaps.h16,
@@ -115,7 +119,9 @@ class _BranchCardState extends State<BranchCard> {
             child: TextFormField(
               initialValue: _branch.website,
               onChanged: (v) => _update('website', v),
-              decoration: const InputDecoration(hintText: 'https://yourrestaurant.com'),
+              decoration: const InputDecoration(
+                hintText: 'https://yourrestaurant.com',
+              ),
             ),
           ),
           GPSGaps.h16,
@@ -126,9 +132,11 @@ class _BranchCardState extends State<BranchCard> {
             longitude: _branch.longitude,
             onTap: () {
               // Placeholder for map edit dialog
-              ScaffoldMessenger.of(
-                context,
-              ).showSnackBar(const SnackBar(content: Text("Map editing not implemented yet")));
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text("Map editing not implemented yet"),
+                ),
+              );
             },
           ),
           GPSGaps.h16,
@@ -136,9 +144,10 @@ class _BranchCardState extends State<BranchCard> {
           // Photos
           Text(
             'Photos (Optional)',
-            style: Theme.of(
-              context,
-            ).textTheme.labelLarge?.copyWith(fontWeight: FontWeight.w600, color: GPSColors.text),
+            style: Theme.of(context).textTheme.labelLarge?.copyWith(
+              fontWeight: FontWeight.w600,
+              color: GPSColors.text,
+            ),
           ),
           GPSGaps.h8,
           SizedBox(
@@ -173,7 +182,11 @@ class _BranchCardState extends State<BranchCard> {
           // Verified Toggle
           Row(
             children: [
-              const Icon(Icons.verified_user_rounded, size: 16, color: GPSColors.primary),
+              const Icon(
+                Icons.verified_user_rounded,
+                size: 16,
+                color: GPSColors.primary,
+              ),
               GPSGaps.w8,
               const Text('Verified'),
               const Spacer(),

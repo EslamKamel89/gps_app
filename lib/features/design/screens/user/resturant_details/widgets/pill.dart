@@ -12,12 +12,16 @@ class Pill extends StatelessWidget {
     final content = Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        if (icon != null) ...[Icon(icon, size: 14, color: GPSColors.primary), GPSGaps.w8],
+        if (icon != null) ...[
+          Icon(icon, size: 14, color: GPSColors.primary),
+          GPSGaps.w8,
+        ],
         Text(
           label,
-          style: Theme.of(
-            context,
-          ).textTheme.labelMedium?.copyWith(color: GPSColors.text, fontWeight: FontWeight.w700),
+          style: Theme.of(context).textTheme.labelMedium?.copyWith(
+            color: GPSColors.text,
+            fontWeight: FontWeight.w700,
+          ),
         ),
       ],
     );

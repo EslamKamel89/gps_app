@@ -17,7 +17,9 @@ class _GPSSplashScreenState extends State<GPSSplashScreen> {
   void initState() {
     super.initState();
     Future.delayed(const Duration(seconds: 3), () {
-      Navigator.of(context).pushNamedAndRemoveUntil(AppRoutesNames.loginScreen, (_) => false);
+      Navigator.of(
+        context,
+      ).pushNamedAndRemoveUntil(AppRoutesNames.loginScreen, (_) => false);
     });
   }
 

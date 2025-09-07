@@ -38,7 +38,10 @@ class _ScanImageScreenState extends State<ScanImageScreen> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text('Choose a source', style: t.titleMedium?.copyWith(fontWeight: FontWeight.w700)),
+              Text(
+                'Choose a source',
+                style: t.titleMedium?.copyWith(fontWeight: FontWeight.w700),
+              ),
               const SizedBox(height: 16),
               _SourceTile(
                     icon: Icons.camera_alt_rounded,
@@ -90,13 +93,20 @@ class _ScanImageScreenState extends State<ScanImageScreen> {
             children: [
               // Header
               Text(
-                'Point. Snap. Learn.',
-                style: t.headlineSmall?.copyWith(fontWeight: FontWeight.w800),
-              ).animate().fadeIn(duration: 350.ms).moveY(begin: 14, curve: Curves.easeOut),
+                    'Point. Snap. Learn.',
+                    style: t.headlineSmall?.copyWith(
+                      fontWeight: FontWeight.w800,
+                    ),
+                  )
+                  .animate()
+                  .fadeIn(duration: 350.ms)
+                  .moveY(begin: 14, curve: Curves.easeOut),
               const SizedBox(height: 6),
               Text(
                 'Take a photo of any product and we’ll analyze it for ingredients, nutrition, and suitability—soon!',
-                style: t.bodyMedium?.copyWith(color: t.bodyMedium?.color?.withOpacity(.75)),
+                style: t.bodyMedium?.copyWith(
+                  color: t.bodyMedium?.color?.withOpacity(.75),
+                ),
               ).animate().fadeIn(duration: 400.ms, delay: 80.ms),
 
               const SizedBox(height: 20),
@@ -118,7 +128,9 @@ class _ScanImageScreenState extends State<ScanImageScreen> {
                     child: OutlinedButton.icon(
                           onPressed: _openSourceSheet,
                           style: OutlinedButton.styleFrom(
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(14),
+                            ),
                             side: BorderSide(color: GPSColors.cardBorder),
                             padding: const EdgeInsets.symmetric(vertical: 14),
                           ),
@@ -151,7 +163,10 @@ class _HeroCard extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         gradient: LinearGradient(
-          colors: [GPSColors.primary.withOpacity(.85), GPSColors.primary.withOpacity(.5)],
+          colors: [
+            GPSColors.primary.withOpacity(.85),
+            GPSColors.primary.withOpacity(.5),
+          ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
@@ -177,15 +192,20 @@ class _HeroCard extends StatelessWidget {
             children: [
               const SizedBox(height: 6),
               Icon(
-                Icons.document_scanner_rounded,
-                size: 84,
-                color: GPSColors.cardSelected,
-              ).animate(onPlay: (c) => c.repeat(period: 3.seconds)).shimmer(duration: 1200.ms),
+                    Icons.document_scanner_rounded,
+                    size: 84,
+                    color: GPSColors.cardSelected,
+                  )
+                  .animate(onPlay: (c) => c.repeat(period: 3.seconds))
+                  .shimmer(duration: 1200.ms),
               const SizedBox(height: 16),
               Text(
                 'Scan a product photo',
                 textAlign: TextAlign.center,
-                style: t.titleLarge?.copyWith(fontWeight: FontWeight.w800, color: Colors.white),
+                style: t.titleLarge?.copyWith(
+                  fontWeight: FontWeight.w800,
+                  color: Colors.white,
+                ),
               ),
               const SizedBox(height: 8),
               Text(
@@ -199,14 +219,26 @@ class _HeroCard extends StatelessWidget {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: GPSColors.primary,
                       foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 18,
+                        vertical: 14,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
                     ),
-                    icon: Icon(Icons.camera_enhance_rounded, color: GPSColors.cardBorder),
+                    icon: Icon(
+                      Icons.camera_enhance_rounded,
+                      color: GPSColors.cardBorder,
+                    ),
                     label: const Text('Scan a product'),
                   )
                   .animate()
-                  .scale(begin: const Offset(.98, .98), curve: Curves.easeOutBack, duration: 320.ms)
+                  .scale(
+                    begin: const Offset(.98, .98),
+                    curve: Curves.easeOutBack,
+                    duration: 320.ms,
+                  )
                   .then(delay: 120.ms)
                   .shake(hz: 2, offset: const Offset(.5, 0), duration: 380.ms),
             ],
@@ -232,7 +264,11 @@ class _Blob extends StatelessWidget {
         color: color.withOpacity(opacity),
         borderRadius: BorderRadius.circular(size),
         boxShadow: [
-          BoxShadow(color: color.withOpacity(opacity * .6), blurRadius: 30, spreadRadius: 8),
+          BoxShadow(
+            color: color.withOpacity(opacity * .6),
+            blurRadius: 30,
+            spreadRadius: 8,
+          ),
         ],
       ),
     );
@@ -282,11 +318,16 @@ class _SourceTile extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(label, style: t.titleMedium?.copyWith(fontWeight: FontWeight.w700)),
+                  Text(
+                    label,
+                    style: t.titleMedium?.copyWith(fontWeight: FontWeight.w700),
+                  ),
                   const SizedBox(height: 2),
                   Text(
                     subtitle,
-                    style: t.bodySmall?.copyWith(color: t.bodySmall?.color?.withOpacity(.75)),
+                    style: t.bodySmall?.copyWith(
+                      color: t.bodySmall?.color?.withOpacity(.75),
+                    ),
                   ),
                 ],
               ),

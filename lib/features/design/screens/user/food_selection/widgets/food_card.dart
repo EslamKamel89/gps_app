@@ -6,7 +6,11 @@ class FoodItem {
   final String id;
   final String name;
   final String imageUrl;
-  const FoodItem({required this.id, required this.name, required this.imageUrl});
+  const FoodItem({
+    required this.id,
+    required this.name,
+    required this.imageUrl,
+  });
 }
 
 class FoodCard extends StatelessWidget {
@@ -60,12 +64,16 @@ class FoodCard extends StatelessWidget {
                   loadingBuilder: (context, child, progress) {
                     if (progress == null) return child;
                     return Container(
-                      color: Theme.of(context).colorScheme.surfaceContainerHighest.withOpacity(0.4),
+                      color: Theme.of(
+                        context,
+                      ).colorScheme.surfaceContainerHighest.withOpacity(0.4),
                       alignment: Alignment.center,
                       child: CircularProgressIndicator(),
                     );
                   },
-                  errorBuilder: (context, error, stack) => ImageErrorFallback(name: item.name),
+                  errorBuilder:
+                      (context, error, stack) =>
+                          ImageErrorFallback(name: item.name),
                 ),
 
                 // Subtle gradient overlay for text readability
@@ -75,7 +83,10 @@ class FoodCard extends StatelessWidget {
                       gradient: LinearGradient(
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
-                        colors: [Colors.black.withOpacity(0.0), Colors.black.withOpacity(0.35)],
+                        colors: [
+                          Colors.black.withOpacity(0.0),
+                          Colors.black.withOpacity(0.35),
+                        ],
                       ),
                     ),
                   ),
@@ -93,10 +104,14 @@ class FoodCard extends StatelessWidget {
                           item.name,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                          style: Theme.of(
+                            context,
+                          ).textTheme.titleMedium?.copyWith(
                             color: Colors.white,
                             fontWeight: FontWeight.w700,
-                            shadows: const [Shadow(blurRadius: 4, color: Colors.black54)],
+                            shadows: const [
+                              Shadow(blurRadius: 4, color: Colors.black54),
+                            ],
                           ),
                         ),
                       ),

@@ -40,9 +40,12 @@ class _CategoryCardState extends State<CategoryCard> {
     _menu = Category(
       id: _menu.id,
       menuName: field == 'menuName' ? (value as String) : _menu.menuName,
-      description: field == 'description' ? (value as String?) : _menu.description,
+      description:
+          field == 'description' ? (value as String?) : _menu.description,
       availabilityHours:
-          field == 'availabilityHours' ? (value as Map<String, String>) : _menu.availabilityHours,
+          field == 'availabilityHours'
+              ? (value as Map<String, String>)
+              : _menu.availabilityHours,
       items: field == 'items' ? (value as List<ProductItem>) : _menu.items,
     );
     widget.onChanged(_menu);
@@ -130,7 +133,9 @@ class _CategoryCardState extends State<CategoryCard> {
               initialValue: _menu.description,
               onChanged: (v) => _update('description', v),
               maxLines: 2,
-              decoration: const InputDecoration(hintText: 'e.g., Weekday lunch specials'),
+              decoration: const InputDecoration(
+                hintText: 'e.g., Weekday lunch specials',
+              ),
             ),
           ),
 
@@ -141,7 +146,9 @@ class _CategoryCardState extends State<CategoryCard> {
           if (_menu.items.isEmpty)
             Text(
               'No items added yet.',
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(color: GPSColors.mutedText),
+              style: Theme.of(
+                context,
+              ).textTheme.bodySmall?.copyWith(color: GPSColors.mutedText),
             ),
           ..._menu.items.map((item) {
             return ProductItemForm(

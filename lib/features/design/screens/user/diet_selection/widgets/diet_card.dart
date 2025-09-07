@@ -34,17 +34,17 @@ class DietCard extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              emoji,
-              style: const TextStyle(fontSize: 42),
-            ).animate(target: selected ? 1 : 0).scaleXY(begin: 1, end: 1.08, duration: 180.ms),
+            Text(emoji, style: const TextStyle(fontSize: 42))
+                .animate(target: selected ? 1 : 0)
+                .scaleXY(begin: 1, end: 1.08, duration: 180.ms),
             GPSGaps.h12,
             Text(
               label,
               textAlign: TextAlign.center,
-              style: Theme.of(
-                context,
-              ).textTheme.titleMedium?.copyWith(color: GPSColors.text, fontWeight: FontWeight.w600),
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                color: GPSColors.text,
+                fontWeight: FontWeight.w600,
+              ),
             ),
           ],
         ),
@@ -55,6 +55,9 @@ class DietCard extends StatelessWidget {
         .animate(onPlay: (controller) => controller.forward())
         // .shadow(color: const Color(0x1A000000), begin: 0, end: 12, duration: 300.ms, curve: Curves.easeOut)
         .then()
-        .shake(hz: selected ? 2 : 0, duration: selected ? 200.ms : 1.ms); // subtle tap feedback
+        .shake(
+          hz: selected ? 2 : 0,
+          duration: selected ? 200.ms : 1.ms,
+        ); // subtle tap feedback
   }
 }

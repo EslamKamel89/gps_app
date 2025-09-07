@@ -6,7 +6,11 @@ class TabBarDelegate extends SliverPersistentHeaderDelegate {
   final Widget _tabBar;
 
   @override
-  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
+  Widget build(
+    BuildContext context,
+    double shrinkOffset,
+    bool overlapsContent,
+  ) {
     return Container(
       color: GPSColors.background,
       child: SafeArea(

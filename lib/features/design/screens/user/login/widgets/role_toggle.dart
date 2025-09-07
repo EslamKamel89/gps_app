@@ -26,7 +26,10 @@ class _RoleToggleState extends State<RoleToggle> {
       decoration: BoxDecoration(
         color: theme.colorScheme.surfaceContainerHighest.withOpacity(0.4),
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: theme.colorScheme.outline.withOpacity(0.2), width: 1),
+        border: Border.all(
+          color: theme.colorScheme.outline.withOpacity(0.2),
+          width: 1,
+        ),
       ),
       child: Stack(
         children: [
@@ -73,18 +76,24 @@ class _RoleToggleState extends State<RoleToggle> {
                   },
                   child: Container(
                     height: 48,
-                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(24)),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(24),
+                    ),
                     child: Center(
                       child: Text(
                             'Consumer',
                             style: TextStyle(
-                              color: isUser() ? Colors.white : GPSColors.primary,
+                              color:
+                                  isUser() ? Colors.white : GPSColors.primary,
                               fontWeight: FontWeight.w600,
                               fontSize: 14,
                             ),
                           )
                           .animate()
-                          .scale(duration: duration, begin: const Offset(0.9, 0.9))
+                          .scale(
+                            duration: duration,
+                            begin: const Offset(0.9, 0.9),
+                          )
                           .fade(duration: duration),
                     ),
                   ),
@@ -107,18 +116,24 @@ class _RoleToggleState extends State<RoleToggle> {
                   },
                   child: Container(
                     height: 48,
-                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(24)),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(24),
+                    ),
                     child: Center(
                       child: Text(
                             'Vendor',
                             style: TextStyle(
-                              color: !isUser() ? Colors.white : GPSColors.primary,
+                              color:
+                                  !isUser() ? Colors.white : GPSColors.primary,
                               fontWeight: FontWeight.w600,
                               fontSize: 14,
                             ),
                           )
                           .animate()
-                          .scale(duration: duration, begin: const Offset(0.9, 0.9))
+                          .scale(
+                            duration: duration,
+                            begin: const Offset(0.9, 0.9),
+                          )
                           .fade(duration: duration),
                     ),
                   ),
@@ -128,6 +143,10 @@ class _RoleToggleState extends State<RoleToggle> {
           ),
         ],
       ),
-    ).animate().scale(duration: 500.ms, curve: Curves.easeOutBack, begin: const Offset(0.95, 0.95));
+    ).animate().scale(
+      duration: 500.ms,
+      curve: Curves.easeOutBack,
+      begin: const Offset(0.95, 0.95),
+    );
   }
 }

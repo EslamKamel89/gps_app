@@ -20,7 +20,8 @@ class RestaurantSuggestion {
     required this.distanceMiles,
   });
 
-  String get distanceLabel => '${distanceMiles.toStringAsFixed(distanceMiles < 10 ? 1 : 0)} mi';
+  String get distanceLabel =>
+      '${distanceMiles.toStringAsFixed(distanceMiles < 10 ? 1 : 0)} mi';
 }
 
 class SuggestionsList extends StatelessWidget {
@@ -45,7 +46,9 @@ class SuggestionsList extends StatelessWidget {
         padding: const EdgeInsets.all(14),
         child: Text(
           'No matches. Try a different term.',
-          style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: GPSColors.mutedText),
+          style: Theme.of(
+            context,
+          ).textTheme.bodyMedium?.copyWith(color: GPSColors.mutedText),
         ),
       ).animate().fadeIn(duration: 150.ms);
     }
@@ -56,7 +59,8 @@ class SuggestionsList extends StatelessWidget {
       child: ListView.separated(
         shrinkWrap: true,
         itemCount: items.length,
-        separatorBuilder: (_, __) => const Divider(height: 1, color: GPSColors.cardBorder),
+        separatorBuilder:
+            (_, __) => const Divider(height: 1, color: GPSColors.cardBorder),
         itemBuilder: (context, i) {
           final r = items[i];
           final isFav = favorites.contains(r.id);
@@ -70,7 +74,12 @@ class SuggestionsList extends StatelessWidget {
                   // thumbnail
                   ClipRRect(
                     borderRadius: BorderRadius.circular(8),
-                    child: Image.network(r.imageUrl, width: 48, height: 48, fit: BoxFit.cover),
+                    child: Image.network(
+                      r.imageUrl,
+                      width: 48,
+                      height: 48,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                   GPSGaps.w12,
                   // main content
@@ -86,7 +95,9 @@ class SuggestionsList extends StatelessWidget {
                                 r.name,
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
-                                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                style: Theme.of(
+                                  context,
+                                ).textTheme.bodyMedium?.copyWith(
                                   color: GPSColors.text,
                                   fontWeight: FontWeight.w700,
                                 ),
@@ -100,11 +111,17 @@ class SuggestionsList extends StatelessWidget {
                         // rating + address
                         Row(
                           children: [
-                            const Icon(Icons.star_rounded, size: 16, color: Color(0xFFFFB300)),
+                            const Icon(
+                              Icons.star_rounded,
+                              size: 16,
+                              color: Color(0xFFFFB300),
+                            ),
                             const SizedBox(width: 4),
                             Text(
                               r.rating.toStringAsFixed(1),
-                              style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                              style: Theme.of(
+                                context,
+                              ).textTheme.labelMedium?.copyWith(
                                 color: GPSColors.text,
                                 fontWeight: FontWeight.w600,
                               ),
@@ -115,7 +132,9 @@ class SuggestionsList extends StatelessWidget {
                                 r.address,
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
-                                style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                                style: Theme.of(
+                                  context,
+                                ).textTheme.labelMedium?.copyWith(
                                   color: GPSColors.mutedText,
                                   fontWeight: FontWeight.w500,
                                 ),
@@ -128,10 +147,13 @@ class SuggestionsList extends StatelessWidget {
                   ),
                   // favorite button
                   IconButton(
-                    tooltip: isFav ? 'Remove from favorites' : 'Add to favorites',
+                    tooltip:
+                        isFav ? 'Remove from favorites' : 'Add to favorites',
                     onPressed: () => onToggleFavorite(r),
                     icon: Icon(
-                      isFav ? Icons.favorite_rounded : Icons.favorite_border_rounded,
+                      isFav
+                          ? Icons.favorite_rounded
+                          : Icons.favorite_border_rounded,
                       color: isFav ? Colors.redAccent : GPSColors.primary,
                       size: 22,
                     ),
@@ -150,7 +172,11 @@ class SuggestionsList extends StatelessWidget {
     borderRadius: BorderRadius.circular(14),
     border: Border.all(color: GPSColors.cardBorder),
     boxShadow: [
-      BoxShadow(color: Colors.black.withOpacity(.08), blurRadius: 16, offset: const Offset(0, 6)),
+      BoxShadow(
+        color: Colors.black.withOpacity(.08),
+        blurRadius: 16,
+        offset: const Offset(0, 6),
+      ),
     ],
   );
 }
@@ -170,9 +196,10 @@ class _DistancePill extends StatelessWidget {
       ),
       child: Text(
         label,
-        style: Theme.of(
-          context,
-        ).textTheme.labelSmall?.copyWith(color: GPSColors.text, fontWeight: FontWeight.w600),
+        style: Theme.of(context).textTheme.labelSmall?.copyWith(
+          color: GPSColors.text,
+          fontWeight: FontWeight.w600,
+        ),
       ),
     );
   }

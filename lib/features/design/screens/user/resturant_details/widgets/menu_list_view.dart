@@ -5,7 +5,11 @@ import 'package:gps_app/features/design/screens/user/resturant_details/widgets/m
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 
 class MenuListView extends StatelessWidget {
-  const MenuListView({super.key, required this.items, required this.heroPrefix});
+  const MenuListView({
+    super.key,
+    required this.items,
+    required this.heroPrefix,
+  });
   final List<MenuItem> items;
   final String heroPrefix;
 

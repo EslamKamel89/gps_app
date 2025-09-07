@@ -105,7 +105,11 @@ final ThemeData lightTheme = ThemeData(
     foregroundColor: Colors.white, // Text and icon color
     elevation: 4,
     centerTitle: true,
-    titleTextStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
+    titleTextStyle: TextStyle(
+      fontSize: 20,
+      fontWeight: FontWeight.bold,
+      color: Colors.white,
+    ),
   ),
 
   // FloatingActionButton
@@ -222,7 +226,11 @@ final ThemeData darkTheme = ThemeData(
     foregroundColor: Colors.white, // Text and icon color
     elevation: 4,
     centerTitle: true,
-    titleTextStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
+    titleTextStyle: TextStyle(
+      fontSize: 20,
+      fontWeight: FontWeight.bold,
+      color: Colors.white,
+    ),
   ),
 
   // FloatingActionButton

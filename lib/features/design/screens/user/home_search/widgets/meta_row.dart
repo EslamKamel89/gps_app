@@ -9,9 +9,10 @@ class MetaRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TextStyle s = Theme.of(
-      context,
-    ).textTheme.labelMedium!.copyWith(color: GPSColors.mutedText, fontWeight: FontWeight.w600);
+    TextStyle s = Theme.of(context).textTheme.labelMedium!.copyWith(
+      color: GPSColors.mutedText,
+      fontWeight: FontWeight.w600,
+    );
     return Row(
       children: [
         const Icon(Icons.schedule, size: 16, color: GPSColors.mutedText),

@@ -124,11 +124,16 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen>
                   expandedHeight: 260,
                   pinned: true,
                   elevation: 0,
-                  leading: CircleBack(onTap: () => Navigator.of(context).maybePop()),
+                  leading: CircleBack(
+                    onTap: () => Navigator.of(context).maybePop(),
+                  ),
                   actions: [
                     IconButton(
                       tooltip: 'Share',
-                      icon: const Icon(Icons.share_rounded, color: Colors.black),
+                      icon: const Icon(
+                        Icons.share_rounded,
+                        color: Colors.black,
+                      ),
                       onPressed: () {},
                     ),
                   ],
@@ -142,7 +147,10 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen>
                             )
                             .animate()
                             .fadeIn(duration: 400.ms)
-                            .scale(begin: const Offset(1.02, 1.02), end: const Offset(1, 1)),
+                            .scale(
+                              begin: const Offset(1.02, 1.02),
+                              end: const Offset(1, 1),
+                            ),
                         Container(
                           decoration: const BoxDecoration(
                             gradient: LinearGradient(
@@ -161,7 +169,9 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen>
                   child: Container(
                     decoration: const BoxDecoration(
                       color: GPSColors.background,
-                      borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+                      borderRadius: BorderRadius.vertical(
+                        top: Radius.circular(24),
+                      ),
                     ),
                     child: Padding(
                       padding: const EdgeInsets.fromLTRB(16, 18, 16, 14),
@@ -169,40 +179,57 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen>
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Expanded(
-                                child: Text(
-                                  'True Acre',
-                                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                                    color: GPSColors.text,
-                                    fontWeight: FontWeight.w800,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      'True Acre',
+                                      style: Theme.of(
+                                        context,
+                                      ).textTheme.headlineSmall?.copyWith(
+                                        color: GPSColors.text,
+                                        fontWeight: FontWeight.w800,
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              ),
-                              IconButton(
-                                tooltip: _isFav ? 'Remove from favorites' : 'Add to favorites',
-                                onPressed: () => setState(() => _isFav = !_isFav),
-                                icon: Icon(
-                                  _isFav ? Icons.favorite_rounded : Icons.favorite_outline,
-                                  color: _isFav ? Colors.redAccent : GPSColors.mutedText,
-                                ),
-                              ),
-                            ],
-                          ).animate().fadeIn(duration: 280.ms).slideY(begin: .1),
+                                  IconButton(
+                                    tooltip:
+                                        _isFav
+                                            ? 'Remove from favorites'
+                                            : 'Add to favorites',
+                                    onPressed:
+                                        () => setState(() => _isFav = !_isFav),
+                                    icon: Icon(
+                                      _isFav
+                                          ? Icons.favorite_rounded
+                                          : Icons.favorite_outline,
+                                      color:
+                                          _isFav
+                                              ? Colors.redAccent
+                                              : GPSColors.mutedText,
+                                    ),
+                                  ),
+                                ],
+                              )
+                              .animate()
+                              .fadeIn(duration: 280.ms)
+                              .slideY(begin: .1),
 
                           GPSGaps.h12,
 
                           Wrap(
-                            spacing: 10,
-                            runSpacing: 10,
-                            children: const [
-                              BadgeChip(label: '100% Grass-fed'),
-                              BadgeChip(label: 'Organic'),
-                              BadgeChip(label: 'Locally sourced'),
-                              BadgeChip(label: 'Non-GMO'),
-                            ],
-                          ).animate(delay: 70.ms).fadeIn(duration: 250.ms).slideY(begin: .08),
+                                spacing: 10,
+                                runSpacing: 10,
+                                children: const [
+                                  BadgeChip(label: '100% Grass-fed'),
+                                  BadgeChip(label: 'Organic'),
+                                  BadgeChip(label: 'Locally sourced'),
+                                  BadgeChip(label: 'Non-GMO'),
+                                ],
+                              )
+                              .animate(delay: 70.ms)
+                              .fadeIn(duration: 250.ms)
+                              .slideY(begin: .08),
 
                           GPSGaps.h16,
 
@@ -211,7 +238,9 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen>
                           GPSGaps.h8,
                           Text(
                             'Neighborhood kitchen serving grass-fed meats, raw cheeses, and seasonal produce from nearby farms.',
-                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                            style: Theme.of(
+                              context,
+                            ).textTheme.bodyMedium?.copyWith(
                               color: GPSColors.mutedText,
                               height: 1.4,
                             ),
@@ -242,9 +271,8 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen>
                       indicatorColor: Colors.green,
                       labelColor: Colors.black,
                       unselectedLabelColor: Colors.grey,
-                      labelStyle: Theme.of(
-                        context,
-                      ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w800),
+                      labelStyle: Theme.of(context).textTheme.titleSmall
+                          ?.copyWith(fontWeight: FontWeight.w800),
                       tabs: [
                         for (final t in tabs)
                           Tab(

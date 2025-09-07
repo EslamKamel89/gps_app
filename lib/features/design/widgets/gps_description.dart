@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
 class GpsShortDescription extends StatelessWidget {
-  const GpsShortDescription({super.key, this.isSplashScreen = false, this.description});
+  const GpsShortDescription({
+    super.key,
+    this.isSplashScreen = false,
+    this.description,
+  });
   final bool isSplashScreen;
   final String? description;
 

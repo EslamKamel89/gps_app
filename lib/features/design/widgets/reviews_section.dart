@@ -9,7 +9,11 @@ class Review {
 
   final double rating;
 
-  const Review({required this.reviewerName, required this.comment, required this.rating});
+  const Review({
+    required this.reviewerName,
+    required this.comment,
+    required this.rating,
+  });
 }
 
 class ReviewsSection extends StatelessWidget {
@@ -26,7 +30,8 @@ class ReviewsSection extends StatelessWidget {
 
   double get _avg {
     if (reviews.isEmpty) return 0;
-    return reviews.map((r) => r.rating).reduce((a, b) => a + b) / reviews.length;
+    return reviews.map((r) => r.rating).reduce((a, b) => a + b) /
+        reviews.length;
   }
 
   @override
@@ -81,7 +86,10 @@ class ReviewsSection extends StatelessWidget {
                   .animate(delay: delay)
                   .fadeIn(duration: 260.ms, curve: Curves.easeOutCubic)
                   .slideY(begin: .08, curve: Curves.easeOutCubic)
-                  .scale(begin: const Offset(.98, .98), end: const Offset(1, 1));
+                  .scale(
+                    begin: const Offset(.98, .98),
+                    end: const Offset(1, 1),
+                  );
             },
           ),
       ],
@@ -127,7 +135,10 @@ class _AvgRatingBadge extends StatelessWidget {
                 ),
           ),
           GPSGaps.w8,
-          Text('($count)', style: txt.labelMedium?.copyWith(color: Colors.white70)),
+          Text(
+            '($count)',
+            style: txt.labelMedium?.copyWith(color: Colors.white70),
+          ),
         ],
       ),
     ).animate().fadeIn(duration: 220.ms).scale(begin: const Offset(.95, .95));
@@ -179,7 +190,10 @@ class _ReviewCard extends StatelessWidget {
             GPSGaps.h8,
             Text(
               review.comment,
-              style: txt.bodyMedium?.copyWith(color: GPSColors.mutedText, height: 1.35),
+              style: txt.bodyMedium?.copyWith(
+                color: GPSColors.mutedText,
+                height: 1.35,
+              ),
             ).animate().fadeIn(duration: 200.ms).slideY(begin: .05),
           ],
         ),

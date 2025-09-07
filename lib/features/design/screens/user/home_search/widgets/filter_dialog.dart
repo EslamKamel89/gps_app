@@ -8,8 +8,12 @@ class HomeFilters {
   String? subcategory;
   final Set<String> diets;
 
-  HomeFilters({this.distance, this.category, this.subcategory, Set<String>? diets})
-    : diets = diets ?? <String>{};
+  HomeFilters({
+    this.distance,
+    this.category,
+    this.subcategory,
+    Set<String>? diets,
+  }) : diets = diets ?? <String>{};
 
   HomeFilters copyWith({
     String? distance,
@@ -29,14 +33,25 @@ class HomeFilters {
 class FilterDialog extends StatefulWidget {
   final HomeFilters initial;
 
-  const FilterDialog({super.key, required this.initial, this.isBottomSheet = false});
+  const FilterDialog({
+    super.key,
+    required this.initial,
+    this.isBottomSheet = false,
+  });
   final bool isBottomSheet;
   @override
   State<FilterDialog> createState() => _FilterDialogState();
 }
 
 class _FilterDialogState extends State<FilterDialog> {
-  static const _distances = <String>['Any', '1 mil', '3 mil', '5 mil', '10 mil', '20 mil'];
+  static const _distances = <String>[
+    'Any',
+    '1 mil',
+    '3 mil',
+    '5 mil',
+    '10 mil',
+    '20 mil',
+  ];
 
   static const Map<String, List<String>> _categories = {
     'Burgers': ['Beef Burger', 'Chicken Burger', 'Veggie Burger'],
@@ -70,7 +85,8 @@ class _FilterDialogState extends State<FilterDialog> {
 
   @override
   Widget build(BuildContext context) {
-    final subcats = _category != null ? _categories[_category] ?? [] : <String>[];
+    final subcats =
+        _category != null ? _categories[_category] ?? [] : <String>[];
     final content = SingleChildScrollView(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -78,7 +94,10 @@ class _FilterDialogState extends State<FilterDialog> {
           DropdownButtonFormField<String>(
             value: _distance,
             decoration: const InputDecoration(labelText: 'Distance'),
-            items: _distances.map((d) => DropdownMenuItem(value: d, child: Text(d))).toList(),
+            items:
+                _distances
+                    .map((d) => DropdownMenuItem(value: d, child: Text(d)))
+                    .toList(),
             onChanged: (v) => setState(() => _distance = v),
           ),
           const SizedBox(height: 12),
@@ -86,7 +105,10 @@ class _FilterDialogState extends State<FilterDialog> {
           DropdownButtonFormField<String>(
             value: _category,
             decoration: const InputDecoration(labelText: 'Category'),
-            items: _categories.keys.map((c) => DropdownMenuItem(value: c, child: Text(c))).toList(),
+            items:
+                _categories.keys
+                    .map((c) => DropdownMenuItem(value: c, child: Text(c)))
+                    .toList(),
             onChanged: (v) {
               setState(() {
                 _category = v;
@@ -99,14 +121,23 @@ class _FilterDialogState extends State<FilterDialog> {
           DropdownButtonFormField<String>(
             value: _subcategory,
             decoration: const InputDecoration(labelText: 'Subcategory'),
-            items: subcats.map((s) => DropdownMenuItem(value: s, child: Text(s))).toList(),
-            onChanged: (_category == null) ? null : (v) => setState(() => _subcategory = v),
+            items:
+                subcats
+                    .map((s) => DropdownMenuItem(value: s, child: Text(s)))
+                    .toList(),
+            onChanged:
+                (_category == null)
+                    ? null
+                    : (v) => setState(() => _subcategory = v),
           ),
           const SizedBox(height: 16),
 
           Align(
             alignment: Alignment.centerLeft,
-            child: Text('Diets', style: Theme.of(context).textTheme.titleMedium),
+            child: Text(
+              'Diets',
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
           ),
           const SizedBox(height: 8),
           Wrap(

@@ -11,12 +11,17 @@ class Header extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(title, style: t.headlineSmall?.copyWith(fontWeight: FontWeight.w700)),
+        Text(
+          title,
+          style: t.headlineSmall?.copyWith(fontWeight: FontWeight.w700),
+        ),
         if (subtitle != null) ...[
           const SizedBox(height: 6),
           Text(
             subtitle!,
-            style: t.bodyMedium?.copyWith(color: t.bodyMedium?.color?.withOpacity(0.7)),
+            style: t.bodyMedium?.copyWith(
+              color: t.bodyMedium?.color?.withOpacity(0.7),
+            ),
           ),
         ],
       ],

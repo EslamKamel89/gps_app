@@ -39,7 +39,8 @@ class VendorBranch {
       id: updates['id'] as String? ?? id,
       branchName: updates['branchName'] as String? ?? branchName,
       phoneNumber: updates['phoneNumber'] as String? ?? phoneNumber,
-      openingHours: updates['openingHours'] as Map<String, String>? ?? openingHours,
+      openingHours:
+          updates['openingHours'] as Map<String, String>? ?? openingHours,
       website: updates['website'] as String? ?? website,
       latitude: updates['latitude'] as double? ?? latitude,
       longitude: updates['longitude'] as double? ?? longitude,

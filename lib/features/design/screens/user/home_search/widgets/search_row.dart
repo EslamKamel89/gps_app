@@ -35,12 +35,18 @@ class SearchRow extends StatelessWidget {
               focusNode: focusNode,
               onChanged: onChanged,
               decoration: _decoration(hint).copyWith(
-                prefixIcon: const Icon(Icons.search_rounded, color: GPSColors.primary),
+                prefixIcon: const Icon(
+                  Icons.search_rounded,
+                  color: GPSColors.primary,
+                ),
                 suffixIcon:
                     controller.text.isEmpty
                         ? null
                         : IconButton(
-                          icon: const Icon(Icons.close_rounded, color: GPSColors.mutedText),
+                          icon: const Icon(
+                            Icons.close_rounded,
+                            color: GPSColors.mutedText,
+                          ),
                           onPressed: onClear,
                         ),
               ),
@@ -48,7 +54,10 @@ class SearchRow extends StatelessWidget {
             : GestureDetector(
               onTap: onTap,
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 14,
+                  vertical: 14,
+                ),
                 decoration: BoxDecoration(
                   color: const Color(0xFFE3EFE9),
                   borderRadius: BorderRadius.circular(14),
@@ -61,9 +70,9 @@ class SearchRow extends StatelessWidget {
                     Expanded(
                       child: Text(
                         hint,
-                        style: Theme.of(
-                          context,
-                        ).textTheme.bodyMedium?.copyWith(color: GPSColors.mutedText),
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: GPSColors.mutedText,
+                        ),
                       ),
                     ),
                   ],
@@ -73,7 +82,9 @@ class SearchRow extends StatelessWidget {
 
     return Row(
       children: [
-        Expanded(child: field.animate().fadeIn(duration: 300.ms).slideY(begin: .1)),
+        Expanded(
+          child: field.animate().fadeIn(duration: 300.ms).slideY(begin: .1),
+        ),
         if (!editable) ...[
           GPSGaps.w12,
           RoundSquareButton(icon: Icons.tune_rounded, onTap: filtersOnTap),

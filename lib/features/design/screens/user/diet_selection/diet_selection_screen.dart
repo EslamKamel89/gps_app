@@ -51,9 +51,12 @@ class _DietSelectionScreenState extends State<DietSelectionScreen> {
             children: [
               GPSGaps.h24,
               GpsHeader(
-                title: 'Which of these diets do you follow?',
-                // onBack: () => Navigator.of(context).maybePop(),
-              ).animate().fadeIn(duration: 300.ms).slideY(begin: .2, curve: Curves.easeOutQuad),
+                    title: 'Which of these diets do you follow?',
+                    // onBack: () => Navigator.of(context).maybePop(),
+                  )
+                  .animate()
+                  .fadeIn(duration: 300.ms)
+                  .slideY(begin: .2, curve: Curves.easeOutQuad),
               GPSGaps.h24,
 
               // Grid of options
@@ -83,7 +86,10 @@ class _DietSelectionScreenState extends State<DietSelectionScreen> {
                         .animate(delay: (80 * index).ms)
                         .fadeIn(duration: 300.ms)
                         .slideY(begin: .15)
-                        .scale(begin: const Offset(0.98, 0.98), curve: Curves.easeOutBack);
+                        .scale(
+                          begin: const Offset(0.98, 0.98),
+                          curve: Curves.easeOutBack,
+                        );
                   },
                 ),
               ),
@@ -93,17 +99,25 @@ class _DietSelectionScreenState extends State<DietSelectionScreen> {
               // Footer actions
               Footer(
                 onSkip: () {
-                  Navigator.of(context).pushNamed(AppRoutesNames.categorySelectionScreen);
+                  Navigator.of(
+                    context,
+                  ).pushNamed(AppRoutesNames.categorySelectionScreen);
                 },
                 onNext:
                     _selected.isNotEmpty
                         ? () {
                           // In a real flow, pass selections forward
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('Selected: ${_selected.join(', ')}')),
+                            SnackBar(
+                              content: Text(
+                                'Selected: ${_selected.join(', ')}',
+                              ),
+                            ),
                           );
                           Future.delayed(300.ms, () {
-                            Navigator.of(context).pushNamed(AppRoutesNames.categorySelectionScreen);
+                            Navigator.of(
+                              context,
+                            ).pushNamed(AppRoutesNames.categorySelectionScreen);
                           });
                         }
                         : null,

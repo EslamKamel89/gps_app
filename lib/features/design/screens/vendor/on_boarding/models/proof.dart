@@ -4,7 +4,12 @@ class VendorProof {
   String? description;
   String imageUrl;
 
-  VendorProof({required this.id, required this.title, this.description, required this.imageUrl});
+  VendorProof({
+    required this.id,
+    required this.title,
+    this.description,
+    required this.imageUrl,
+  });
 
   factory VendorProof.empty() => VendorProof(
     id: DateTime.now().millisecondsSinceEpoch.toString(),

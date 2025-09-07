@@ -22,12 +22,16 @@ class FilterChipPill extends StatelessWidget {
         ),
         child: Row(
           children: [
-            if (icon != null) ...[Icon(icon, size: 18, color: GPSColors.primary), GPSGaps.w8],
+            if (icon != null) ...[
+              Icon(icon, size: 18, color: GPSColors.primary),
+              GPSGaps.w8,
+            ],
             Text(
               label,
-              style: Theme.of(
-                context,
-              ).textTheme.bodyMedium?.copyWith(color: GPSColors.text, fontWeight: FontWeight.w600),
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                color: GPSColors.text,
+                fontWeight: FontWeight.w600,
+              ),
             ),
           ],
         ),

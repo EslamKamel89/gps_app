@@ -73,7 +73,10 @@ class ProductCard extends StatelessWidget {
                       (context, error, stack) => Container(
                         color: GPSColors.cardBorder,
                         alignment: Alignment.center,
-                        child: Icon(Icons.image_not_supported_outlined, color: GPSColors.mutedText),
+                        child: Icon(
+                          Icons.image_not_supported_outlined,
+                          color: GPSColors.mutedText,
+                        ),
                       ),
                 ),
               ),
@@ -90,7 +93,10 @@ class ProductCard extends StatelessWidget {
                 desc,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
-                style: t.bodySmall?.copyWith(color: GPSColors.mutedText, height: 1.25),
+                style: t.bodySmall?.copyWith(
+                  color: GPSColors.mutedText,
+                  height: 1.25,
+                ),
               ),
               const Spacer(),
               Row(

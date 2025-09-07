@@ -22,7 +22,10 @@ class ThumbWidget extends StatelessWidget {
                 height: 86,
                 color: GPSColors.cardBorder,
                 alignment: Alignment.center,
-                child: const Icon(Icons.image_not_supported_outlined, color: GPSColors.mutedText),
+                child: const Icon(
+                  Icons.image_not_supported_outlined,
+                  color: GPSColors.mutedText,
+                ),
               ),
         ),
       ),

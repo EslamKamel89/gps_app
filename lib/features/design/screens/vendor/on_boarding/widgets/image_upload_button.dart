@@ -8,7 +8,11 @@ class ImageUploadButton extends StatelessWidget {
   final String imageUrl;
   final VoidCallback onTap;
 
-  const ImageUploadButton({super.key, required this.imageUrl, required this.onTap});
+  const ImageUploadButton({
+    super.key,
+    required this.imageUrl,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -17,9 +21,10 @@ class ImageUploadButton extends StatelessWidget {
       children: [
         Text(
           'Upload Image',
-          style: Theme.of(
-            context,
-          ).textTheme.labelLarge?.copyWith(fontWeight: FontWeight.w600, color: GPSColors.text),
+          style: Theme.of(context).textTheme.labelLarge?.copyWith(
+            fontWeight: FontWeight.w600,
+            color: GPSColors.text,
+          ),
         ),
         GPSGaps.h8,
         GestureDetector(

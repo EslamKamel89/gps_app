@@ -66,10 +66,12 @@ class MarketCategorySelectionScreen extends StatefulWidget {
   const MarketCategorySelectionScreen({super.key});
 
   @override
-  State<MarketCategorySelectionScreen> createState() => _MarketCategorySelectionScreenState();
+  State<MarketCategorySelectionScreen> createState() =>
+      _MarketCategorySelectionScreenState();
 }
 
-class _MarketCategorySelectionScreenState extends State<MarketCategorySelectionScreen> {
+class _MarketCategorySelectionScreenState
+    extends State<MarketCategorySelectionScreen> {
   final Set<String> _selected = <String>{};
   int _currentTab = 1;
 
@@ -93,9 +95,10 @@ class _MarketCategorySelectionScreenState extends State<MarketCategorySelectionS
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const TopBar(
-              title: 'Pick Categories?',
-            ).animate().fadeIn(duration: 300.ms).slideY(begin: .2, curve: Curves.easeOutQuad),
+            const TopBar(title: 'Pick Categories?')
+                .animate()
+                .fadeIn(duration: 300.ms)
+                .slideY(begin: .2, curve: Curves.easeOutQuad),
 
             // const GpsHeader(
             //   title: 'Which categories are you interested in?',
@@ -129,7 +132,10 @@ class _MarketCategorySelectionScreenState extends State<MarketCategorySelectionS
                         .animate(delay: (80 * index).ms)
                         .fadeIn(duration: 300.ms)
                         .slideY(begin: .15)
-                        .scale(begin: const Offset(.98, .98), curve: Curves.easeOutBack);
+                        .scale(
+                          begin: const Offset(.98, .98),
+                          curve: Curves.easeOutBack,
+                        );
                   },
                 ),
               ),
@@ -140,15 +146,24 @@ class _MarketCategorySelectionScreenState extends State<MarketCategorySelectionS
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Footer(
-                onSkip: () => Navigator.of(context).pushNamed(AppRoutesNames.marketPlaceScreen),
+                onSkip:
+                    () => Navigator.of(
+                      context,
+                    ).pushNamed(AppRoutesNames.marketPlaceScreen),
                 onNext:
                     _selected.isNotEmpty
                         ? () {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('Selected: ${_selected.join(', ')}')),
+                            SnackBar(
+                              content: Text(
+                                'Selected: ${_selected.join(', ')}',
+                              ),
+                            ),
                           );
                           Future.delayed(300.ms, () {
-                            Navigator.of(context).pushNamed(AppRoutesNames.marketPlaceScreen);
+                            Navigator.of(
+                              context,
+                            ).pushNamed(AppRoutesNames.marketPlaceScreen);
                           });
                         }
                         : null,

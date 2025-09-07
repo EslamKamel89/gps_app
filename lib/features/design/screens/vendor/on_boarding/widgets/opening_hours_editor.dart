@@ -8,7 +8,11 @@ class OpeningHoursEditor extends StatefulWidget {
   final Map<String, String> hours;
   final ValueChanged<Map<String, String>> onChanged;
 
-  const OpeningHoursEditor({super.key, required this.hours, required this.onChanged});
+  const OpeningHoursEditor({
+    super.key,
+    required this.hours,
+    required this.onChanged,
+  });
 
   @override
   State<OpeningHoursEditor> createState() => _OpeningHoursEditorState();
@@ -41,19 +45,29 @@ class _OpeningHoursEditorState extends State<OpeningHoursEditor> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 TextField(
-                  decoration: const InputDecoration(labelText: "Days (e.g., Holidays)"),
+                  decoration: const InputDecoration(
+                    labelText: "Days (e.g., Holidays)",
+                  ),
                   onChanged: (v) => {},
                 ),
                 const SizedBox(height: 12),
                 TextField(
-                  decoration: const InputDecoration(labelText: "Hours (e.g., 10:00 AM - 8:00 PM)"),
+                  decoration: const InputDecoration(
+                    labelText: "Hours (e.g., 10:00 AM - 8:00 PM)",
+                  ),
                   onChanged: (v) => {},
                 ),
               ],
             ),
             actions: [
-              TextButton(onPressed: () => Navigator.pop(ctx), child: const Text("Cancel")),
-              TextButton(onPressed: () => Navigator.pop(ctx), child: const Text("Add")),
+              TextButton(
+                onPressed: () => Navigator.pop(ctx),
+                child: const Text("Cancel"),
+              ),
+              TextButton(
+                onPressed: () => Navigator.pop(ctx),
+                child: const Text("Add"),
+              ),
             ],
           ),
     );
@@ -66,9 +80,10 @@ class _OpeningHoursEditorState extends State<OpeningHoursEditor> {
       children: [
         Text(
           'Opening Hours',
-          style: Theme.of(
-            context,
-          ).textTheme.labelLarge?.copyWith(fontWeight: FontWeight.w600, color: GPSColors.text),
+          style: Theme.of(context).textTheme.labelLarge?.copyWith(
+            fontWeight: FontWeight.w600,
+            color: GPSColors.text,
+          ),
         ),
         GPSGaps.h8,
         ..._hours.entries.map((entry) {
@@ -80,7 +95,10 @@ class _OpeningHoursEditorState extends State<OpeningHoursEditor> {
                   flex: 2,
                   child: Text(
                     entry.key,
-                    style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
                 Expanded(
@@ -91,8 +109,13 @@ class _OpeningHoursEditorState extends State<OpeningHoursEditor> {
                       // initialValue: entry.value,
                       onChanged: (v) => _updateHours(entry.key, v),
                       decoration: InputDecoration(
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 4,
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
                         isDense: true,
                       ),
                     ),
