@@ -8,14 +8,14 @@ class AssetCategoryCard extends StatelessWidget {
     super.key,
     required this.label,
     required this.description,
-    required this.assetPath,
+    required this.imageUrl,
     required this.selected,
     required this.onTap,
   });
 
   final String label;
   final String description; // NEW
-  final String assetPath;
+  final String imageUrl;
   final bool selected;
   final VoidCallback onTap;
 
@@ -26,12 +26,7 @@ class AssetCategoryCard extends StatelessWidget {
 
     final image = ClipRRect(
       borderRadius: BorderRadius.circular(12),
-      child: Image.asset(
-        assetPath,
-        fit: BoxFit.contain,
-        width: double.infinity,
-        height: 70,
-      ),
+      child: Image.network(imageUrl, fit: BoxFit.contain, width: double.infinity, height: 70),
     );
 
     final card = Container(

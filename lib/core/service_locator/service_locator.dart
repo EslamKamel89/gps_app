@@ -4,6 +4,7 @@ import 'package:gps_app/core/api_service/api_consumer.dart';
 import 'package:gps_app/core/api_service/dio_consumer.dart';
 import 'package:gps_app/core/router/app_router.dart';
 import 'package:gps_app/core/router/middleware.dart';
+import 'package:gps_app/features/user/categories/controllers/category_controller.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -12,18 +13,14 @@ final GetIt serviceLocator = GetIt.instance;
 Future initServiceLocator() async {
   serviceLocator.registerLazySingleton<ImagePicker>(() => ImagePicker());
   serviceLocator.registerLazySingleton<Dio>(() => Dio());
-  serviceLocator.registerLazySingleton<ApiConsumer>(
-    () => DioConsumer(dio: serviceLocator()),
-  );
+  serviceLocator.registerLazySingleton<ApiConsumer>(() => DioConsumer(dio: serviceLocator()));
   final prefs = await SharedPreferences.getInstance();
   serviceLocator.registerLazySingleton<SharedPreferences>(() => prefs);
   serviceLocator.registerLazySingleton<AppMiddleWare>(
     () => AppMiddleWare(sharedPreferences: serviceLocator()),
   );
-  serviceLocator.registerLazySingleton<AppRouter>(
-    () => AppRouter(appMiddleWare: serviceLocator()),
-  );
+  serviceLocator.registerLazySingleton<AppRouter>(() => AppRouter(appMiddleWare: serviceLocator()));
 
-  // serviceLocator.registerLazySingleton<HomeRemoteDataSource>(() => HomeRemoteDataSource(api: serviceLocator()));
+  serviceLocator.registerLazySingleton<CategoryController>(() => CategoryController());
   // serviceLocator.registerLazySingleton<HomeRepo>(() => HomeRepoImp(homeRemoteDataSource: serviceLocator()));
 }

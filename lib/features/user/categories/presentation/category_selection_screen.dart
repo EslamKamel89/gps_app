@@ -1,169 +1,115 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gps_app/core/router/app_routes_names.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 import 'package:gps_app/features/design/widgets/footer.dart';
 import 'package:gps_app/features/design/widgets/header.dart';
+import 'package:gps_app/features/user/categories/cubits/category/category_cubit.dart';
 import 'package:gps_app/features/user/categories/presentation/widgets/asset_category_card.dart';
-import 'package:gps_app/utils/assets/assets.dart';
-
-class CategoryOption {
-  final String id;
-  final String label;
-  final String description; // NEW
-  final String assetPath; // asset image path
-
-  const CategoryOption({
-    required this.id,
-    required this.label,
-    required this.description,
-    required this.assetPath,
-  });
-}
-
-const _categories = <CategoryOption>[
-  CategoryOption(
-    id: 'meat',
-    label: 'Meat',
-    description: 'Grass-fed, pasture-raised',
-    assetPath: AssetsData.meat,
-  ),
-  CategoryOption(
-    id: 'dairy',
-    label: 'Dairy',
-    description: 'Organic milk, cheese, yogurt',
-    assetPath: AssetsData.dairy,
-  ),
-  CategoryOption(
-    id: 'fruits_vegetables',
-    label: 'Fruits & Vegetables',
-    description: 'Fresh, seasonal, pesticide-free',
-    assetPath: AssetsData.fruitsVegetables,
-  ),
-  CategoryOption(
-    id: 'groceries',
-    label: 'Groceries',
-    description: 'Grains, oils, flour, pantry staples',
-    assetPath: AssetsData.groceries,
-  ),
-  // CategoryOption(
-  //   id: 'cookware',
-  //   label: 'Cookware',
-  //   description: 'Cast iron, stainless steel, non-toxic',
-  //   assetPath: AssetsData.cookware,
-  // ),
-  // CategoryOption(
-  //   id: 'supplements',
-  //   label: 'Supplements',
-  //   description: 'Vitamins, herbal, natural oils',
-  //   assetPath: AssetsData.supplements,
-  // ),
-];
 
 class CategorySelectionScreen extends StatefulWidget {
   const CategorySelectionScreen({super.key});
 
   @override
-  State<CategorySelectionScreen> createState() =>
-      _CategorySelectionScreenState();
+  State<CategorySelectionScreen> createState() => _CategorySelectionScreenState();
 }
 
 class _CategorySelectionScreenState extends State<CategorySelectionScreen> {
-  final Set<String> _selected = <String>{};
-
-  void _toggle(String id) {
-    setState(() {
-      if (_selected.contains(id)) {
-        _selected.remove(id);
-      } else {
-        _selected.add(id);
-      }
-    });
+  late CategoryCubit cubit;
+  @override
+  void initState() {
+    cubit = context.read<CategoryCubit>();
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return Scaffold(
-      backgroundColor: GPSColors.background,
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              GPSGaps.h24,
-              const GpsHeader(title: 'Which categories are you interested in?')
-                  .animate()
-                  .fadeIn(duration: 300.ms)
-                  .slideY(begin: .2, curve: Curves.easeOutQuad),
-              GPSGaps.h24,
+    return BlocBuilder<CategoryCubit, CategoryState>(
+      builder: (context, state) {
+        final categories = state.categories.data ?? [];
+        return Scaffold(
+          backgroundColor: GPSColors.background,
+          body: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  GPSGaps.h24,
+                  const GpsHeader(
+                    title: 'Which categories are you interested in?',
+                  ).animate().fadeIn(duration: 300.ms).slideY(begin: .2, curve: Curves.easeOutQuad),
+                  GPSGaps.h24,
 
-              Expanded(
-                child: GridView.builder(
-                  padding: EdgeInsets.zero,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    mainAxisSpacing: 14,
-                    crossAxisSpacing: 14,
-                    childAspectRatio: 1.05,
-                  ),
-                  itemCount: _categories.length,
-                  itemBuilder: (context, index) {
-                    final item = _categories[index];
-                    final selected = _selected.contains(item.id);
+                  Expanded(
+                    child: GridView.builder(
+                      padding: EdgeInsets.zero,
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        mainAxisSpacing: 14,
+                        crossAxisSpacing: 14,
+                        childAspectRatio: 1.05,
+                      ),
+                      itemCount: categories.length,
+                      itemBuilder: (context, index) {
+                        final category = categories[index];
+                        final selected =
+                            state.selectedCategories
+                                .where((cat) => cat.id == category.id)
+                                .isNotEmpty;
 
-                    final card = AssetCategoryCard(
-                      label: item.label,
-                      description: item.description, // NEW
-                      assetPath: item.assetPath,
-                      selected: selected,
-                      onTap: () => _toggle(item.id),
-                    );
-
-                    return card
-                        .animate(delay: (80 * index).ms)
-                        .fadeIn(duration: 300.ms)
-                        .slideY(begin: .15)
-                        .scale(
-                          begin: const Offset(.98, .98),
-                          curve: Curves.easeOutBack,
+                        final card = AssetCategoryCard(
+                          label: category.name ?? '',
+                          description: category.description ?? '', // NEW
+                          imageUrl: (category.imageUrl ?? ''),
+                          // .replaceAll(
+                          //   'http://10.0.2.2:8000',
+                          //   'http://127.0.0.1:8000',
+                          // )
+                          selected: selected,
+                          onTap: () => cubit.toggleMainCategory(category),
                         );
-                  },
-                ),
-              ),
 
-              GPSGaps.h12,
+                        return card
+                            .animate(delay: (80 * index).ms)
+                            .fadeIn(duration: 300.ms)
+                            .slideY(begin: .15)
+                            .scale(begin: const Offset(.98, .98), curve: Curves.easeOutBack);
+                      },
+                    ),
+                  ),
 
-              Footer(
-                onSkip:
-                    () => Navigator.of(
-                      context,
-                    ).pushNamed(AppRoutesNames.foodSelectionScreen),
-                onNext:
-                    _selected.isNotEmpty
-                        ? () {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(
-                                'Selected: ${_selected.join(', ')}',
-                              ),
-                            ),
-                          );
-                          Future.delayed(300.ms, () {
-                            Navigator.of(
-                              context,
-                            ).pushNamed(AppRoutesNames.foodSelectionScreen);
-                          });
-                        }
-                        : null,
+                  GPSGaps.h12,
+
+                  Footer(
+                    onSkip:
+                        () => Navigator.of(context).pushNamed(AppRoutesNames.foodSelectionScreen),
+                    onNext:
+                        state.selectedCategories.isNotEmpty
+                            ? () {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    'Selected: ${state.selectedCategories.map((c) => c.name).join(', ')}',
+                                  ),
+                                ),
+                              );
+                              Future.delayed(300.ms, () {
+                                Navigator.of(context).pushNamed(AppRoutesNames.foodSelectionScreen);
+                              });
+                            }
+                            : null,
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }
