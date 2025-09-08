@@ -20,6 +20,7 @@ import 'package:gps_app/features/design/screens/vendor/on_boarding/screens/resta
 import 'package:gps_app/features/design/screens/vendor/on_boarding/screens/store_onboarding_products.dart';
 import 'package:gps_app/features/design/screens/vendor/register/register_screen.dart';
 import 'package:gps_app/features/user/categories/presentation/category_selection_screen.dart';
+import 'package:gps_app/features/user/categories/presentation/subcategory_selection_screen.dart';
 
 class AppRouter {
   AppMiddleWare appMiddleWare;
@@ -29,48 +30,35 @@ class AppRouter {
     String? routeName = appMiddleWare.middlleware(routeSettings.name);
     switch (routeName) {
       case AppRoutesNames.emptyScreen:
-        return CustomPageRoute(
-          builder: (context) => EmptyScreen(),
-          settings: routeSettings,
-        );
+        return CustomPageRoute(builder: (context) => EmptyScreen(), settings: routeSettings);
       case AppRoutesNames.dietSelectionScreen:
         return CustomPageRoute(
           builder: (context) => DietSelectionScreen(),
           settings: routeSettings,
         );
       case AppRoutesNames.homeSearchScreen:
-        return CustomPageRoute(
-          builder: (context) => HomeSearchScreen(),
-          settings: routeSettings,
-        );
+        return CustomPageRoute(builder: (context) => HomeSearchScreen(), settings: routeSettings);
       case AppRoutesNames.restaurantDetailScreen:
         return CustomPageRoute(
           builder: (context) => RestaurantDetailScreen(),
           settings: routeSettings,
         );
       case AppRoutesNames.gpsSplashScreen:
-        return CustomPageRoute(
-          builder: (context) => GPSSplashScreen(),
-          settings: routeSettings,
-        );
+        return CustomPageRoute(builder: (context) => GPSSplashScreen(), settings: routeSettings);
       case AppRoutesNames.loginScreen:
-        return CustomPageRoute(
-          builder: (context) => LoginScreen(),
-          settings: routeSettings,
-        );
+        return CustomPageRoute(builder: (context) => LoginScreen(), settings: routeSettings);
       case AppRoutesNames.registerScreen:
-        return CustomPageRoute(
-          builder: (context) => RegisterScreen(),
-          settings: routeSettings,
-        );
+        return CustomPageRoute(builder: (context) => RegisterScreen(), settings: routeSettings);
       case AppRoutesNames.marketPlaceScreen:
-        return CustomPageRoute(
-          builder: (context) => MarketPlaceScreen(),
-          settings: routeSettings,
-        );
+        return CustomPageRoute(builder: (context) => MarketPlaceScreen(), settings: routeSettings);
       case AppRoutesNames.categorySelectionScreen:
         return CustomPageRoute(
           builder: (context) => CategorySelectionScreen(),
+          settings: routeSettings,
+        );
+      case AppRoutesNames.subcategorySelectionScreen:
+        return CustomPageRoute(
+          builder: (context) => SubCategorySelectionScreen(),
           settings: routeSettings,
         );
       case AppRoutesNames.foodSelectionScreen:
@@ -79,10 +67,7 @@ class AppRouter {
           settings: routeSettings,
         );
       case AppRoutesNames.scanImageScreen:
-        return CustomPageRoute(
-          builder: (context) => ScanImageScreen(),
-          settings: routeSettings,
-        );
+        return CustomPageRoute(builder: (context) => ScanImageScreen(), settings: routeSettings);
       case AppRoutesNames.marketCategorySelectionScreen:
         return CustomPageRoute(
           builder: (context) => MarketCategorySelectionScreen(),
@@ -131,10 +116,7 @@ class AppRouter {
 }
 
 class CustomPageRoute<T> extends MaterialPageRoute<T> {
-  CustomPageRoute({
-    required super.builder,
-    required RouteSettings super.settings,
-  });
+  CustomPageRoute({required super.builder, required RouteSettings super.settings});
   @override
   Widget buildTransitions(
     BuildContext context,

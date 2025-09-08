@@ -14,9 +14,14 @@ class CategoryCubit extends Cubit<CategoryState> {
   final CategoryController controller = serviceLocator<CategoryController>();
   Future categoriesIndex() async {
     final t = prt('categoriesIndex - CategoryCubit');
+
     emit(
       state.copyWith(
-        categories: state.categories.copyWith(errorMessage: null, response: ResponseEnum.loading),
+        categories: state.categories.copyWith(
+          errorMessage: null,
+          response: ResponseEnum.loading,
+          data: [],
+        ),
       ),
     );
     final ApiResponseModel<List<CategoryModel>> response = await controller.categoriesIndex();
@@ -24,12 +29,23 @@ class CategoryCubit extends Cubit<CategoryState> {
     emit(state.copyWith(categories: response));
   }
 
-  void toggleMainCategory(CategoryModel category) {
+  void toggleSelectedCategory(CategoryModel category) {
     bool categoryExist = state.selectedCategories.where((cat) => cat.id == category.id).isNotEmpty;
     if (categoryExist) {
       state.selectedCategories.removeWhere((cat) => cat.id == category.id);
     } else {
       state.selectedCategories.add(category);
+    }
+    emit(state.copyWith());
+  }
+
+  void toggleSelectedSubCategory(SubCategoryModel subCat) {
+    bool subCategoryExist =
+        state.selectedSubCategories.where((cat) => cat.id == subCat.id).isNotEmpty;
+    if (subCategoryExist) {
+      state.selectedSubCategories.removeWhere((cat) => cat.id == subCat.id);
+    } else {
+      state.selectedSubCategories.add(subCat);
     }
     emit(state.copyWith());
   }

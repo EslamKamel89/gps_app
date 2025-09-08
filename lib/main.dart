@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
       child: MultiBlocProvider(
         providers: [
           BlocProvider(create: (_) => ThemeCubit()),
-          BlocProvider(create: (_) => CategoryCubit()..categoriesIndex()),
+          BlocProvider(create: (_) => CategoryCubit()),
         ],
         child: Builder(
           builder: (context) {

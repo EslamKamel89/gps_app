@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gps_app/core/enums/response_type.dart';
 import 'package:gps_app/core/router/app_routes_names.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
@@ -21,13 +22,12 @@ class _CategorySelectionScreenState extends State<CategorySelectionScreen> {
   @override
   void initState() {
     cubit = context.read<CategoryCubit>();
+    cubit.categoriesIndex();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return BlocBuilder<CategoryCubit, CategoryState>(
       builder: (context, state) {
         final categories = state.categories.data ?? [];
@@ -45,49 +45,77 @@ class _CategorySelectionScreenState extends State<CategorySelectionScreen> {
                   ).animate().fadeIn(duration: 300.ms).slideY(begin: .2, curve: Curves.easeOutQuad),
                   GPSGaps.h24,
 
-                  Expanded(
-                    child: GridView.builder(
-                      padding: EdgeInsets.zero,
-                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        mainAxisSpacing: 14,
-                        crossAxisSpacing: 14,
-                        childAspectRatio: 1.05,
-                      ),
-                      itemCount: categories.length,
-                      itemBuilder: (context, index) {
-                        final category = categories[index];
-                        final selected =
-                            state.selectedCategories
-                                .where((cat) => cat.id == category.id)
-                                .isNotEmpty;
-
-                        final card = AssetCategoryCard(
-                          label: category.name ?? '',
-                          description: category.description ?? '', // NEW
-                          imageUrl: (category.imageUrl ?? ''),
-                          // .replaceAll(
-                          //   'http://10.0.2.2:8000',
-                          //   'http://127.0.0.1:8000',
-                          // )
-                          selected: selected,
-                          onTap: () => cubit.toggleMainCategory(category),
+                  Builder(
+                    builder: (context) {
+                      if (state.categories.response == ResponseEnum.loading) {
+                        return Expanded(
+                          child: GridView.builder(
+                            padding: EdgeInsets.zero,
+                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              mainAxisSpacing: 14,
+                              crossAxisSpacing: 14,
+                              childAspectRatio: 1.05,
+                            ),
+                            itemCount: 4,
+                            itemBuilder: (context, index) {
+                              return Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.grey.withOpacity(0.6),
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                              ).animate(onPlay: (c) => c.repeat()).shimmer(duration: 1000.ms);
+                            },
+                          ),
                         );
+                      }
+                      return Expanded(
+                        child: GridView.builder(
+                          padding: EdgeInsets.zero,
+                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            mainAxisSpacing: 14,
+                            crossAxisSpacing: 14,
+                            childAspectRatio: 1.05,
+                          ),
+                          itemCount: categories.length,
+                          itemBuilder: (context, index) {
+                            final category = categories[index];
+                            final selected =
+                                state.selectedCategories
+                                    .where((cat) => cat.id == category.id)
+                                    .isNotEmpty;
 
-                        return card
-                            .animate(delay: (80 * index).ms)
-                            .fadeIn(duration: 300.ms)
-                            .slideY(begin: .15)
-                            .scale(begin: const Offset(.98, .98), curve: Curves.easeOutBack);
-                      },
-                    ),
+                            final card = AssetCategoryCard(
+                              label: category.name ?? '',
+                              description: category.description ?? '', // NEW
+                              imageUrl: (category.imageUrl ?? ''),
+                              // .replaceAll(
+                              //   'x',
+                              //   'http://127.0.0.1:8000',
+                              // )
+                              selected: selected,
+                              onTap: () => cubit.toggleSelectedCategory(category),
+                            );
+
+                            return card
+                                .animate(delay: (80 * index).ms)
+                                .fadeIn(duration: 300.ms)
+                                .slideY(begin: .15)
+                                .scale(begin: const Offset(.98, .98), curve: Curves.easeOutBack);
+                          },
+                        ),
+                      );
+                    },
                   ),
 
                   GPSGaps.h12,
 
                   Footer(
                     onSkip:
-                        () => Navigator.of(context).pushNamed(AppRoutesNames.foodSelectionScreen),
+                        () => Navigator.of(
+                          context,
+                        ).pushNamed(AppRoutesNames.subcategorySelectionScreen),
                     onNext:
                         state.selectedCategories.isNotEmpty
                             ? () {
@@ -99,7 +127,9 @@ class _CategorySelectionScreenState extends State<CategorySelectionScreen> {
                                 ),
                               );
                               Future.delayed(300.ms, () {
-                                Navigator.of(context).pushNamed(AppRoutesNames.foodSelectionScreen);
+                                Navigator.of(
+                                  context,
+                                ).pushNamed(AppRoutesNames.subcategorySelectionScreen);
                               });
                             }
                             : null,
