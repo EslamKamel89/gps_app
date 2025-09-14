@@ -19,4 +19,9 @@ class UserTypeModel {
     'created_at': createdAt,
     'updated_at': updatedAt,
   };
+
+  @override
+  String toString() {
+    return 'UserTypeModel(id: $id, type: $type, createdAt: $createdAt, updatedAt: $updatedAt)';
+  }
 }

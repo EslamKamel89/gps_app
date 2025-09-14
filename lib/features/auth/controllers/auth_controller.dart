@@ -21,7 +21,7 @@ class AuthController {
     final t = 'AuthController - login';
     try {
       final res = await _api.post(EndPoint.login, data: {'email': email, 'password': password});
-      final user = UserModel.fromJson(res.data as Map<String, dynamic>);
+      final user = UserModel.fromJson(res as Map<String, dynamic>);
       pr(user, t);
       return ApiResponseModel<UserModel>(data: user, response: ResponseEnum.success);
     } catch (e) {

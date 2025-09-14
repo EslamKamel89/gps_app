@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'user_type_model.dart';
 
 class UserModel {
@@ -62,4 +63,9 @@ class UserModel {
     'token': token,
     'user_type': userType?.toJson(),
   };
+
+  @override
+  String toString() {
+    return 'UserModel(id: $id, fullName: $fullName, userName: $userName, email: $email, emailVerifiedAt: $emailVerifiedAt, mobile: $mobile, createdAt: $createdAt, updatedAt: $updatedAt, userTypeId: $userTypeId, districtId: $districtId, stateId: $stateId, token: $token, userType: $userType)';
+  }
 }
