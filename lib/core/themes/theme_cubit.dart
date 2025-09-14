@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gps_app/core/cache/cache_keys.dart';
 import 'package:gps_app/core/service_locator/service_locator.dart';
-import 'package:gps_app/core/static_data/shared_prefrences_key.dart';
 import 'package:gps_app/core/themes/themedata.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -14,21 +14,20 @@ class ThemeCubit extends Cubit<ThemeData> {
     final prefs = serviceLocator<SharedPreferences>();
     if (state.brightness == Brightness.light) {
       emit(darkTheme);
-      prefs.setBool(ShPrefKey.isDarkMode, true);
+      prefs.setBool(CacheKeys.isDarkMode, true);
     } else {
       emit(lightTheme);
-      prefs.setBool(ShPrefKey.isDarkMode, false);
+      prefs.setBool(CacheKeys.isDarkMode, false);
     }
   }
 
   void _loadTheme() {
     final prefs = serviceLocator<SharedPreferences>();
-    final isDarkMode = prefs.getBool(ShPrefKey.isDarkMode) ?? false;
+    final isDarkMode = prefs.getBool(CacheKeys.isDarkMode) ?? false;
     emit(isDarkMode ? darkTheme : lightTheme);
   }
 }
 
 bool isDarkTheme() {
-  return serviceLocator<SharedPreferences>().getBool(ShPrefKey.isDarkMode) ??
-      false;
+  return serviceLocator<SharedPreferences>().getBool(CacheKeys.isDarkMode) ?? false;
 }
