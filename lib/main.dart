@@ -7,6 +7,7 @@ import 'package:gps_app/core/router/app_router.dart';
 import 'package:gps_app/core/router/app_routes_names.dart';
 import 'package:gps_app/core/service_locator/service_locator.dart';
 import 'package:gps_app/core/themes/theme_cubit.dart';
+import 'package:gps_app/features/auth/cubits/auth_cubit.dart';
 import 'package:gps_app/features/user/categories/cubits/category/category_cubit.dart';
 import 'package:intl/intl_standalone.dart';
 
@@ -39,6 +40,7 @@ class MyApp extends StatelessWidget {
         providers: [
           BlocProvider(create: (_) => ThemeCubit()),
           BlocProvider(create: (_) => CategoryCubit()),
+          BlocProvider(create: (_) => AuthCubit()),
         ],
         child: Builder(
           builder: (context) {

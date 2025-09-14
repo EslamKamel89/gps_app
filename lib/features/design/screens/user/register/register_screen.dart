@@ -2,7 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:gps_app/core/router/app_routes_names.dart';
-import 'package:gps_app/features/design/screens/user/login/widgets/role_toggle.dart';
+import 'package:gps_app/features/auth/presentation/widgets/role_toggle.dart';
 import 'package:gps_app/features/design/screens/user/register/widgets/gps_label_field.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
@@ -56,9 +56,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   Future<void> _onRegister() async {
-    Navigator.of(
-      context,
-    ).pushReplacementNamed(AppRoutesNames.dietSelectionScreen);
+    Navigator.of(context).pushReplacementNamed(AppRoutesNames.dietSelectionScreen);
   }
 
   @override
@@ -79,10 +77,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  const PinLeafLogo(size: 120)
-                      .animate()
-                      .fadeIn(duration: 250.ms)
-                      .scale(begin: const Offset(0.9, 0.9)),
+                  const PinLeafLogo(
+                    size: 120,
+                  ).animate().fadeIn(duration: 250.ms).scale(begin: const Offset(0.9, 0.9)),
                   GPSGaps.h16,
                   Center(
                     child: GpsShortDescription(),
@@ -135,9 +132,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       controller: _passwordCtrl,
                       obscureText: _obscure,
                       textInputAction: TextInputAction.next,
-                      decoration: _inputDecoration(
-                        'Create a password',
-                      ).copyWith(
+                      decoration: _inputDecoration('Create a password').copyWith(
                         suffixIcon: IconButton(
                           icon: Icon(
                             _obscure ? Icons.visibility_off : Icons.visibility,
@@ -173,14 +168,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                             ),
                                           )
                                           .toList(),
-                                  onChanged:
-                                      (v) => setState(() => _selectedCity = v),
-                                  decoration: _inputDecoration(
-                                    'Select your city',
-                                  ),
-                                  icon: const Icon(
-                                    Icons.keyboard_arrow_down_rounded,
-                                  ),
+                                  onChanged: (v) => setState(() => _selectedCity = v),
+                                  decoration: _inputDecoration('Select your city'),
+                                  icon: const Icon(Icons.keyboard_arrow_down_rounded),
                                 ),
                               ),
                             ),
@@ -193,12 +183,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       value: _selectedCountry,
                       items:
                           _countryCities.keys
-                              .map(
-                                (c) => DropdownMenuItem<String>(
-                                  value: c,
-                                  child: Text(c),
-                                ),
-                              )
+                              .map((c) => DropdownMenuItem<String>(value: c, child: Text(c)))
                               .toList(),
                       onChanged: _onCountryChanged,
                       decoration: _inputDecoration('Select your country'),
@@ -223,37 +208,30 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                   // Register button
                   SizedBox(
-                        height: 52,
-                        child: ElevatedButton(
-                          onPressed: _loading ? null : _onRegister,
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: GPSColors.primary,
-                            foregroundColor: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                          ),
-                          child:
-                              _loading
-                                  ? const SizedBox(
-                                    height: 22,
-                                    width: 22,
-                                    child: CircularProgressIndicator(
-                                      strokeWidth: 2,
-                                      color: Colors.white,
-                                    ),
-                                  )
-                                  : const Text(
-                                    'Create Account',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
-                        ),
-                      )
-                      .animate()
-                      .fadeIn(duration: 280.ms, delay: 90.ms)
-                      .slideY(begin: .08),
+                    height: 52,
+                    child: ElevatedButton(
+                      onPressed: _loading ? null : _onRegister,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: GPSColors.primary,
+                        foregroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                      ),
+                      child:
+                          _loading
+                              ? const SizedBox(
+                                height: 22,
+                                width: 22,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                  color: Colors.white,
+                                ),
+                              )
+                              : const Text(
+                                'Create Account',
+                                style: TextStyle(fontWeight: FontWeight.w700),
+                              ),
+                    ),
+                  ).animate().fadeIn(duration: 280.ms, delay: 90.ms).slideY(begin: .08),
 
                   GPSGaps.h16,
 
@@ -261,9 +239,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   Center(
                     child: RichText(
                       text: TextSpan(
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: GPSColors.mutedText,
-                        ),
+                        style: Theme.of(
+                          context,
+                        ).textTheme.bodyMedium?.copyWith(color: GPSColors.mutedText),
                         children: [
                           const TextSpan(text: 'Already have an account? '),
                           TextSpan(
@@ -277,9 +255,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   ..onTap =
                                       () => Navigator.of(
                                         context,
-                                      ).pushReplacementNamed(
-                                        AppRoutesNames.loginScreen,
-                                      ),
+                                      ).pushReplacementNamed(AppRoutesNames.loginScreen),
                           ),
                         ],
                       ),

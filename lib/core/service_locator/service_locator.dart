@@ -5,6 +5,7 @@ import 'package:gps_app/core/api_service/dio_consumer.dart';
 import 'package:gps_app/core/cache/local_storage.dart';
 import 'package:gps_app/core/router/app_router.dart';
 import 'package:gps_app/core/router/middleware.dart';
+import 'package:gps_app/features/auth/controllers/auth_controller.dart';
 import 'package:gps_app/features/user/categories/controllers/category_controller.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -24,5 +25,7 @@ Future initServiceLocator() async {
   serviceLocator.registerLazySingleton<AppRouter>(() => AppRouter(appMiddleWare: serviceLocator()));
 
   serviceLocator.registerLazySingleton<CategoryController>(() => CategoryController());
+  serviceLocator.registerLazySingleton<AuthController>(() => AuthController());
+
   // serviceLocator.registerLazySingleton<HomeRepo>(() => HomeRepoImp(homeRemoteDataSource: serviceLocator()));
 }
