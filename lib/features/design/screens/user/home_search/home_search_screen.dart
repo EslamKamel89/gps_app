@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:gps_app/core/extensions/context-extensions.dart';
@@ -5,6 +7,7 @@ import 'package:gps_app/core/router/app_routes_names.dart';
 import 'package:gps_app/features/design/screens/user/home_search/widgets/featured_resturant_card.dart';
 import 'package:gps_app/features/design/screens/user/home_search/widgets/filter_chip_row.dart';
 import 'package:gps_app/features/design/screens/user/home_search/widgets/filter_dialog.dart';
+import 'package:gps_app/features/design/screens/user/home_search/widgets/map/map.dart';
 import 'package:gps_app/features/design/screens/user/home_search/widgets/promo_card.dart';
 import 'package:gps_app/features/design/screens/user/home_search/widgets/resturant_list_item.dart';
 import 'package:gps_app/features/design/screens/user/home_search/widgets/search_row.dart';
@@ -409,12 +412,14 @@ class _HomeSearchScreenState extends State<HomeSearchScreen> {
                     child: Stack(
                       fit: StackFit.expand,
                       children: [
-                        Image.network(
-                          'https://media.wired.com/photos/59269cd37034dc5f91bec0f1/3:2/w_2240,c_limit/GoogleMapTA.jpg',
-                          fit: BoxFit.cover,
-                          width: context.width,
-                          height: context.height,
-                        ),
+                        // Image.network(
+                        //   'https://media.wired.com/photos/59269cd37034dc5f91bec0f1/3:2/w_2240,c_limit/GoogleMapTA.jpg',
+                        //   fit: BoxFit.cover,
+                        //   width: context.width,
+                        //   height: context.height,
+                        // ),
+                        MapView(),
+
                         Container(
                           decoration: BoxDecoration(
                             gradient: LinearGradient(
