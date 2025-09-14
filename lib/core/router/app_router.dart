@@ -12,7 +12,6 @@ import 'package:gps_app/features/design/screens/user/register/register_screen.da
 import 'package:gps_app/features/design/screens/user/resturant_details/resturant_details_screen.dart';
 import 'package:gps_app/features/design/screens/user/scann_image/scan_image_screen.dart';
 import 'package:gps_app/features/design/screens/user/splash/splash_screen.dart';
-import 'package:gps_app/features/design/screens/vendor/login/login_screen.dart';
 import 'package:gps_app/features/design/screens/vendor/on_boarding/screens/farm_onboarding_products.dart';
 import 'package:gps_app/features/design/screens/vendor/on_boarding/screens/restaurant_onboarding_branches_screen.dart';
 import 'package:gps_app/features/design/screens/vendor/on_boarding/screens/restaurant_onboarding_certifications_screen.dart';
@@ -73,11 +72,7 @@ class AppRouter {
           builder: (context) => MarketCategorySelectionScreen(),
           settings: routeSettings,
         );
-      case AppRoutesNames.restaurantLoginScreen:
-        return CustomPageRoute(
-          builder: (context) => RestaurantLoginScreen(),
-          settings: routeSettings,
-        );
+
       case AppRoutesNames.restaurantRegisterScreen:
         return CustomPageRoute(
           builder: (context) => VendorRegisterScreen(),
