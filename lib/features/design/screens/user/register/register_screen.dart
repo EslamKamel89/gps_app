@@ -1,7 +1,10 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:gps_app/core/helpers/print_helper.dart';
 import 'package:gps_app/core/router/app_routes_names.dart';
+import 'package:gps_app/core/widgets/uploads/image_upload_field.dart';
+import 'package:gps_app/core/widgets/uploads/uploaded_image.dart';
 import 'package:gps_app/features/auth/presentation/widgets/role_toggle.dart';
 import 'package:gps_app/features/design/screens/user/register/widgets/gps_label_field.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
@@ -88,6 +91,26 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   RoleToggle(isInLoginScreen: false),
                   GPSGaps.h24,
 
+                  ImageUploadField(
+                    multiple: false,
+                    // maxCount: 6,
+                    resource: UploadResource.user,
+                    initial: const [],
+                    onChanged: (images) {
+                      pr(images, 'images');
+                    },
+                    child: Container(
+                      height: 56,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(color: Colors.grey.shade400),
+                      ),
+                      child: const Text('Tap to upload your profile image'),
+                    ),
+                  ),
+
+                  GPSGaps.h12,
                   // Full name
                   GpsLabeledField(
                     label: 'Full name',

@@ -3,4 +3,5 @@ class EndPoint {
   // static const String baseUrl = "http://127.0.0.1:8000";
   static const String category = "$baseUrl/api/category";
   static const String login = "$baseUrl/api/login";
+  static const String uploadImages = "$baseUrl/api/uploads/images";
 }
