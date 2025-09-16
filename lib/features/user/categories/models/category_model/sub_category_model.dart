@@ -20,14 +20,15 @@ class SubCategoryModel {
     return 'SubCategory(id: $id, name: $name, categoryId: $categoryId, image: $image, imageUrl: $imageUrl , description: $description)';
   }
 
-  factory SubCategoryModel.fromJson(Map<String, dynamic> json) => SubCategoryModel(
-    id: json['id'] as int?,
-    name: json['name'] as String?,
-    categoryId: json['category_id'] as int?,
-    image: json['image'] as String?,
-    imageUrl: json['image_url'] as String?,
-    description: json['description'] as String?,
-  );
+  factory SubCategoryModel.fromJson(Map<String, dynamic> json) =>
+      SubCategoryModel(
+        id: json['id'] as int?,
+        name: json['name'] as String?,
+        categoryId: json['category_id'] as int?,
+        image: json['image'] as String?,
+        imageUrl: json['image_url'] as String?,
+        description: json['description'] as String?,
+      );
 
   Map<String, dynamic> toJson() => {
     'id': id,

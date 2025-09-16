@@ -45,7 +45,8 @@ class UserModel {
     districtId: j['district_id'],
     stateId: j['state_id'],
     token: j['token'],
-    userType: j['user_type'] == null ? null : UserTypeModel.fromJson(j['user_type']),
+    userType:
+        j['user_type'] == null ? null : UserTypeModel.fromJson(j['user_type']),
   );
 
   Map<String, dynamic> toJson() => {

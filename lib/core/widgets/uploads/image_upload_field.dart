@@ -80,7 +80,10 @@ class _ImageUploadFieldState extends State<ImageUploadField> {
   final List<_UploadItem> _items = [];
 
   List<UploadedImage> get _successful =>
-      _items.where((e) => e.serverImage != null).map((e) => e.serverImage!).toList();
+      _items
+          .where((e) => e.serverImage != null)
+          .map((e) => e.serverImage!)
+          .toList();
 
   String get _uploadUrl => '${EndPoint.baseUrl}/api/uploads/images';
 
@@ -89,7 +92,11 @@ class _ImageUploadFieldState extends State<ImageUploadField> {
     super.initState();
     for (final img in widget.initial) {
       _items.add(
-        _UploadItem(localFile: XFile(''), serverImage: img, status: _UploadStatus.success),
+        _UploadItem(
+          localFile: XFile(''),
+          serverImage: img,
+          status: _UploadStatus.success,
+        ),
       );
     }
   }
@@ -137,11 +144,15 @@ class _ImageUploadFieldState extends State<ImageUploadField> {
         final remaining =
             widget.maxCount == null
                 ? null
-                : (widget.maxCount! - _items.where((e) => e.isCompleted).length);
+                : (widget.maxCount! -
+                    _items.where((e) => e.isCompleted).length);
         final multi = await _picker.pickMultiImage();
         if (multi.isEmpty) return;
 
-        final selected = remaining == null ? multi : multi.take(remaining.clamp(0, multi.length));
+        final selected =
+            remaining == null
+                ? multi
+                : multi.take(remaining.clamp(0, multi.length));
         if (selected.isEmpty) return;
 
         await _enqueueAndUpload(selected.toList());
@@ -210,7 +221,11 @@ class _ImageUploadFieldState extends State<ImageUploadField> {
               ..errorMessage = null;
           }
         }
-        for (int j = startIndex + res.length; j < startIndex + files.length; j++) {
+        for (
+          int j = startIndex + res.length;
+          j < startIndex + files.length;
+          j++
+        ) {
           if (j < _items.length) {
             _items[j]
               ..status = _UploadStatus.failed
@@ -252,14 +267,19 @@ class _ImageUploadFieldState extends State<ImageUploadField> {
 
     final formData = FormData.fromMap({
       'dir': widget.resource.dir,
-      'images[]': await MultipartFile.fromFile(item.localFile.path, filename: item.localFile.name),
+      'images[]': await MultipartFile.fromFile(
+        item.localFile.path,
+        filename: item.localFile.name,
+      ),
     });
 
     try {
       final res = await _api.post(_uploadUrl, data: formData, isFormData: true);
 
       if (res is List && res.isNotEmpty) {
-        final uploaded = UploadedImage.fromJson(Map<String, dynamic>.from(res.first as Map));
+        final uploaded = UploadedImage.fromJson(
+          Map<String, dynamic>.from(res.first as Map),
+        );
         setState(() {
           item.serverImage = uploaded;
           item.status = _UploadStatus.success;
@@ -308,7 +328,8 @@ class _ImageUploadFieldState extends State<ImageUploadField> {
   Widget _buildGrid(BuildContext context) {
     final canAddMore =
         widget.multiple &&
-        (widget.maxCount == null || _items.where((e) => e.isCompleted).length < widget.maxCount!);
+        (widget.maxCount == null ||
+            _items.where((e) => e.isCompleted).length < widget.maxCount!);
 
     final itemCount = _items.length + (canAddMore ? 1 : 0);
 
@@ -332,7 +353,9 @@ class _ImageUploadFieldState extends State<ImageUploadField> {
 
   Widget _buildThumb(BuildContext context, int index) {
     final item = _items[index];
-    final placeholder = Container(color: Theme.of(context).colorScheme.surfaceContainerHighest);
+    final placeholder = Container(
+      color: Theme.of(context).colorScheme.surfaceContainerHighest,
+    );
 
     Widget imageWidget;
     if (item.serverImage != null && item.localFile.path.isEmpty) {
@@ -358,7 +381,10 @@ class _ImageUploadFieldState extends State<ImageUploadField> {
     if (item.status == _UploadStatus.uploading) {
       imageWidget = Stack(
         fit: StackFit.expand,
-        children: [imageWidget, Container(color: Colors.black.withOpacity(0.1))],
+        children: [
+          imageWidget,
+          Container(color: Colors.black.withOpacity(0.1)),
+        ],
       ).animate(onPlay: (c) => c.repeat()).shimmer(duration: 1200.ms);
     }
 

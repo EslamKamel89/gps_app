@@ -84,7 +84,9 @@ class _ProofCardState extends State<ProofCard> {
             child: TextFormField(
               initialValue: _proof.title,
               onChanged: (v) => _update('title', v),
-              decoration: const InputDecoration(hintText: 'e.g., Health License'),
+              decoration: const InputDecoration(
+                hintText: 'e.g., Health License',
+              ),
             ),
           ),
           GPSGaps.h16,
@@ -96,7 +98,9 @@ class _ProofCardState extends State<ProofCard> {
               initialValue: _proof.description,
               onChanged: (v) => _update('description', v),
               maxLines: 2,
-              decoration: const InputDecoration(hintText: 'e.g., Issued by City Health Dept.'),
+              decoration: const InputDecoration(
+                hintText: 'e.g., Issued by City Health Dept.',
+              ),
             ),
           ),
           GPSGaps.h16,
@@ -105,9 +109,11 @@ class _ProofCardState extends State<ProofCard> {
           ImageUploadButton(
             imageUrl: _proof.imageUrl,
             onTap: () {
-              ScaffoldMessenger.of(
-                context,
-              ).showSnackBar(const SnackBar(content: Text("Image picker not implemented yet")));
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text("Image picker not implemented yet"),
+                ),
+              );
             },
           ),
         ],

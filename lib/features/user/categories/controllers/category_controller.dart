@@ -18,15 +18,26 @@ class CategoryController {
       final response = await api.get(EndPoint.category);
       pr(response, '$t - response');
       final List<CategoryModel> models =
-          (response as List).map((json) => CategoryModel.fromJson(json)).toList();
-      return pr(ApiResponseModel(response: ResponseEnum.success, data: models), t);
+          (response as List)
+              .map((json) => CategoryModel.fromJson(json))
+              .toList();
+      return pr(
+        ApiResponseModel(response: ResponseEnum.success, data: models),
+        t,
+      );
     } catch (e) {
       String errorMessage = e.toString();
       if (e is DioException) {
         errorMessage = jsonEncode(e.response?.data ?? 'Unknown error occurred');
       }
       showSnackbar('Error', errorMessage, true);
-      return pr(ApiResponseModel(errorMessage: errorMessage, response: ResponseEnum.failed), t);
+      return pr(
+        ApiResponseModel(
+          errorMessage: errorMessage,
+          response: ResponseEnum.failed,
+        ),
+        t,
+      );
     }
   }
 }

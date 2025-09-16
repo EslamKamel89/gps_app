@@ -85,7 +85,8 @@ class _MenuItemFormState extends State<MenuItemForm> {
           GpsLabeledField(
             label: 'Price',
             child: TextFormField(
-              initialValue: _item.price > 0 ? _item.price.toStringAsFixed(2) : '',
+              initialValue:
+                  _item.price > 0 ? _item.price.toStringAsFixed(2) : '',
               onChanged: (v) => _update('price', double.tryParse(v) ?? 0.0),
               keyboardType: TextInputType.numberWithOptions(decimal: true),
               decoration: const InputDecoration(
@@ -124,7 +125,11 @@ class _MenuItemFormState extends State<MenuItemForm> {
           // Spicy Toggle
           Row(
             children: [
-              const Icon(Icons.local_fire_department_rounded, size: 16, color: Colors.orange),
+              const Icon(
+                Icons.local_fire_department_rounded,
+                size: 16,
+                color: Colors.orange,
+              ),
               GPSGaps.w8,
               const Text('Spicy?', style: TextStyle(fontSize: 14)),
               const Spacer(),

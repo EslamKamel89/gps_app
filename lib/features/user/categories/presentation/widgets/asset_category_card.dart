@@ -26,7 +26,12 @@ class AssetCategoryCard extends StatelessWidget {
 
     final image = ClipRRect(
       borderRadius: BorderRadius.circular(12),
-      child: Image.network(imageUrl, fit: BoxFit.contain, width: double.infinity, height: 70),
+      child: Image.network(
+        imageUrl,
+        fit: BoxFit.contain,
+        width: double.infinity,
+        height: 70,
+      ),
     );
 
     final card = Container(
