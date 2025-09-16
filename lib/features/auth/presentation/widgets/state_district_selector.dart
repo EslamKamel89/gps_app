@@ -53,18 +53,9 @@ class _StateAndDistrictSelectorState extends State<StateAndDistrictSelector> {
         return Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            SearchableDropdownWidget(
-              label: 'State',
-              hintText: 'Select State',
-              isRequired: true,
-              options: state.states.data?.map((stateModel) => stateModel.name ?? '').toList() ?? [],
-              handleSelectOption: (String option) async {
-                await cubit.selectState(stateName: option);
-              },
-            ),
-            if (state.districts.data?.isNotEmpty == true) GPSGaps.h8,
             if (state.districts.data?.isNotEmpty == true)
               SearchableDropdownWidget(
+                key: Key('district'),
                 label: 'District',
                 hintText: 'Select District',
                 isRequired: true,
@@ -80,6 +71,17 @@ class _StateAndDistrictSelectorState extends State<StateAndDistrictSelector> {
                   );
                 },
               ),
+            if (state.districts.data?.isNotEmpty == true) GPSGaps.h8,
+            SearchableDropdownWidget(
+              key: Key('state'),
+              label: 'State',
+              hintText: 'Select State',
+              isRequired: true,
+              options: state.states.data?.map((stateModel) => stateModel.name ?? '').toList() ?? [],
+              handleSelectOption: (String option) async {
+                await cubit.selectState(stateName: option);
+              },
+            ),
           ],
         );
       },

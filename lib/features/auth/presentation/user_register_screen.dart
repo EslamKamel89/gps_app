@@ -32,16 +32,6 @@ class _UserRegisterScreenState extends State<UserRegisterScreen> {
   bool _obscure = true;
   final bool _loading = false;
 
-  // Sample real-ish data for dependent dropdowns
-  final Map<String, List<String>> _countryCities = const {
-    'United States': ['New York', 'Los Angeles', 'Austin', 'Miami'],
-    'Canada': ['Toronto', 'Vancouver', 'Montreal'],
-    // 'Egypt': ['Cairo', 'Alexandria', 'Giza'],
-  };
-
-  String? _selectedCountry;
-  String? _selectedCity;
-
   @override
   void dispose() {
     _fullNameCtrl.dispose();
@@ -52,24 +42,12 @@ class _UserRegisterScreenState extends State<UserRegisterScreen> {
     super.dispose();
   }
 
-  void _onCountryChanged(String? country) {
-    setState(() {
-      _selectedCountry = country;
-      _selectedCity = null; // reset city when country changes
-    });
-  }
-
   Future<void> _onRegister() async {
     Navigator.of(context).pushReplacementNamed(AppRoutesNames.dietSelectionScreen);
   }
 
   @override
   Widget build(BuildContext context) {
-    final cities =
-        _selectedCountry == null
-            ? const <String>[]
-            : _countryCities[_selectedCountry] ?? const <String>[];
-
     return Scaffold(
       backgroundColor: GPSColors.background,
       body: SafeArea(
