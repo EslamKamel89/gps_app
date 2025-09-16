@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:gps_app/core/helpers/snackbar.dart';
 import 'package:gps_app/core/router/app_routes_names.dart';
+import 'package:gps_app/features/auth/presentation/widgets/gps_label_field.dart';
 import 'package:gps_app/features/auth/presentation/widgets/role_toggle.dart';
-import 'package:gps_app/features/design/screens/user/register/widgets/gps_label_field.dart';
 import 'package:gps_app/features/design/screens/vendor/register/widgets/vendor_type_select.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
@@ -135,7 +135,7 @@ class _VendorRegisterScreenState extends State<VendorRegisterScreen> {
                     child: GpsShortDescription(description: '${_vendorTypeName()} Register'),
                   ).animate().fadeIn(duration: 240.ms).slideY(begin: .08),
                   GPSGaps.h12,
-                  RoleToggle(isInLoginScreen: false),
+                  RoleToggle(),
                   GPSGaps.h24,
                   VendorTypeSelect(
                     onSelect: (type) {

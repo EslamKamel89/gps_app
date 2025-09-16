@@ -8,7 +8,6 @@ import 'package:gps_app/core/router/app_routes_names.dart';
 import 'package:gps_app/features/auth/cubits/auth_cubit.dart';
 import 'package:gps_app/features/auth/models/user_model.dart';
 import 'package:gps_app/features/auth/presentation/widgets/labeled_field.dart';
-import 'package:gps_app/features/auth/presentation/widgets/role_toggle.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 import 'package:gps_app/features/design/widgets/gps_description.dart';
@@ -63,8 +62,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       const PinLeafLogo(size: 140),
                       GPSGaps.h24,
                       Center(child: GpsShortDescription()),
-                      GPSGaps.h16,
-                      const RoleToggle(),
+
                       GPSGaps.h24,
                       LabeledField(
                         label: 'Email or Username',

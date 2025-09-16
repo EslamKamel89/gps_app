@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:gps_app/features/design/screens/user/register/widgets/gps_label_field.dart';
+import 'package:gps_app/features/auth/presentation/widgets/gps_label_field.dart';
 import 'package:gps_app/features/design/screens/vendor/on_boarding/models/category.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
@@ -84,8 +84,7 @@ class _ProductItemFormState extends State<ProductItemForm> {
           GpsLabeledField(
             label: 'Price',
             child: TextFormField(
-              initialValue:
-                  _item.price > 0 ? _item.price.toStringAsFixed(2) : '',
+              initialValue: _item.price > 0 ? _item.price.toStringAsFixed(2) : '',
               onChanged: (v) => _update('price', double.tryParse(v) ?? 0.0),
               keyboardType: TextInputType.numberWithOptions(decimal: true),
               decoration: const InputDecoration(

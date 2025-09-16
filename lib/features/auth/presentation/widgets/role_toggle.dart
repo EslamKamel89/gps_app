@@ -8,8 +8,7 @@ enum AuthRole { user, restaurant }
 AuthRole authRole = AuthRole.user;
 
 class RoleToggle extends StatefulWidget {
-  const RoleToggle({super.key, this.isInLoginScreen = true});
-  final bool isInLoginScreen;
+  const RoleToggle({super.key});
   @override
   State<RoleToggle> createState() => _RoleToggleState();
 }
@@ -61,12 +60,9 @@ class _RoleToggleState extends State<RoleToggle> {
               Expanded(
                 child: GestureDetector(
                   onTap: () {
-                    Navigator.of(context).pushNamedAndRemoveUntil(
-                      widget.isInLoginScreen
-                          ? AppRoutesNames.loginScreen
-                          : AppRoutesNames.registerScreen,
-                      (_) => false,
-                    );
+                    Navigator.of(
+                      context,
+                    ).pushNamedAndRemoveUntil(AppRoutesNames.registerScreen, (_) => false);
                     setState(() {
                       authRole = AuthRole.user;
                     });
@@ -95,12 +91,10 @@ class _RoleToggleState extends State<RoleToggle> {
               Expanded(
                 child: GestureDetector(
                   onTap: () {
-                    // Navigator.of(context).pushNamedAndRemoveUntil(
-                    //   widget.isInLoginScreen
-                    //       ? AppRoutesNames.restaurantLoginScreen
-                    //       : AppRoutesNames.restaurantRegisterScreen,
-                    //   (_) => false,
-                    // );
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                      AppRoutesNames.restaurantRegisterScreen,
+                      (_) => false,
+                    );
                     setState(() {
                       authRole = AuthRole.restaurant;
                     });

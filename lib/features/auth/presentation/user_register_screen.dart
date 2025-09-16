@@ -5,21 +5,21 @@ import 'package:gps_app/core/helpers/print_helper.dart';
 import 'package:gps_app/core/router/app_routes_names.dart';
 import 'package:gps_app/core/widgets/uploads/image_upload_field.dart';
 import 'package:gps_app/core/widgets/uploads/uploaded_image.dart';
+import 'package:gps_app/features/auth/presentation/widgets/gps_label_field.dart';
 import 'package:gps_app/features/auth/presentation/widgets/role_toggle.dart';
-import 'package:gps_app/features/design/screens/user/register/widgets/gps_label_field.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 import 'package:gps_app/features/design/widgets/gps_description.dart';
 import 'package:gps_app/features/design/widgets/pinleaf_logo.dart';
 
-class RegisterScreen extends StatefulWidget {
-  const RegisterScreen({super.key});
+class UserRegisterScreen extends StatefulWidget {
+  const UserRegisterScreen({super.key});
 
   @override
-  State<RegisterScreen> createState() => _RegisterScreenState();
+  State<UserRegisterScreen> createState() => _UserRegisterScreenState();
 }
 
-class _RegisterScreenState extends State<RegisterScreen> {
+class _UserRegisterScreenState extends State<UserRegisterScreen> {
   final _formKey = GlobalKey<FormState>();
 
   final _fullNameCtrl = TextEditingController();
@@ -88,7 +88,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     child: GpsShortDescription(),
                   ).animate().fadeIn(duration: 240.ms).slideY(begin: .08),
                   GPSGaps.h12,
-                  RoleToggle(isInLoginScreen: false),
+                  RoleToggle(),
                   GPSGaps.h24,
 
                   ImageUploadField(

@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:gps_app/core/extensions/context-extensions.dart';
-import 'package:gps_app/features/design/screens/user/register/widgets/gps_label_field.dart';
+import 'package:gps_app/features/auth/presentation/widgets/gps_label_field.dart';
 import 'package:gps_app/features/design/screens/user/resturant_details/widgets/add_button.dart';
 import 'package:gps_app/features/design/screens/user/resturant_details/widgets/section_header.dart';
 import 'package:gps_app/features/design/screens/vendor/on_boarding/models/category.dart';
@@ -40,12 +40,9 @@ class _CategoryCardState extends State<CategoryCard> {
     _menu = Category(
       id: _menu.id,
       menuName: field == 'menuName' ? (value as String) : _menu.menuName,
-      description:
-          field == 'description' ? (value as String?) : _menu.description,
+      description: field == 'description' ? (value as String?) : _menu.description,
       availabilityHours:
-          field == 'availabilityHours'
-              ? (value as Map<String, String>)
-              : _menu.availabilityHours,
+          field == 'availabilityHours' ? (value as Map<String, String>) : _menu.availabilityHours,
       items: field == 'items' ? (value as List<ProductItem>) : _menu.items,
     );
     widget.onChanged(_menu);
@@ -133,9 +130,7 @@ class _CategoryCardState extends State<CategoryCard> {
               initialValue: _menu.description,
               onChanged: (v) => _update('description', v),
               maxLines: 2,
-              decoration: const InputDecoration(
-                hintText: 'e.g., Weekday lunch specials',
-              ),
+              decoration: const InputDecoration(hintText: 'e.g., Weekday lunch specials'),
             ),
           ),
 
@@ -146,9 +141,7 @@ class _CategoryCardState extends State<CategoryCard> {
           if (_menu.items.isEmpty)
             Text(
               'No items added yet.',
-              style: Theme.of(
-                context,
-              ).textTheme.bodySmall?.copyWith(color: GPSColors.mutedText),
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(color: GPSColors.mutedText),
             ),
           ..._menu.items.map((item) {
             return ProductItemForm(

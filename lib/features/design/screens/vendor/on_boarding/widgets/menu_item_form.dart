@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:gps_app/features/design/screens/user/register/widgets/gps_label_field.dart';
+import 'package:gps_app/features/auth/presentation/widgets/gps_label_field.dart';
 import 'package:gps_app/features/design/screens/vendor/on_boarding/models/restaurant_menu.dart';
 import 'package:gps_app/features/design/screens/vendor/on_boarding/widgets/category_dropdown.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
@@ -85,8 +85,7 @@ class _MenuItemFormState extends State<MenuItemForm> {
           GpsLabeledField(
             label: 'Price',
             child: TextFormField(
-              initialValue:
-                  _item.price > 0 ? _item.price.toStringAsFixed(2) : '',
+              initialValue: _item.price > 0 ? _item.price.toStringAsFixed(2) : '',
               onChanged: (v) => _update('price', double.tryParse(v) ?? 0.0),
               keyboardType: TextInputType.numberWithOptions(decimal: true),
               decoration: const InputDecoration(
@@ -125,11 +124,7 @@ class _MenuItemFormState extends State<MenuItemForm> {
           // Spicy Toggle
           Row(
             children: [
-              const Icon(
-                Icons.local_fire_department_rounded,
-                size: 16,
-                color: Colors.orange,
-              ),
+              const Icon(Icons.local_fire_department_rounded, size: 16, color: Colors.orange),
               GPSGaps.w8,
               const Text('Spicy?', style: TextStyle(fontSize: 14)),
               const Spacer(),

@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:gps_app/core/router/app_routes_names.dart';
 import 'package:gps_app/core/router/middleware.dart';
 import 'package:gps_app/features/auth/presentation/login_screen.dart';
+import 'package:gps_app/features/auth/presentation/user_register_screen.dart';
 import 'package:gps_app/features/design/screens/empty_screen.dart';
 import 'package:gps_app/features/design/screens/user/diet_selection/diet_selection_screen.dart';
 import 'package:gps_app/features/design/screens/user/food_selection/food_selection_screen.dart';
 import 'package:gps_app/features/design/screens/user/home_search/home_search_screen.dart';
 import 'package:gps_app/features/design/screens/user/market_category_selection/market_category_selection_screen.dart';
 import 'package:gps_app/features/design/screens/user/market_place/market_place_screen.dart';
-import 'package:gps_app/features/design/screens/user/register/register_screen.dart';
 import 'package:gps_app/features/design/screens/user/resturant_details/resturant_details_screen.dart';
 import 'package:gps_app/features/design/screens/user/scann_image/scan_image_screen.dart';
 import 'package:gps_app/features/design/screens/user/splash/splash_screen.dart';
@@ -47,7 +47,7 @@ class AppRouter {
       case AppRoutesNames.loginScreen:
         return CustomPageRoute(builder: (context) => LoginScreen(), settings: routeSettings);
       case AppRoutesNames.registerScreen:
-        return CustomPageRoute(builder: (context) => RegisterScreen(), settings: routeSettings);
+        return CustomPageRoute(builder: (context) => UserRegisterScreen(), settings: routeSettings);
       case AppRoutesNames.marketPlaceScreen:
         return CustomPageRoute(builder: (context) => MarketPlaceScreen(), settings: routeSettings);
       case AppRoutesNames.categorySelectionScreen:
