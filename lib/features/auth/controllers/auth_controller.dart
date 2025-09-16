@@ -54,10 +54,10 @@ class AuthController {
     }
   }
 
-  Future<ApiResponseModel<List<DistrictModel>>> districts() async {
+  Future<ApiResponseModel<List<DistrictModel>>> districts({required int stateId}) async {
     final t = prt('districts - AuthController');
     try {
-      final response = await _api.get(EndPoint.districts);
+      final response = await _api.get(EndPoint.districts, queryParameter: {'sate_id': stateId});
       pr(response, '$t - response');
       final List<DistrictModel> models =
           (response as List).map((json) => DistrictModel.fromJson(json)).toList();
