@@ -4,9 +4,9 @@ import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 
 class GpsLabeledField extends StatelessWidget {
-  const GpsLabeledField({super.key, required this.label, required this.child});
+  const GpsLabeledField({super.key, required this.label, this.child});
   final String label;
-  final Widget child;
+  final Widget? child;
 
   @override
   Widget build(BuildContext context) {
@@ -15,13 +15,12 @@ class GpsLabeledField extends StatelessWidget {
       children: [
         Text(
           label,
-          style: Theme.of(context).textTheme.labelLarge?.copyWith(
-            color: GPSColors.text,
-            fontWeight: FontWeight.w700,
-          ),
+          style: Theme.of(
+            context,
+          ).textTheme.labelLarge?.copyWith(color: GPSColors.text, fontWeight: FontWeight.w700),
         ),
-        GPSGaps.h8,
-        child,
+        if (child != null) GPSGaps.h8,
+        if (child != null) child!,
       ],
     ).animate().fadeIn(duration: 260.ms).slideY(begin: .10);
   }

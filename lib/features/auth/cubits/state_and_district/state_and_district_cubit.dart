@@ -25,8 +25,10 @@ class StateAndDistrictCubit extends Cubit<StateAndDistrictState> {
     emit(state.copyWith(states: response));
   }
 
-  Future selectState({required StateModel stateModel}) async {
+  Future selectState({required String stateName}) async {
     final t = prt('selectState - StateAndDistrictCubit');
+    StateModel? stateModel = state.states.data?.firstWhere((s) => s.name == stateName);
+    if (stateModel == null) return;
     emit(
       state.copyWith(
         state: stateModel,
@@ -41,7 +43,8 @@ class StateAndDistrictCubit extends Cubit<StateAndDistrictState> {
     emit(state.copyWith(districts: response));
   }
 
-  void selectDistrict(DistrictModel district) {
+  void selectDistrict({required String districtName}) {
+    DistrictModel? district = state.districts.data?.firstWhere((d) => d.name == districtName);
     emit(state.copyWith(district: district));
   }
 }

@@ -7,6 +7,7 @@ import 'package:gps_app/core/widgets/uploads/image_upload_field.dart';
 import 'package:gps_app/core/widgets/uploads/uploaded_image.dart';
 import 'package:gps_app/features/auth/presentation/widgets/gps_label_field.dart';
 import 'package:gps_app/features/auth/presentation/widgets/role_toggle.dart';
+import 'package:gps_app/features/auth/presentation/widgets/state_district_selector.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 import 'package:gps_app/features/design/widgets/gps_description.dart';
@@ -59,9 +60,7 @@ class _UserRegisterScreenState extends State<UserRegisterScreen> {
   }
 
   Future<void> _onRegister() async {
-    Navigator.of(
-      context,
-    ).pushReplacementNamed(AppRoutesNames.dietSelectionScreen);
+    Navigator.of(context).pushReplacementNamed(AppRoutesNames.dietSelectionScreen);
   }
 
   @override
@@ -82,10 +81,9 @@ class _UserRegisterScreenState extends State<UserRegisterScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  const PinLeafLogo(size: 120)
-                      .animate()
-                      .fadeIn(duration: 250.ms)
-                      .scale(begin: const Offset(0.9, 0.9)),
+                  const PinLeafLogo(
+                    size: 120,
+                  ).animate().fadeIn(duration: 250.ms).scale(begin: const Offset(0.9, 0.9)),
                   GPSGaps.h16,
                   Center(
                     child: GpsShortDescription(),
@@ -158,9 +156,7 @@ class _UserRegisterScreenState extends State<UserRegisterScreen> {
                       controller: _passwordCtrl,
                       obscureText: _obscure,
                       textInputAction: TextInputAction.next,
-                      decoration: _inputDecoration(
-                        'Create a password',
-                      ).copyWith(
+                      decoration: _inputDecoration('Create a password').copyWith(
                         suffixIcon: IconButton(
                           icon: Icon(
                             _obscure ? Icons.visibility_off : Icons.visibility,
@@ -172,63 +168,10 @@ class _UserRegisterScreenState extends State<UserRegisterScreen> {
                     ),
                   ),
 
-                  // GPSGaps.h16,
-                  AnimatedSwitcher(
-                    duration: 250.ms,
-                    switchInCurve: Curves.easeOut,
-                    switchOutCurve: Curves.easeIn,
-                    child:
-                        _selectedCountry == null
-                            ? const SizedBox.shrink()
-                            : Padding(
-                              padding: const EdgeInsets.only(top: 16),
-                              child: GpsLabeledField(
-                                key: const ValueKey('city-field'),
-                                label: 'City',
-                                child: DropdownButtonFormField<String>(
-                                  value: _selectedCity,
-                                  items:
-                                      cities
-                                          .map(
-                                            (city) => DropdownMenuItem<String>(
-                                              value: city,
-                                              child: Text(city),
-                                            ),
-                                          )
-                                          .toList(),
-                                  onChanged:
-                                      (v) => setState(() => _selectedCity = v),
-                                  decoration: _inputDecoration(
-                                    'Select your city',
-                                  ),
-                                  icon: const Icon(
-                                    Icons.keyboard_arrow_down_rounded,
-                                  ),
-                                ),
-                              ),
-                            ),
-                  ).animate().fadeIn(duration: 220.ms),
-
                   GPSGaps.h16,
-                  GpsLabeledField(
-                    label: 'Country',
-                    child: DropdownButtonFormField<String>(
-                      value: _selectedCountry,
-                      items:
-                          _countryCities.keys
-                              .map(
-                                (c) => DropdownMenuItem<String>(
-                                  value: c,
-                                  child: Text(c),
-                                ),
-                              )
-                              .toList(),
-                      onChanged: _onCountryChanged,
-                      decoration: _inputDecoration('Select your country'),
-                      icon: const Icon(Icons.keyboard_arrow_down_rounded),
-                    ),
-                  ),
-
+                  GpsLabeledField(label: 'Select State and District'),
+                  GPSGaps.h8,
+                  StateDistrictProvider(onSelect: (SelectedStateAndDistrict stateAndDistrict) {}),
                   GPSGaps.h16,
 
                   // Mobile
@@ -246,37 +189,30 @@ class _UserRegisterScreenState extends State<UserRegisterScreen> {
 
                   // Register button
                   SizedBox(
-                        height: 52,
-                        child: ElevatedButton(
-                          onPressed: _loading ? null : _onRegister,
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: GPSColors.primary,
-                            foregroundColor: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                          ),
-                          child:
-                              _loading
-                                  ? const SizedBox(
-                                    height: 22,
-                                    width: 22,
-                                    child: CircularProgressIndicator(
-                                      strokeWidth: 2,
-                                      color: Colors.white,
-                                    ),
-                                  )
-                                  : const Text(
-                                    'Create Account',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
-                        ),
-                      )
-                      .animate()
-                      .fadeIn(duration: 280.ms, delay: 90.ms)
-                      .slideY(begin: .08),
+                    height: 52,
+                    child: ElevatedButton(
+                      onPressed: _loading ? null : _onRegister,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: GPSColors.primary,
+                        foregroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                      ),
+                      child:
+                          _loading
+                              ? const SizedBox(
+                                height: 22,
+                                width: 22,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                  color: Colors.white,
+                                ),
+                              )
+                              : const Text(
+                                'Create Account',
+                                style: TextStyle(fontWeight: FontWeight.w700),
+                              ),
+                    ),
+                  ).animate().fadeIn(duration: 280.ms, delay: 90.ms).slideY(begin: .08),
 
                   GPSGaps.h16,
 
@@ -284,9 +220,9 @@ class _UserRegisterScreenState extends State<UserRegisterScreen> {
                   Center(
                     child: RichText(
                       text: TextSpan(
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: GPSColors.mutedText,
-                        ),
+                        style: Theme.of(
+                          context,
+                        ).textTheme.bodyMedium?.copyWith(color: GPSColors.mutedText),
                         children: [
                           const TextSpan(text: 'Already have an account? '),
                           TextSpan(
@@ -300,9 +236,7 @@ class _UserRegisterScreenState extends State<UserRegisterScreen> {
                                   ..onTap =
                                       () => Navigator.of(
                                         context,
-                                      ).pushReplacementNamed(
-                                        AppRoutesNames.loginScreen,
-                                      ),
+                                      ).pushReplacementNamed(AppRoutesNames.loginScreen),
                           ),
                         ],
                       ),
