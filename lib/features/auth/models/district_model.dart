@@ -18,7 +18,9 @@ class DistrictModel {
     name: json['name'] as String?,
     stateId: json['state_id'] as int?,
     state:
-        json['state'] == null ? null : StateModel.fromJson(json['state'] as Map<String, dynamic>),
+        json['state'] == null
+            ? null
+            : StateModel.fromJson(json['state'] as Map<String, dynamic>),
   );
 
   Map<String, dynamic> toJson() => {

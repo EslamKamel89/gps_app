@@ -1,10 +1,18 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gps_app/core/enums/response_type.dart';
 import 'package:gps_app/core/helpers/print_helper.dart';
+import 'package:gps_app/core/helpers/snackbar.dart';
+import 'package:gps_app/core/helpers/validator.dart';
+import 'package:gps_app/core/models/api_response_model.dart';
 import 'package:gps_app/core/router/app_routes_names.dart';
 import 'package:gps_app/core/widgets/uploads/image_upload_field.dart';
 import 'package:gps_app/core/widgets/uploads/uploaded_image.dart';
+import 'package:gps_app/features/auth/cubits/user_register_cubit.dart';
+import 'package:gps_app/features/auth/models/user_model.dart';
+import 'package:gps_app/features/auth/models/user_register_param.dart';
 import 'package:gps_app/features/auth/presentation/widgets/gps_label_field.dart';
 import 'package:gps_app/features/auth/presentation/widgets/role_toggle.dart';
 import 'package:gps_app/features/auth/presentation/widgets/state_district_selector.dart';
@@ -28,7 +36,8 @@ class _UserRegisterScreenState extends State<UserRegisterScreen> {
   final _emailCtrl = TextEditingController();
   final _passwordCtrl = TextEditingController();
   final _mobileCtrl = TextEditingController();
-
+  UploadedImage? _profileImage;
+  SelectedStateAndDistrict _stateAndDistrict = SelectedStateAndDistrict();
   bool _obscure = true;
   final bool _loading = false;
 
@@ -43,7 +52,28 @@ class _UserRegisterScreenState extends State<UserRegisterScreen> {
   }
 
   Future<void> _onRegister() async {
-    Navigator.of(context).pushReplacementNamed(AppRoutesNames.dietSelectionScreen);
+    if (!_formKey.currentState!.validate()) return;
+    if (_profileImage == null) {
+      showSnackbar('Validation Error', "Please select profile image", true);
+      return;
+    }
+    if (_stateAndDistrict.selectedDistrict == null || _stateAndDistrict.selectedState == null) {
+      showSnackbar('Validation Error', "You have to select the state and district", true);
+      return;
+    }
+    UserRegisterParam param = UserRegisterParam(
+      fullName: _fullNameCtrl.text,
+      userName: _usernameCtrl.text,
+      email: _emailCtrl.text,
+      mobile: _mobileCtrl.text,
+      password: _passwordCtrl.text,
+      stateId: _stateAndDistrict.selectedState?.id,
+      districtId: _stateAndDistrict.selectedDistrict?.id,
+      imageId: _profileImage?.id,
+    );
+    pr(param, "param");
+    context.read<UserRegisterCubit>().register(param: param);
+    // return;
   }
 
   @override
@@ -76,7 +106,8 @@ class _UserRegisterScreenState extends State<UserRegisterScreen> {
                     resource: UploadResource.user,
                     initial: const [],
                     onChanged: (images) {
-                      pr(images, 'images');
+                      if (images.isEmpty) return;
+                      _profileImage = images[0];
                     },
                     child: Container(
                       height: 56,
@@ -97,6 +128,8 @@ class _UserRegisterScreenState extends State<UserRegisterScreen> {
                       controller: _fullNameCtrl,
                       textInputAction: TextInputAction.next,
                       decoration: _inputDecoration('Enter your full name'),
+                      validator:
+                          (input) => validator(input: input, label: 'Full Name', isRequired: true),
                     ),
                   ),
 
@@ -109,6 +142,8 @@ class _UserRegisterScreenState extends State<UserRegisterScreen> {
                       controller: _usernameCtrl,
                       textInputAction: TextInputAction.next,
                       decoration: _inputDecoration('Choose a username'),
+                      validator:
+                          (input) => validator(input: input, label: 'Username', isRequired: true),
                     ),
                   ),
 
@@ -122,6 +157,13 @@ class _UserRegisterScreenState extends State<UserRegisterScreen> {
                       keyboardType: TextInputType.emailAddress,
                       textInputAction: TextInputAction.next,
                       decoration: _inputDecoration('Enter your email'),
+                      validator:
+                          (input) => validator(
+                            input: input,
+                            label: 'Email',
+                            isRequired: true,
+                            isEmail: true,
+                          ),
                     ),
                   ),
 
@@ -143,13 +185,19 @@ class _UserRegisterScreenState extends State<UserRegisterScreen> {
                           onPressed: () => setState(() => _obscure = !_obscure),
                         ),
                       ),
+                      validator:
+                          (input) => validator(input: input, label: 'Password', isRequired: true),
                     ),
                   ),
 
                   GPSGaps.h16,
                   GpsLabeledField(label: 'Select State and District'),
                   GPSGaps.h8,
-                  StateDistrictProvider(onSelect: (SelectedStateAndDistrict stateAndDistrict) {}),
+                  StateDistrictProvider(
+                    onSelect: (SelectedStateAndDistrict s) {
+                      _stateAndDistrict = s;
+                    },
+                  ),
                   GPSGaps.h16,
 
                   // Mobile
@@ -160,36 +208,48 @@ class _UserRegisterScreenState extends State<UserRegisterScreen> {
                       keyboardType: TextInputType.phone,
                       textInputAction: TextInputAction.done,
                       decoration: _inputDecoration('Enter your mobile number'),
+                      validator:
+                          (input) => validator(input: input, label: 'Mobile', isRequired: true),
                     ),
                   ),
 
                   GPSGaps.h20,
 
-                  // Register button
-                  SizedBox(
-                    height: 52,
-                    child: ElevatedButton(
-                      onPressed: _loading ? null : _onRegister,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: GPSColors.primary,
-                        foregroundColor: Colors.white,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                      ),
-                      child:
-                          _loading
-                              ? const SizedBox(
-                                height: 22,
-                                width: 22,
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 2,
-                                  color: Colors.white,
-                                ),
-                              )
-                              : const Text(
-                                'Create Account',
-                                style: TextStyle(fontWeight: FontWeight.w700),
-                              ),
-                    ),
+                  BlocConsumer<UserRegisterCubit, ApiResponseModel<UserModel>>(
+                    listener: (context, state) {
+                      if (state.response == ResponseEnum.success && state.data != null) {
+                        Navigator.of(
+                          context,
+                        ).pushReplacementNamed(AppRoutesNames.dietSelectionScreen);
+                      }
+                    },
+                    builder: (context, state) {
+                      Widget child;
+                      if (state.response == ResponseEnum.loading) {
+                        child = const SizedBox(
+                          height: 22,
+                          width: 22,
+                          child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
+                        );
+                      } else {
+                        child = const Text(
+                          'Create Account',
+                          style: TextStyle(fontWeight: FontWeight.w700),
+                        );
+                      }
+                      return SizedBox(
+                        height: 52,
+                        child: ElevatedButton(
+                          onPressed: state.response == ResponseEnum.loading ? null : _onRegister,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: GPSColors.primary,
+                            foregroundColor: Colors.white,
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                          ),
+                          child: child,
+                        ),
+                      );
+                    },
                   ).animate().fadeIn(duration: 280.ms, delay: 90.ms).slideY(begin: .08),
 
                   GPSGaps.h16,

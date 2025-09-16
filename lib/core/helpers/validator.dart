@@ -1,4 +1,4 @@
-String? valdiator({
+String? validator({
   required String? input,
   required String label,
   required bool isRequired,

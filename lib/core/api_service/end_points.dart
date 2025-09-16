@@ -4,6 +4,7 @@ class EndPoint {
   static const String category = "$baseUrl/api/category";
   static const String states = "$baseUrl/api/states";
   static const String districts = "$baseUrl/api/districts";
+  static const String userRegister = "$baseUrl/api/user-register";
   static const String login = "$baseUrl/api/login";
   static const String uploadImages = "$baseUrl/api/uploads/images";
 }

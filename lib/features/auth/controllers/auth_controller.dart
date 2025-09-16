@@ -10,6 +10,7 @@ import 'package:gps_app/core/models/api_response_model.dart';
 import 'package:gps_app/core/service_locator/service_locator.dart';
 import 'package:gps_app/features/auth/models/district_model.dart';
 import 'package:gps_app/features/auth/models/state_model.dart';
+import 'package:gps_app/features/auth/models/user_register_param.dart';
 
 import '../models/user_model.dart';
 
@@ -62,6 +63,23 @@ class AuthController {
       final List<DistrictModel> models =
           (response as List).map((json) => DistrictModel.fromJson(json)).toList();
       return pr(ApiResponseModel(response: ResponseEnum.success, data: models), t);
+    } catch (e) {
+      String errorMessage = e.toString();
+      if (e is DioException) {
+        errorMessage = jsonEncode(e.response?.data ?? 'Unknown error occurred');
+      }
+      showSnackbar('Error', errorMessage, true);
+      return pr(ApiResponseModel(errorMessage: errorMessage, response: ResponseEnum.failed), t);
+    }
+  }
+
+  Future<ApiResponseModel<UserModel>> userRegister({required UserRegisterParam param}) async {
+    final t = prt('userRegister - AuthController');
+    try {
+      final response = await _api.post(EndPoint.userRegister, data: param.toJson());
+      pr(response, '$t - response');
+      final UserModel model = UserModel.fromJson(response);
+      return pr(ApiResponseModel(response: ResponseEnum.success, data: model), t);
     } catch (e) {
       String errorMessage = e.toString();
       if (e is DioException) {

@@ -6,19 +6,20 @@ import 'package:gps_app/core/cache/local_storage.dart';
 import 'package:gps_app/core/enums/response_type.dart';
 import 'package:gps_app/core/models/api_response_model.dart';
 import 'package:gps_app/core/service_locator/service_locator.dart';
+import 'package:gps_app/features/auth/models/user_register_param.dart';
 
 import '../controllers/auth_controller.dart';
 import '../models/user_model.dart';
 
-class AuthCubit extends Cubit<ApiResponseModel<UserModel>> {
-  AuthCubit() : super(ApiResponseModel());
+class UserRegisterCubit extends Cubit<ApiResponseModel<UserModel>> {
+  UserRegisterCubit() : super(ApiResponseModel());
 
   final _controller = serviceLocator<AuthController>();
   final _storage = serviceLocator<LocalStorage>();
 
-  Future<void> login({required String email, required String password}) async {
+  Future<void> register({required UserRegisterParam param}) async {
     emit(state.copyWith(response: ResponseEnum.loading));
-    final res = await _controller.login(email: email, password: password);
+    final res = await _controller.userRegister(param: param);
     if (res.response == ResponseEnum.success && res.data != null) {
       final jsonStr = jsonEncode(res.data!.toJson());
       await _storage.setString(CacheKeys.userJson, jsonStr);
@@ -26,7 +27,6 @@ class AuthCubit extends Cubit<ApiResponseModel<UserModel>> {
     emit(res);
   }
 
-  /// Synchronous read of cached user (if needed elsewhere)
   UserModel? get cachedUser {
     final raw = _storage.getString(CacheKeys.userJson);
     if (raw == null) return null;

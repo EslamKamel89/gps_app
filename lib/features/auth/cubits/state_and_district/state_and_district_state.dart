@@ -6,7 +6,12 @@ class StateAndDistrictState {
   final ApiResponseModel<List<DistrictModel>> districts;
   final StateModel? state;
   final DistrictModel? district;
-  StateAndDistrictState({required this.states, required this.districts, this.state, this.district});
+  StateAndDistrictState({
+    required this.states,
+    required this.districts,
+    this.state,
+    this.district,
+  });
 
   StateAndDistrictState copyWith({
     ApiResponseModel<List<StateModel>>? states,

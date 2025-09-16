@@ -12,22 +12,34 @@ part 'state_and_district_state.dart';
 class StateAndDistrictCubit extends Cubit<StateAndDistrictState> {
   final AuthController controller = serviceLocator();
   StateAndDistrictCubit()
-    : super(StateAndDistrictState(states: ApiResponseModel(), districts: ApiResponseModel()));
+    : super(
+        StateAndDistrictState(
+          states: ApiResponseModel(),
+          districts: ApiResponseModel(),
+        ),
+      );
   Future states() async {
     final t = prt('states - StateAndDistrictCubit');
     emit(
       state.copyWith(
-        states: state.states.copyWith(errorMessage: null, response: ResponseEnum.loading, data: []),
+        states: state.states.copyWith(
+          errorMessage: null,
+          response: ResponseEnum.loading,
+          data: [],
+        ),
       ),
     );
-    final ApiResponseModel<List<StateModel>> response = await controller.states();
+    final ApiResponseModel<List<StateModel>> response =
+        await controller.states();
     pr(response, t);
     emit(state.copyWith(states: response));
   }
 
   Future selectState({required String stateName}) async {
     final t = prt('selectState - StateAndDistrictCubit');
-    StateModel? stateModel = state.states.data?.firstWhere((s) => s.name == stateName);
+    StateModel? stateModel = state.states.data?.firstWhere(
+      (s) => s.name == stateName,
+    );
     if (stateModel == null) return;
     emit(
       state.copyWith(
@@ -36,15 +48,16 @@ class StateAndDistrictCubit extends Cubit<StateAndDistrictState> {
         district: null,
       ),
     );
-    final ApiResponseModel<List<DistrictModel>> response = await controller.districts(
-      stateId: stateModel.id!,
-    );
+    final ApiResponseModel<List<DistrictModel>> response = await controller
+        .districts(stateId: stateModel.id!);
     pr(response, t);
     emit(state.copyWith(districts: response));
   }
 
   void selectDistrict({required String districtName}) {
-    DistrictModel? district = state.districts.data?.firstWhere((d) => d.name == districtName);
+    DistrictModel? district = state.districts.data?.firstWhere(
+      (d) => d.name == districtName,
+    );
     emit(state.copyWith(district: district));
   }
 }
