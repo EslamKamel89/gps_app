@@ -33,7 +33,10 @@ class DayRow extends StatelessWidget {
       child: Row(
         children: [
           Switch(value: enabled, onChanged: onToggle),
-          SizedBox(width: 42, child: Text(label, style: Theme.of(context).textTheme.titleMedium)),
+          SizedBox(
+            width: 42,
+            child: Text(label, style: Theme.of(context).textTheme.titleMedium),
+          ),
           const Spacer(),
           TimeChip(
             label: 'Start',

@@ -36,11 +36,16 @@ class _OperatingHoursSheetState extends State<OperatingHoursSheet> {
     final v = widget.initialValue;
     if (v != null) {
       final all = [v.mon, v.tue, v.wed, v.thu, v.fri, v.sat, v.sun];
-      bool is247(List<String>? r) => r?.length == 2 && r![0] == '00:00' && r[1] == '23:59';
+      bool is247(List<String>? r) =>
+          r?.length == 2 && r![0] == '00:00' && r[1] == '23:59';
       if (all.every(is247)) {
         _mode = OperatingMode.alwaysOpen;
       } else if (all.every(
-        (d) => d != null && d.length == 2 && d[0] == all.first![0] && d[1] == all.first![1],
+        (d) =>
+            d != null &&
+            d.length == 2 &&
+            d[0] == all.first![0] &&
+            d[1] == all.first![1],
       )) {
         _mode = OperatingMode.allDaysSame;
         final s = _parse(all.first![0]);
@@ -166,9 +171,9 @@ class _OperatingHoursSheetState extends State<OperatingHoursSheet> {
   }
 
   void _toast(String msg) {
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(SnackBar(content: Text(msg), behavior: SnackBarBehavior.floating));
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(msg), behavior: SnackBarBehavior.floating),
+    );
   }
 
   String _dayLabel(String k) {
@@ -216,7 +221,10 @@ class _OperatingHoursSheetState extends State<OperatingHoursSheet> {
                   borderRadius: BorderRadius.circular(100),
                 ),
               ).animate().fadeIn().slideY(begin: -0.2, end: 0),
-              Text('Operating Hours', style: Theme.of(context).textTheme.titleLarge),
+              Text(
+                'Operating Hours',
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
               const SizedBox(height: 12),
               SegmentedButton<OperatingMode>(
                 segments: const [
@@ -240,7 +248,9 @@ class _OperatingHoursSheetState extends State<OperatingHoursSheet> {
                 onSelectionChanged: (s) => setState(() => _mode = s.first),
                 style: ButtonStyle(
                   shape: WidgetStatePropertyAll(
-                    RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
                   ),
                 ),
               ).animate().fadeIn(duration: 250.ms),
@@ -250,7 +260,9 @@ class _OperatingHoursSheetState extends State<OperatingHoursSheet> {
               AnimatedSwitcher(
                 duration: 250.ms,
                 child: switch (_mode) {
-                  OperatingMode.alwaysOpen => AlwaysOpenPreview(key: const ValueKey('aop')),
+                  OperatingMode.alwaysOpen => AlwaysOpenPreview(
+                    key: const ValueKey('aop'),
+                  ),
                   OperatingMode.allDaysSame => AllDaysSameEditor(
                     key: const ValueKey('ads'),
                     start: _allStart,
@@ -279,7 +291,9 @@ class _OperatingHoursSheetState extends State<OperatingHoursSheet> {
                     child: OutlinedButton(
                       onPressed: () => Navigator.of(context).maybePop(),
                       style: OutlinedButton.styleFrom(
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
                         padding: const EdgeInsets.symmetric(vertical: 14),
                       ),
                       child: const Text('Cancel'),
@@ -290,7 +304,9 @@ class _OperatingHoursSheetState extends State<OperatingHoursSheet> {
                     child: ElevatedButton(
                       onPressed: _apply,
                       style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
                         padding: const EdgeInsets.symmetric(vertical: 14),
                       ),
                       child: const Text('Apply'),

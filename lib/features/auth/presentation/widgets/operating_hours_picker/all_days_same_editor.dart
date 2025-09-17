@@ -30,9 +30,17 @@ class AllDaysSameEditor extends StatelessWidget {
         const SizedBox(height: 10),
         Row(
           children: [
-            Expanded(child: TimeBox(label: 'Start', value: _fmt(start), onTap: onPickStart)),
+            Expanded(
+              child: TimeBox(
+                label: 'Start',
+                value: _fmt(start),
+                onTap: onPickStart,
+              ),
+            ),
             const SizedBox(width: 10),
-            Expanded(child: TimeBox(label: 'End', value: _fmt(end), onTap: onPickEnd)),
+            Expanded(
+              child: TimeBox(label: 'End', value: _fmt(end), onTap: onPickEnd),
+            ),
           ],
         ),
       ],

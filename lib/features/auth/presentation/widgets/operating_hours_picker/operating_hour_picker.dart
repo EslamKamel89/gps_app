@@ -13,7 +13,11 @@ class DayHours {
   final TimeOfDay? end;
   DayHours({this.enabled = false, this.start, this.end});
   DayHours copyWith({bool? enabled, TimeOfDay? start, TimeOfDay? end}) =>
-      DayHours(enabled: enabled ?? this.enabled, start: start ?? this.start, end: end ?? this.end);
+      DayHours(
+        enabled: enabled ?? this.enabled,
+        start: start ?? this.start,
+        end: end ?? this.end,
+      );
 }
 
 class OperatingHoursPicker extends StatefulWidget {
@@ -46,12 +50,17 @@ class _OperatingHoursPickerState extends State<OperatingHoursPicker> {
   String _summary() {
     final v = _current;
     if (v == null) return 'Not set';
-    bool is247(List<String>? r) => r?.length == 2 && r![0] == '00:00' && r[1] == '23:59';
+    bool is247(List<String>? r) =>
+        r?.length == 2 && r![0] == '00:00' && r[1] == '23:59';
     final days = [v.mon, v.tue, v.wed, v.thu, v.fri, v.sat, v.sun];
 
     if (days.every(is247)) return 'Open 24/7';
     if (days.every(
-      (d) => d != null && d.length == 2 && d[0] == days.first![0] && d[1] == days.first![1],
+      (d) =>
+          d != null &&
+          d.length == 2 &&
+          d[0] == days.first![0] &&
+          d[1] == days.first![1],
     )) {
       return 'All days: ${days.first![0]} → ${days.first![1]}';
     }
@@ -78,32 +87,45 @@ class _OperatingHoursPickerState extends State<OperatingHoursPicker> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: _openSheet,
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          color: GPSColors.primary,
-        ),
-        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+          onTap: _openSheet,
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              color: GPSColors.primary,
+            ),
+            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Icon(widget.icon ?? Icons.calendar_month, color: Colors.white),
-                GPSGaps.w8,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      widget.icon ?? Icons.calendar_month,
+                      color: Colors.white,
+                    ),
+                    GPSGaps.w8,
+                    Text(
+                      widget.buttonText,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 2),
                 Text(
-                  widget.buttonText,
-                  style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
+                  _summary(),
+                  style: TextStyle(color: Colors.white, fontSize: 16),
                 ),
               ],
             ),
-            const SizedBox(height: 2),
-            Text(_summary(), style: TextStyle(color: Colors.white, fontSize: 16)),
-          ],
-        ),
-      ),
-    ).animate().fadeIn(duration: 300.ms).slideY(begin: 0.1, end: 0, curve: Curves.easeOut);
+          ),
+        )
+        .animate()
+        .fadeIn(duration: 300.ms)
+        .slideY(begin: 0.1, end: 0, curve: Curves.easeOut);
   }
 }

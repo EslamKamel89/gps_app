@@ -4,7 +4,11 @@ import 'package:gps_app/features/auth/presentation/widgets/operating_hours_picke
 import 'package:gps_app/features/auth/presentation/widgets/operating_hours_picker/operating_hour_picker.dart';
 
 class CustomDaysEditor extends StatelessWidget {
-  const CustomDaysEditor({super.key, required this.data, required this.onChange});
+  const CustomDaysEditor({
+    super.key,
+    required this.data,
+    required this.onChange,
+  });
 
   final Map<String, DayHours> data;
   final void Function(String key, DayHours value) onChange;
@@ -14,7 +18,9 @@ class CustomDaysEditor extends StatelessWidget {
 
   Future<void> _pick(BuildContext ctx, String key, bool isStart) async {
     final current = data[key]!;
-    final initial = (isStart ? current.start : current.end) ?? const TimeOfDay(hour: 8, minute: 0);
+    final initial =
+        (isStart ? current.start : current.end) ??
+        const TimeOfDay(hour: 8, minute: 0);
     final t = await showTimePicker(context: ctx, initialTime: initial);
     if (t != null) {
       final next = current.copyWith(
@@ -58,7 +64,10 @@ class CustomDaysEditor extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Set hours per day', style: Theme.of(context).textTheme.titleMedium),
+        Text(
+          'Set hours per day',
+          style: Theme.of(context).textTheme.titleMedium,
+        ),
         const SizedBox(height: 10),
         ...rows,
       ],

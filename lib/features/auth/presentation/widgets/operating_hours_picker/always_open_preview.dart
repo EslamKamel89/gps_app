@@ -22,6 +22,9 @@ class AlwaysOpenPreview extends StatelessWidget {
           Text('All days: 00:00 → 23:59', style: text.bodyMedium),
         ],
       ),
-    ).animate().fadeIn().scale(begin: const Offset(0.98, 0.98), end: const Offset(1, 1));
+    ).animate().fadeIn().scale(
+      begin: const Offset(0.98, 0.98),
+      end: const Offset(1, 1),
+    );
   }
 }

@@ -16,7 +16,8 @@ class TimeChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final active = onTap != null;
-    final border = active ? Theme.of(context).colorScheme.primary : disabledColor;
+    final border =
+        active ? Theme.of(context).colorScheme.primary : disabledColor;
     return ActionChip(
       label: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

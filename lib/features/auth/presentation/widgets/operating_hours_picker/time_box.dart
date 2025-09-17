@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 
 class TimeBox extends StatelessWidget {
-  const TimeBox({super.key, required this.label, required this.value, required this.onTap});
+  const TimeBox({
+    super.key,
+    required this.label,
+    required this.value,
+    required this.onTap,
+  });
   final String label;
   final String value;
   final VoidCallback onTap;

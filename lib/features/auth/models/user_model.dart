@@ -1,4 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:gps_app/features/auth/models/vendor_model/vendor_model.dart';
+
 import 'user_type_model.dart';
 
 class UserModel {
@@ -15,6 +17,7 @@ class UserModel {
   final int? stateId;
   final String? token;
   final UserTypeModel? userType;
+  final VendorModel? vendor;
 
   const UserModel({
     this.id,
@@ -30,6 +33,7 @@ class UserModel {
     this.stateId,
     this.token,
     this.userType,
+    this.vendor,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> j) => UserModel(
@@ -45,8 +49,8 @@ class UserModel {
     districtId: j['district_id'],
     stateId: j['state_id'],
     token: j['token'],
-    userType:
-        j['user_type'] == null ? null : UserTypeModel.fromJson(j['user_type']),
+    userType: j['user_type'] == null ? null : UserTypeModel.fromJson(j['user_type']),
+    vendor: j['vendor'] == null ? null : VendorModel.fromJson(j['vendor']),
   );
 
   Map<String, dynamic> toJson() => {
@@ -63,10 +67,11 @@ class UserModel {
     'state_id': stateId,
     'token': token,
     'user_type': userType?.toJson(),
+    'vendor': vendor?.toJson(),
   };
 
   @override
   String toString() {
-    return 'UserModel(id: $id, fullName: $fullName, userName: $userName, email: $email, emailVerifiedAt: $emailVerifiedAt, mobile: $mobile, createdAt: $createdAt, updatedAt: $updatedAt, userTypeId: $userTypeId, districtId: $districtId, stateId: $stateId, token: $token, userType: $userType)';
+    return 'UserModel(id: $id, fullName: $fullName, userName: $userName, email: $email, emailVerifiedAt: $emailVerifiedAt, mobile: $mobile, createdAt: $createdAt, updatedAt: $updatedAt, userTypeId: $userTypeId, districtId: $districtId, stateId: $stateId, token: $token, userType: $userType, vendor: $vendor)';
   }
 }
