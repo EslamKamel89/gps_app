@@ -7,15 +7,7 @@ class OperatingTimeModel {
   List<String>? sat;
   List<String>? sun;
 
-  OperatingTimeModel({
-    this.mon,
-    this.tue,
-    this.wed,
-    this.thu,
-    this.fri,
-    this.sat,
-    this.sun,
-  });
+  OperatingTimeModel({this.mon, this.tue, this.wed, this.thu, this.fri, this.sat, this.sun});
 
   @override
   String toString() {
@@ -24,13 +16,13 @@ class OperatingTimeModel {
 
   factory OperatingTimeModel.fromJson(Map<String, dynamic> json) {
     return OperatingTimeModel(
-      mon: json['mon'] as List<String>?,
-      tue: json['tue'] as List<String>?,
-      wed: json['wed'] as List<String>?,
-      thu: json['thu'] as List<String>?,
-      fri: json['fri'] as List<String>?,
-      sat: json['sat'] as List<String>?,
-      sun: json['sun'] as List<String>?,
+      mon: (json['mon'] as List<dynamic>?)?.map((l) => l.toString()).toList(),
+      tue: (json['tue'] as List<dynamic>?)?.map((l) => l.toString()).toList(),
+      wed: (json['wed'] as List<dynamic>?)?.map((l) => l.toString()).toList(),
+      thu: (json['thu'] as List<dynamic>?)?.map((l) => l.toString()).toList(),
+      fri: (json['fri'] as List<dynamic>?)?.map((l) => l.toString()).toList(),
+      sat: (json['sat'] as List<dynamic>?)?.map((l) => l.toString()).toList(),
+      sun: (json['sun'] as List<dynamic>?)?.map((l) => l.toString()).toList(),
     );
   }
 

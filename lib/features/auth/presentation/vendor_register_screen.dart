@@ -41,12 +41,11 @@ class _VendorRegisterScreenState extends State<VendorRegisterScreen> {
   final _passwordCtrl = TextEditingController();
   final _mobileCtrl = TextEditingController();
   final _restaurantAddressCtrl = TextEditingController();
-  final _openingHoursCtrl = TextEditingController();
   final _capacityCtrl = TextEditingController();
   SelectedStateAndDistrict _stateAndDistrict = SelectedStateAndDistrict();
   UploadedImage? _profileImage;
   VendorType? vendorType;
-
+  OperatingTimeModel? _operatingTimeModel;
   bool _obscure = true;
   final bool _loading = false;
 
@@ -59,7 +58,6 @@ class _VendorRegisterScreenState extends State<VendorRegisterScreen> {
     _mobileCtrl.dispose();
     _restaurantNameCtrl.dispose();
     _restaurantAddressCtrl.dispose();
-    _openingHoursCtrl.dispose();
     _capacityCtrl.dispose();
     super.dispose();
   }
@@ -84,9 +82,14 @@ class _VendorRegisterScreenState extends State<VendorRegisterScreen> {
       stateId: _stateAndDistrict.selectedState?.id,
       districtId: _stateAndDistrict.selectedDistrict?.id,
       imageId: _profileImage?.id,
+      address: _restaurantAddressCtrl.text,
+      vendorName: _restaurantNameCtrl.text,
+      seatingCapacity: int.parse(_capacityCtrl.text),
+      userType: _vendorTypeValue(),
+      operatingHours: _operatingTimeModel,
     );
     pr(param, "param");
-    // context.read<VendorRegisterCubit>().register(param: param);
+    context.read<VendorRegisterCubit>().register(param: param);
   }
 
   void _navigateOnRegisterSuccess() {
@@ -110,6 +113,18 @@ class _VendorRegisterScreenState extends State<VendorRegisterScreen> {
       return 'Store';
     } else {
       return 'Vendor';
+    }
+  }
+
+  String _vendorTypeValue() {
+    if (vendorType == VendorType.restaurant) {
+      return 'restaurant';
+    } else if (vendorType == VendorType.farm) {
+      return 'farm';
+    } else if (vendorType == VendorType.store) {
+      return 'store';
+    } else {
+      return 'restaurant';
     }
   }
 
@@ -224,6 +239,7 @@ class _VendorRegisterScreenState extends State<VendorRegisterScreen> {
                       ),
                       onChanged: (val) {
                         pr(val.toString());
+                        _operatingTimeModel = val;
                       },
                       buttonText: 'Pick Operating Time',
                       icon: Icons.storefront,
