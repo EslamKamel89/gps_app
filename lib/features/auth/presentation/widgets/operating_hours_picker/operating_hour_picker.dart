@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:gps_app/features/auth/models/operating_time_model.dart';
 import 'package:gps_app/features/auth/presentation/widgets/operating_hours_picker/operating_hours_sheet.dart';
+import 'package:gps_app/features/design/utils/gps_colors.dart';
+import 'package:gps_app/features/design/utils/gps_gaps.dart';
 
 enum OperatingMode { alwaysOpen, allDaysSame, custom }
 
@@ -75,20 +77,32 @@ class _OperatingHoursPickerState extends State<OperatingHoursPicker> {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton.icon(
-      onPressed: _openSheet,
-      icon: Icon(widget.icon ?? Icons.schedule),
-      style: ElevatedButton.styleFrom(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-      ),
-      label: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(widget.buttonText, style: Theme.of(context).textTheme.titleMedium),
-          const SizedBox(height: 2),
-          Text(_summary(), style: Theme.of(context).textTheme.bodySmall),
-        ],
+    return InkWell(
+      onTap: _openSheet,
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          color: GPSColors.primary,
+        ),
+        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(widget.icon ?? Icons.calendar_month, color: Colors.white),
+                GPSGaps.w8,
+                Text(
+                  widget.buttonText,
+                  style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
+                ),
+              ],
+            ),
+            const SizedBox(height: 2),
+            Text(_summary(), style: TextStyle(color: Colors.white, fontSize: 16)),
+          ],
+        ),
       ),
     ).animate().fadeIn(duration: 300.ms).slideY(begin: 0.1, end: 0, curve: Curves.easeOut);
   }

@@ -17,11 +17,9 @@ class OperatingHoursSheet extends StatefulWidget {
 class _OperatingHoursSheetState extends State<OperatingHoursSheet> {
   OperatingMode _mode = OperatingMode.allDaysSame;
 
-  // all-days-same times
   TimeOfDay _allStart = const TimeOfDay(hour: 8, minute: 0);
   TimeOfDay _allEnd = const TimeOfDay(hour: 20, minute: 0);
 
-  // custom per-day
   final Map<String, DayHours> _custom = {
     'mon': DayHours(),
     'tue': DayHours(),
@@ -121,7 +119,7 @@ class _OperatingHoursSheetState extends State<OperatingHoursSheet> {
         if (v.enabled && v.start != null && v.end != null) {
           if (!_valid(v.start!, v.end!)) {
             _toast('On ${_dayLabel(k)}, end must be after start');
-            throw 'invalid'; // stop apply
+            throw 'invalid';
           }
           final pair = [_fmt(v.start!), _fmt(v.end!)];
           switch (k) {

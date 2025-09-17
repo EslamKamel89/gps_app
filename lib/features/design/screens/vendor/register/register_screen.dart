@@ -4,6 +4,8 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:gps_app/core/helpers/print_helper.dart';
 import 'package:gps_app/core/helpers/snackbar.dart';
 import 'package:gps_app/core/router/app_routes_names.dart';
+import 'package:gps_app/core/widgets/uploads/image_upload_field.dart';
+import 'package:gps_app/core/widgets/uploads/uploaded_image.dart';
 import 'package:gps_app/features/auth/models/operating_time_model.dart';
 import 'package:gps_app/features/auth/presentation/widgets/gps_label_field.dart';
 import 'package:gps_app/features/auth/presentation/widgets/operating_hours_picker/operating_hour_picker.dart';
@@ -140,12 +142,33 @@ class _VendorRegisterScreenState extends State<VendorRegisterScreen> {
                   GPSGaps.h12,
                   RoleToggle(),
                   GPSGaps.h24,
+
                   VendorTypeSelect(
                     onSelect: (type) {
                       setState(() {
                         vendorType = type;
                       });
                     },
+                  ),
+                  GPSGaps.h12,
+                  ImageUploadField(
+                    multiple: false,
+                    // maxCount: 6,
+                    resource: UploadResource.user,
+                    initial: const [],
+                    onChanged: (images) {
+                      if (images.isEmpty) return;
+                      // _profileImage = images[0];
+                    },
+                    child: Container(
+                      height: 56,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(color: Colors.grey.shade400),
+                      ),
+                      child: const Text('Tap to upload your profile image'),
+                    ),
                   ),
                   GPSGaps.h12,
                   GpsLabeledField(
@@ -182,21 +205,24 @@ class _VendorRegisterScreenState extends State<VendorRegisterScreen> {
                   ).animate().fadeIn(duration: 220.ms),
 
                   GPSGaps.h16,
-                  OperatingHoursPicker(
-                    initialValue: OperatingTimeModel(
-                      mon: ['08:00', '20:00'],
-                      tue: ['08:00', '20:00'],
-                      wed: ['08:00', '20:00'],
-                      thu: ['08:00', '21:00'],
-                      fri: ['08:00', '21:00'],
-                      sat: ['09:00', '21:00'],
-                      sun: ['09:00', '19:00'],
+                  GpsLabeledField(
+                    label: 'Operating hours',
+                    child: OperatingHoursPicker(
+                      initialValue: OperatingTimeModel(
+                        mon: ['08:00', '20:00'],
+                        tue: ['08:00', '20:00'],
+                        wed: ['08:00', '20:00'],
+                        thu: ['08:00', '21:00'],
+                        fri: ['08:00', '21:00'],
+                        sat: ['09:00', '21:00'],
+                        sun: ['09:00', '19:00'],
+                      ),
+                      onChanged: (val) {
+                        pr(val.toString());
+                      },
+                      buttonText: 'Pick Operating Time',
+                      icon: Icons.storefront,
                     ),
-                    onChanged: (val) {
-                      pr(val.toString());
-                    },
-                    buttonText: 'Pick Operating Time',
-                    icon: Icons.storefront,
                   ),
                   GPSGaps.h16,
 
