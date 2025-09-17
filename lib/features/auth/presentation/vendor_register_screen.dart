@@ -1,15 +1,22 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gps_app/core/enums/response_type.dart';
 import 'package:gps_app/core/helpers/print_helper.dart';
 import 'package:gps_app/core/helpers/snackbar.dart';
+import 'package:gps_app/core/helpers/validator.dart';
+import 'package:gps_app/core/models/api_response_model.dart';
 import 'package:gps_app/core/router/app_routes_names.dart';
 import 'package:gps_app/core/widgets/uploads/image_upload_field.dart';
 import 'package:gps_app/core/widgets/uploads/uploaded_image.dart';
+import 'package:gps_app/features/auth/cubits/vendor_register_cubit.dart';
 import 'package:gps_app/features/auth/models/operating_time_model.dart';
+import 'package:gps_app/features/auth/models/user_model.dart';
 import 'package:gps_app/features/auth/presentation/widgets/gps_label_field.dart';
 import 'package:gps_app/features/auth/presentation/widgets/operating_hours_picker/operating_hour_picker.dart';
 import 'package:gps_app/features/auth/presentation/widgets/role_toggle.dart';
+import 'package:gps_app/features/auth/presentation/widgets/state_district_selector.dart';
 import 'package:gps_app/features/auth/presentation/widgets/vendor_type_select.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
@@ -28,45 +35,19 @@ class _VendorRegisterScreenState extends State<VendorRegisterScreen> {
 
   final _fullNameCtrl = TextEditingController();
   final _usernameCtrl = TextEditingController();
+  final _restaurantNameCtrl = TextEditingController();
   final _emailCtrl = TextEditingController();
   final _passwordCtrl = TextEditingController();
   final _mobileCtrl = TextEditingController();
-  final _restaurantNameCtrl = TextEditingController();
   final _restaurantAddressCtrl = TextEditingController();
-  final _cuisineTypeCtrl = TextEditingController();
   final _openingHoursCtrl = TextEditingController();
   final _capacityCtrl = TextEditingController();
+  SelectedStateAndDistrict _stateAndDistrict = SelectedStateAndDistrict();
+  UploadedImage? _profileImage;
   VendorType? vendorType;
 
   bool _obscure = true;
   final bool _loading = false;
-  bool _hasDelivery = true;
-  bool _hasTakeaway = true;
-  String? _priceRange;
-
-  // Sample real-ish data for dependent dropdowns
-  final Map<String, List<String>> _countryCities = const {
-    'United States': ['New York', 'Los Angeles', 'Austin', 'Miami'],
-    'Canada': ['Toronto', 'Vancouver', 'Montreal'],
-  };
-
-  final List<String> _cuisineTypes = const [
-    'Italian',
-    'Mexican',
-    'Chinese',
-    'Indian',
-    'American',
-    'Japanese',
-    'Mediterranean',
-    'Thai',
-    'French',
-    'Other',
-  ];
-
-  final List<String> _priceRanges = const ['\$', '\$\$', '\$\$\$', '\$\$\$\$'];
-
-  String? _selectedCountry;
-  String? _selectedCity;
 
   @override
   void dispose() {
@@ -77,20 +58,21 @@ class _VendorRegisterScreenState extends State<VendorRegisterScreen> {
     _mobileCtrl.dispose();
     _restaurantNameCtrl.dispose();
     _restaurantAddressCtrl.dispose();
-    _cuisineTypeCtrl.dispose();
     _openingHoursCtrl.dispose();
     _capacityCtrl.dispose();
     super.dispose();
   }
 
-  void _onCountryChanged(String? country) {
-    setState(() {
-      _selectedCountry = country;
-      _selectedCity = null; // reset city when country changes
-    });
-  }
-
   Future<void> _onRegister() async {
+    if (!_formKey.currentState!.validate()) return;
+    if (_profileImage == null) {
+      showSnackbar('Validation Error', "Please select profile image", true);
+      return;
+    }
+    if (_stateAndDistrict.selectedDistrict == null || _stateAndDistrict.selectedState == null) {
+      showSnackbar('Validation Error', "You have to select the state and district", true);
+      return;
+    }
     if (vendorType == VendorType.restaurant) {
       Navigator.of(context).pushNamed(AppRoutesNames.restaurantOnboardingBranchesScreen);
     } else if (vendorType == VendorType.farm) {
@@ -116,11 +98,6 @@ class _VendorRegisterScreenState extends State<VendorRegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final cities =
-        _selectedCountry == null
-            ? const <String>[]
-            : _countryCities[_selectedCountry] ?? const <String>[];
-
     return Scaffold(
       backgroundColor: GPSColors.background,
       body: SafeArea(
@@ -158,7 +135,7 @@ class _VendorRegisterScreenState extends State<VendorRegisterScreen> {
                     initial: const [],
                     onChanged: (images) {
                       if (images.isEmpty) return;
-                      // _profileImage = images[0];
+                      _profileImage = images[0];
                     },
                     child: Container(
                       height: 56,
@@ -177,6 +154,12 @@ class _VendorRegisterScreenState extends State<VendorRegisterScreen> {
                       controller: _restaurantNameCtrl,
                       textInputAction: TextInputAction.next,
                       decoration: _inputDecoration('Enter restaurant name'),
+                      validator:
+                          (input) => validator(
+                            input: input,
+                            label: '${_vendorTypeName()} Name',
+                            isRequired: true,
+                          ),
                     ),
                   ).animate().fadeIn(duration: 200.ms),
 
@@ -189,6 +172,9 @@ class _VendorRegisterScreenState extends State<VendorRegisterScreen> {
                       controller: _fullNameCtrl,
                       textInputAction: TextInputAction.next,
                       decoration: _inputDecoration('Enter your full name'),
+                      validator:
+                          (input) =>
+                              validator(input: input, label: 'Owner Full Name', isRequired: true),
                     ),
                   ).animate().fadeIn(duration: 210.ms),
 
@@ -201,6 +187,8 @@ class _VendorRegisterScreenState extends State<VendorRegisterScreen> {
                       controller: _usernameCtrl,
                       textInputAction: TextInputAction.next,
                       decoration: _inputDecoration('Choose a username'),
+                      validator:
+                          (input) => validator(input: input, label: 'User Name', isRequired: true),
                     ),
                   ).animate().fadeIn(duration: 220.ms),
 
@@ -234,6 +222,8 @@ class _VendorRegisterScreenState extends State<VendorRegisterScreen> {
                       keyboardType: TextInputType.emailAddress,
                       textInputAction: TextInputAction.next,
                       decoration: _inputDecoration('Enter your email'),
+                      validator:
+                          (input) => validator(input: input, label: 'Email', isRequired: true),
                     ),
                   ).animate().fadeIn(duration: 230.ms),
 
@@ -255,51 +245,58 @@ class _VendorRegisterScreenState extends State<VendorRegisterScreen> {
                           onPressed: () => setState(() => _obscure = !_obscure),
                         ),
                       ),
+                      validator:
+                          (input) => validator(input: input, label: 'Password', isRequired: true),
                     ),
                   ).animate().fadeIn(duration: 240.ms),
 
                   GPSGaps.h16,
+                  GpsLabeledField(label: 'Select State and District'),
+                  GPSGaps.h8,
+                  StateDistrictProvider(
+                    onSelect: (SelectedStateAndDistrict s) {
+                      _stateAndDistrict = s;
+                    },
+                  ),
+                  GPSGaps.h16,
 
                   // Cuisine Type
-                  GpsLabeledField(
-                    label: 'Cuisine Type',
-                    child: DropdownButtonFormField<String>(
-                      value: _cuisineTypeCtrl.text.isEmpty ? null : _cuisineTypeCtrl.text,
-                      items:
-                          _cuisineTypes
-                              .map(
-                                (cuisine) =>
-                                    DropdownMenuItem<String>(value: cuisine, child: Text(cuisine)),
-                              )
-                              .toList(),
-                      onChanged: (v) => setState(() => _cuisineTypeCtrl.text = v ?? ''),
-                      decoration: _inputDecoration('Select cuisine type'),
-                      icon: const Icon(Icons.keyboard_arrow_down_rounded),
-                    ),
-                  ).animate().fadeIn(duration: 250.ms),
+                  // GpsLabeledField(
+                  //   label: 'Cuisine Type',
+                  //   child: DropdownButtonFormField<String>(
+                  //     value: _cuisineTypeCtrl.text.isEmpty ? null : _cuisineTypeCtrl.text,
+                  //     items:
+                  //         _cuisineTypes
+                  //             .map(
+                  //               (cuisine) =>
+                  //                   DropdownMenuItem<String>(value: cuisine, child: Text(cuisine)),
+                  //             )
+                  //             .toList(),
+                  //     onChanged: (v) => setState(() => _cuisineTypeCtrl.text = v ?? ''),
+                  //     decoration: _inputDecoration('Select cuisine type'),
+                  //     icon: const Icon(Icons.keyboard_arrow_down_rounded),
+                  //   ),
+                  // ).animate().fadeIn(duration: 250.ms),
+                  // GPSGaps.h16,
 
-                  GPSGaps.h16,
-
-                  // Price Range
-                  GpsLabeledField(
-                    label: 'Price Range',
-                    child: DropdownButtonFormField<String>(
-                      value: _priceRange,
-                      items:
-                          _priceRanges
-                              .map(
-                                (range) =>
-                                    DropdownMenuItem<String>(value: range, child: Text(range)),
-                              )
-                              .toList(),
-                      onChanged: (v) => setState(() => _priceRange = v),
-                      decoration: _inputDecoration('Select price range'),
-                      icon: const Icon(Icons.keyboard_arrow_down_rounded),
-                    ),
-                  ).animate().fadeIn(duration: 260.ms),
-
-                  GPSGaps.h16,
-
+                  // // Price Range
+                  // GpsLabeledField(
+                  //   label: 'Price Range',
+                  //   child: DropdownButtonFormField<String>(
+                  //     value: _priceRange,
+                  //     items:
+                  //         _priceRanges
+                  //             .map(
+                  //               (range) =>
+                  //                   DropdownMenuItem<String>(value: range, child: Text(range)),
+                  //             )
+                  //             .toList(),
+                  //     onChanged: (v) => setState(() => _priceRange = v),
+                  //     decoration: _inputDecoration('Select price range'),
+                  //     icon: const Icon(Icons.keyboard_arrow_down_rounded),
+                  //   ),
+                  // ).animate().fadeIn(duration: 260.ms),
+                  // GPSGaps.h16,
                   GpsLabeledField(
                     label: '${_vendorTypeName()} Address',
                     child: TextFormField(
@@ -307,58 +304,12 @@ class _VendorRegisterScreenState extends State<VendorRegisterScreen> {
                       textInputAction: TextInputAction.next,
                       maxLines: 2,
                       decoration: _inputDecoration('Enter full address'),
+                      validator:
+                          (input) => validator(input: input, label: 'Address', isRequired: true),
                     ),
                   ).animate().fadeIn(duration: 270.ms),
 
-                  GPSGaps.h16,
-
-                  // Country
-                  GpsLabeledField(
-                    label: 'Country',
-                    child: DropdownButtonFormField<String>(
-                      value: _selectedCountry,
-                      items:
-                          _countryCities.keys
-                              .map((c) => DropdownMenuItem<String>(value: c, child: Text(c)))
-                              .toList(),
-                      onChanged: _onCountryChanged,
-                      decoration: _inputDecoration('Select your country'),
-                      icon: const Icon(Icons.keyboard_arrow_down_rounded),
-                    ),
-                  ).animate().fadeIn(duration: 280.ms),
-
-                  // City (conditional)
-                  AnimatedSwitcher(
-                    duration: 250.ms,
-                    switchInCurve: Curves.easeOut,
-                    switchOutCurve: Curves.easeIn,
-                    child:
-                        _selectedCountry == null
-                            ? const SizedBox.shrink()
-                            : Padding(
-                              padding: const EdgeInsets.only(top: 16),
-                              child: GpsLabeledField(
-                                key: const ValueKey('city-field'),
-                                label: 'City',
-                                child: DropdownButtonFormField<String>(
-                                  value: _selectedCity,
-                                  items:
-                                      cities
-                                          .map(
-                                            (city) => DropdownMenuItem<String>(
-                                              value: city,
-                                              child: Text(city),
-                                            ),
-                                          )
-                                          .toList(),
-                                  onChanged: (v) => setState(() => _selectedCity = v),
-                                  decoration: _inputDecoration('Select your city'),
-                                  icon: const Icon(Icons.keyboard_arrow_down_rounded),
-                                ),
-                              ),
-                            ),
-                  ).animate().fadeIn(duration: 290.ms),
-
+                  // GPSGaps.h16,
                   GPSGaps.h16,
 
                   // Mobile
@@ -369,6 +320,8 @@ class _VendorRegisterScreenState extends State<VendorRegisterScreen> {
                       keyboardType: TextInputType.phone,
                       textInputAction: TextInputAction.next,
                       decoration: _inputDecoration('Enter your mobile number'),
+                      validator:
+                          (input) => validator(input: input, label: 'Mobile', isRequired: true),
                     ),
                   ).animate().fadeIn(duration: 300.ms),
 
@@ -387,93 +340,91 @@ class _VendorRegisterScreenState extends State<VendorRegisterScreen> {
 
                   GPSGaps.h16,
 
-                  // Opening Hours
-                  GpsLabeledField(
-                    label: 'Opening Hours',
-                    child: TextFormField(
-                      controller: _openingHoursCtrl,
-                      textInputAction: TextInputAction.next,
-                      decoration: _inputDecoration('e.g., 9:00 AM - 10:00 PM'),
-                    ),
-                  ).animate().fadeIn(duration: 320.ms),
-
-                  GPSGaps.h16,
-
-                  // Service Options
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Service Options',
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                          color: GPSColors.mutedText,
-                        ),
-                      ),
-                      GPSGaps.h8,
-                      Row(
-                        children: [
-                          // Delivery
-                          Expanded(
-                            child: FilterChip(
-                              label: const Text('Delivery'),
-                              selected: _hasDelivery,
-                              onSelected: (selected) => setState(() => _hasDelivery = selected),
-                              checkmarkColor: Colors.white,
-                              selectedColor: GPSColors.primary,
-                              labelStyle: TextStyle(
-                                color: _hasDelivery ? Colors.white : GPSColors.mutedText,
-                              ),
-                            ),
-                          ),
-                          GPSGaps.w8,
-                          // Takeaway
-                          Expanded(
-                            child: FilterChip(
-                              label: const Text('Takeaway'),
-                              selected: _hasTakeaway,
-                              onSelected: (selected) => setState(() => _hasTakeaway = selected),
-                              checkmarkColor: Colors.white,
-                              selectedColor: GPSColors.primary,
-                              labelStyle: TextStyle(
-                                color: _hasTakeaway ? Colors.white : GPSColors.mutedText,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ).animate().fadeIn(duration: 330.ms),
-
+                  // // Service Options
+                  // Column(
+                  //   crossAxisAlignment: CrossAxisAlignment.start,
+                  //   children: [
+                  //     Text(
+                  //       'Service Options',
+                  //       style: TextStyle(
+                  //         fontSize: 14,
+                  //         fontWeight: FontWeight.w600,
+                  //         color: GPSColors.mutedText,
+                  //       ),
+                  //     ),
+                  //     GPSGaps.h8,
+                  //     Row(
+                  //       children: [
+                  //         // Delivery
+                  //         Expanded(
+                  //           child: FilterChip(
+                  //             label: const Text('Delivery'),
+                  //             selected: _hasDelivery,
+                  //             onSelected: (selected) => setState(() => _hasDelivery = selected),
+                  //             checkmarkColor: Colors.white,
+                  //             selectedColor: GPSColors.primary,
+                  //             labelStyle: TextStyle(
+                  //               color: _hasDelivery ? Colors.white : GPSColors.mutedText,
+                  //             ),
+                  //           ),
+                  //         ),
+                  //         GPSGaps.w8,
+                  //         // Takeaway
+                  //         Expanded(
+                  //           child: FilterChip(
+                  //             label: const Text('Takeaway'),
+                  //             selected: _hasTakeaway,
+                  //             onSelected: (selected) => setState(() => _hasTakeaway = selected),
+                  //             checkmarkColor: Colors.white,
+                  //             selectedColor: GPSColors.primary,
+                  //             labelStyle: TextStyle(
+                  //               color: _hasTakeaway ? Colors.white : GPSColors.mutedText,
+                  //             ),
+                  //           ),
+                  //         ),
+                  //       ],
+                  //     ),
+                  //   ],
+                  // ).animate().fadeIn(duration: 330.ms),
                   GPSGaps.h20,
 
                   // Register button
-                  SizedBox(
-                    height: 52,
-                    child: ElevatedButton(
-                      onPressed: _loading ? null : _onRegister,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: GPSColors.primary,
-                        foregroundColor: Colors.white,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                      ),
-                      child:
-                          _loading
-                              ? const SizedBox(
-                                height: 22,
-                                width: 22,
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 2,
-                                  color: Colors.white,
-                                ),
-                              )
-                              : Text(
-                                'Create ${_vendorTypeName()} Account',
-                                style: TextStyle(fontWeight: FontWeight.w700),
-                              ),
-                    ),
-                  ).animate().fadeIn(duration: 340.ms, delay: 90.ms).slideY(begin: .08),
+                  BlocConsumer<VendorRegisterCubit, ApiResponseModel<UserModel>>(
+                    listener: (context, state) {
+                      if (state.response == ResponseEnum.success && state.data != null) {
+                        Navigator.of(
+                          context,
+                        ).pushReplacementNamed(AppRoutesNames.dietSelectionScreen);
+                      }
+                    },
+                    builder: (context, state) {
+                      Widget child;
+                      if (state.response == ResponseEnum.loading) {
+                        child = const SizedBox(
+                          height: 22,
+                          width: 22,
+                          child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
+                        );
+                      } else {
+                        child = const Text(
+                          'Create Account',
+                          style: TextStyle(fontWeight: FontWeight.w700),
+                        );
+                      }
+                      return SizedBox(
+                        height: 52,
+                        child: ElevatedButton(
+                          onPressed: state.response == ResponseEnum.loading ? null : _onRegister,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: GPSColors.primary,
+                            foregroundColor: Colors.white,
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                          ),
+                          child: child,
+                        ),
+                      );
+                    },
+                  ).animate().fadeIn(duration: 280.ms, delay: 90.ms).slideY(begin: .08),
 
                   GPSGaps.h16,
 
