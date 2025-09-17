@@ -13,6 +13,7 @@ import 'package:gps_app/core/widgets/uploads/uploaded_image.dart';
 import 'package:gps_app/features/auth/cubits/vendor_register_cubit.dart';
 import 'package:gps_app/features/auth/models/operating_time_model.dart';
 import 'package:gps_app/features/auth/models/user_model.dart';
+import 'package:gps_app/features/auth/models/vendor_register_params/vendor_register_params.dart';
 import 'package:gps_app/features/auth/presentation/widgets/gps_label_field.dart';
 import 'package:gps_app/features/auth/presentation/widgets/operating_hours_picker/operating_hour_picker.dart';
 import 'package:gps_app/features/auth/presentation/widgets/role_toggle.dart';
@@ -73,6 +74,22 @@ class _VendorRegisterScreenState extends State<VendorRegisterScreen> {
       showSnackbar('Validation Error', "You have to select the state and district", true);
       return;
     }
+
+    VendorRegisterParams param = VendorRegisterParams(
+      fullName: _fullNameCtrl.text,
+      userName: _usernameCtrl.text,
+      email: _emailCtrl.text,
+      mobile: _mobileCtrl.text,
+      password: _passwordCtrl.text,
+      stateId: _stateAndDistrict.selectedState?.id,
+      districtId: _stateAndDistrict.selectedDistrict?.id,
+      imageId: _profileImage?.id,
+    );
+    pr(param, "param");
+    // context.read<VendorRegisterCubit>().register(param: param);
+  }
+
+  void _navigateOnRegisterSuccess() {
     if (vendorType == VendorType.restaurant) {
       Navigator.of(context).pushNamed(AppRoutesNames.restaurantOnboardingBranchesScreen);
     } else if (vendorType == VendorType.farm) {
@@ -392,9 +409,7 @@ class _VendorRegisterScreenState extends State<VendorRegisterScreen> {
                   BlocConsumer<VendorRegisterCubit, ApiResponseModel<UserModel>>(
                     listener: (context, state) {
                       if (state.response == ResponseEnum.success && state.data != null) {
-                        Navigator.of(
-                          context,
-                        ).pushReplacementNamed(AppRoutesNames.dietSelectionScreen);
+                        _navigateOnRegisterSuccess();
                       }
                     },
                     builder: (context, state) {
