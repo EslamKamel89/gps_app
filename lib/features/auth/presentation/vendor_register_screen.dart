@@ -10,7 +10,7 @@ import 'package:gps_app/features/auth/models/operating_time_model.dart';
 import 'package:gps_app/features/auth/presentation/widgets/gps_label_field.dart';
 import 'package:gps_app/features/auth/presentation/widgets/operating_hours_picker/operating_hour_picker.dart';
 import 'package:gps_app/features/auth/presentation/widgets/role_toggle.dart';
-import 'package:gps_app/features/design/screens/vendor/register/widgets/vendor_type_select.dart';
+import 'package:gps_app/features/auth/presentation/widgets/vendor_type_select.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 import 'package:gps_app/features/design/widgets/gps_description.dart';
@@ -92,17 +92,11 @@ class _VendorRegisterScreenState extends State<VendorRegisterScreen> {
 
   Future<void> _onRegister() async {
     if (vendorType == VendorType.restaurant) {
-      Navigator.of(
-        context,
-      ).pushNamed(AppRoutesNames.restaurantOnboardingBranchesScreen);
+      Navigator.of(context).pushNamed(AppRoutesNames.restaurantOnboardingBranchesScreen);
     } else if (vendorType == VendorType.farm) {
-      Navigator.of(
-        context,
-      ).pushNamed(AppRoutesNames.farmOnboardingProductsScreen);
+      Navigator.of(context).pushNamed(AppRoutesNames.farmOnboardingProductsScreen);
     } else if (vendorType == VendorType.store) {
-      Navigator.of(
-        context,
-      ).pushNamed(AppRoutesNames.storeOnboardingProductsScreen);
+      Navigator.of(context).pushNamed(AppRoutesNames.storeOnboardingProductsScreen);
     } else {
       showSnackbar('Error', 'Please select your business type', true);
     }
@@ -138,15 +132,12 @@ class _VendorRegisterScreenState extends State<VendorRegisterScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  const PinLeafLogo(size: 120)
-                      .animate()
-                      .fadeIn(duration: 250.ms)
-                      .scale(begin: const Offset(0.9, 0.9)),
+                  const PinLeafLogo(
+                    size: 120,
+                  ).animate().fadeIn(duration: 250.ms).scale(begin: const Offset(0.9, 0.9)),
                   GPSGaps.h16,
                   Center(
-                    child: GpsShortDescription(
-                      description: '${_vendorTypeName()} Register',
-                    ),
+                    child: GpsShortDescription(description: '${_vendorTypeName()} Register'),
                   ).animate().fadeIn(duration: 240.ms).slideY(begin: .08),
                   GPSGaps.h12,
                   RoleToggle(),
@@ -255,9 +246,7 @@ class _VendorRegisterScreenState extends State<VendorRegisterScreen> {
                       controller: _passwordCtrl,
                       obscureText: _obscure,
                       textInputAction: TextInputAction.next,
-                      decoration: _inputDecoration(
-                        'Create a password',
-                      ).copyWith(
+                      decoration: _inputDecoration('Create a password').copyWith(
                         suffixIcon: IconButton(
                           icon: Icon(
                             _obscure ? Icons.visibility_off : Icons.visibility,
@@ -275,22 +264,15 @@ class _VendorRegisterScreenState extends State<VendorRegisterScreen> {
                   GpsLabeledField(
                     label: 'Cuisine Type',
                     child: DropdownButtonFormField<String>(
-                      value:
-                          _cuisineTypeCtrl.text.isEmpty
-                              ? null
-                              : _cuisineTypeCtrl.text,
+                      value: _cuisineTypeCtrl.text.isEmpty ? null : _cuisineTypeCtrl.text,
                       items:
                           _cuisineTypes
                               .map(
-                                (cuisine) => DropdownMenuItem<String>(
-                                  value: cuisine,
-                                  child: Text(cuisine),
-                                ),
+                                (cuisine) =>
+                                    DropdownMenuItem<String>(value: cuisine, child: Text(cuisine)),
                               )
                               .toList(),
-                      onChanged:
-                          (v) =>
-                              setState(() => _cuisineTypeCtrl.text = v ?? ''),
+                      onChanged: (v) => setState(() => _cuisineTypeCtrl.text = v ?? ''),
                       decoration: _inputDecoration('Select cuisine type'),
                       icon: const Icon(Icons.keyboard_arrow_down_rounded),
                     ),
@@ -306,10 +288,8 @@ class _VendorRegisterScreenState extends State<VendorRegisterScreen> {
                       items:
                           _priceRanges
                               .map(
-                                (range) => DropdownMenuItem<String>(
-                                  value: range,
-                                  child: Text(range),
-                                ),
+                                (range) =>
+                                    DropdownMenuItem<String>(value: range, child: Text(range)),
                               )
                               .toList(),
                       onChanged: (v) => setState(() => _priceRange = v),
@@ -339,12 +319,7 @@ class _VendorRegisterScreenState extends State<VendorRegisterScreen> {
                       value: _selectedCountry,
                       items:
                           _countryCities.keys
-                              .map(
-                                (c) => DropdownMenuItem<String>(
-                                  value: c,
-                                  child: Text(c),
-                                ),
-                              )
+                              .map((c) => DropdownMenuItem<String>(value: c, child: Text(c)))
                               .toList(),
                       onChanged: _onCountryChanged,
                       decoration: _inputDecoration('Select your country'),
@@ -376,14 +351,9 @@ class _VendorRegisterScreenState extends State<VendorRegisterScreen> {
                                             ),
                                           )
                                           .toList(),
-                                  onChanged:
-                                      (v) => setState(() => _selectedCity = v),
-                                  decoration: _inputDecoration(
-                                    'Select your city',
-                                  ),
-                                  icon: const Icon(
-                                    Icons.keyboard_arrow_down_rounded,
-                                  ),
+                                  onChanged: (v) => setState(() => _selectedCity = v),
+                                  decoration: _inputDecoration('Select your city'),
+                                  icon: const Icon(Icons.keyboard_arrow_down_rounded),
                                 ),
                               ),
                             ),
@@ -449,16 +419,11 @@ class _VendorRegisterScreenState extends State<VendorRegisterScreen> {
                             child: FilterChip(
                               label: const Text('Delivery'),
                               selected: _hasDelivery,
-                              onSelected:
-                                  (selected) =>
-                                      setState(() => _hasDelivery = selected),
+                              onSelected: (selected) => setState(() => _hasDelivery = selected),
                               checkmarkColor: Colors.white,
                               selectedColor: GPSColors.primary,
                               labelStyle: TextStyle(
-                                color:
-                                    _hasDelivery
-                                        ? Colors.white
-                                        : GPSColors.mutedText,
+                                color: _hasDelivery ? Colors.white : GPSColors.mutedText,
                               ),
                             ),
                           ),
@@ -468,16 +433,11 @@ class _VendorRegisterScreenState extends State<VendorRegisterScreen> {
                             child: FilterChip(
                               label: const Text('Takeaway'),
                               selected: _hasTakeaway,
-                              onSelected:
-                                  (selected) =>
-                                      setState(() => _hasTakeaway = selected),
+                              onSelected: (selected) => setState(() => _hasTakeaway = selected),
                               checkmarkColor: Colors.white,
                               selectedColor: GPSColors.primary,
                               labelStyle: TextStyle(
-                                color:
-                                    _hasTakeaway
-                                        ? Colors.white
-                                        : GPSColors.mutedText,
+                                color: _hasTakeaway ? Colors.white : GPSColors.mutedText,
                               ),
                             ),
                           ),
@@ -490,37 +450,30 @@ class _VendorRegisterScreenState extends State<VendorRegisterScreen> {
 
                   // Register button
                   SizedBox(
-                        height: 52,
-                        child: ElevatedButton(
-                          onPressed: _loading ? null : _onRegister,
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: GPSColors.primary,
-                            foregroundColor: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                          ),
-                          child:
-                              _loading
-                                  ? const SizedBox(
-                                    height: 22,
-                                    width: 22,
-                                    child: CircularProgressIndicator(
-                                      strokeWidth: 2,
-                                      color: Colors.white,
-                                    ),
-                                  )
-                                  : Text(
-                                    'Create ${_vendorTypeName()} Account',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
-                        ),
-                      )
-                      .animate()
-                      .fadeIn(duration: 340.ms, delay: 90.ms)
-                      .slideY(begin: .08),
+                    height: 52,
+                    child: ElevatedButton(
+                      onPressed: _loading ? null : _onRegister,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: GPSColors.primary,
+                        foregroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                      ),
+                      child:
+                          _loading
+                              ? const SizedBox(
+                                height: 22,
+                                width: 22,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                  color: Colors.white,
+                                ),
+                              )
+                              : Text(
+                                'Create ${_vendorTypeName()} Account',
+                                style: TextStyle(fontWeight: FontWeight.w700),
+                              ),
+                    ),
+                  ).animate().fadeIn(duration: 340.ms, delay: 90.ms).slideY(begin: .08),
 
                   GPSGaps.h16,
 
@@ -528,9 +481,9 @@ class _VendorRegisterScreenState extends State<VendorRegisterScreen> {
                   Center(
                     child: RichText(
                       text: TextSpan(
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: GPSColors.mutedText,
-                        ),
+                        style: Theme.of(
+                          context,
+                        ).textTheme.bodyMedium?.copyWith(color: GPSColors.mutedText),
                         children: [
                           const TextSpan(text: 'Already have an account? '),
                           TextSpan(
@@ -544,9 +497,7 @@ class _VendorRegisterScreenState extends State<VendorRegisterScreen> {
                                   ..onTap =
                                       () => Navigator.of(
                                         context,
-                                      ).pushReplacementNamed(
-                                        AppRoutesNames.loginScreen,
-                                      ),
+                                      ).pushReplacementNamed(AppRoutesNames.loginScreen),
                           ),
                         ],
                       ),
