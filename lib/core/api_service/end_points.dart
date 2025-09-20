@@ -8,4 +8,5 @@ class EndPoint {
   static const String vendorRegister = "$baseUrl/api/vendor-register";
   static const String login = "$baseUrl/api/login";
   static const String uploadImages = "$baseUrl/api/uploads/images";
+  static const String vendorCatalogSection = "$baseUrl/api/vendors/catalog/bulk";
 }

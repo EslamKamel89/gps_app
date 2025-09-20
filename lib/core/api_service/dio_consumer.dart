@@ -18,7 +18,7 @@ class DioConsumer extends ApiConsumer {
     dio.options.connectTimeout = const Duration(seconds: 60);
     dio.options.receiveTimeout = const Duration(seconds: 60);
     dio.options.headers = {"Content-Type": "application/json", "Accept": "application/json"};
-    dio.interceptors.add(DioInterceptor()); // i use the interceptor to add the header
+    dio.interceptors.add(DioInterceptor());
     dio.interceptors.add(
       LogInterceptor(
         request: true,
@@ -34,7 +34,6 @@ class DioConsumer extends ApiConsumer {
   @override
   Future get(String path, {Object? data, Map<String, dynamic>? queryParameter}) async {
     _setAuthorizationHeader();
-    // dio.options.headers = {"Authorization": 'Bearer ${'token'}', "Accept": "application/json"};
     try {
       if (!(await checkInternet())) {
         throw OfflineException();
@@ -53,7 +52,6 @@ class DioConsumer extends ApiConsumer {
     Map<String, dynamic>? queryParameter,
     bool isFormData = false,
   }) async {
-    // dio.options.headers = {"Authorization": 'Bearer ${'token'}', "Accept": "application/json"};
     _setAuthorizationHeader();
     try {
       if (!(await checkInternet())) {
@@ -77,7 +75,6 @@ class DioConsumer extends ApiConsumer {
     Map<String, dynamic>? queryParameter,
     bool isFormData = false,
   }) async {
-    // dio.options.headers = {"Authorization": 'Bearer ${'token'}', "Accept": "application/json"};
     _setAuthorizationHeader();
     try {
       if (!(await checkInternet())) {
@@ -101,7 +98,6 @@ class DioConsumer extends ApiConsumer {
     Map<String, dynamic>? queryParameter,
     bool isFormData = false,
   }) async {
-    // dio.options.headers = {"Authorization": 'Bearer ${'token'}', "Accept": "application/json"};
     _setAuthorizationHeader();
     try {
       if (!(await checkInternet())) {

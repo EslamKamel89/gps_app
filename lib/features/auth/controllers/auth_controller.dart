@@ -8,6 +8,8 @@ import 'package:gps_app/core/helpers/print_helper.dart';
 import 'package:gps_app/core/helpers/snackbar.dart';
 import 'package:gps_app/core/models/api_response_model.dart';
 import 'package:gps_app/core/service_locator/service_locator.dart';
+import 'package:gps_app/features/auth/models/catalog_section_model.dart';
+import 'package:gps_app/features/auth/models/catalog_section_param/catalog_section_param.dart';
 import 'package:gps_app/features/auth/models/district_model.dart';
 import 'package:gps_app/features/auth/models/state_model.dart';
 import 'package:gps_app/features/auth/models/user_register_param.dart';
@@ -24,29 +26,17 @@ class AuthController {
   }) async {
     final t = 'AuthController - login';
     try {
-      final res = await _api.post(
-        EndPoint.login,
-        data: {'email': email, 'password': password},
-      );
+      final res = await _api.post(EndPoint.login, data: {'email': email, 'password': password});
       final user = UserModel.fromJson(res as Map<String, dynamic>);
       pr(user, t);
-      return ApiResponseModel<UserModel>(
-        data: user,
-        response: ResponseEnum.success,
-      );
+      return ApiResponseModel<UserModel>(data: user, response: ResponseEnum.success);
     } catch (e) {
       String errorMessage = e.toString();
       if (e is DioException) {
         errorMessage = jsonEncode(e.response?.data ?? 'Unknown error occurred');
       }
       showSnackbar('Error', errorMessage, true);
-      return pr(
-        ApiResponseModel(
-          errorMessage: errorMessage,
-          response: ResponseEnum.failed,
-        ),
-        t,
-      );
+      return pr(ApiResponseModel(errorMessage: errorMessage, response: ResponseEnum.failed), t);
     }
   }
 
@@ -57,119 +47,86 @@ class AuthController {
       pr(response, '$t - response');
       final List<StateModel> models =
           (response as List).map((json) => StateModel.fromJson(json)).toList();
-      return pr(
-        ApiResponseModel(response: ResponseEnum.success, data: models),
-        t,
-      );
+      return pr(ApiResponseModel(response: ResponseEnum.success, data: models), t);
     } catch (e) {
       String errorMessage = e.toString();
       if (e is DioException) {
         errorMessage = jsonEncode(e.response?.data ?? 'Unknown error occurred');
       }
       showSnackbar('Error', errorMessage, true);
-      return pr(
-        ApiResponseModel(
-          errorMessage: errorMessage,
-          response: ResponseEnum.failed,
-        ),
-        t,
-      );
+      return pr(ApiResponseModel(errorMessage: errorMessage, response: ResponseEnum.failed), t);
     }
   }
 
-  Future<ApiResponseModel<List<DistrictModel>>> districts({
-    required int stateId,
-  }) async {
+  Future<ApiResponseModel<List<DistrictModel>>> districts({required int stateId}) async {
     final t = prt('districts - AuthController');
     try {
-      final response = await _api.get(
-        EndPoint.districts,
-        queryParameter: {'state_id': stateId},
-      );
+      final response = await _api.get(EndPoint.districts, queryParameter: {'state_id': stateId});
       pr(response, '$t - response');
       final List<DistrictModel> models =
-          (response as List)
-              .map((json) => DistrictModel.fromJson(json))
-              .toList();
-      return pr(
-        ApiResponseModel(response: ResponseEnum.success, data: models),
-        t,
-      );
+          (response as List).map((json) => DistrictModel.fromJson(json)).toList();
+      return pr(ApiResponseModel(response: ResponseEnum.success, data: models), t);
     } catch (e) {
       String errorMessage = e.toString();
       if (e is DioException) {
         errorMessage = jsonEncode(e.response?.data ?? 'Unknown error occurred');
       }
       showSnackbar('Error', errorMessage, true);
-      return pr(
-        ApiResponseModel(
-          errorMessage: errorMessage,
-          response: ResponseEnum.failed,
-        ),
-        t,
-      );
+      return pr(ApiResponseModel(errorMessage: errorMessage, response: ResponseEnum.failed), t);
     }
   }
 
-  Future<ApiResponseModel<UserModel>> userRegister({
-    required UserRegisterParam param,
-  }) async {
+  Future<ApiResponseModel<UserModel>> userRegister({required UserRegisterParam param}) async {
     final t = prt('userRegister - AuthController');
     try {
-      final response = await _api.post(
-        EndPoint.userRegister,
-        data: param.toJson(),
-      );
+      final response = await _api.post(EndPoint.userRegister, data: param.toJson());
       pr(response, '$t - response');
       final UserModel model = UserModel.fromJson(response);
-      return pr(
-        ApiResponseModel(response: ResponseEnum.success, data: model),
-        t,
-      );
+      return pr(ApiResponseModel(response: ResponseEnum.success, data: model), t);
     } catch (e) {
       String errorMessage = e.toString();
       if (e is DioException) {
         errorMessage = jsonEncode(e.response?.data ?? 'Unknown error occurred');
       }
       showSnackbar('Error', errorMessage, true);
-      return pr(
-        ApiResponseModel(
-          errorMessage: errorMessage,
-          response: ResponseEnum.failed,
-        ),
-        t,
-      );
+      return pr(ApiResponseModel(errorMessage: errorMessage, response: ResponseEnum.failed), t);
     }
   }
 
-  Future<ApiResponseModel<UserModel>> vendorRegister({
-    required VendorRegisterParams param,
-  }) async {
+  Future<ApiResponseModel<UserModel>> vendorRegister({required VendorRegisterParams param}) async {
     final t = prt('vendorRegister - AuthController');
     try {
-      final response = await _api.post(
-        EndPoint.vendorRegister,
-        data: param.toJson(),
-      );
+      final response = await _api.post(EndPoint.vendorRegister, data: param.toJson());
       pr(response, '$t - response');
       final UserModel model = UserModel.fromJson(response);
-      return pr(
-        ApiResponseModel(response: ResponseEnum.success, data: model),
-        t,
-      );
+      return pr(ApiResponseModel(response: ResponseEnum.success, data: model), t);
     } catch (e) {
       String errorMessage = e.toString();
       if (e is DioException) {
         errorMessage = jsonEncode(e.response?.data ?? 'Unknown error occurred');
       }
       showSnackbar('Error', errorMessage, true);
-      return pr(
-        ApiResponseModel(
-          errorMessage: errorMessage,
-          response: ResponseEnum.failed,
-        ),
-        t,
-      );
+      return pr(ApiResponseModel(errorMessage: errorMessage, response: ResponseEnum.failed), t);
+    }
+  }
+
+  Future<ApiResponseModel<List<CatalogSectionModel>>> createCatalogSection({
+    required CatalogSectionParam param,
+  }) async {
+    final t = prt('createCatalogSection - AuthController');
+    try {
+      final response = await _api.post(EndPoint.vendorCatalogSection, data: param.toJson());
+      pr(response, '$t - response');
+      final List<CatalogSectionModel> models =
+          (response as List<dynamic>).map((json) => CatalogSectionModel.fromJson(json)).toList();
+      return pr(ApiResponseModel(response: ResponseEnum.success, data: models), t);
+    } catch (e) {
+      String errorMessage = e.toString();
+      if (e is DioException) {
+        errorMessage = jsonEncode(e.response?.data ?? 'Unknown error occurred');
+      }
+      showSnackbar('Error', errorMessage, true);
+      return pr(ApiResponseModel(errorMessage: errorMessage, response: ResponseEnum.failed), t);
     }
   }
 }
