@@ -111,11 +111,14 @@ class AuthController {
   }
 
   Future<ApiResponseModel<List<CatalogSectionModel>>> createCatalogSection({
-    required CatalogSectionParam param,
+    required List<CatalogSectionParam> param,
   }) async {
     final t = prt('createCatalogSection - AuthController');
     try {
-      final response = await _api.post(EndPoint.vendorCatalogSection, data: param.toJson());
+      final response = await _api.post(
+        EndPoint.vendorCatalogSection,
+        data: param.map((e) => e.toJson()).toList(),
+      );
       pr(response, '$t - response');
       final List<CatalogSectionModel> models =
           (response as List<dynamic>).map((json) => CatalogSectionModel.fromJson(json)).toList();

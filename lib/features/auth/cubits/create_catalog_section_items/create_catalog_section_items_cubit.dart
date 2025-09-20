@@ -38,9 +38,18 @@ class CreateCatalogSectionItemsCubit extends Cubit<CreateCatalogSectionItemsStat
     emit(state.copyWith());
   }
 
-  Future createCatalogSection({required CatalogSectionParam param}) async {
+  Future createCatalogSection() async {
     final t = prt('createCatalogSection - CreateCatalogSectionItemsCubit');
-
+    for (var i = 0; i < state.sections.length; i++) {
+      final section = state.sections[i];
+      section.position = i + 1;
+      for (var k = 0; k < (section.catalogItems?.length ?? 0); k++) {
+        final item = section.catalogItems![k];
+        item.position = k + 1;
+      }
+    }
+    // pr(state.sections, 'state.sections');
+    // return;
     emit(
       state.copyWith(
         sectionsResponse: state.sectionsResponse.copyWith(
@@ -51,7 +60,7 @@ class CreateCatalogSectionItemsCubit extends Cubit<CreateCatalogSectionItemsStat
       ),
     );
     final ApiResponseModel<List<CatalogSectionModel>> response = await controller
-        .createCatalogSection(param: param);
+        .createCatalogSection(param: state.sections);
     pr(response, t);
     emit(state.copyWith(sectionsResponse: response));
   }

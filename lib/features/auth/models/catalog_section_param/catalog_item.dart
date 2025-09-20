@@ -1,6 +1,6 @@
 class CatalogItemParam {
   String? name;
-  int? price;
+  double? price;
   String? description;
   int? position;
   int? imageId;
@@ -14,7 +14,7 @@ class CatalogItemParam {
 
   factory CatalogItemParam.fromJson(Map<String, dynamic> json) => CatalogItemParam(
     name: json['name'] as String?,
-    price: json['price'] as int?,
+    price: json['price'] as double?,
     description: json['description'] as String?,
     position: json['position'] as int?,
     imageId: json['image_id'] as int?,
@@ -30,7 +30,7 @@ class CatalogItemParam {
 
   CatalogItemParam copyWith({
     String? name,
-    int? price,
+    double? price,
     String? description,
     int? position,
     int? imageId,

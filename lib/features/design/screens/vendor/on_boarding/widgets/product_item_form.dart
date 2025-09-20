@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gps_app/features/auth/cubits/create_catalog_section_items/create_catalog_section_items_cubit.dart';
 import 'package:gps_app/features/auth/models/catalog_section_param/catalog_item.dart';
 import 'package:gps_app/features/auth/presentation/widgets/gps_label_field.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
@@ -10,28 +12,19 @@ import 'package:gps_app/features/design/utils/gps_gaps.dart';
 class ProductItemForm extends StatefulWidget {
   final CatalogItemParam item;
   final VoidCallback onRemove;
-  final ValueChanged<CatalogItemParam> onChanged;
 
-  const ProductItemForm({
-    super.key,
-    required this.item,
-    required this.onRemove,
-    required this.onChanged,
-  });
+  const ProductItemForm({super.key, required this.item, required this.onRemove});
 
   @override
   State<ProductItemForm> createState() => _ProductItemFormState();
 }
 
 class _ProductItemFormState extends State<ProductItemForm> {
+  late CreateCatalogSectionItemsCubit cubit;
   @override
   void initState() {
+    context.read<CreateCatalogSectionItemsCubit>();
     super.initState();
-  }
-
-  void _update(String field, dynamic value) {
-    // _item = _item.copyWith({field: value});
-    // widget.onChanged(_item);
   }
 
   @override
@@ -71,7 +64,7 @@ class _ProductItemFormState extends State<ProductItemForm> {
             label: 'Name',
             child: TextFormField(
               initialValue: widget.item.name,
-              onChanged: (v) => _update('name', v),
+              onChanged: (v) => widget.item.name = v,
               decoration: const InputDecoration(hintText: 'e.g., Beef Burger'),
             ),
           ),
@@ -82,7 +75,7 @@ class _ProductItemFormState extends State<ProductItemForm> {
             label: 'Price',
             child: TextFormField(
               initialValue: widget.item.price != null ? widget.item.price!.toStringAsFixed(2) : '',
-              onChanged: (v) => _update('price', double.tryParse(v) ?? 0.0),
+              onChanged: (v) => widget.item.price = double.parse(v),
               keyboardType: TextInputType.numberWithOptions(decimal: true),
               decoration: const InputDecoration(
                 hintText: 'e.g., 12.95',
@@ -98,7 +91,7 @@ class _ProductItemFormState extends State<ProductItemForm> {
             label: 'Description (Optional)',
             child: TextFormField(
               initialValue: widget.item.description,
-              onChanged: (v) => _update('description', v),
+              onChanged: (v) => widget.item.description = v,
               maxLines: 2,
               decoration: const InputDecoration(
                 hintText: 'e.g., Grass-fed beef, cheddar, lettuce...',

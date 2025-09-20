@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gps_app/features/auth/cubits/create_catalog_section_items/create_catalog_section_items_cubit.dart';
+import 'package:gps_app/features/auth/models/catalog_section_param/catalog_item.dart';
 import 'package:gps_app/features/auth/models/catalog_section_param/catalog_section_param.dart';
 import 'package:gps_app/features/design/screens/user/resturant_details/widgets/add_button.dart';
 import 'package:gps_app/features/design/screens/vendor/on_boarding/widgets/section_card.dart';
@@ -54,7 +55,7 @@ class _StoreFarmOnboardingProductsScreenState extends State<StoreFarmOnboardingP
                 // TODO: implement listener
               },
               builder: (context, state) {
-                final controller = context.read<CreateCatalogSectionItemsCubit>();
+                final cubit = context.read<CreateCatalogSectionItemsCubit>();
                 return Expanded(
                   child: SingleChildScrollView(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -80,14 +81,19 @@ class _StoreFarmOnboardingProductsScreenState extends State<StoreFarmOnboardingP
                         ...state.sections.map((section) {
                           return SectionCard(
                             section: section,
-                            onDelete: () => controller.removeSection(sectionParam: section),
+                            onDelete: () => cubit.removeSection(sectionParam: section),
                           );
                         }),
 
                         GPSGaps.h12,
                         AddButton(
                           label: 'Add Another Category',
-                          onTap: () => controller.addSection(sectionParam: CatalogSectionParam()),
+                          onTap:
+                              () => cubit.addSection(
+                                sectionParam: CatalogSectionParam(
+                                  catalogItems: [CatalogItemParam()],
+                                ),
+                              ),
                         ),
                         GPSGaps.h24,
                       ],
@@ -114,6 +120,7 @@ class _StoreFarmOnboardingProductsScreenState extends State<StoreFarmOnboardingP
                     onPressed:
                         _isNextEnabled
                             ? () {
+                              context.read<CreateCatalogSectionItemsCubit>().createCatalogSection();
                               // ScaffoldMessenger.of(context).showSnackBar(
                               //   const SnackBar(content: Text("Proceeding to certifications...")),
                               // );

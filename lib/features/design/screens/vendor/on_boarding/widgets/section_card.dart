@@ -2,7 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gps_app/core/extensions/context-extensions.dart';
+import 'package:gps_app/features/auth/cubits/create_catalog_section_items/create_catalog_section_items_cubit.dart';
 import 'package:gps_app/features/auth/models/catalog_section_param/catalog_item.dart';
 import 'package:gps_app/features/auth/models/catalog_section_param/catalog_section_param.dart';
 import 'package:gps_app/features/auth/presentation/widgets/gps_label_field.dart';
@@ -23,49 +25,16 @@ class SectionCard extends StatefulWidget {
 }
 
 class _SectionCardState extends State<SectionCard> {
+  late CreateCatalogSectionItemsCubit cubit;
   @override
   void initState() {
     super.initState();
   }
 
-  void _update(String field, dynamic value) {
-    // _menu = CategoryEntity(
-    //   id: _menu.id,
-    //   menuName: field == 'menuName' ? (value as String) : _menu.menuName,
-    //   description: field == 'description' ? (value as String?) : _menu.description,
-    //   availabilityHours:
-    //       field == 'availabilityHours' ? (value as Map<String, String>) : _menu.availabilityHours,
-    //   items: field == 'items' ? (value as List<ProductEntity>) : _menu.items,
-    // );
-    // widget.onChanged(_menu);
-  }
-
-  void _addItem() {
-    // setState(() {
-    //   _menu.items.add(ProductEntity.empty());
-    // });
-    // _update('items', _menu.items);
-  }
-
-  void _removeItem(CatalogItemParam item) {
-    // setState(() {
-    //   _menu.items.remove(item);
-    // });
-    // _update('items', _menu.items);
-  }
-
-  void _onItemChanged(CatalogItemParam updated) {
-    // final index = _menu.items.indexWhere((i) => i.id == updated.id);
-    // if (index != -1) {
-    //   setState(() {
-    //     _menu.items[index] = updated;
-    //   });
-    //   _update('items', _menu.items);
-    // }
-  }
-
   @override
   Widget build(BuildContext context) {
+    CreateCatalogSectionItemsCubit cubit = context.watch<CreateCatalogSectionItemsCubit>();
+
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
       padding: const EdgeInsets.all(16),
@@ -109,7 +78,7 @@ class _SectionCardState extends State<SectionCard> {
             label: 'Category Name',
             child: TextFormField(
               initialValue: widget.section.name,
-              onChanged: (v) => _update('menuName', v),
+              onChanged: (v) => widget.section.name = v,
               decoration: const InputDecoration(hintText: 'e.g., Organic'),
             ),
           ),
@@ -140,8 +109,7 @@ class _SectionCardState extends State<SectionCard> {
           ...(widget.section.catalogItems ?? []).map((item) {
             return ProductItemForm(
               item: item,
-              onRemove: () => _removeItem(item),
-              onChanged: _onItemChanged,
+              onRemove: () => cubit.removeItem(sectionParam: widget.section, itemParam: item),
             );
           }),
 
@@ -150,7 +118,12 @@ class _SectionCardState extends State<SectionCard> {
             alignment: Alignment.centerRight,
             child: SizedBox(
               width: context.width * 0.5,
-              child: AddButton(label: 'Add Category Item', onTap: _addItem),
+              child: AddButton(
+                label: 'Add Category Item',
+                onTap:
+                    () =>
+                        cubit.addItem(sectionParam: widget.section, itemParam: CatalogItemParam()),
+              ),
             ),
           ),
         ],
