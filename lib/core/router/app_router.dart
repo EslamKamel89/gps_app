@@ -21,7 +21,7 @@ import 'package:gps_app/features/design/screens/user/splash/splash_screen.dart';
 import 'package:gps_app/features/design/screens/vendor/on_boarding/screens/restaurant_onboarding_branches_screen.dart';
 import 'package:gps_app/features/design/screens/vendor/on_boarding/screens/restaurant_onboarding_certifications_screen.dart';
 import 'package:gps_app/features/design/screens/vendor/on_boarding/screens/restaurant_onboarding_menu_screen.dart';
-import 'package:gps_app/features/design/screens/vendor/on_boarding/screens/store__farm_onboarding_products.dart';
+import 'package:gps_app/features/design/screens/vendor/on_boarding/screens/store_farm_onboarding_products.dart';
 import 'package:gps_app/features/user/categories/presentation/category_selection_screen.dart';
 import 'package:gps_app/features/user/categories/presentation/subcategory_selection_screen.dart';
 

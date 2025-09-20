@@ -22,7 +22,9 @@ class CreateCatalogSectionItemsState {
 
   factory CreateCatalogSectionItemsState.initial() {
     return CreateCatalogSectionItemsState(
-      sections: [CatalogSectionParam()],
+      sections: [
+        CatalogSectionParam(catalogItems: [CatalogItemParam()]),
+      ],
       sectionsResponse: ApiResponseModel(),
     );
   }

@@ -137,7 +137,7 @@ class _SectionCardState extends State<SectionCard> {
               'No items added yet.',
               style: Theme.of(context).textTheme.bodySmall?.copyWith(color: GPSColors.mutedText),
             ),
-          ...widget.section.catalogItems!.map((item) {
+          ...(widget.section.catalogItems ?? []).map((item) {
             return ProductItemForm(
               item: item,
               onRemove: () => _removeItem(item),
