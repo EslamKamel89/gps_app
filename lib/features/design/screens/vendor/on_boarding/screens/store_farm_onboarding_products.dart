@@ -3,6 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gps_app/core/enums/response_type.dart';
+import 'package:gps_app/core/router/app_routes_names.dart';
 import 'package:gps_app/features/auth/cubits/create_catalog_section_items/create_catalog_section_items_cubit.dart';
 import 'package:gps_app/features/auth/models/catalog_section_param/catalog_item.dart';
 import 'package:gps_app/features/auth/models/catalog_section_param/catalog_section_param.dart';
@@ -52,7 +54,9 @@ class _StoreFarmOnboardingProductsScreenState extends State<StoreFarmOnboardingP
 
             BlocConsumer<CreateCatalogSectionItemsCubit, CreateCatalogSectionItemsState>(
               listener: (context, state) {
-                // TODO: implement listener
+                if (state.sectionsResponse.response == ResponseEnum.success) {
+                  Navigator.of(context).pushNamed(AppRoutesNames.homeSearchScreen);
+                }
               },
               builder: (context, state) {
                 final cubit = context.read<CreateCatalogSectionItemsCubit>();
@@ -116,24 +120,29 @@ class _StoreFarmOnboardingProductsScreenState extends State<StoreFarmOnboardingP
                     child: const Text('← Previous'),
                   ),
                   const Spacer(),
-                  ElevatedButton(
-                    onPressed:
-                        _isNextEnabled
-                            ? () {
-                              context.read<CreateCatalogSectionItemsCubit>().createCatalogSection();
-                              // ScaffoldMessenger.of(context).showSnackBar(
-                              //   const SnackBar(content: Text("Proceeding to certifications...")),
-                              // );
-                              // Navigator.of(
-                              //   context,
-                              // ).pushNamed(AppRoutesNames.restaurantOnboardingCertificationsScreen);
-                            }
-                            : null,
-                    style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-                    ),
-                    child: const Text('Next →'),
+                  Builder(
+                    builder: (context) {
+                      final cubit = context.watch<CreateCatalogSectionItemsCubit>();
+                      return ElevatedButton(
+                        onPressed: () {
+                          cubit.createCatalogSection();
+                          // ScaffoldMessenger.of(context).showSnackBar(
+                          //   const SnackBar(content: Text("Proceeding to certifications...")),
+                          // );
+                          // Navigator.of(
+                          //   context,
+                          // ).pushNamed(AppRoutesNames.restaurantOnboardingCertificationsScreen);
+                        },
+                        style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+                        ),
+                        child:
+                            cubit.state.sectionsResponse.response == ResponseEnum.loading
+                                ? Center(child: CircularProgressIndicator())
+                                : Text('Next →'),
+                      );
+                    },
                   ),
                 ],
               ),
