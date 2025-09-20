@@ -10,14 +10,15 @@ import 'package:gps_app/features/design/screens/vendor/on_boarding/widgets/secti
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 
-class StoreOnboardingProductsScreen extends StatefulWidget {
-  const StoreOnboardingProductsScreen({super.key});
+class StoreFarmOnboardingProductsScreen extends StatefulWidget {
+  const StoreFarmOnboardingProductsScreen({super.key});
 
   @override
-  State<StoreOnboardingProductsScreen> createState() => _StoreOnboardingProductsScreenState();
+  State<StoreFarmOnboardingProductsScreen> createState() =>
+      _StoreFarmOnboardingProductsScreenState();
 }
 
-class _StoreOnboardingProductsScreenState extends State<StoreOnboardingProductsScreen> {
+class _StoreFarmOnboardingProductsScreenState extends State<StoreFarmOnboardingProductsScreen> {
   bool get _isNextEnabled {
     return true;
   }

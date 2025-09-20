@@ -18,11 +18,10 @@ import 'package:gps_app/features/design/screens/user/market_place/market_place_s
 import 'package:gps_app/features/design/screens/user/resturant_details/resturant_details_screen.dart';
 import 'package:gps_app/features/design/screens/user/scann_image/scan_image_screen.dart';
 import 'package:gps_app/features/design/screens/user/splash/splash_screen.dart';
-import 'package:gps_app/features/design/screens/vendor/on_boarding/screens/farm_onboarding_products.dart';
 import 'package:gps_app/features/design/screens/vendor/on_boarding/screens/restaurant_onboarding_branches_screen.dart';
 import 'package:gps_app/features/design/screens/vendor/on_boarding/screens/restaurant_onboarding_certifications_screen.dart';
 import 'package:gps_app/features/design/screens/vendor/on_boarding/screens/restaurant_onboarding_menu_screen.dart';
-import 'package:gps_app/features/design/screens/vendor/on_boarding/screens/store_onboarding_products.dart';
+import 'package:gps_app/features/design/screens/vendor/on_boarding/screens/store__farm_onboarding_products.dart';
 import 'package:gps_app/features/user/categories/presentation/category_selection_screen.dart';
 import 'package:gps_app/features/user/categories/presentation/subcategory_selection_screen.dart';
 
@@ -113,20 +112,20 @@ class AppRouter {
           builder: (context) => RestaurantOnboardingCertificationsScreen(),
           settings: routeSettings,
         );
-      case AppRoutesNames.storeOnboardingProductsScreen:
+      case AppRoutesNames.storeFarmOnboardingProductsScreen:
         return CustomPageRoute(
           builder:
               (context) => BlocProvider(
                 create: (context) => CreateCatalogSectionItemsCubit(),
-                child: StoreOnboardingProductsScreen(),
+                child: StoreFarmOnboardingProductsScreen(),
               ),
           settings: routeSettings,
         );
-      case AppRoutesNames.farmOnboardingProductsScreen:
-        return CustomPageRoute(
-          builder: (context) => FarmOnboardingProductsScreen(),
-          settings: routeSettings,
-        );
+      // case AppRoutesNames.farmOnboardingProductsScreen:
+      //   return CustomPageRoute(
+      //     builder: (context) => FarmOnboardingProductsScreen(),
+      //     settings: routeSettings,
+      //   );
 
       default:
         return null;
