@@ -7,7 +7,15 @@ class OperatingTimeModel {
   List<String>? sat;
   List<String>? sun;
 
-  OperatingTimeModel({this.mon, this.tue, this.wed, this.thu, this.fri, this.sat, this.sun});
+  OperatingTimeModel({
+    this.mon,
+    this.tue,
+    this.wed,
+    this.thu,
+    this.fri,
+    this.sat,
+    this.sun,
+  });
 
   @override
   String toString() {

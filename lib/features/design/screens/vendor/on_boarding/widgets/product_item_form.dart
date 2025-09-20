@@ -8,9 +8,9 @@ import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 
 class ProductItemForm extends StatefulWidget {
-  final ProductItem item;
+  final ProductEntity item;
   final VoidCallback onRemove;
-  final ValueChanged<ProductItem> onChanged;
+  final ValueChanged<ProductEntity> onChanged;
 
   const ProductItemForm({
     super.key,
@@ -24,7 +24,7 @@ class ProductItemForm extends StatefulWidget {
 }
 
 class _ProductItemFormState extends State<ProductItemForm> {
-  late ProductItem _item;
+  late ProductEntity _item;
 
   @override
   void initState() {

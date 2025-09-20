@@ -18,21 +18,21 @@ class FarmOnboardingProductsScreen extends StatefulWidget {
 
 class _FarmOnboardingProductsScreenState
     extends State<FarmOnboardingProductsScreen> {
-  final List<Category> _categories = [Category.empty()];
+  final List<CategoryEntity> _categories = [CategoryEntity.empty()];
 
   void _addCategory() {
     setState(() {
-      _categories.add(Category.empty());
+      _categories.add(CategoryEntity.empty());
     });
   }
 
-  void _removeCategory(Category category) {
+  void _removeCategory(CategoryEntity category) {
     setState(() {
       _categories.remove(category);
     });
   }
 
-  void _onCategoryChanged(Category updated) {
+  void _onCategoryChanged(CategoryEntity updated) {
     final index = _categories.indexWhere((m) => m.id == updated.id);
     if (index != -1) {
       setState(() {

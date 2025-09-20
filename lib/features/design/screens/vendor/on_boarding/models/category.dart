@@ -1,11 +1,11 @@
-class Category {
+class CategoryEntity {
   String id;
   String menuName;
   String? description;
   Map<String, String> availabilityHours;
-  List<ProductItem> items;
+  List<ProductEntity> items;
 
-  Category({
+  CategoryEntity({
     required this.id,
     required this.menuName,
     this.description,
@@ -13,15 +13,15 @@ class Category {
     required this.items,
   });
 
-  factory Category.empty() => Category(
+  factory CategoryEntity.empty() => CategoryEntity(
     id: DateTime.now().millisecondsSinceEpoch.toString(),
     menuName: '',
     availabilityHours: {'Mon-Fri': '11:00 AM - 3:00 PM'},
-    items: [ProductItem.empty()],
+    items: [ProductEntity.empty()],
   );
 }
 
-class ProductItem {
+class ProductEntity {
   String id;
   String name;
   double price;
@@ -29,7 +29,7 @@ class ProductItem {
   String category;
   bool isSpicy;
 
-  ProductItem({
+  ProductEntity({
     required this.id,
     required this.name,
     required this.price,
@@ -38,7 +38,7 @@ class ProductItem {
     this.isSpicy = false,
   });
 
-  factory ProductItem.empty() => ProductItem(
+  factory ProductEntity.empty() => ProductEntity(
     id: DateTime.now().millisecondsSinceEpoch.toString(),
     name: '',
     price: 0.0,
@@ -46,14 +46,14 @@ class ProductItem {
     isSpicy: false,
   );
 
-  ProductItem copyWith({
+  ProductEntity copyWith({
     String? name,
     double? price,
     String? description,
     String? category,
     bool? isSpicy,
   }) {
-    return ProductItem(
+    return ProductEntity(
       id: id,
       name: name ?? this.name,
       price: price ?? this.price,

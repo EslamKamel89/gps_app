@@ -49,7 +49,8 @@ class UserModel {
     districtId: j['district_id'],
     stateId: j['state_id'],
     token: j['token'],
-    userType: j['user_type'] == null ? null : UserTypeModel.fromJson(j['user_type']),
+    userType:
+        j['user_type'] == null ? null : UserTypeModel.fromJson(j['user_type']),
     vendor: j['vendor'] == null ? null : VendorModel.fromJson(j['vendor']),
   );
 

@@ -12,9 +12,9 @@ import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 
 class CategoryCard extends StatefulWidget {
-  final Category category;
+  final CategoryEntity category;
   final VoidCallback onDelete;
-  final ValueChanged<Category> onChanged;
+  final ValueChanged<CategoryEntity> onChanged;
 
   const CategoryCard({
     super.key,
@@ -28,7 +28,7 @@ class CategoryCard extends StatefulWidget {
 }
 
 class _CategoryCardState extends State<CategoryCard> {
-  late Category _menu;
+  late CategoryEntity _menu;
 
   @override
   void initState() {
@@ -37,7 +37,7 @@ class _CategoryCardState extends State<CategoryCard> {
   }
 
   void _update(String field, dynamic value) {
-    _menu = Category(
+    _menu = CategoryEntity(
       id: _menu.id,
       menuName: field == 'menuName' ? (value as String) : _menu.menuName,
       description:
@@ -46,26 +46,26 @@ class _CategoryCardState extends State<CategoryCard> {
           field == 'availabilityHours'
               ? (value as Map<String, String>)
               : _menu.availabilityHours,
-      items: field == 'items' ? (value as List<ProductItem>) : _menu.items,
+      items: field == 'items' ? (value as List<ProductEntity>) : _menu.items,
     );
     widget.onChanged(_menu);
   }
 
   void _addItem() {
     setState(() {
-      _menu.items.add(ProductItem.empty());
+      _menu.items.add(ProductEntity.empty());
     });
     _update('items', _menu.items);
   }
 
-  void _removeItem(ProductItem item) {
+  void _removeItem(ProductEntity item) {
     setState(() {
       _menu.items.remove(item);
     });
     _update('items', _menu.items);
   }
 
-  void _onItemChanged(ProductItem updated) {
+  void _onItemChanged(ProductEntity updated) {
     final index = _menu.items.indexWhere((i) => i.id == updated.id);
     if (index != -1) {
       setState(() {
@@ -124,21 +124,21 @@ class _CategoryCardState extends State<CategoryCard> {
               decoration: const InputDecoration(hintText: 'e.g., Organic'),
             ),
           ),
-          GPSGaps.h16,
+
+          // GPSGaps.h16,
 
           // Description
-          GpsLabeledField(
-            label: 'Description (Optional)',
-            child: TextFormField(
-              initialValue: _menu.description,
-              onChanged: (v) => _update('description', v),
-              maxLines: 2,
-              decoration: const InputDecoration(
-                hintText: 'e.g., Weekday lunch specials',
-              ),
-            ),
-          ),
-
+          // GpsLabeledField(
+          //   label: 'Description (Optional)',
+          //   child: TextFormField(
+          //     initialValue: _menu.description,
+          //     onChanged: (v) => _update('description', v),
+          //     maxLines: 2,
+          //     decoration: const InputDecoration(
+          //       hintText: 'e.g., Weekday lunch specials',
+          //     ),
+          //   ),
+          // ),
           GPSGaps.h20,
 
           const SectionHeader(title: 'Category Items'),
