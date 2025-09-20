@@ -1,6 +1,6 @@
 import 'package:gps_app/features/auth/models/image_model.dart';
 
-import 'catalog_section_model/item_model.dart';
+import 'catalog_item_model.dart';
 
 class CatalogSectionModel {
   int? userId;
@@ -11,7 +11,7 @@ class CatalogSectionModel {
   DateTime? createdAt;
   int? id;
   ImageModel? image;
-  List<ItemModel>? items;
+  List<CatalogItemModel>? items;
 
   CatalogSectionModel({
     this.userId,
@@ -43,7 +43,7 @@ class CatalogSectionModel {
           json['image'] == null ? null : ImageModel.fromJson(json['image'] as Map<String, dynamic>),
       items:
           (json['items'] as List<dynamic>?)
-              ?.map((e) => ItemModel.fromJson(e as Map<String, dynamic>))
+              ?.map((e) => CatalogItemModel.fromJson(e as Map<String, dynamic>))
               .toList(),
     );
   }
@@ -69,7 +69,7 @@ class CatalogSectionModel {
     DateTime? createdAt,
     int? id,
     ImageModel? image,
-    List<ItemModel>? items,
+    List<CatalogItemModel>? items,
   }) {
     return CatalogSectionModel(
       userId: userId ?? this.userId,

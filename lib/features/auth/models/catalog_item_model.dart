@@ -1,6 +1,6 @@
 import 'package:gps_app/features/auth/models/image_model.dart';
 
-class ItemModel {
+class CatalogItemModel {
   int? id;
   int? userId;
   int? vendorId;
@@ -14,7 +14,7 @@ class ItemModel {
   DateTime? updatedAt;
   ImageModel? image;
 
-  ItemModel({
+  CatalogItemModel({
     this.id,
     this.userId,
     this.vendorId,
@@ -34,7 +34,7 @@ class ItemModel {
     return 'Item(id: $id, userId: $userId, vendorId: $vendorId, catalogSectionId: $catalogSectionId, name: $name, price: $price, description: $description, status: $status, position: $position, createdAt: $createdAt, updatedAt: $updatedAt, image: $image)';
   }
 
-  factory ItemModel.fromJson(Map<String, dynamic> json) => ItemModel(
+  factory CatalogItemModel.fromJson(Map<String, dynamic> json) => CatalogItemModel(
     id: json['id'] as int?,
     userId: json['user_id'] as int?,
     vendorId: json['vendor_id'] as int?,
@@ -65,7 +65,7 @@ class ItemModel {
     'image': image?.toJson(),
   };
 
-  ItemModel copyWith({
+  CatalogItemModel copyWith({
     int? id,
     int? userId,
     int? vendorId,
@@ -79,7 +79,7 @@ class ItemModel {
     DateTime? updatedAt,
     ImageModel? image,
   }) {
-    return ItemModel(
+    return CatalogItemModel(
       id: id ?? this.id,
       userId: userId ?? this.userId,
       vendorId: vendorId ?? this.vendorId,
