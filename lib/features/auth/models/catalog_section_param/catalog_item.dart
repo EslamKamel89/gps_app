@@ -1,24 +1,18 @@
-class CatalogItem {
+class CatalogItemParam {
   String? name;
   int? price;
   String? description;
   int? position;
   int? imageId;
 
-  CatalogItem({
-    this.name,
-    this.price,
-    this.description,
-    this.position,
-    this.imageId,
-  });
+  CatalogItemParam({this.name, this.price, this.description, this.position, this.imageId});
 
   @override
   String toString() {
     return 'CatalogItem(name: $name, price: $price, description: $description, position: $position, imageId: $imageId)';
   }
 
-  factory CatalogItem.fromJson(Map<String, dynamic> json) => CatalogItem(
+  factory CatalogItemParam.fromJson(Map<String, dynamic> json) => CatalogItemParam(
     name: json['name'] as String?,
     price: json['price'] as int?,
     description: json['description'] as String?,
@@ -34,14 +28,14 @@ class CatalogItem {
     'image_id': imageId,
   };
 
-  CatalogItem copyWith({
+  CatalogItemParam copyWith({
     String? name,
     int? price,
     String? description,
     int? position,
     int? imageId,
   }) {
-    return CatalogItem(
+    return CatalogItemParam(
       name: name ?? this.name,
       price: price ?? this.price,
       description: description ?? this.description,

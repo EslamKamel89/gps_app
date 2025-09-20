@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:gps_app/features/design/screens/user/resturant_details/widgets/add_button.dart';
 import 'package:gps_app/features/design/screens/vendor/on_boarding/models/category.dart';
-import 'package:gps_app/features/design/screens/vendor/on_boarding/widgets/category_card.dart';
+import 'package:gps_app/features/design/screens/vendor/on_boarding/widgets/section_card.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 
@@ -12,12 +12,10 @@ class FarmOnboardingProductsScreen extends StatefulWidget {
   const FarmOnboardingProductsScreen({super.key});
 
   @override
-  State<FarmOnboardingProductsScreen> createState() =>
-      _FarmOnboardingProductsScreenState();
+  State<FarmOnboardingProductsScreen> createState() => _FarmOnboardingProductsScreenState();
 }
 
-class _FarmOnboardingProductsScreenState
-    extends State<FarmOnboardingProductsScreen> {
+class _FarmOnboardingProductsScreenState extends State<FarmOnboardingProductsScreen> {
   final List<CategoryEntity> _categories = [CategoryEntity.empty()];
 
   void _addCategory() {
@@ -43,8 +41,7 @@ class _FarmOnboardingProductsScreenState
 
   bool get _isNextEnabled {
     return true;
-    return _categories.isNotEmpty &&
-        _categories.any((m) => m.menuName.isNotEmpty);
+    return _categories.isNotEmpty && _categories.any((m) => m.menuName.isNotEmpty);
   }
 
   @override
@@ -66,9 +63,9 @@ class _FarmOnboardingProductsScreenState
                   const Spacer(),
                   Text(
                     'Farm',
-                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: GPSColors.mutedText,
-                    ),
+                    style: Theme.of(
+                      context,
+                    ).textTheme.bodyMedium?.copyWith(color: GPSColors.mutedText),
                   ),
                 ],
               ),
@@ -90,26 +87,22 @@ class _FarmOnboardingProductsScreenState
                     GPSGaps.h8,
                     Text(
                       "Let's build your farm! Create categories and add your products to show customers what you offer",
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: GPSColors.mutedText,
-                        height: 1.4,
-                      ),
+                      style: Theme.of(
+                        context,
+                      ).textTheme.bodyMedium?.copyWith(color: GPSColors.mutedText, height: 1.4),
                     ),
                     GPSGaps.h24,
 
                     ..._categories.map((category) {
-                      return CategoryCard(
-                        category: category,
+                      return SectionCard(
+                        section: category,
                         onDelete: () => _removeCategory(category),
                         onChanged: _onCategoryChanged,
                       );
                     }),
 
                     GPSGaps.h12,
-                    AddButton(
-                      label: 'Add Another Category',
-                      onTap: _addCategory,
-                    ),
+                    AddButton(label: 'Add Another Category', onTap: _addCategory),
                     GPSGaps.h24,
                   ],
                 ),
@@ -123,13 +116,8 @@ class _FarmOnboardingProductsScreenState
                   OutlinedButton(
                     onPressed: () => Navigator.maybePop(context),
                     style: OutlinedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 20,
-                        vertical: 14,
-                      ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(24),
-                      ),
+                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
                     ),
                     child: const Text('← Previous'),
                   ),
@@ -147,13 +135,8 @@ class _FarmOnboardingProductsScreenState
                             }
                             : null,
                     style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 24,
-                        vertical: 14,
-                      ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(24),
-                      ),
+                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
                     ),
                     child: const Text('Next →'),
                   ),

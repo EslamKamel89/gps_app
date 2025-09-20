@@ -2,15 +2,15 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:gps_app/features/auth/models/catalog_section_param/catalog_item.dart';
 import 'package:gps_app/features/auth/presentation/widgets/gps_label_field.dart';
-import 'package:gps_app/features/design/screens/vendor/on_boarding/models/category.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 
 class ProductItemForm extends StatefulWidget {
-  final ProductEntity item;
+  final CatalogItemParam item;
   final VoidCallback onRemove;
-  final ValueChanged<ProductEntity> onChanged;
+  final ValueChanged<CatalogItemParam> onChanged;
 
   const ProductItemForm({
     super.key,
@@ -24,17 +24,14 @@ class ProductItemForm extends StatefulWidget {
 }
 
 class _ProductItemFormState extends State<ProductItemForm> {
-  late ProductEntity _item;
-
   @override
   void initState() {
-    _item = widget.item;
     super.initState();
   }
 
   void _update(String field, dynamic value) {
     // _item = _item.copyWith({field: value});
-    widget.onChanged(_item);
+    // widget.onChanged(_item);
   }
 
   @override
@@ -53,7 +50,7 @@ class _ProductItemFormState extends State<ProductItemForm> {
           Row(
             children: [
               Text(
-                'Item • ${_item.name.isEmpty ? 'Untitled' : _item.name}',
+                "Item • ${widget.item.name ?? 'Untitled'}",
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   fontWeight: FontWeight.w600,
                   color: GPSColors.text,
@@ -73,7 +70,7 @@ class _ProductItemFormState extends State<ProductItemForm> {
           GpsLabeledField(
             label: 'Name',
             child: TextFormField(
-              initialValue: _item.name,
+              initialValue: widget.item.name,
               onChanged: (v) => _update('name', v),
               decoration: const InputDecoration(hintText: 'e.g., Beef Burger'),
             ),
@@ -84,8 +81,7 @@ class _ProductItemFormState extends State<ProductItemForm> {
           GpsLabeledField(
             label: 'Price',
             child: TextFormField(
-              initialValue:
-                  _item.price > 0 ? _item.price.toStringAsFixed(2) : '',
+              initialValue: widget.item.price != null ? widget.item.price!.toStringAsFixed(2) : '',
               onChanged: (v) => _update('price', double.tryParse(v) ?? 0.0),
               keyboardType: TextInputType.numberWithOptions(decimal: true),
               decoration: const InputDecoration(
@@ -101,7 +97,7 @@ class _ProductItemFormState extends State<ProductItemForm> {
           GpsLabeledField(
             label: 'Description (Optional)',
             child: TextFormField(
-              initialValue: _item.description,
+              initialValue: widget.item.description,
               onChanged: (v) => _update('description', v),
               maxLines: 2,
               decoration: const InputDecoration(

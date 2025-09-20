@@ -4,14 +4,9 @@ class CatalogSectionParam {
   String? name;
   int? position;
   int? imageId;
-  List<CatalogItem>? catalogItems;
+  List<CatalogItemParam>? catalogItems;
 
-  CatalogSectionParam({
-    this.name,
-    this.position,
-    this.imageId,
-    this.catalogItems,
-  });
+  CatalogSectionParam({this.name, this.position, this.imageId, this.catalogItems});
 
   @override
   String toString() {
@@ -25,7 +20,7 @@ class CatalogSectionParam {
       imageId: json['image_id'] as int?,
       catalogItems:
           (json['catalog_items'] as List<dynamic>?)
-              ?.map((e) => CatalogItem.fromJson(e as Map<String, dynamic>))
+              ?.map((e) => CatalogItemParam.fromJson(e as Map<String, dynamic>))
               .toList(),
     );
   }
@@ -41,7 +36,7 @@ class CatalogSectionParam {
     String? name,
     int? position,
     int? imageId,
-    List<CatalogItem>? catalogItems,
+    List<CatalogItemParam>? catalogItems,
   }) {
     return CatalogSectionParam(
       name: name ?? this.name,

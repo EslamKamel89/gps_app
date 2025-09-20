@@ -2,9 +2,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gps_app/features/auth/cubits/create_catalog_section_items/create_catalog_section_items_cubit.dart';
+import 'package:gps_app/features/auth/models/catalog_section_param/catalog_section_param.dart';
 import 'package:gps_app/features/design/screens/user/resturant_details/widgets/add_button.dart';
-import 'package:gps_app/features/design/screens/vendor/on_boarding/models/category.dart';
-import 'package:gps_app/features/design/screens/vendor/on_boarding/widgets/category_card.dart';
+import 'package:gps_app/features/design/screens/vendor/on_boarding/widgets/section_card.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 
@@ -16,32 +18,8 @@ class StoreOnboardingProductsScreen extends StatefulWidget {
 }
 
 class _StoreOnboardingProductsScreenState extends State<StoreOnboardingProductsScreen> {
-  final List<CategoryEntity> _categories = [CategoryEntity.empty()];
-
-  void _addCategory() {
-    setState(() {
-      _categories.add(CategoryEntity.empty());
-    });
-  }
-
-  void _removeCategory(CategoryEntity category) {
-    setState(() {
-      _categories.remove(category);
-    });
-  }
-
-  void _onCategoryChanged(CategoryEntity updated) {
-    final index = _categories.indexWhere((m) => m.id == updated.id);
-    if (index != -1) {
-      setState(() {
-        _categories[index] = updated;
-      });
-    }
-  }
-
   bool get _isNextEnabled {
     return true;
-    return _categories.isNotEmpty && _categories.any((m) => m.menuName.isNotEmpty);
   }
 
   @override
@@ -70,42 +48,52 @@ class _StoreOnboardingProductsScreenState extends State<StoreOnboardingProductsS
               ),
             ),
 
-            Expanded(
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Create Your Categories',
-                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                        fontWeight: FontWeight.w800,
-                        color: Colors.black,
-                      ),
-                    ),
-                    GPSGaps.h8,
-                    Text(
-                      "Let's build your store! Create categories and add your products to show customers what you offer",
-                      style: Theme.of(
-                        context,
-                      ).textTheme.bodyMedium?.copyWith(color: GPSColors.mutedText, height: 1.4),
-                    ),
-                    GPSGaps.h24,
+            BlocConsumer<CreateCatalogSectionItemsCubit, CreateCatalogSectionItemsState>(
+              listener: (context, state) {
+                // TODO: implement listener
+              },
+              builder: (context, state) {
+                final controller = context.read<CreateCatalogSectionItemsCubit>();
+                return Expanded(
+                  child: SingleChildScrollView(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Create Your Categories',
+                          style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                            fontWeight: FontWeight.w800,
+                            color: Colors.black,
+                          ),
+                        ),
+                        GPSGaps.h8,
+                        Text(
+                          "Let's build your store! Create categories and add your products to show customers what you offer",
+                          style: Theme.of(
+                            context,
+                          ).textTheme.bodyMedium?.copyWith(color: GPSColors.mutedText, height: 1.4),
+                        ),
+                        GPSGaps.h24,
 
-                    ..._categories.map((category) {
-                      return CategoryCard(
-                        category: category,
-                        onDelete: () => _removeCategory(category),
-                        onChanged: _onCategoryChanged,
-                      );
-                    }),
+                        ...state.sections.map((section) {
+                          return SectionCard(
+                            section: section,
+                            onDelete: () => controller.removeSection(sectionParam: section),
+                          );
+                        }),
 
-                    GPSGaps.h12,
-                    AddButton(label: 'Add Another Category', onTap: _addCategory),
-                    GPSGaps.h24,
-                  ],
-                ),
-              ),
+                        GPSGaps.h12,
+                        AddButton(
+                          label: 'Add Another Category',
+                          onTap: () => controller.addSection(sectionParam: CatalogSectionParam()),
+                        ),
+                        GPSGaps.h24,
+                      ],
+                    ),
+                  ),
+                );
+              },
             ),
 
             Padding(
