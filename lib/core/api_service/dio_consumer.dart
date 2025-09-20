@@ -6,21 +6,19 @@ import 'package:gps_app/core/api_service/api_consumer.dart';
 import 'package:gps_app/core/api_service/api_interceptors.dart';
 import 'package:gps_app/core/api_service/check_internet.dart';
 import 'package:gps_app/core/api_service/end_points.dart';
+import 'package:gps_app/core/cache/local_storage.dart';
+import 'package:gps_app/core/service_locator/service_locator.dart';
+import 'package:gps_app/features/auth/models/user_model.dart';
 
 class DioConsumer extends ApiConsumer {
   final Dio dio;
-
+  final localStorage = serviceLocator<LocalStorage>();
   DioConsumer({required this.dio}) {
     dio.options.baseUrl = EndPoint.baseUrl;
     dio.options.connectTimeout = const Duration(seconds: 60);
     dio.options.receiveTimeout = const Duration(seconds: 60);
-    dio.options.headers = {
-      // "Content-Type": "application/json",
-      "Accept": "application/json",
-    };
-    dio.interceptors.add(
-      DioInterceptor(),
-    ); // i use the interceptor to add the header
+    dio.options.headers = {"Content-Type": "application/json", "Accept": "application/json"};
+    dio.interceptors.add(DioInterceptor()); // i use the interceptor to add the header
     dio.interceptors.add(
       LogInterceptor(
         request: true,
@@ -34,21 +32,14 @@ class DioConsumer extends ApiConsumer {
   }
 
   @override
-  Future get(
-    String path, {
-    Object? data,
-    Map<String, dynamic>? queryParameter,
-  }) async {
+  Future get(String path, {Object? data, Map<String, dynamic>? queryParameter}) async {
+    _setAuthorizationHeader();
     // dio.options.headers = {"Authorization": 'Bearer ${'token'}', "Accept": "application/json"};
     try {
       if (!(await checkInternet())) {
         throw OfflineException();
       }
-      final response = await dio.get(
-        path,
-        data: data,
-        queryParameters: queryParameter,
-      );
+      final response = await dio.get(path, data: data, queryParameters: queryParameter);
       return response.data;
     } catch (e) {
       rethrow;
@@ -63,7 +54,7 @@ class DioConsumer extends ApiConsumer {
     bool isFormData = false,
   }) async {
     // dio.options.headers = {"Authorization": 'Bearer ${'token'}', "Accept": "application/json"};
-
+    _setAuthorizationHeader();
     try {
       if (!(await checkInternet())) {
         throw OfflineException();
@@ -87,7 +78,7 @@ class DioConsumer extends ApiConsumer {
     bool isFormData = false,
   }) async {
     // dio.options.headers = {"Authorization": 'Bearer ${'token'}', "Accept": "application/json"};
-
+    _setAuthorizationHeader();
     try {
       if (!(await checkInternet())) {
         throw OfflineException();
@@ -111,7 +102,7 @@ class DioConsumer extends ApiConsumer {
     bool isFormData = false,
   }) async {
     // dio.options.headers = {"Authorization": 'Bearer ${'token'}', "Accept": "application/json"};
-
+    _setAuthorizationHeader();
     try {
       if (!(await checkInternet())) {
         throw OfflineException();
@@ -124,6 +115,17 @@ class DioConsumer extends ApiConsumer {
       return response.data;
     } catch (e) {
       rethrow;
+    }
+  }
+
+  void _setAuthorizationHeader() {
+    final UserModel? user = localStorage.cachedUser;
+
+    if (user == null) {
+      dio.options.headers.remove('Authorization');
+    } else {
+      final token = user.token;
+      dio.options.headers.addAll({"Authorization": 'Bearer $token'});
     }
   }
 }
