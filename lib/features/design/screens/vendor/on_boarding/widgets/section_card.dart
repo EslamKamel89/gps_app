@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gps_app/core/extensions/context-extensions.dart';
+import 'package:gps_app/core/helpers/validator.dart';
 import 'package:gps_app/features/auth/cubits/create_catalog_section_items/create_catalog_section_items_cubit.dart';
 import 'package:gps_app/features/auth/models/catalog_section_param/catalog_item.dart';
 import 'package:gps_app/features/auth/models/catalog_section_param/catalog_section_param.dart';
@@ -80,6 +81,7 @@ class _SectionCardState extends State<SectionCard> {
               initialValue: widget.section.name,
               onChanged: (v) => widget.section.name = v,
               decoration: const InputDecoration(hintText: 'e.g., Organic'),
+              validator: (v) => validator(input: v, label: 'Category Name', isRequired: true),
             ),
           ),
 

@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gps_app/core/helpers/validator.dart';
 import 'package:gps_app/features/auth/cubits/create_catalog_section_items/create_catalog_section_items_cubit.dart';
 import 'package:gps_app/features/auth/models/catalog_section_param/catalog_item.dart';
 import 'package:gps_app/features/auth/presentation/widgets/gps_label_field.dart';
@@ -66,6 +67,7 @@ class _ProductItemFormState extends State<ProductItemForm> {
               initialValue: widget.item.name,
               onChanged: (v) => widget.item.name = v,
               decoration: const InputDecoration(hintText: 'e.g., Beef Burger'),
+              validator: (v) => validator(input: v, label: 'Name', isRequired: true),
             ),
           ),
           GPSGaps.h12,
@@ -82,6 +84,7 @@ class _ProductItemFormState extends State<ProductItemForm> {
                 prefixText: '\$ ',
                 prefixStyle: TextStyle(color: GPSColors.primary),
               ),
+              validator: (v) => validator(input: v, label: 'Price', isRequired: true),
             ),
           ),
           GPSGaps.h12,
