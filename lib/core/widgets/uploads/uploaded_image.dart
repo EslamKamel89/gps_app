@@ -26,6 +26,8 @@ enum UploadResource {
   vendor,
   branch,
   user,
+  section,
+  item,
   common;
 
   String get dir => name;

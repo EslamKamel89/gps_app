@@ -123,20 +123,24 @@ class _StoreFarmOnboardingProductsScreenState extends State<StoreFarmOnboardingP
                     Builder(
                       builder: (context) {
                         final cubit = context.watch<CreateCatalogSectionItemsCubit>();
-                        return ElevatedButton(
-                          onPressed: () {
-                            if (!_formKey.currentState!.validate()) return;
-                            cubit.createCatalogSection();
-                          },
-                          style: ElevatedButton.styleFrom(
-                            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-                          ),
-                          child:
-                              cubit.state.sectionsResponse.response == ResponseEnum.loading
-                                  ? Center(child: CircularProgressIndicator())
-                                  : Text('Next →'),
-                        );
+                        return cubit.state.sectionsResponse.response == ResponseEnum.loading
+                            ? Container(
+                              margin: EdgeInsets.symmetric(horizontal: 30),
+                              child: Center(child: CircularProgressIndicator()),
+                            )
+                            : ElevatedButton(
+                              onPressed: () {
+                                if (!_formKey.currentState!.validate()) return;
+                                cubit.createCatalogSection();
+                              },
+                              style: ElevatedButton.styleFrom(
+                                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(24),
+                                ),
+                              ),
+                              child: Text('Next →'),
+                            );
                       },
                     ),
                   ],

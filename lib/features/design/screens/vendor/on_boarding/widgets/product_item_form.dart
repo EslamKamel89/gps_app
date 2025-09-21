@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gps_app/core/helpers/validator.dart';
+import 'package:gps_app/core/widgets/uploads/image_upload_field.dart';
+import 'package:gps_app/core/widgets/uploads/uploaded_image.dart';
 import 'package:gps_app/features/auth/cubits/create_catalog_section_items/create_catalog_section_items_cubit.dart';
 import 'package:gps_app/features/auth/models/catalog_section_param/catalog_item.dart';
 import 'package:gps_app/features/auth/presentation/widgets/gps_label_field.dart';
@@ -71,7 +73,27 @@ class _ProductItemFormState extends State<ProductItemForm> {
             ),
           ),
           GPSGaps.h12,
+          ImageUploadField(
+            multiple: false,
+            // maxCount: 6,
+            resource: UploadResource.item,
+            initial: const [],
+            onChanged: (images) {
+              if (images.isEmpty) return;
+              widget.item.imageId = images[0].id;
+            },
+            child: Container(
+              height: 56,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: Colors.grey.shade400),
+              ),
+              child: const Text('Tap to upload product image'),
+            ),
+          ),
 
+          GPSGaps.h12,
           // Price
           GpsLabeledField(
             label: 'Price',
