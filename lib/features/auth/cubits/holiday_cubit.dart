@@ -14,6 +14,6 @@ class HolidayCubit extends Cubit<ApiResponseModel<List<HolidayModel>>> {
     emit(state.copyWith(errorMessage: null, response: ResponseEnum.loading));
     final ApiResponseModel<List<HolidayModel>> response = await controller.holidays();
     pr(response, t);
-    emit(state);
+    emit(response);
   }
 }
