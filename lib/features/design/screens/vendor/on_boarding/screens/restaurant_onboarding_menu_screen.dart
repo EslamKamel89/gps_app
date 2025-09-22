@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:gps_app/core/router/app_routes_names.dart';
-import 'package:gps_app/features/design/screens/user/resturant_details/widgets/add_button.dart';
+import 'package:gps_app/features/auth/presentation/widgets/add_button.dart';
 import 'package:gps_app/features/design/screens/vendor/on_boarding/models/restaurant_menu.dart';
 import 'package:gps_app/features/design/screens/vendor/on_boarding/widgets/menu_card.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
@@ -13,12 +13,10 @@ class RestaurantOnboardingMenuScreen extends StatefulWidget {
   const RestaurantOnboardingMenuScreen({super.key});
 
   @override
-  State<RestaurantOnboardingMenuScreen> createState() =>
-      _RestaurantOnboardingMenuScreenState();
+  State<RestaurantOnboardingMenuScreen> createState() => _RestaurantOnboardingMenuScreenState();
 }
 
-class _RestaurantOnboardingMenuScreenState
-    extends State<RestaurantOnboardingMenuScreen> {
+class _RestaurantOnboardingMenuScreenState extends State<RestaurantOnboardingMenuScreen> {
   final List<RestaurantMenu> _menus = [RestaurantMenu.empty()];
 
   void _addMenu() {
@@ -66,9 +64,9 @@ class _RestaurantOnboardingMenuScreenState
                   const Spacer(),
                   Text(
                     'Step 2 of 3',
-                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: GPSColors.mutedText,
-                    ),
+                    style: Theme.of(
+                      context,
+                    ).textTheme.bodyMedium?.copyWith(color: GPSColors.mutedText),
                   ),
                 ],
               ),
@@ -90,10 +88,9 @@ class _RestaurantOnboardingMenuScreenState
                     GPSGaps.h8,
                     Text(
                       'Add menus and items that customers will see. You can create multiple menus (e.g., Lunch, Dinner).',
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: GPSColors.mutedText,
-                        height: 1.4,
-                      ),
+                      style: Theme.of(
+                        context,
+                      ).textTheme.bodyMedium?.copyWith(color: GPSColors.mutedText, height: 1.4),
                     ),
                     GPSGaps.h24,
 
@@ -122,13 +119,8 @@ class _RestaurantOnboardingMenuScreenState
                   OutlinedButton(
                     onPressed: () => Navigator.maybePop(context),
                     style: OutlinedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 20,
-                        vertical: 14,
-                      ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(24),
-                      ),
+                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
                     ),
                     child: const Text('← Previous'),
                   ),
@@ -138,26 +130,16 @@ class _RestaurantOnboardingMenuScreenState
                         _isNextEnabled
                             ? () {
                               ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text(
-                                    "Proceeding to certifications...",
-                                  ),
-                                ),
+                                const SnackBar(content: Text("Proceeding to certifications...")),
                               );
-                              Navigator.of(context).pushNamed(
-                                AppRoutesNames
-                                    .restaurantOnboardingCertificationsScreen,
-                              );
+                              Navigator.of(
+                                context,
+                              ).pushNamed(AppRoutesNames.restaurantOnboardingCertificationsScreen);
                             }
                             : null,
                     style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 24,
-                        vertical: 14,
-                      ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(24),
-                      ),
+                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
                     ),
                     child: const Text('Next →'),
                   ),

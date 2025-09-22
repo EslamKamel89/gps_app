@@ -10,8 +10,8 @@ import 'package:gps_app/core/widgets/uploads/uploaded_image.dart';
 import 'package:gps_app/features/auth/cubits/create_catalog_section_items/create_catalog_section_items_cubit.dart';
 import 'package:gps_app/features/auth/models/catalog_section_param/catalog_item.dart';
 import 'package:gps_app/features/auth/models/catalog_section_param/catalog_section_param.dart';
+import 'package:gps_app/features/auth/presentation/widgets/add_button.dart';
 import 'package:gps_app/features/auth/presentation/widgets/gps_label_field.dart';
-import 'package:gps_app/features/design/screens/user/resturant_details/widgets/add_button.dart';
 import 'package:gps_app/features/design/screens/user/resturant_details/widgets/section_header.dart';
 import 'package:gps_app/features/design/screens/vendor/on_boarding/widgets/product_item_form.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
@@ -36,8 +36,7 @@ class _SectionCardState extends State<SectionCard> {
 
   @override
   Widget build(BuildContext context) {
-    CreateCatalogSectionItemsCubit cubit =
-        context.watch<CreateCatalogSectionItemsCubit>();
+    CreateCatalogSectionItemsCubit cubit = context.watch<CreateCatalogSectionItemsCubit>();
 
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
@@ -84,12 +83,7 @@ class _SectionCardState extends State<SectionCard> {
               initialValue: widget.section.name,
               onChanged: (v) => widget.section.name = v,
               decoration: const InputDecoration(hintText: 'e.g., Organic'),
-              validator:
-                  (v) => validator(
-                    input: v,
-                    label: 'Category Name',
-                    isRequired: true,
-                  ),
+              validator: (v) => validator(input: v, label: 'Category Name', isRequired: true),
             ),
           ),
           GPSGaps.h16,
@@ -134,18 +128,12 @@ class _SectionCardState extends State<SectionCard> {
           if (widget.section.catalogItems?.isEmpty == true)
             Text(
               'No items added yet.',
-              style: Theme.of(
-                context,
-              ).textTheme.bodySmall?.copyWith(color: GPSColors.mutedText),
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(color: GPSColors.mutedText),
             ),
           ...(widget.section.catalogItems ?? []).map((item) {
             return ProductItemForm(
               item: item,
-              onRemove:
-                  () => cubit.removeItem(
-                    sectionParam: widget.section,
-                    itemParam: item,
-                  ),
+              onRemove: () => cubit.removeItem(sectionParam: widget.section, itemParam: item),
             );
           }),
 
@@ -157,10 +145,8 @@ class _SectionCardState extends State<SectionCard> {
               child: AddButton(
                 label: 'Add Category Item',
                 onTap:
-                    () => cubit.addItem(
-                      sectionParam: widget.section,
-                      itemParam: CatalogItemParam(),
-                    ),
+                    () =>
+                        cubit.addItem(sectionParam: widget.section, itemParam: CatalogItemParam()),
               ),
             ),
           ),

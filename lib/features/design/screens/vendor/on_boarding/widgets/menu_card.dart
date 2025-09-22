@@ -3,8 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:gps_app/core/extensions/context-extensions.dart';
+import 'package:gps_app/features/auth/presentation/widgets/add_button.dart';
 import 'package:gps_app/features/auth/presentation/widgets/gps_label_field.dart';
-import 'package:gps_app/features/design/screens/user/resturant_details/widgets/add_button.dart';
 import 'package:gps_app/features/design/screens/user/resturant_details/widgets/section_header.dart';
 import 'package:gps_app/features/design/screens/vendor/on_boarding/models/restaurant_menu.dart';
 import 'package:gps_app/features/design/screens/vendor/on_boarding/widgets/menu_item_form.dart';
@@ -17,12 +17,7 @@ class MenuCard extends StatefulWidget {
   final VoidCallback onDelete;
   final ValueChanged<RestaurantMenu> onChanged;
 
-  const MenuCard({
-    super.key,
-    required this.menu,
-    required this.onDelete,
-    required this.onChanged,
-  });
+  const MenuCard({super.key, required this.menu, required this.onDelete, required this.onChanged});
 
   @override
   State<MenuCard> createState() => _MenuCardState();
@@ -41,12 +36,9 @@ class _MenuCardState extends State<MenuCard> {
     _menu = RestaurantMenu(
       id: _menu.id,
       menuName: field == 'menuName' ? (value as String) : _menu.menuName,
-      description:
-          field == 'description' ? (value as String?) : _menu.description,
+      description: field == 'description' ? (value as String?) : _menu.description,
       availabilityHours:
-          field == 'availabilityHours'
-              ? (value as Map<String, String>)
-              : _menu.availabilityHours,
+          field == 'availabilityHours' ? (value as Map<String, String>) : _menu.availabilityHours,
       items: field == 'items' ? (value as List<MenuItem>) : _menu.items,
     );
     widget.onChanged(_menu);
@@ -134,9 +126,7 @@ class _MenuCardState extends State<MenuCard> {
               initialValue: _menu.description,
               onChanged: (v) => _update('description', v),
               maxLines: 2,
-              decoration: const InputDecoration(
-                hintText: 'e.g., Weekday lunch specials',
-              ),
+              decoration: const InputDecoration(hintText: 'e.g., Weekday lunch specials'),
             ),
           ),
           GPSGaps.h16,
@@ -154,9 +144,7 @@ class _MenuCardState extends State<MenuCard> {
           if (_menu.items.isEmpty)
             Text(
               'No items added yet.',
-              style: Theme.of(
-                context,
-              ).textTheme.bodySmall?.copyWith(color: GPSColors.mutedText),
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(color: GPSColors.mutedText),
             ),
           ..._menu.items.map((item) {
             return MenuItemForm(
