@@ -4,7 +4,10 @@ part of 'create_catalog_section_items_cubit.dart';
 class CreateCatalogSectionItemsState {
   ApiResponseModel<List<CatalogSectionModel>> sectionsResponse;
   List<CatalogSectionParam> sections;
-  CreateCatalogSectionItemsState({required this.sectionsResponse, required this.sections});
+  CreateCatalogSectionItemsState({
+    required this.sectionsResponse,
+    required this.sections,
+  });
 
   CreateCatalogSectionItemsState copyWith({
     ApiResponseModel<List<CatalogSectionModel>>? sectionsResponse,

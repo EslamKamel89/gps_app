@@ -36,11 +36,19 @@ class CatalogSectionModel {
       vendorId: json['vendor_id'] as int?,
       name: json['name'] as String?,
       position: json['position'] as int?,
-      updatedAt: json['updated_at'] == null ? null : DateTime.parse(json['updated_at'] as String),
-      createdAt: json['created_at'] == null ? null : DateTime.parse(json['created_at'] as String),
+      updatedAt:
+          json['updated_at'] == null
+              ? null
+              : DateTime.parse(json['updated_at'] as String),
+      createdAt:
+          json['created_at'] == null
+              ? null
+              : DateTime.parse(json['created_at'] as String),
       id: json['id'] as int?,
       image:
-          json['image'] == null ? null : ImageModel.fromJson(json['image'] as Map<String, dynamic>),
+          json['image'] == null
+              ? null
+              : ImageModel.fromJson(json['image'] as Map<String, dynamic>),
       items:
           (json['items'] as List<dynamic>?)
               ?.map((e) => CatalogItemModel.fromJson(e as Map<String, dynamic>))

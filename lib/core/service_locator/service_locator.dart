@@ -13,7 +13,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 final GetIt serviceLocator = GetIt.instance;
 
 Future initServiceLocator() async {
-  serviceLocator.registerLazySingleton<ApiConsumer>(() => DioConsumer(dio: serviceLocator()));
+  serviceLocator.registerLazySingleton<ApiConsumer>(
+    () => DioConsumer(dio: serviceLocator()),
+  );
   final prefs = await SharedPreferences.getInstance();
   serviceLocator.registerLazySingleton<LocalStorage>(() => LocalStorage(prefs));
   serviceLocator.registerLazySingleton<ImagePicker>(() => ImagePicker());
@@ -22,9 +24,13 @@ Future initServiceLocator() async {
   serviceLocator.registerLazySingleton<AppMiddleWare>(
     () => AppMiddleWare(sharedPreferences: serviceLocator()),
   );
-  serviceLocator.registerLazySingleton<AppRouter>(() => AppRouter(appMiddleWare: serviceLocator()));
+  serviceLocator.registerLazySingleton<AppRouter>(
+    () => AppRouter(appMiddleWare: serviceLocator()),
+  );
 
-  serviceLocator.registerLazySingleton<CategoryController>(() => CategoryController());
+  serviceLocator.registerLazySingleton<CategoryController>(
+    () => CategoryController(),
+  );
   serviceLocator.registerLazySingleton<AuthController>(() => AuthController());
 
   // serviceLocator.registerLazySingleton<HomeRepo>(() => HomeRepoImp(homeRemoteDataSource: serviceLocator()));

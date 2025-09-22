@@ -6,7 +6,12 @@ class CatalogSectionParam {
   int? imageId;
   List<CatalogItemParam>? catalogItems;
 
-  CatalogSectionParam({this.name, this.position, this.imageId, this.catalogItems});
+  CatalogSectionParam({
+    this.name,
+    this.position,
+    this.imageId,
+    this.catalogItems,
+  });
 
   @override
   String toString() {
