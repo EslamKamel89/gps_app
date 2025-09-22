@@ -52,6 +52,7 @@ class _HolidayMultiSelectState extends State<HolidayMultiSelect> {
     if (_selected.where((holiday) => holiday.id == h.id).isNotEmpty) return;
     _selected.add(h);
     _currentChoice = null;
+    widget.onChanged(_selected);
     setState(() {});
   }
 
@@ -59,7 +60,7 @@ class _HolidayMultiSelectState extends State<HolidayMultiSelect> {
     setState(() {
       _selected.removeAt(index);
     });
-    // widget.onChanged(List.unmodifiable(_selected));
+    widget.onChanged(_selected);
   }
 
   List<String> _displayLabel(HolidayModel h) {
@@ -82,55 +83,70 @@ class _HolidayMultiSelectState extends State<HolidayMultiSelect> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        DropdownButtonFormField<HolidayModel?>(
-          key: _fieldKey,
-          value: _currentChoice,
-          onChanged: _add,
-          hint: Text('Select a holiday to add'),
-          decoration: InputDecoration(
-            hintText: 'Select a holiday to add',
-            helper: Container(
-              padding: EdgeInsets.only(top: 15, left: 10),
-              child: Text('Select a holiday to add'),
-            ),
-            // labelText: 'Select a holiday to add',
-            border: border,
-            enabledBorder: border,
-            focusedBorder: border.copyWith(
-              borderSide: BorderSide(color: Theme.of(context).colorScheme.primary),
-            ),
-            contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
-          ),
-          items:
-              // available.map((h) {
-              widget.options.map((h) {
-                return DropdownMenuItem<HolidayModel?>(
-                  value: h,
+        Container(
+          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: Colors.white),
+          child: DropdownButton<HolidayModel?>(
+            key: _fieldKey,
+            value: _currentChoice,
+            isDense: true,
+            isExpanded: true,
+            itemHeight: 80,
+            onChanged: _add,
 
-                  child: Container(
-                    padding: EdgeInsets.only(bottom: 5),
-                    margin: EdgeInsets.only(bottom: 5),
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      border: Border(bottom: BorderSide(color: Colors.grey)),
+            // borderRadius: BorderRadius.circular(20),
+            hint: Text('Select a holiday to add'),
+
+            // decoration: InputDecoration(
+            //   hintText: 'Select a holiday to add',
+            //   // helper: Container(
+            //   //   padding: EdgeInsets.only(top: 15, left: 10),
+            //   //   child: Text('Select a holiday to add'),
+            //   // ),
+            //   border: border,
+            //   enabledBorder: border,
+            //   focusedBorder: border.copyWith(
+            //     borderSide: BorderSide(color: Theme.of(context).colorScheme.primary),
+            //   ),
+
+            //   // contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
+            //   isDense: false,
+            //   maintainHintHeight: true,
+            // ),
+            items:
+                // available.map((h) {
+                widget.options.map((h) {
+                  return DropdownMenuItem<HolidayModel?>(
+                    value: h,
+                    child: Container(
+                      padding: EdgeInsets.only(bottom: 5),
+                      margin: EdgeInsets.only(bottom: 5),
+                      width: double.infinity,
+                      // alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        // border: Border(bottom: BorderSide(color: Colors.grey)),
+                        // color: Colors.red,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            _displayLabel(h)[0],
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            _displayLabel(h)[1],
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(),
+                          ),
+                          Divider(),
+                        ],
+                      ),
                     ),
-                    child: Column(
-                      children: [
-                        Text(
-                          _displayLabel(h)[0],
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        Text(
-                          _displayLabel(h)[1],
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(),
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              }).toList(),
+                  );
+                }).toList(),
+          ),
         ),
         const SizedBox(height: 12),
         if (_selected.isEmpty)

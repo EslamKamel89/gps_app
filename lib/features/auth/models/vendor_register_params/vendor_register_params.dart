@@ -17,6 +17,7 @@ class VendorRegisterParams {
   int? seatingCapacity;
   String? userType;
   OperatingTimeModel? operatingHours;
+  List<int>? holidayIds;
 
   VendorRegisterParams({
     this.fullName,
@@ -33,11 +34,12 @@ class VendorRegisterParams {
     this.seatingCapacity,
     this.userType,
     this.operatingHours,
+    this.holidayIds,
   });
 
   @override
   String toString() {
-    return 'VendorRegisterParams(fullName: $fullName, userName: $userName, email: $email, mobile: $mobile, password: $password, stateId: $stateId, districtId: $districtId, imageId: $imageId, vendorName: $vendorName, priceRange: $priceRange, address: $address, seatingCapacity: $seatingCapacity, userType: $userType, operatingHours: $operatingHours)';
+    return 'VendorRegisterParams(fullName: $fullName, userName: $userName, email: $email, mobile: $mobile, password: $password, stateId: $stateId, districtId: $districtId, imageId: $imageId, vendorName: $vendorName, priceRange: $priceRange, address: $address, seatingCapacity: $seatingCapacity, userType: $userType, operatingHours: $operatingHours , holidayIds: $holidayIds)';
   }
 
   factory VendorRegisterParams.fromJson(Map<String, dynamic> json) {
@@ -54,18 +56,14 @@ class VendorRegisterParams {
       priceRange:
           json['price_range'] == null
               ? null
-              : PriceRange.fromJson(
-                json['price_range'] as Map<String, dynamic>,
-              ),
+              : PriceRange.fromJson(json['price_range'] as Map<String, dynamic>),
       address: json['address'] as String?,
       seatingCapacity: json['seating_capacity'] as int?,
       userType: json['user_type'] as String?,
       operatingHours:
           json['operating_hours'] == null
               ? null
-              : OperatingTimeModel.fromJson(
-                json['operating_hours'] as Map<String, dynamic>,
-              ),
+              : OperatingTimeModel.fromJson(json['operating_hours'] as Map<String, dynamic>),
     );
   }
 
@@ -84,6 +82,7 @@ class VendorRegisterParams {
     'seating_capacity': seatingCapacity,
     'user_type': userType,
     'operating_hours': operatingHours?.toJson(),
+    'holiday_ids': holidayIds,
   };
 
   VendorRegisterParams copyWith({
@@ -101,6 +100,7 @@ class VendorRegisterParams {
     int? seatingCapacity,
     String? userType,
     OperatingTimeModel? operatingHours,
+    List<int>? holidayIds,
   }) {
     return VendorRegisterParams(
       fullName: fullName ?? this.fullName,
@@ -117,6 +117,7 @@ class VendorRegisterParams {
       seatingCapacity: seatingCapacity ?? this.seatingCapacity,
       userType: userType ?? this.userType,
       operatingHours: operatingHours ?? this.operatingHours,
+      holidayIds: holidayIds ?? this.holidayIds,
     );
   }
 }

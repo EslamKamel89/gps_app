@@ -51,7 +51,7 @@ class _VendorRegisterScreenState extends State<VendorRegisterScreen> {
   OperatingTimeModel? _operatingTimeModel;
   bool _obscure = true;
   final bool _loading = false;
-
+  List<HolidayModel> holidays = [];
   @override
   void dispose() {
     _fullNameCtrl.dispose();
@@ -87,11 +87,13 @@ class _VendorRegisterScreenState extends State<VendorRegisterScreen> {
       imageId: _profileImage?.id,
       address: _restaurantAddressCtrl.text,
       vendorName: _restaurantNameCtrl.text,
-      seatingCapacity: int.parse(_capacityCtrl.text),
+      seatingCapacity: int.parse(_capacityCtrl.text == '' ? '0' : _capacityCtrl.text),
       userType: _vendorTypeValue(),
       operatingHours: _operatingTimeModel,
+      holidayIds: holidays.map((h) => h.id!).toList(),
     );
     pr(param, "param");
+    // return;
     context.read<VendorRegisterCubit>().register(param: param);
   }
 
@@ -255,9 +257,10 @@ class _VendorRegisterScreenState extends State<VendorRegisterScreen> {
                           label: 'Non-business holidays',
                           child: HolidayMultiSelect(
                             options: state.data ?? [],
-
                             initialSelected: const [],
-                            onChanged: (current) {},
+                            onChanged: (current) {
+                              holidays = current;
+                            },
                           ),
                         );
                       },
