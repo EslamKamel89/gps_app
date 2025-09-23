@@ -38,7 +38,7 @@ class _SelectableLocationMapState extends State<SelectableLocationMap> {
   LatLng? _selected;
   bool _locationReady = false;
   bool _permissionDenied = false;
-  // at the top of your State class for the small map widget:
+
   final Completer<GoogleMapController> _smallMapCtrl = Completer<GoogleMapController>();
 
   @override
@@ -217,13 +217,11 @@ class _SelectableLocationMapState extends State<SelectableLocationMap> {
   Future<void> _animateSmallMapTo(LatLng target, {double? zoom}) async {
     try {
       final c = await _smallMapCtrl.future;
-      final z = zoom ?? 15; // or your chosen default / current zoom
+      final z = zoom ?? 15;
       await c.animateCamera(
         CameraUpdate.newCameraPosition(CameraPosition(target: target, zoom: z)),
       );
-    } catch (_) {
-      // no-op if controller not ready
-    }
+    } catch (_) {}
   }
 }
 

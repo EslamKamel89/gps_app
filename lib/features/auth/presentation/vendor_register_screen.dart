@@ -230,7 +230,8 @@ class _VendorRegisterScreenState extends State<VendorRegisterScreen> {
 
                   GPSGaps.h16,
 
-                  SelectableLocationMap(onLocationSelected: (v) {}),
+                  if (vendorType != VendorType.restaurant)
+                    SelectableLocationMap(onLocationSelected: (v) {}),
                   GPSGaps.h16,
                   GpsLabeledField(
                     label: 'Operating hours',
