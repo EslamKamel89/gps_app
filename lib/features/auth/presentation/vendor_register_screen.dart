@@ -20,6 +20,7 @@ import 'package:gps_app/features/auth/presentation/widgets/gps_label_field.dart'
 import 'package:gps_app/features/auth/presentation/widgets/holiday_multi_select.dart';
 import 'package:gps_app/features/auth/presentation/widgets/operating_hours_picker/operating_hour_picker.dart';
 import 'package:gps_app/features/auth/presentation/widgets/role_toggle.dart';
+import 'package:gps_app/features/auth/presentation/widgets/select_location_on_the_map.dart';
 import 'package:gps_app/features/auth/presentation/widgets/state_district_selector.dart';
 import 'package:gps_app/features/auth/presentation/widgets/vendor_type_select.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
@@ -227,6 +228,9 @@ class _VendorRegisterScreenState extends State<VendorRegisterScreen> {
                     ),
                   ).animate().fadeIn(duration: 220.ms),
 
+                  GPSGaps.h16,
+
+                  SelectableLocationMap(onLocationSelected: (v) {}),
                   GPSGaps.h16,
                   GpsLabeledField(
                     label: 'Operating hours',
