@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:gps_app/core/enums/response_type.dart';
 import 'package:gps_app/core/helpers/print_helper.dart';
 import 'package:gps_app/core/helpers/snackbar.dart';
@@ -53,6 +54,7 @@ class _VendorRegisterScreenState extends State<VendorRegisterScreen> {
   bool _obscure = true;
   final bool _loading = false;
   List<HolidayModel> holidays = [];
+  LatLng? farmOrStoreLocation;
   @override
   void dispose() {
     _fullNameCtrl.dispose();
@@ -92,6 +94,8 @@ class _VendorRegisterScreenState extends State<VendorRegisterScreen> {
       userType: _vendorTypeValue(),
       operatingHours: _operatingTimeModel,
       holidayIds: holidays.map((h) => h.id!).toList(),
+      latitude: farmOrStoreLocation?.latitude,
+      longitude: farmOrStoreLocation?.longitude,
     );
     pr(param, "param");
     // return;
@@ -231,7 +235,11 @@ class _VendorRegisterScreenState extends State<VendorRegisterScreen> {
                   GPSGaps.h16,
 
                   if (vendorType != VendorType.restaurant)
-                    SelectableLocationMap(onLocationSelected: (v) {}),
+                    SelectableLocationMap(
+                      onLocationSelected: (v) {
+                        farmOrStoreLocation = v;
+                      },
+                    ),
                   GPSGaps.h16,
                   GpsLabeledField(
                     label: 'Operating hours',

@@ -18,6 +18,8 @@ class VendorRegisterParams {
   String? userType;
   OperatingTimeModel? operatingHours;
   List<int>? holidayIds;
+  double? longitude;
+  double? latitude;
 
   VendorRegisterParams({
     this.fullName,
@@ -35,11 +37,13 @@ class VendorRegisterParams {
     this.userType,
     this.operatingHours,
     this.holidayIds,
+    this.longitude,
+    this.latitude,
   });
 
   @override
   String toString() {
-    return 'VendorRegisterParams(fullName: $fullName, userName: $userName, email: $email, mobile: $mobile, password: $password, stateId: $stateId, districtId: $districtId, imageId: $imageId, vendorName: $vendorName, priceRange: $priceRange, address: $address, seatingCapacity: $seatingCapacity, userType: $userType, operatingHours: $operatingHours , holidayIds: $holidayIds)';
+    return 'VendorRegisterParams(fullName: $fullName, userName: $userName, email: $email, mobile: $mobile, password: $password, stateId: $stateId, districtId: $districtId, imageId: $imageId, vendorName: $vendorName, priceRange: $priceRange, address: $address, seatingCapacity: $seatingCapacity, userType: $userType, operatingHours: $operatingHours , holidayIds: $holidayIds , latitude: $latitude , longitude: $longitude)';
   }
 
   factory VendorRegisterParams.fromJson(Map<String, dynamic> json) {
@@ -64,6 +68,8 @@ class VendorRegisterParams {
           json['operating_hours'] == null
               ? null
               : OperatingTimeModel.fromJson(json['operating_hours'] as Map<String, dynamic>),
+      latitude: json['latitude'] as double?,
+      longitude: json['longitude'] as double?,
     );
   }
 
@@ -83,6 +89,8 @@ class VendorRegisterParams {
     'user_type': userType,
     'operating_hours': operatingHours?.toJson(),
     'holiday_ids': holidayIds,
+    'latitude': latitude,
+    'longitude': longitude,
   };
 
   VendorRegisterParams copyWith({
@@ -101,6 +109,8 @@ class VendorRegisterParams {
     String? userType,
     OperatingTimeModel? operatingHours,
     List<int>? holidayIds,
+    double? latitude,
+    double? longitude,
   }) {
     return VendorRegisterParams(
       fullName: fullName ?? this.fullName,
@@ -118,6 +128,8 @@ class VendorRegisterParams {
       userType: userType ?? this.userType,
       operatingHours: operatingHours ?? this.operatingHours,
       holidayIds: holidayIds ?? this.holidayIds,
+      latitude: latitude ?? this.latitude,
+      longitude: longitude ?? this.longitude,
     );
   }
 }

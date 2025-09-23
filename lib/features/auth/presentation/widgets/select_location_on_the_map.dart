@@ -33,7 +33,6 @@ class SelectableLocationMap extends StatefulWidget {
 class _SelectableLocationMapState extends State<SelectableLocationMap> {
   static const double _defaultZoom = 15;
   static const double _defaultHeight = 220;
-
   LatLng? _currentCenter;
   LatLng? _selected;
   bool _locationReady = false;
