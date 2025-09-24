@@ -152,12 +152,12 @@ class AuthController {
     }
   }
 
-  Future<ApiResponseModel> verifyOtp({required String code}) async {
+  Future<ApiResponseModel<bool>> verifyOtp({required String code}) async {
     final t = prt('verifyOtp - AuthController');
     try {
-      final response = await _api.post(EndPoint.otpVerify, data: {"code": code});
+      final response = await _api.post(EndPoint.otpVerify, data: {"code": int.parse(code)});
       pr(response, '$t - response');
-      return pr(ApiResponseModel(response: ResponseEnum.success, data: response), t);
+      return pr(ApiResponseModel(response: ResponseEnum.success, data: true), t);
     } catch (e) {
       String errorMessage = e.toString();
       if (e is DioException) {

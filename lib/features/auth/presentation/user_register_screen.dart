@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gps_app/core/enums/response_type.dart';
+import 'package:gps_app/core/globals.dart';
 import 'package:gps_app/core/helpers/print_helper.dart';
 import 'package:gps_app/core/helpers/snackbar.dart';
 import 'package:gps_app/core/helpers/validator.dart';
@@ -293,7 +294,9 @@ class _UserRegisterScreenState extends State<UserRegisterScreen> {
   }
 
   void onSuccess() {
-    Navigator.of(context).pushReplacementNamed(AppRoutesNames.dietSelectionScreen);
+    BuildContext? ctx = navigatorKey.currentContext;
+    if (ctx == null) return;
+    Navigator.of(ctx).pushReplacementNamed(AppRoutesNames.dietSelectionScreen);
   }
 
   InputDecoration _inputDecoration(String hint) {

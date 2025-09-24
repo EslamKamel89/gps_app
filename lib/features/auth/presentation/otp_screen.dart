@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gps_app/core/enums/response_type.dart';
+import 'package:gps_app/core/helpers/print_helper.dart';
 import 'package:gps_app/core/models/api_response_model.dart';
 import 'package:gps_app/features/auth/cubits/verify_otp_cubit.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
@@ -30,6 +31,7 @@ class OTPWidget extends StatefulWidget {
 
 class _OTPWidgetState extends State<OTPWidget> {
   final _formKey = GlobalKey<FormState>();
+  String otp = '';
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<VerifyOtpCubit, ApiResponseModel>(
@@ -65,12 +67,18 @@ class _OTPWidgetState extends State<OTPWidget> {
                       Pinput(
                         length: 6,
                         onCompleted: (code) async {
+                          pr(code);
+                          otp = code;
                           await context.read<VerifyOtpCubit>().verifyOtp(code: code);
                         },
                       ).animate().fadeIn(duration: 280.ms, delay: 120.ms).slideY(begin: .08),
                       GPSGaps.h24,
                       ElevatedButton(
-                        onPressed: () async {},
+                        onPressed: () async {
+                          pr(otp, 'otp');
+                          if (otp.length < 6) return;
+                          await context.read<VerifyOtpCubit>().verifyOtp(code: otp);
+                        },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: GPSColors.primary,
                           foregroundColor: Colors.white,

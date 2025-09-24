@@ -4,6 +4,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:gps_app/core/enums/response_type.dart';
+import 'package:gps_app/core/globals.dart';
 import 'package:gps_app/core/helpers/print_helper.dart';
 import 'package:gps_app/core/helpers/snackbar.dart';
 import 'package:gps_app/core/helpers/validator.dart';
@@ -104,10 +105,12 @@ class _VendorRegisterScreenState extends State<VendorRegisterScreen> {
   }
 
   void _navigateOnRegisterSuccess() {
+    BuildContext? ctx = navigatorKey.currentContext;
+    if (ctx == null) return;
     if (vendorType == VendorType.restaurant) {
-      Navigator.of(context).pushNamed(AppRoutesNames.restaurantOnboardingBranchesScreen);
+      Navigator.of(ctx).pushNamed(AppRoutesNames.restaurantOnboardingBranchesScreen);
     } else if (vendorType == VendorType.farm || vendorType == VendorType.store) {
-      Navigator.of(context).pushNamed(AppRoutesNames.storeFarmOnboardingProductsScreen);
+      Navigator.of(ctx).pushNamed(AppRoutesNames.storeFarmOnboardingProductsScreen);
     } else {
       showSnackbar('Error', 'Please select your business type', true);
     }
