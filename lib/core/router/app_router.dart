@@ -7,7 +7,6 @@ import 'package:gps_app/features/auth/cubits/login_cubit.dart';
 import 'package:gps_app/features/auth/cubits/user_register_cubit.dart';
 import 'package:gps_app/features/auth/cubits/vendor_register_cubit.dart';
 import 'package:gps_app/features/auth/presentation/login_screen.dart';
-import 'package:gps_app/features/auth/presentation/otp_screen.dart';
 import 'package:gps_app/features/auth/presentation/store_farm_onboarding_products.dart';
 import 'package:gps_app/features/auth/presentation/user_register_screen.dart';
 import 'package:gps_app/features/auth/presentation/vendor_register_screen.dart';
@@ -123,7 +122,7 @@ class AppRouter {
           settings: routeSettings,
         );
       case AppRoutesNames.otpScreen:
-        return CustomPageRoute(builder: (context) => OTPScreen(), settings: routeSettings);
+      // return CustomPageRoute(builder: (context) => OTPScreen(), settings: routeSettings);
 
       default:
         return null;

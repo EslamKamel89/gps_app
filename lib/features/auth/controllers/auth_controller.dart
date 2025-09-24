@@ -151,4 +151,20 @@ class AuthController {
       return pr(ApiResponseModel(errorMessage: errorMessage, response: ResponseEnum.failed), t);
     }
   }
+
+  Future<ApiResponseModel> verifyOtp({required String code}) async {
+    final t = prt('verifyOtp - AuthController');
+    try {
+      final response = await _api.post(EndPoint.otpVerify, data: {"code": code});
+      pr(response, '$t - response');
+      return pr(ApiResponseModel(response: ResponseEnum.success, data: response), t);
+    } catch (e) {
+      String errorMessage = e.toString();
+      if (e is DioException) {
+        errorMessage = jsonEncode(e.response?.data ?? 'Unknown error occurred');
+      }
+      showSnackbar('Error', errorMessage, true);
+      return pr(ApiResponseModel(errorMessage: errorMessage, response: ResponseEnum.failed), t);
+    }
+  }
 }

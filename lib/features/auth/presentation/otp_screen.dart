@@ -9,7 +9,8 @@ import 'package:gps_app/features/design/widgets/pinleaf_logo.dart';
 import 'package:pinput/pinput.dart';
 
 class OTPScreen extends StatefulWidget {
-  const OTPScreen({super.key});
+  const OTPScreen({super.key, required this.onNext});
+  final void Function() onNext;
   @override
   State<OTPScreen> createState() => _OTPScreenState();
 }
@@ -47,32 +48,28 @@ class _OTPScreenState extends State<OTPScreen> {
                     textAlign: TextAlign.center,
                   ),
                   GPSGaps.h12,
-                  Pinput(onCompleted: (pin) => pr(pin))
-                      .animate()
-                      .fadeIn(duration: 280.ms, delay: 120.ms)
-                      .slideY(begin: .08),
+                  Pinput(
+                    onCompleted: (pin) => pr(pin),
+                  ).animate().fadeIn(duration: 280.ms, delay: 120.ms).slideY(begin: .08),
                   GPSGaps.h24,
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      widget.onNext();
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: GPSColors.primary,
                       foregroundColor: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
-                      ),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                     ),
-                    child: const Text(
-                      'Next',
-                      style: TextStyle(fontWeight: FontWeight.w700),
-                    ),
+                    child: const Text('Next', style: TextStyle(fontWeight: FontWeight.w700)),
                   ),
                   GPSGaps.h12,
                   RichText(
                     textAlign: TextAlign.center,
                     text: TextSpan(
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: GPSColors.mutedText,
-                      ),
+                      style: Theme.of(
+                        context,
+                      ).textTheme.bodyMedium?.copyWith(color: GPSColors.mutedText),
                       children: [
                         const TextSpan(text: "No code yet? "),
                         TextSpan(
