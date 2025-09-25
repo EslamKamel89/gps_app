@@ -11,10 +11,15 @@ class VerifyOtpCubit extends Cubit<ApiResponseModel<bool>> {
   Future verifyOtp({required String code}) async {
     final t = prt('verifyOtp - VerifyOtpCubit');
     emit(state.copyWith(errorMessage: null, response: ResponseEnum.loading));
-    final ApiResponseModel<bool> response = await controller.verifyOtp(
-      code: code,
-    );
+    final ApiResponseModel<bool> response = await controller.verifyOtp(code: code);
     pr(response, t);
     emit(response);
+  }
+
+  Future<ApiResponseModel<bool>> requestOtp() async {
+    final t = prt('verifyOtp - VerifyOtpCubit');
+    final response = await controller.requestOtp();
+    pr(response, t);
+    return response;
   }
 }

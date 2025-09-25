@@ -8,7 +8,16 @@ class AppMiddleWare {
   SharedPreferences sharedPreferences;
   AppMiddleWare({required this.sharedPreferences});
   UserModel? _user;
+  List<String> publicRoutes = [
+    AppRoutesNames.gpsSplashScreen,
+    AppRoutesNames.loginScreen,
+    AppRoutesNames.registerScreen,
+    AppRoutesNames.vendorRegisterScreen,
+  ];
   String? middleware(String? routeName) {
+    if (publicRoutes.contains(routeName)) {
+      return routeName;
+    }
     final localStorage = serviceLocator<LocalStorage>();
     _user ??= localStorage.cachedUser;
     if (_user == null) {
@@ -17,6 +26,7 @@ class AppMiddleWare {
     if (_user?.emailVerifiedAt == null) {
       return AppRoutesNames.otpScreen;
     }
+    // todo handle if the vendor didn't complete his profile.
     if (routeName == AppRoutesNames.loginScreen) {
       return AppRoutesNames.homeSearchScreen;
     }

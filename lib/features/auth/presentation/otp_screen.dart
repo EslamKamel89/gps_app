@@ -4,7 +4,9 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gps_app/core/enums/response_type.dart';
 import 'package:gps_app/core/helpers/print_helper.dart';
+import 'package:gps_app/core/helpers/snackbar.dart';
 import 'package:gps_app/core/models/api_response_model.dart';
+import 'package:gps_app/core/router/app_routes_names.dart';
 import 'package:gps_app/features/auth/cubits/verify_otp_cubit.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
@@ -33,14 +35,35 @@ class _OTPWidgetState extends State<OTPWidget> {
   final _formKey = GlobalKey<FormState>();
   String otp = '';
   @override
+  void initState() {
+    if (widget.onNext == null) {
+      _requestOtp();
+    }
+    super.initState();
+  }
+
+  Future _requestOtp() async {
+    final response = (await context.read<VerifyOtpCubit>().requestOtp()).response;
+    if (response == ResponseEnum.success) {
+      showSnackbar('Success', "New OTP code is sended to your email", false);
+    } else {
+      showSnackbar(
+        'Error',
+        "Sorry we couldn't send OTP to your email, please try again later",
+        true,
+      );
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocConsumer<VerifyOtpCubit, ApiResponseModel>(
-      listener: (context, state) {
+      listener: (context, state) async {
         if (state.response == ResponseEnum.success) {
           if (widget.onNext != null) {
             widget.onNext!();
           } else {
-            // todo: handle what should happen when the user is navigated to the OTP screen through the middleware.
+            Navigator.of(context).pushNamedAndRemoveUntil(AppRoutesNames.loginScreen, (_) => false);
           }
         }
       },
@@ -105,7 +128,11 @@ class _OTPWidgetState extends State<OTPWidget> {
                                 color: GPSColors.primary,
                                 fontWeight: FontWeight.w800,
                               ),
-                              recognizer: TapGestureRecognizer()..onTap = () {},
+                              recognizer:
+                                  TapGestureRecognizer()
+                                    ..onTap = () {
+                                      _requestOtp();
+                                    },
                             ),
                           ],
                         ),

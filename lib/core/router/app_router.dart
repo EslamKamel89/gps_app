@@ -89,7 +89,7 @@ class AppRouter {
           settings: routeSettings,
         );
 
-      case AppRoutesNames.restaurantRegisterScreen:
+      case AppRoutesNames.vendorRegisterScreen:
         return CustomPageRoute(
           builder:
               (context) => BlocProvider(
