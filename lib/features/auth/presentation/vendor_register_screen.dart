@@ -238,7 +238,7 @@ class _VendorRegisterScreenState extends State<VendorRegisterScreen> {
 
                   GPSGaps.h16,
 
-                  if (vendorType != VendorType.restaurant)
+                  if (vendorType != null && vendorType != VendorType.restaurant)
                     SelectableLocationMap(
                       onLocationSelected: (v) {
                         farmOrStoreLocation = v;
@@ -397,18 +397,19 @@ class _VendorRegisterScreenState extends State<VendorRegisterScreen> {
 
                   GPSGaps.h16,
 
-                  // Capacity
-                  GpsLabeledField(
-                    label: 'Seating Capacity',
-                    child: TextFormField(
-                      controller: _capacityCtrl,
-                      keyboardType: TextInputType.number,
-                      textInputAction: TextInputAction.next,
-                      decoration: _inputDecoration('Enter seating capacity'),
-                    ),
-                  ).animate().fadeIn(duration: 310.ms),
+                  if (vendorType == VendorType.restaurant)
+                    // Capacity
+                    GpsLabeledField(
+                      label: 'Seating Capacity',
+                      child: TextFormField(
+                        controller: _capacityCtrl,
+                        keyboardType: TextInputType.number,
+                        textInputAction: TextInputAction.next,
+                        decoration: _inputDecoration('Enter seating capacity'),
+                      ),
+                    ).animate().fadeIn(duration: 310.ms),
 
-                  GPSGaps.h16,
+                  if (vendorType == VendorType.restaurant) GPSGaps.h16,
 
                   // // Service Options
                   // Column(
