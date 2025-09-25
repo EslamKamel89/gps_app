@@ -38,7 +38,8 @@ class _SelectableLocationMapState extends State<SelectableLocationMap> {
   bool _locationReady = false;
   bool _permissionDenied = false;
 
-  final Completer<GoogleMapController> _smallMapCtrl = Completer<GoogleMapController>();
+  final Completer<GoogleMapController> _smallMapCtrl =
+      Completer<GoogleMapController>();
 
   @override
   void initState() {
@@ -58,7 +59,9 @@ class _SelectableLocationMapState extends State<SelectableLocationMap> {
         return;
       }
 
-      final pos = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
+      final pos = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.best,
+      );
       setState(() {
         _currentCenter = LatLng(pos.latitude, pos.longitude);
         _locationReady = true;
@@ -118,7 +121,11 @@ class _SelectableLocationMapState extends State<SelectableLocationMap> {
           child: SizedBox(
             height: height,
             child: Stack(
-              children: [_buildMapOrPlaceholder(), _buildTopStatus(), _buildTapToSelect()],
+              children: [
+                _buildMapOrPlaceholder(),
+                _buildTopStatus(),
+                _buildTapToSelect(),
+              ],
             ),
           ),
         )
@@ -136,7 +143,8 @@ class _SelectableLocationMapState extends State<SelectableLocationMap> {
     final zoom = widget.initialZoom ?? _defaultZoom;
 
     final markers = <Marker>{
-      if (_selected != null) Marker(markerId: const MarkerId('selected'), position: _selected!),
+      if (_selected != null)
+        Marker(markerId: const MarkerId('selected'), position: _selected!),
     };
 
     return GoogleMap(
@@ -163,7 +171,8 @@ class _SelectableLocationMapState extends State<SelectableLocationMap> {
   Widget _buildTopStatus() {
     final msg =
         _permissionDenied
-            ? (widget.placeholderText ?? 'Location permission denied — tap to pick')
+            ? (widget.placeholderText ??
+                'Location permission denied — tap to pick')
             : _selected != null
             ? 'Selected: ${_selected!.latitude.toStringAsFixed(5)}, ${_selected!.longitude.toStringAsFixed(5)}'
             : (widget.placeholderText ?? 'Centered on your location');
@@ -179,7 +188,10 @@ class _SelectableLocationMapState extends State<SelectableLocationMap> {
             ),
             child: Text(
               msg,
-              style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
+              style: const TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w600,
+              ),
             ),
           )
           .animate()
@@ -199,12 +211,20 @@ class _SelectableLocationMapState extends State<SelectableLocationMap> {
                 foregroundColor: Colors.white,
                 backgroundColor: Theme.of(context).colorScheme.primary,
                 elevation: 6,
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 12,
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
               ),
               onPressed: _openPicker,
               icon: const Icon(Icons.place),
-              label: const Text('Pick location', style: TextStyle(fontWeight: FontWeight.bold)),
+              label: const Text(
+                'Pick location',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
             )
             .animate()
             .slideY(begin: 0.2, end: 0, duration: 250.ms, curve: Curves.easeOut)
@@ -229,7 +249,8 @@ class _FullscreenMapPickerPage extends StatefulWidget {
   final LatLng? initialCenter;
 
   @override
-  State<_FullscreenMapPickerPage> createState() => _FullscreenMapPickerPageState();
+  State<_FullscreenMapPickerPage> createState() =>
+      _FullscreenMapPickerPageState();
 }
 
 class _FullscreenMapPickerPageState extends State<_FullscreenMapPickerPage> {
@@ -253,7 +274,9 @@ class _FullscreenMapPickerPageState extends State<_FullscreenMapPickerPage> {
       if (widget.initialCenter != null) {
         _center = widget.initialCenter;
       } else if (_hasPermission) {
-        final pos = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
+        final pos = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.best,
+        );
         _center = LatLng(pos.latitude, pos.longitude);
       } else {
         _center = const LatLng(0, 0);
@@ -266,7 +289,8 @@ class _FullscreenMapPickerPageState extends State<_FullscreenMapPickerPage> {
 
   Future<bool> _checkPermissionQuick() async {
     final perm = await Geolocator.checkPermission();
-    if (perm == LocationPermission.always || perm == LocationPermission.whileInUse) {
+    if (perm == LocationPermission.always ||
+        perm == LocationPermission.whileInUse) {
       return await Geolocator.isLocationServiceEnabled();
     }
     return false;
@@ -276,10 +300,14 @@ class _FullscreenMapPickerPageState extends State<_FullscreenMapPickerPage> {
 
   Future<void> _recenterToMe() async {
     if (!_hasPermission) return;
-    final pos = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
+    final pos = await Geolocator.getCurrentPosition(
+      desiredAccuracy: LocationAccuracy.best,
+    );
     final me = LatLng(pos.latitude, pos.longitude);
     final c = await _controller.future;
-    await c.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(target: me, zoom: _zoom)));
+    await c.animateCamera(
+      CameraUpdate.newCameraPosition(CameraPosition(target: me, zoom: _zoom)),
+    );
     setState(() => _center = me);
   }
 
@@ -296,7 +324,10 @@ class _FullscreenMapPickerPageState extends State<_FullscreenMapPickerPage> {
         ),
         actions: [
           InkWell(
-            onTap: _chosen == null ? null : () => Navigator.of(context).pop(_chosen),
+            onTap:
+                _chosen == null
+                    ? null
+                    : () => Navigator.of(context).pop(_chosen),
             child: Container(
               padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
               margin: EdgeInsets.symmetric(horizontal: 10),
@@ -306,7 +337,10 @@ class _FullscreenMapPickerPageState extends State<_FullscreenMapPickerPage> {
               ),
               child: Text(
                 'Save',
-                style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           ),
@@ -318,7 +352,10 @@ class _FullscreenMapPickerPageState extends State<_FullscreenMapPickerPage> {
               : Stack(
                 children: [
                   GoogleMap(
-                        initialCameraPosition: CameraPosition(target: _center!, zoom: _zoom),
+                        initialCameraPosition: CameraPosition(
+                          target: _center!,
+                          zoom: _zoom,
+                        ),
                         onMapCreated: _controller.complete,
                         onTap: _onMapTap,
                         myLocationEnabled: _hasPermission,
@@ -332,7 +369,10 @@ class _FullscreenMapPickerPageState extends State<_FullscreenMapPickerPage> {
                         tiltGesturesEnabled: true,
                         markers: {
                           if (_chosen != null)
-                            Marker(markerId: const MarkerId('chosen'), position: _chosen!),
+                            Marker(
+                              markerId: const MarkerId('chosen'),
+                              position: _chosen!,
+                            ),
                         },
                       )
                       .animate()
@@ -385,7 +425,10 @@ class _BottomInfoBar extends StatelessWidget {
           ),
           child: Text(
             txt,
-            style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
+            style: const TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.w600,
+            ),
             overflow: TextOverflow.ellipsis,
           ),
         )

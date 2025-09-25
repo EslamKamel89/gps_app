@@ -40,7 +40,10 @@ class _HolidayMultiSelectState extends State<HolidayMultiSelect> {
   void didUpdateWidget(covariant HolidayMultiSelect oldWidget) {
     super.didUpdateWidget(oldWidget);
     final availableKeys = widget.options.map(_identityKey).toSet();
-    _selected = _selected.where((h) => availableKeys.contains(_identityKey(h))).toList();
+    _selected =
+        _selected
+            .where((h) => availableKeys.contains(_identityKey(h)))
+            .toList();
   }
 
   String _identityKey(HolidayModel h) =>
@@ -67,7 +70,9 @@ class _HolidayMultiSelectState extends State<HolidayMultiSelect> {
   List<String> _displayLabel(HolidayModel h) {
     final name = h.name ?? 'Unnamed';
     final dateStr =
-        (h.date != null) ? _formatDate(h.date!) : (h.year != null ? h.year.toString() : '');
+        (h.date != null)
+            ? _formatDate(h.date!)
+            : (h.year != null ? h.year.toString() : '');
     return [name, dateStr].where((s) => s.isNotEmpty).toList();
   }
 
@@ -86,7 +91,10 @@ class _HolidayMultiSelectState extends State<HolidayMultiSelect> {
       children: [
         Container(
           // padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: Colors.white),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: Colors.white,
+          ),
           child: DropdownButton<HolidayModel?>(
             key: _fieldKey,
             value: _currentChoice,
@@ -154,9 +162,9 @@ class _HolidayMultiSelectState extends State<HolidayMultiSelect> {
           widget.emptyPlaceholder ??
               Text(
                 'No holidays selected yet.',
-                style: Theme.of(
-                  context,
-                ).textTheme.bodyMedium?.copyWith(color: Theme.of(context).hintColor),
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  color: Theme.of(context).hintColor,
+                ),
               )
         else
           Wrap(

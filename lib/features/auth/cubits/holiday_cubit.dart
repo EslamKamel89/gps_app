@@ -12,7 +12,8 @@ class HolidayCubit extends Cubit<ApiResponseModel<List<HolidayModel>>> {
   Future holidaysIndex() async {
     final t = prt('holidaysIndex - HolidayCubit');
     emit(state.copyWith(errorMessage: null, response: ResponseEnum.loading));
-    final ApiResponseModel<List<HolidayModel>> response = await controller.holidays();
+    final ApiResponseModel<List<HolidayModel>> response =
+        await controller.holidays();
     pr(response, t);
     emit(response);
   }

@@ -60,14 +60,18 @@ class VendorRegisterParams {
       priceRange:
           json['price_range'] == null
               ? null
-              : PriceRange.fromJson(json['price_range'] as Map<String, dynamic>),
+              : PriceRange.fromJson(
+                json['price_range'] as Map<String, dynamic>,
+              ),
       address: json['address'] as String?,
       seatingCapacity: json['seating_capacity'] as int?,
       userType: json['user_type'] as String?,
       operatingHours:
           json['operating_hours'] == null
               ? null
-              : OperatingTimeModel.fromJson(json['operating_hours'] as Map<String, dynamic>),
+              : OperatingTimeModel.fromJson(
+                json['operating_hours'] as Map<String, dynamic>,
+              ),
       latitude: json['latitude'] as double?,
       longitude: json['longitude'] as double?,
     );

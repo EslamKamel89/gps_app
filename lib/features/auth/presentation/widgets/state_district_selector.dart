@@ -12,7 +12,10 @@ class SelectedStateAndDistrict {
   DistrictModel? selectedDistrict;
   SelectedStateAndDistrict({this.selectedState, this.selectedDistrict});
 
-  SelectedStateAndDistrict copyWith({StateModel? selectedState, DistrictModel? selectedDistrict}) {
+  SelectedStateAndDistrict copyWith({
+    StateModel? selectedState,
+    DistrictModel? selectedDistrict,
+  }) {
     return SelectedStateAndDistrict(
       selectedState: selectedState ?? this.selectedState,
       selectedDistrict: selectedDistrict ?? this.selectedDistrict,
@@ -41,7 +44,8 @@ class StateAndDistrictSelector extends StatefulWidget {
   final Function(SelectedStateAndDistrict) onSelect;
 
   @override
-  State<StateAndDistrictSelector> createState() => _StateAndDistrictSelectorState();
+  State<StateAndDistrictSelector> createState() =>
+      _StateAndDistrictSelectorState();
 }
 
 class _StateAndDistrictSelectorState extends State<StateAndDistrictSelector> {
@@ -60,7 +64,10 @@ class _StateAndDistrictSelectorState extends State<StateAndDistrictSelector> {
                 hintText: 'Select District',
                 isRequired: true,
                 options:
-                    state.districts.data?.map((district) => district.name ?? '').toList() ?? [],
+                    state.districts.data
+                        ?.map((district) => district.name ?? '')
+                        .toList() ??
+                    [],
                 handleSelectOption: (String option) {
                   final district = cubit.selectDistrict(districtName: option);
                   widget.onSelect(
@@ -77,7 +84,11 @@ class _StateAndDistrictSelectorState extends State<StateAndDistrictSelector> {
               label: 'State',
               hintText: 'Select State',
               isRequired: true,
-              options: state.states.data?.map((stateModel) => stateModel.name ?? '').toList() ?? [],
+              options:
+                  state.states.data
+                      ?.map((stateModel) => stateModel.name ?? '')
+                      .toList() ??
+                  [],
               handleSelectOption: (String option) async {
                 await cubit.selectState(stateName: option);
               },
