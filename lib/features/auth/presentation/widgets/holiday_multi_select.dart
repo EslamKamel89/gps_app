@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gps_app/features/auth/models/holiday_model.dart';
+import 'package:gps_app/features/design/utils/gps_colors.dart';
 
 class HolidayMultiSelect extends StatefulWidget {
   const HolidayMultiSelect({
@@ -84,7 +85,7 @@ class _HolidayMultiSelectState extends State<HolidayMultiSelect> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+          // padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
           decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: Colors.white),
           child: DropdownButton<HolidayModel?>(
             key: _fieldKey,
@@ -93,9 +94,9 @@ class _HolidayMultiSelectState extends State<HolidayMultiSelect> {
             isExpanded: true,
             itemHeight: 80,
             onChanged: _add,
-
+            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
             // borderRadius: BorderRadius.circular(20),
-            hint: Text('Select a holiday to add'),
+            hint: Container(child: Text('Select a holiday to add')),
 
             // decoration: InputDecoration(
             //   hintText: 'Select a holiday to add',
@@ -138,7 +139,7 @@ class _HolidayMultiSelectState extends State<HolidayMultiSelect> {
                           Text(
                             _displayLabel(h)[1],
                             overflow: TextOverflow.ellipsis,
-                            style: TextStyle(),
+                            style: TextStyle(color: GPSColors.mutedText),
                           ),
                           Divider(),
                         ],
