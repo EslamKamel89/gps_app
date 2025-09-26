@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:gps_app/core/api_service/api_consumer.dart';
 import 'package:gps_app/core/api_service/end_points.dart';
+import 'package:gps_app/core/cache/cache_keys.dart';
+import 'package:gps_app/core/cache/local_storage.dart';
 import 'package:gps_app/core/enums/response_type.dart';
 import 'package:gps_app/core/helpers/print_helper.dart';
 import 'package:gps_app/core/helpers/snackbar.dart';
@@ -157,6 +159,7 @@ class AuthController {
     try {
       final response = await _api.post(EndPoint.otpVerify, data: {"code": int.parse(code)});
       pr(response, '$t - response');
+      await userSync();
       return pr(ApiResponseModel(response: ResponseEnum.success, data: true), t);
     } catch (e) {
       String errorMessage = e.toString();
@@ -182,5 +185,26 @@ class AuthController {
       showSnackbar('Error', errorMessage, true);
       return pr(ApiResponseModel(errorMessage: errorMessage, response: ResponseEnum.failed), t);
     }
+  }
+
+  Future<ApiResponseModel<UserModel>> userSync() async {
+    final t = prt('userSync - AuthController');
+    final storage = serviceLocator<LocalStorage>();
+    try {
+      final response = await _api.get(EndPoint.userSync);
+      pr(response, '$t - response');
+      final UserModel model = UserModel.fromJson(response);
+      await storage.setString(CacheKeys.userJson, jsonEncode(model.toJson()));
+      return pr(ApiResponseModel(response: ResponseEnum.success, data: model), t);
+    } catch (e) {
+      String errorMessage = e.toString();
+      if (e is DioException) {
+        errorMessage = jsonEncode(e.response?.data ?? 'Unknown error occurred');
+      }
+      // showSnackbar('Error', errorMessage, true);
+      pr(errorMessage, t);
+    }
+    await storage.remove(CacheKeys.userJson);
+    return ApiResponseModel(errorMessage: "Something went wrong", response: ResponseEnum.failed);
   }
 }

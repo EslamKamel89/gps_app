@@ -17,7 +17,7 @@ class VerifyOtpCubit extends Cubit<ApiResponseModel<bool>> {
   }
 
   Future<ApiResponseModel<bool>> requestOtp() async {
-    final t = prt('verifyOtp - VerifyOtpCubit');
+    final t = prt('requestOtp - VerifyOtpCubit');
     final response = await controller.requestOtp();
     pr(response, t);
     return response;

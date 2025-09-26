@@ -6,6 +6,7 @@ class EndPoint {
   static const String holidays = "$baseUrl/api/holidays";
   static const String districts = "$baseUrl/api/districts";
   static const String userRegister = "$baseUrl/api/user-register";
+  static const String userSync = "$baseUrl/api/user-sync";
   static const String vendorRegister = "$baseUrl/api/vendor-register";
   static const String login = "$baseUrl/api/login";
   static const String uploadImages = "$baseUrl/api/uploads/images";

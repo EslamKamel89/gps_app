@@ -17,10 +17,7 @@ class DioConsumer extends ApiConsumer {
     dio.options.baseUrl = EndPoint.baseUrl;
     dio.options.connectTimeout = const Duration(seconds: 60);
     dio.options.receiveTimeout = const Duration(seconds: 60);
-    dio.options.headers = {
-      "Content-Type": "application/json",
-      "Accept": "application/json",
-    };
+    dio.options.headers = {"Content-Type": "application/json", "Accept": "application/json"};
     dio.interceptors.add(DioInterceptor());
     dio.interceptors.add(
       LogInterceptor(
@@ -35,21 +32,13 @@ class DioConsumer extends ApiConsumer {
   }
 
   @override
-  Future get(
-    String path, {
-    Object? data,
-    Map<String, dynamic>? queryParameter,
-  }) async {
+  Future get(String path, {Object? data, Map<String, dynamic>? queryParameter}) async {
     _setAuthorizationHeader();
     try {
       if (!(await checkInternet())) {
         throw OfflineException();
       }
-      final response = await dio.get(
-        path,
-        data: data,
-        queryParameters: queryParameter,
-      );
+      final response = await dio.get(path, data: data, queryParameters: queryParameter);
       return response.data;
     } catch (e) {
       rethrow;
@@ -127,7 +116,7 @@ class DioConsumer extends ApiConsumer {
 
   void _setAuthorizationHeader() {
     final UserModel? user = localStorage.cachedUser;
-
+    // pr(user, 'user');
     if (user == null) {
       dio.options.headers.remove('Authorization');
     } else {
