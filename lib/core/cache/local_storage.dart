@@ -67,11 +67,24 @@ class LocalStorage {
     return cachedUser?.userType?.type == 'farm';
   }
 
+  bool get isFarmProfileComplete {
+    return isFarm && cachedUser?.farm != null;
+  }
+
   bool get isStore {
     return cachedUser?.userType?.type == 'store';
   }
 
+  bool get isStoreProfileComplete {
+    return isStore && cachedUser?.store != null;
+  }
+
   bool get isRestaurant {
     return cachedUser?.userType?.type == 'restaurant';
+  }
+
+  bool get isRestaurantProfileComplete {
+    // todo: the model for Restaurant is not created yet.
+    return isRestaurant && true;
   }
 }

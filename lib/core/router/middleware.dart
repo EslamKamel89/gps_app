@@ -60,6 +60,18 @@ class AppMiddleWare {
     if (!_storage.isVerified) {
       return AppRoutesNames.otpScreen;
     }
+    // handle not complete profile logic
+    if (_storage.isFarm && !_storage.isFarmProfileComplete) {
+      return AppRoutesNames.storeFarmOnboardingProductsScreen;
+    }
+    if (_storage.isStore && !_storage.isStoreProfileComplete) {
+      return AppRoutesNames.storeFarmOnboardingProductsScreen;
+    }
+    if (_storage.isRestaurant && !_storage.isRestaurantProfileComplete) {
+      // todo: remove the comment after creating the logic for the branches
+      // return AppRoutesNames.restaurantOnboardingBranchesScreen;
+    }
+
     // todo: later each type of user will have his own screen
     if (_storage.isUser) {
       return AppRoutesNames.homeSearchScreen;

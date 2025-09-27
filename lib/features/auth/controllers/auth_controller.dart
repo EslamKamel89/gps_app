@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:gps_app/core/api_service/api_consumer.dart';
 import 'package:gps_app/core/api_service/end_points.dart';
-import 'package:gps_app/core/cache/cache_keys.dart';
 import 'package:gps_app/core/cache/local_storage.dart';
 import 'package:gps_app/core/enums/response_type.dart';
 import 'package:gps_app/core/helpers/print_helper.dart';
@@ -204,7 +203,7 @@ class AuthController {
       // showSnackbar('Error', errorMessage, true);
       pr(errorMessage, t);
     }
-    await storage.remove(CacheKeys.userJson);
+    await storage.login(null);
     return ApiResponseModel(errorMessage: "Something went wrong", response: ResponseEnum.failed);
   }
 }
