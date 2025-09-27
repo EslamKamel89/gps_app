@@ -25,7 +25,7 @@ class _GPSSplashScreenState extends State<GPSSplashScreen> {
   Future _init() async {
     await serviceLocator<AuthController>().userSync();
     await Future.delayed(const Duration(seconds: 3));
-    Navigator.of(context).pushNamedAndRemoveUntil(AppRoutesNames.loginScreen, (_) => false);
+    Navigator.of(context).pushNamedAndRemoveUntil(AppRoutesNames.entryPoint, (_) => false);
   }
 
   @override

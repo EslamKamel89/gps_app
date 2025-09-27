@@ -8,7 +8,6 @@ import 'package:gps_app/core/api_service/check_internet.dart';
 import 'package:gps_app/core/api_service/end_points.dart';
 import 'package:gps_app/core/cache/local_storage.dart';
 import 'package:gps_app/core/service_locator/service_locator.dart';
-import 'package:gps_app/features/auth/models/user_model.dart';
 
 class DioConsumer extends ApiConsumer {
   final Dio dio;
@@ -115,12 +114,10 @@ class DioConsumer extends ApiConsumer {
   }
 
   void _setAuthorizationHeader() {
-    final UserModel? user = localStorage.cachedUser;
-    // pr(user, 'user');
-    if (user == null) {
+    final String? token = localStorage.token;
+    if (token == null) {
       dio.options.headers.remove('Authorization');
     } else {
-      final token = user.token;
       dio.options.headers.addAll({"Authorization": 'Bearer $token'});
     }
   }

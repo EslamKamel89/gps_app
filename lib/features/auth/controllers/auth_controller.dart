@@ -194,7 +194,7 @@ class AuthController {
       final response = await _api.get(EndPoint.userSync);
       pr(response, '$t - response');
       final UserModel model = UserModel.fromJson(response);
-      await storage.setString(CacheKeys.userJson, jsonEncode(model.toJson()));
+      await storage.login(model);
       return pr(ApiResponseModel(response: ResponseEnum.success, data: model), t);
     } catch (e) {
       String errorMessage = e.toString();
