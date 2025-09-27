@@ -43,8 +43,16 @@ class LocalStorage {
     return getString(CacheKeys.token);
   }
 
-  bool get isLoggedin {
+  bool get isGuest {
+    return token == null;
+  }
+
+  bool get isSignedIn {
     return token != null;
+  }
+
+  bool get isVerified {
+    return cachedUser?.emailVerifiedAt != null;
   }
 
   bool get isVendor {

@@ -1,4 +1,5 @@
 import 'package:gps_app/core/cache/local_storage.dart';
+import 'package:gps_app/core/helpers/print_helper.dart';
 import 'package:gps_app/core/router/app_routes_names.dart';
 import 'package:gps_app/core/service_locator/service_locator.dart';
 import 'package:gps_app/features/auth/models/user_model.dart';
@@ -7,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class AppMiddleWare {
   SharedPreferences sharedPreferences;
   AppMiddleWare({required this.sharedPreferences});
+  final _storage = serviceLocator<LocalStorage>();
   UserModel? _user;
 
   List<String> guestOnlyRoutes = [
@@ -14,33 +16,63 @@ class AppMiddleWare {
     AppRoutesNames.registerScreen,
     AppRoutesNames.vendorRegisterScreen,
   ];
+  List<String> signedInButNotVerifiedRoutes = [AppRoutesNames.otpScreen];
+  List<String> verifiedRoutes = [
+    AppRoutesNames.dietSelectionScreen,
+    AppRoutesNames.homeSearchScreen,
+    AppRoutesNames.restaurantDetailScreen,
+    AppRoutesNames.marketPlaceScreen,
+    AppRoutesNames.categorySelectionScreen,
+    AppRoutesNames.subcategorySelectionScreen,
+    AppRoutesNames.foodSelectionScreen,
+    AppRoutesNames.scanImageScreen,
+    AppRoutesNames.marketCategorySelectionScreen,
+    AppRoutesNames.restaurantOnboardingBranchesScreen,
+    AppRoutesNames.restaurantOnboardingMenuScreen,
+    AppRoutesNames.restaurantOnboardingCertificationsScreen,
+    AppRoutesNames.storeFarmOnboardingProductsScreen,
+  ];
+  List<String> publicRoutes = [AppRoutesNames.gpsSplashScreen];
   String? middleware(String? routeName) {
-    // top priority routes
-    if (routeName == AppRoutesNames.gpsSplashScreen) {
-      return routeName;
+    if (routeName == AppRoutesNames.entryPoint) {
+      return _handleEntryPoint();
     }
-    // when public routes not allowed
-    final localStorage = serviceLocator<LocalStorage>();
-    _user ??= localStorage.cachedUser;
-    if (_user != null && _user?.emailVerifiedAt == null) {
-      return AppRoutesNames.otpScreen;
-    }
-    if (_user != null && _user?.emailVerifiedAt != null && guestOnlyRoutes.contains(routeName)) {
-      return AppRoutesNames.homeSearchScreen;
-    }
-    //allow public routes
-    if (guestOnlyRoutes.contains(routeName)) {
-      return routeName;
-    }
-    // protected routes
-    if (_user == null) {
-      return AppRoutesNames.loginScreen;
-    }
-
-    // todo handle if the vendor didn't complete his profile.
-    if (routeName == AppRoutesNames.loginScreen) {
-      return AppRoutesNames.homeSearchScreen;
+    if (detectConflict(routeName)) {
+      final newRoute = _handleEntryPoint();
+      pr('conflict detected, original route : $routeName , newRoute: $newRoute', 'AppMiddleware');
+      return newRoute;
     }
     return routeName;
+  }
+
+  bool detectConflict(String? routeName) {
+    return (guestOnlyRoutes.contains(routeName) && !_storage.isGuest) ||
+        (signedInButNotVerifiedRoutes.contains(routeName) &&
+            !_storage.isSignedIn &&
+            _storage.isVerified) ||
+        (verifiedRoutes.contains(routeName) && !_storage.isSignedIn && !_storage.isVerified);
+  }
+
+  String _handleEntryPoint() {
+    if (_storage.isGuest) {
+      return AppRoutesNames.loginScreen;
+    }
+    if (!_storage.isVerified) {
+      return AppRoutesNames.otpScreen;
+    }
+    // todo: later each type of user will have his own screen
+    if (_storage.isUser) {
+      return AppRoutesNames.homeSearchScreen;
+    }
+    if (_storage.isFarm) {
+      return AppRoutesNames.homeSearchScreen;
+    }
+    if (_storage.isStore) {
+      return AppRoutesNames.homeSearchScreen;
+    }
+    if (_storage.isRestaurant) {
+      return AppRoutesNames.homeSearchScreen;
+    }
+    return AppRoutesNames.loginScreen;
   }
 }

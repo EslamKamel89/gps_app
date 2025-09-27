@@ -1,4 +1,5 @@
 class AppRoutesNames {
+  static const String entryPoint = '/entryPoint';
   static const String gpsSplashScreen = '/gpsSplashScreen';
   static const String uiComponentScreen = '/uiComponentScreen';
   static const String dietSelectionScreen = '/dietSelectionScreen';
