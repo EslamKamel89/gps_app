@@ -76,13 +76,8 @@ class _VendorRegisterScreenState extends State<VendorRegisterScreen> {
       showSnackbar('Validation Error', "Please select profile image", true);
       return;
     }
-    if (_stateAndDistrict.selectedDistrict == null ||
-        _stateAndDistrict.selectedState == null) {
-      showSnackbar(
-        'Validation Error',
-        "You have to select the state and district",
-        true,
-      );
+    if (_stateAndDistrict.selectedDistrict == null || _stateAndDistrict.selectedState == null) {
+      showSnackbar('Validation Error', "You have to select the state and district", true);
       return;
     }
 
@@ -97,9 +92,7 @@ class _VendorRegisterScreenState extends State<VendorRegisterScreen> {
       imageId: _profileImage?.id,
       address: _restaurantAddressCtrl.text,
       vendorName: _restaurantNameCtrl.text,
-      seatingCapacity: int.parse(
-        _capacityCtrl.text == '' ? '0' : _capacityCtrl.text,
-      ),
+      seatingCapacity: int.parse(_capacityCtrl.text == '' ? '0' : _capacityCtrl.text),
       userType: _vendorTypeValue(),
       operatingHours: _operatingTimeModel,
       holidayIds: holidays.map((h) => h.id!).toList(),
@@ -115,14 +108,10 @@ class _VendorRegisterScreenState extends State<VendorRegisterScreen> {
     BuildContext? ctx = navigatorKey.currentContext;
     if (ctx == null) return;
     if (vendorType == VendorType.restaurant) {
-      Navigator.of(
-        ctx,
-      ).pushNamed(AppRoutesNames.restaurantOnboardingBranchesScreen);
-    } else if (vendorType == VendorType.farm ||
-        vendorType == VendorType.store) {
-      Navigator.of(
-        ctx,
-      ).pushNamed(AppRoutesNames.storeFarmOnboardingProductsScreen);
+      Navigator.of(ctx).pushNamed(AppRoutesNames.homeSearchScreen);
+      // ).pushNamed(AppRoutesNames.restaurantOnboardingBranchesScreen);
+    } else if (vendorType == VendorType.farm || vendorType == VendorType.store) {
+      Navigator.of(ctx).pushNamed(AppRoutesNames.storeFarmOnboardingProductsScreen);
     } else {
       showSnackbar('Error', 'Please select your business type', true);
     }
@@ -165,15 +154,12 @@ class _VendorRegisterScreenState extends State<VendorRegisterScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  const PinLeafLogo(size: 120)
-                      .animate()
-                      .fadeIn(duration: 250.ms)
-                      .scale(begin: const Offset(0.9, 0.9)),
+                  const PinLeafLogo(
+                    size: 120,
+                  ).animate().fadeIn(duration: 250.ms).scale(begin: const Offset(0.9, 0.9)),
                   GPSGaps.h16,
                   Center(
-                    child: GpsShortDescription(
-                      description: '${_vendorTypeName()} Register',
-                    ),
+                    child: GpsShortDescription(description: '${_vendorTypeName()} Register'),
                   ).animate().fadeIn(duration: 240.ms).slideY(begin: .08),
                   GPSGaps.h12,
                   RoleToggle(),
@@ -232,11 +218,8 @@ class _VendorRegisterScreenState extends State<VendorRegisterScreen> {
                       textInputAction: TextInputAction.next,
                       decoration: _inputDecoration('Enter your full name'),
                       validator:
-                          (input) => validator(
-                            input: input,
-                            label: 'Owner Full Name',
-                            isRequired: true,
-                          ),
+                          (input) =>
+                              validator(input: input, label: 'Owner Full Name', isRequired: true),
                     ),
                   ).animate().fadeIn(duration: 210.ms),
 
@@ -250,11 +233,7 @@ class _VendorRegisterScreenState extends State<VendorRegisterScreen> {
                       textInputAction: TextInputAction.next,
                       decoration: _inputDecoration('Choose a username'),
                       validator:
-                          (input) => validator(
-                            input: input,
-                            label: 'User Name',
-                            isRequired: true,
-                          ),
+                          (input) => validator(input: input, label: 'User Name', isRequired: true),
                     ),
                   ).animate().fadeIn(duration: 220.ms),
 
@@ -290,10 +269,7 @@ class _VendorRegisterScreenState extends State<VendorRegisterScreen> {
                   GPSGaps.h16,
                   BlocProvider(
                     create: (context) => HolidayCubit()..holidaysIndex(),
-                    child: BlocBuilder<
-                      HolidayCubit,
-                      ApiResponseModel<List<HolidayModel>>
-                    >(
+                    child: BlocBuilder<HolidayCubit, ApiResponseModel<List<HolidayModel>>>(
                       builder: (context, state) {
                         return GpsLabeledField(
                           label: 'Non-business holidays',
@@ -318,11 +294,7 @@ class _VendorRegisterScreenState extends State<VendorRegisterScreen> {
                       textInputAction: TextInputAction.next,
                       decoration: _inputDecoration('Enter your email'),
                       validator:
-                          (input) => validator(
-                            input: input,
-                            label: 'Email',
-                            isRequired: true,
-                          ),
+                          (input) => validator(input: input, label: 'Email', isRequired: true),
                     ),
                   ).animate().fadeIn(duration: 230.ms),
 
@@ -335,9 +307,7 @@ class _VendorRegisterScreenState extends State<VendorRegisterScreen> {
                       controller: _passwordCtrl,
                       obscureText: _obscure,
                       textInputAction: TextInputAction.next,
-                      decoration: _inputDecoration(
-                        'Create a password',
-                      ).copyWith(
+                      decoration: _inputDecoration('Create a password').copyWith(
                         suffixIcon: IconButton(
                           icon: Icon(
                             _obscure ? Icons.visibility_off : Icons.visibility,
@@ -347,11 +317,7 @@ class _VendorRegisterScreenState extends State<VendorRegisterScreen> {
                         ),
                       ),
                       validator:
-                          (input) => validator(
-                            input: input,
-                            label: 'Password',
-                            isRequired: true,
-                          ),
+                          (input) => validator(input: input, label: 'Password', isRequired: true),
                     ),
                   ).animate().fadeIn(duration: 240.ms),
 
@@ -410,11 +376,7 @@ class _VendorRegisterScreenState extends State<VendorRegisterScreen> {
                       maxLines: 2,
                       decoration: _inputDecoration('Enter full address'),
                       validator:
-                          (input) => validator(
-                            input: input,
-                            label: 'Address',
-                            isRequired: true,
-                          ),
+                          (input) => validator(input: input, label: 'Address', isRequired: true),
                     ),
                   ).animate().fadeIn(duration: 270.ms),
 
@@ -430,11 +392,7 @@ class _VendorRegisterScreenState extends State<VendorRegisterScreen> {
                       textInputAction: TextInputAction.next,
                       decoration: _inputDecoration('Enter your mobile number'),
                       validator:
-                          (input) => validator(
-                            input: input,
-                            label: 'Mobile',
-                            isRequired: true,
-                          ),
+                          (input) => validator(input: input, label: 'Mobile', isRequired: true),
                     ),
                   ).animate().fadeIn(duration: 300.ms),
 
@@ -503,63 +461,45 @@ class _VendorRegisterScreenState extends State<VendorRegisterScreen> {
                   GPSGaps.h20,
 
                   // Register button
-                  BlocConsumer<
-                        VendorRegisterCubit,
-                        ApiResponseModel<UserModel>
-                      >(
-                        listener: (context, state) {
-                          if (state.response == ResponseEnum.success &&
-                              state.data != null) {
-                            Navigator.of(context).pushAndRemoveUntil(
-                              MaterialPageRoute(
-                                builder:
-                                    (_) => OTPScreen(
-                                      onNext: _navigateOnRegisterSuccess,
-                                    ),
-                              ),
-                              (_) => false,
-                            );
-                          }
-                        },
-                        builder: (context, state) {
-                          Widget child;
-                          if (state.response == ResponseEnum.loading) {
-                            child = const SizedBox(
-                              height: 22,
-                              width: 22,
-                              child: CircularProgressIndicator(
-                                strokeWidth: 2,
-                                color: Colors.white,
-                              ),
-                            );
-                          } else {
-                            child = const Text(
-                              'Create Account',
-                              style: TextStyle(fontWeight: FontWeight.w700),
-                            );
-                          }
-                          return SizedBox(
-                            height: 52,
-                            child: ElevatedButton(
-                              onPressed:
-                                  state.response == ResponseEnum.loading
-                                      ? null
-                                      : _onRegister,
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: GPSColors.primary,
-                                foregroundColor: Colors.white,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(16),
-                                ),
-                              ),
-                              child: child,
-                            ),
-                          );
-                        },
-                      )
-                      .animate()
-                      .fadeIn(duration: 280.ms, delay: 90.ms)
-                      .slideY(begin: .08),
+                  BlocConsumer<VendorRegisterCubit, ApiResponseModel<UserModel>>(
+                    listener: (context, state) {
+                      if (state.response == ResponseEnum.success && state.data != null) {
+                        Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(
+                            builder: (_) => OTPScreen(onNext: _navigateOnRegisterSuccess),
+                          ),
+                          (_) => false,
+                        );
+                      }
+                    },
+                    builder: (context, state) {
+                      Widget child;
+                      if (state.response == ResponseEnum.loading) {
+                        child = const SizedBox(
+                          height: 22,
+                          width: 22,
+                          child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
+                        );
+                      } else {
+                        child = const Text(
+                          'Create Account',
+                          style: TextStyle(fontWeight: FontWeight.w700),
+                        );
+                      }
+                      return SizedBox(
+                        height: 52,
+                        child: ElevatedButton(
+                          onPressed: state.response == ResponseEnum.loading ? null : _onRegister,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: GPSColors.primary,
+                            foregroundColor: Colors.white,
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                          ),
+                          child: child,
+                        ),
+                      );
+                    },
+                  ).animate().fadeIn(duration: 280.ms, delay: 90.ms).slideY(begin: .08),
 
                   GPSGaps.h16,
 
@@ -567,9 +507,9 @@ class _VendorRegisterScreenState extends State<VendorRegisterScreen> {
                   Center(
                     child: RichText(
                       text: TextSpan(
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: GPSColors.mutedText,
-                        ),
+                        style: Theme.of(
+                          context,
+                        ).textTheme.bodyMedium?.copyWith(color: GPSColors.mutedText),
                         children: [
                           const TextSpan(text: 'Already have an account? '),
                           TextSpan(
@@ -583,9 +523,7 @@ class _VendorRegisterScreenState extends State<VendorRegisterScreen> {
                                   ..onTap =
                                       () => Navigator.of(
                                         context,
-                                      ).pushReplacementNamed(
-                                        AppRoutesNames.loginScreen,
-                                      ),
+                                      ).pushReplacementNamed(AppRoutesNames.loginScreen),
                           ),
                         ],
                       ),
