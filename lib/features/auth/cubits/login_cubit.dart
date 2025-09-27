@@ -17,7 +17,7 @@ class LoginCubit extends Cubit<ApiResponseModel<UserModel>> {
     emit(state.copyWith(response: ResponseEnum.loading));
     final res = await _controller.login(email: email, password: password);
     if (res.response == ResponseEnum.success && res.data != null) {
-      await _storage.login(res.data!);
+      await _storage.login(res.data);
     }
     emit(res);
   }

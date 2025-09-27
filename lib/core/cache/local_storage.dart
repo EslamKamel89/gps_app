@@ -24,11 +24,18 @@ class LocalStorage {
     }
   }
 
-  Future login(UserModel user) async {
+  Future login(UserModel? user) async {
+    if (user == null) {
+      await logout();
+      return;
+    }
+    if (user.token != null) {
+      await setString(CacheKeys.token, user.token ?? '');
+    }
     await setString(CacheKeys.userJson, jsonEncode(user.toJson()));
   }
 
   Future<void> logout() async {
-    await remove(CacheKeys.userJson);
+    await _prefs.clear();
   }
 }
