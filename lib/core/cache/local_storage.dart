@@ -38,4 +38,32 @@ class LocalStorage {
   Future<void> logout() async {
     await _prefs.clear();
   }
+
+  String? get token {
+    return getString(CacheKeys.token);
+  }
+
+  bool get isLoggedin {
+    return token != null;
+  }
+
+  bool get isVendor {
+    return ['farm', 'store', 'restaurant'].contains(cachedUser?.userType?.type);
+  }
+
+  bool get isUser {
+    return !isVendor;
+  }
+
+  bool get isFarm {
+    return cachedUser?.userType?.type == 'farm';
+  }
+
+  bool get isStore {
+    return cachedUser?.userType?.type == 'store';
+  }
+
+  bool get isRestaurant {
+    return cachedUser?.userType?.type == 'restaurant';
+  }
 }
