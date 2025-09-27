@@ -22,10 +22,10 @@
         "change the app name and icon",
         "upload the backend to the server",
         "change the app url and test the app",
+        "create logout button",
         "------------------------------------------------"
     ],
     "todos": [
-        "create logout button",
         "create an apk",
         "upload to test flight and don't forget to change the app name",
         "------------------------------------------------"

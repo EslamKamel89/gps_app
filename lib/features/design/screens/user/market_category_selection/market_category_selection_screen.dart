@@ -66,12 +66,10 @@ class MarketCategorySelectionScreen extends StatefulWidget {
   const MarketCategorySelectionScreen({super.key});
 
   @override
-  State<MarketCategorySelectionScreen> createState() =>
-      _MarketCategorySelectionScreenState();
+  State<MarketCategorySelectionScreen> createState() => _MarketCategorySelectionScreenState();
 }
 
-class _MarketCategorySelectionScreenState
-    extends State<MarketCategorySelectionScreen> {
+class _MarketCategorySelectionScreenState extends State<MarketCategorySelectionScreen> {
   final Set<String> _selected = <String>{};
   int _currentTab = 1;
 
@@ -92,86 +90,89 @@ class _MarketCategorySelectionScreenState
     return SafeArea(
       child: Scaffold(
         backgroundColor: GPSColors.background,
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            const TopBar(title: 'Pick Categories?')
-                .animate()
-                .fadeIn(duration: 300.ms)
-                .slideY(begin: .2, curve: Curves.easeOutQuad),
-
-            // const GpsHeader(
-            //   title: 'Which categories are you interested in?',
-            // ).animate().fadeIn(duration: 300.ms).slideY(begin: .2, curve: Curves.easeOutQuad),
-            // GPSGaps.h24,
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: GridView.builder(
-                  padding: EdgeInsets.zero,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    mainAxisSpacing: 14,
-                    crossAxisSpacing: 14,
-                    childAspectRatio: 1.05,
-                  ),
-                  itemCount: _categories.length,
-                  itemBuilder: (context, index) {
-                    final item = _categories[index];
-                    final selected = _selected.contains(item.id);
-
-                    final card = AssetCategoryCard(
-                      label: item.label,
-                      description: item.description, // NEW
-                      imageUrl: item.assetPath,
-                      selected: selected,
-                      onTap: () => _toggle(item.id),
-                    );
-
-                    return card
-                        .animate(delay: (80 * index).ms)
+        body:
+            false
+                ? Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    const TopBar(title: 'Pick Categories?')
+                        .animate()
                         .fadeIn(duration: 300.ms)
-                        .slideY(begin: .15)
-                        .scale(
-                          begin: const Offset(.98, .98),
-                          curve: Curves.easeOutBack,
-                        );
-                  },
+                        .slideY(begin: .2, curve: Curves.easeOutQuad),
+
+                    // const GpsHeader(
+                    //   title: 'Which categories are you interested in?',
+                    // ).animate().fadeIn(duration: 300.ms).slideY(begin: .2, curve: Curves.easeOutQuad),
+                    // GPSGaps.h24,
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: GridView.builder(
+                          padding: EdgeInsets.zero,
+                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            mainAxisSpacing: 14,
+                            crossAxisSpacing: 14,
+                            childAspectRatio: 1.05,
+                          ),
+                          itemCount: _categories.length,
+                          itemBuilder: (context, index) {
+                            final item = _categories[index];
+                            final selected = _selected.contains(item.id);
+
+                            final card = AssetCategoryCard(
+                              label: item.label,
+                              description: item.description, // NEW
+                              imageUrl: item.assetPath,
+                              selected: selected,
+                              onTap: () => _toggle(item.id),
+                            );
+
+                            return card
+                                .animate(delay: (80 * index).ms)
+                                .fadeIn(duration: 300.ms)
+                                .slideY(begin: .15)
+                                .scale(begin: const Offset(.98, .98), curve: Curves.easeOutBack);
+                          },
+                        ),
+                      ),
+                    ),
+
+                    GPSGaps.h12,
+
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Footer(
+                        onSkip:
+                            () => Navigator.of(context).pushNamed(AppRoutesNames.marketPlaceScreen),
+                        onNext:
+                            _selected.isNotEmpty
+                                ? () {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(content: Text('Selected: ${_selected.join(', ')}')),
+                                  );
+                                  Future.delayed(300.ms, () {
+                                    Navigator.of(
+                                      context,
+                                    ).pushNamed(AppRoutesNames.marketPlaceScreen);
+                                  });
+                                }
+                                : null,
+                      ),
+                    ),
+                    GPSGaps.h12,
+                  ],
+                )
+                : Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Text(
+                      'This functionality is currently in development and will be available in a future update.',
+                      style: TextStyle(fontSize: 20),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
                 ),
-              ),
-            ),
-
-            GPSGaps.h12,
-
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Footer(
-                onSkip:
-                    () => Navigator.of(
-                      context,
-                    ).pushNamed(AppRoutesNames.marketPlaceScreen),
-                onNext:
-                    _selected.isNotEmpty
-                        ? () {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(
-                                'Selected: ${_selected.join(', ')}',
-                              ),
-                            ),
-                          );
-                          Future.delayed(300.ms, () {
-                            Navigator.of(
-                              context,
-                            ).pushNamed(AppRoutesNames.marketPlaceScreen);
-                          });
-                        }
-                        : null,
-              ),
-            ),
-            GPSGaps.h12,
-          ],
-        ),
         bottomNavigationBar: GPSBottomNav(
           currentIndex: _currentTab,
           onChanged: (i) {
