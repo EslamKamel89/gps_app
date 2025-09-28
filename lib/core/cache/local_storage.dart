@@ -8,8 +8,7 @@ class LocalStorage {
   LocalStorage(this._prefs);
   final SharedPreferences _prefs;
 
-  Future<bool> setString(String key, String value) =>
-      _prefs.setString(key, value);
+  Future<bool> setString(String key, String value) => _prefs.setString(key, value);
 
   String? getString(String key) => _prefs.getString(key);
 
@@ -69,7 +68,7 @@ class LocalStorage {
   }
 
   bool get isFarmProfileComplete {
-    return isFarm && cachedUser?.farm != null;
+    return isFarm && cachedUser?.farm != null && cachedUser?.farm?.sections?.isNotEmpty == true;
   }
 
   bool get isStore {
@@ -77,7 +76,7 @@ class LocalStorage {
   }
 
   bool get isStoreProfileComplete {
-    return isStore && cachedUser?.store != null;
+    return isStore && cachedUser?.store != null && cachedUser?.store?.sections?.isNotEmpty == true;
   }
 
   bool get isRestaurant {
@@ -85,7 +84,8 @@ class LocalStorage {
   }
 
   bool get isRestaurantProfileComplete {
-    // todo: the model for Restaurant is not created yet.
-    return isRestaurant && true;
+    return isRestaurant &&
+        cachedUser?.restaurant != null &&
+        cachedUser?.restaurant?.branches?.isNotEmpty == true;
   }
 }
