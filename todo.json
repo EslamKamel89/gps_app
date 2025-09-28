@@ -25,10 +25,10 @@
         "create logout button",
         "create an apk",
         "upload to test flight and don't forget to change the app name",
+        "make sure that the serialization is happens correctly to different type of users",
         "------------------------------------------------"
     ],
     "todos": [
-        "make sure that the serialization is happens correctly to different type of users",
         "make sure that the middleware handle the restaurant.branches , (farm or store).sections when the vendor profile incomplete",
         "handle the routing after the OTP screen when registering a restaurant",
         "create the method in  the controller to create branches",

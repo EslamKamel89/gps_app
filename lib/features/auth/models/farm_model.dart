@@ -1,3 +1,5 @@
+import 'package:gps_app/features/auth/models/catalog_section_model.dart';
+
 class FarmModel {
   int? id;
   int? userId;
@@ -7,6 +9,7 @@ class FarmModel {
   String? website;
   String? createdAt;
   String? updatedAt;
+  List<CatalogSectionModel>? sections;
 
   FarmModel({
     this.id,
@@ -17,6 +20,7 @@ class FarmModel {
     this.website,
     this.createdAt,
     this.updatedAt,
+    this.sections,
   });
 
   @override
@@ -33,6 +37,10 @@ class FarmModel {
     website: json['website'] as String?,
     createdAt: json['created_at'] as String?,
     updatedAt: json['updated_at'] as String?,
+    sections:
+        (json['items'] as List<dynamic>?)
+            ?.map((e) => CatalogSectionModel.fromJson(e as Map<String, dynamic>))
+            .toList(),
   );
 
   Map<String, dynamic> toJson() => {
@@ -44,6 +52,7 @@ class FarmModel {
     'website': website,
     'created_at': createdAt,
     'updated_at': updatedAt,
+    'sections': sections?.map((e) => e.toJson()).toList(),
   };
 
   FarmModel copyWith({
@@ -55,6 +64,7 @@ class FarmModel {
     String? website,
     String? createdAt,
     String? updatedAt,
+    List<CatalogSectionModel>? sections,
   }) {
     return FarmModel(
       id: id ?? this.id,
@@ -65,6 +75,7 @@ class FarmModel {
       website: website ?? this.website,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
+      sections: sections ?? this.sections,
     );
   }
 }
