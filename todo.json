@@ -5,7 +5,7 @@
         "add the token to the headers globally",
         "create the cubit for handling the catalogSectionItem",
         "validate the image upload widget work when selecting images from the gallery",
-        "make sure that there is a validation that the user have to select a type in the vendor resgister page",
+        "make sure that there is a validation that the user have to select a type in the vendor register page",
         "handle the validation in the catalogSectionItem and the image upload",
         "fix the bug that the map is visible if the user didn't select the type yet",
         "connect the otp screen with the backend",
@@ -17,17 +17,30 @@
         "create a route to resend otp message and handle it in the otp screen",
         "handle the navigation flow with middleware",
         "remove the categories and subcategories from the navigation",
-        "verify the right permission for both andrioid and ios",
+        "verify the right permission for both android and ios",
         "verify the right permission for google map sdk for both android and ios",
         "change the app name and icon",
         "upload the backend to the server",
         "change the app url and test the app",
         "create logout button",
+        "create an apk",
+        "upload to test flight and don't forget to change the app name",
         "------------------------------------------------"
     ],
     "todos": [
-        "create an apk",
-        "upload to test flight and don't forget to change the app name",
+        "make sure that the serialization is happens correctly to different type of users",
+        "make sure that the middleware handle the restaurant.branches , (farm or store).sections when the vendor profile incomplete",
+        "handle the routing after the OTP screen when registering a restaurant",
+        "create the method in  the controller to create branches",
+        "create the cubit to create branches",
+        "connect the ui to the branches creation backend using the cubit",
+        "------------------------------------------------"
+    ],
+    "backend_done_todos": [
+        "create the endpoint to create the branches",
+        "------------------------------------------------"
+    ],
+    "backend_todos": [
         "------------------------------------------------"
     ]
 }

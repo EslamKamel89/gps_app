@@ -2,11 +2,11 @@ class FarmModel {
   int? id;
   int? userId;
   int? vendorId;
-  dynamic longitude;
-  dynamic latitude;
-  dynamic website;
-  DateTime? createdAt;
-  DateTime? updatedAt;
+  double? longitude;
+  double? latitude;
+  String? website;
+  String? createdAt;
+  String? updatedAt;
 
   FarmModel({
     this.id,
@@ -28,17 +28,11 @@ class FarmModel {
     id: json['id'] as int?,
     userId: json['user_id'] as int?,
     vendorId: json['vendor_id'] as int?,
-    longitude: json['longitude'] as dynamic,
-    latitude: json['latitude'] as dynamic,
-    website: json['website'] as dynamic,
-    createdAt:
-        json['created_at'] == null
-            ? null
-            : DateTime.parse(json['created_at'] as String),
-    updatedAt:
-        json['updated_at'] == null
-            ? null
-            : DateTime.parse(json['updated_at'] as String),
+    longitude: json['longitude'] as double?,
+    latitude: json['latitude'] as double?,
+    website: json['website'] as String?,
+    createdAt: json['created_at'] as String?,
+    updatedAt: json['updated_at'] as String?,
   );
 
   Map<String, dynamic> toJson() => {
@@ -48,19 +42,19 @@ class FarmModel {
     'longitude': longitude,
     'latitude': latitude,
     'website': website,
-    'created_at': createdAt?.toIso8601String(),
-    'updated_at': updatedAt?.toIso8601String(),
+    'created_at': createdAt,
+    'updated_at': updatedAt,
   };
 
   FarmModel copyWith({
     int? id,
     int? userId,
     int? vendorId,
-    dynamic longitude,
-    dynamic latitude,
-    dynamic website,
-    DateTime? createdAt,
-    DateTime? updatedAt,
+    double? longitude,
+    double? latitude,
+    String? website,
+    String? createdAt,
+    String? updatedAt,
   }) {
     return FarmModel(
       id: id ?? this.id,
