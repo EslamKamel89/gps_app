@@ -62,11 +62,15 @@ class UserModel {
     stateId: j['state_id'],
     token: j['token'],
     image: j['image'] == null ? null : ImageModel.fromJson(j['image']),
-    userType: j['user_type'] == null ? null : UserTypeModel.fromJson(j['user_type']),
+    userType:
+        j['user_type'] == null ? null : UserTypeModel.fromJson(j['user_type']),
     vendor: j['vendor'] == null ? null : VendorModel.fromJson(j['vendor']),
     farm: j['farm'] == null ? null : FarmModel.fromJson(j['farm']),
     store: j['store'] == null ? null : StoreModel.fromJson(j['store']),
-    restaurant: j['restaurant'] == null ? null : RestaurantModel.fromJson(j['restaurant']),
+    restaurant:
+        j['restaurant'] == null
+            ? null
+            : RestaurantModel.fromJson(j['restaurant']),
   );
 
   Map<String, dynamic> toJson() => {
