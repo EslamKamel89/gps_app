@@ -2,10 +2,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gps_app/core/enums/response_type.dart';
 import 'package:gps_app/core/router/app_routes_names.dart';
+import 'package:gps_app/features/auth/cubits/create_restaurant_branches/create_restaurant_branches_cubit.dart';
+import 'package:gps_app/features/auth/models/branch_param.dart';
 import 'package:gps_app/features/auth/presentation/widgets/add_button.dart';
 import 'package:gps_app/features/auth/presentation/widgets/branch_card.dart';
-import 'package:gps_app/features/design/screens/vendor/on_boarding/models/branch.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 
@@ -18,33 +21,10 @@ class RestaurantOnboardingBranchesScreen extends StatefulWidget {
 }
 
 class _RestaurantOnboardingBranchesScreenState extends State<RestaurantOnboardingBranchesScreen> {
-  final List<VendorBranch> _branches = [VendorBranch.empty()];
-
-  void _addBranch() {
-    setState(() {
-      _branches.add(VendorBranch.empty());
-    });
-  }
-
-  void _removeBranch(VendorBranch branch) {
-    setState(() {
-      _branches.remove(branch);
-    });
-  }
-
-  void _onBranchChanged(VendorBranch updated) {
-    final index = _branches.indexWhere((b) => b.id == updated.id);
-    if (index != -1) {
-      setState(() {
-        _branches[index] = updated;
-      });
-    }
-  }
+  final _formKey = GlobalKey<FormState>();
 
   bool get _isNextEnabled {
     return true;
-    return _branches.isNotEmpty &&
-        _branches.every((b) => b.branchName.isNotEmpty && b.phoneNumber.isNotEmpty);
   }
 
   @override
@@ -73,45 +53,57 @@ class _RestaurantOnboardingBranchesScreenState extends State<RestaurantOnboardin
               ),
             ),
 
-            Expanded(
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Title
-                    Text(
-                      '📍 Add Your Restaurant Branches',
-                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                        fontWeight: FontWeight.w800,
-                        color: GPSColors.primary,
-                      ),
-                    ),
-                    GPSGaps.h8,
-                    Text(
-                      'Let’s set up all your restaurant locations. You can add multiple branches below.',
-                      style: Theme.of(
-                        context,
-                      ).textTheme.bodyMedium?.copyWith(color: GPSColors.mutedText, height: 1.4),
-                    ),
-                    GPSGaps.h24,
+            BlocConsumer<CreateRestaurantBranchesCubit, CreateRestaurantBranchesState>(
+              listener: (context, state) {
+                if (state.branchesResponse.response == ResponseEnum.success) {
+                  Navigator.of(context).pushNamed(AppRoutesNames.restaurantOnboardingMenuScreen);
+                }
+              },
+              builder: (context, state) {
+                final cubit = context.read<CreateRestaurantBranchesCubit>();
+                return Expanded(
+                  child: SingleChildScrollView(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Title
+                        Text(
+                          '📍 Add Your Restaurant Branches',
+                          style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                            fontWeight: FontWeight.w800,
+                            color: GPSColors.primary,
+                          ),
+                        ),
+                        GPSGaps.h8,
+                        Text(
+                          'Let’s set up all your restaurant locations. You can add multiple branches below.',
+                          style: Theme.of(
+                            context,
+                          ).textTheme.bodyMedium?.copyWith(color: GPSColors.mutedText, height: 1.4),
+                        ),
+                        GPSGaps.h24,
 
-                    // Branch Cards
-                    ..._branches.map((branch) {
-                      return BranchCard(
-                        branch: branch,
-                        onDelete: () => _removeBranch(branch),
-                        onChanged: _onBranchChanged,
-                      );
-                    }),
+                        // Branch Cards
+                        ...state.branches.map((branch) {
+                          return BranchCard(
+                            branch: branch,
+                            onDelete: () => cubit.removeBranch(branchParam: branch),
+                          );
+                        }),
 
-                    // Add Another
-                    GPSGaps.h12,
-                    AddButton(label: '➕ Add Another Branch', onTap: _addBranch),
-                    GPSGaps.h24,
-                  ],
-                ),
-              ),
+                        // Add Another
+                        GPSGaps.h12,
+                        AddButton(
+                          label: '➕ Add Another Branch',
+                          onTap: () => cubit.addBranch(branchParam: BranchParam()),
+                        ),
+                        GPSGaps.h24,
+                      ],
+                    ),
+                  ),
+                );
+              },
             ),
 
             // Footer Buttons
@@ -134,18 +126,7 @@ class _RestaurantOnboardingBranchesScreenState extends State<RestaurantOnboardin
                   // ),
                   const Spacer(),
                   ElevatedButton(
-                    onPressed:
-                        _isNextEnabled
-                            ? () {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(content: Text("Proceeding to next step...")),
-                              );
-                              // Navigate to Menu Step
-                              Navigator.of(
-                                context,
-                              ).pushNamed(AppRoutesNames.restaurantOnboardingMenuScreen);
-                            }
-                            : null,
+                    onPressed: () {},
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
