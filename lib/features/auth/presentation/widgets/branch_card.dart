@@ -2,11 +2,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:gps_app/core/helpers/validator.dart';
 import 'package:gps_app/core/widgets/uploads/image_upload_field.dart';
 import 'package:gps_app/core/widgets/uploads/uploaded_image.dart';
 import 'package:gps_app/features/auth/models/branch_param.dart';
 import 'package:gps_app/features/auth/presentation/widgets/gps_label_field.dart';
 import 'package:gps_app/features/auth/presentation/widgets/select_location_on_the_map.dart';
+import 'package:gps_app/features/auth/presentation/widgets/state_district_selector.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 
@@ -45,7 +47,7 @@ class _BranchCardState extends State<BranchCard> {
           Row(
             children: [
               Text(
-                'Branch ${widget.branch.branchName == null ? '1' : ''}',
+                'Branch - ${[null, ""].contains(widget.branch.branchName) ? "Untitled" : widget.branch.branchName}',
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
                   fontWeight: FontWeight.w700,
                   color: GPSColors.text,
@@ -66,8 +68,12 @@ class _BranchCardState extends State<BranchCard> {
             label: 'Branch Name',
             child: TextFormField(
               initialValue: widget.branch.branchName,
-              onChanged: (v) => widget.branch.branchName = v,
+              onChanged: (v) {
+                widget.branch.branchName = v;
+                setState(() {});
+              },
               decoration: const InputDecoration(hintText: 'e.g., Downtown Branch'),
+              validator: (v) => validator(input: v, label: 'Branch Name', isRequired: true),
             ),
           ),
           GPSGaps.h16,
@@ -80,6 +86,7 @@ class _BranchCardState extends State<BranchCard> {
               onChanged: (v) => widget.branch.phoneNumber = v,
               keyboardType: TextInputType.phone,
               decoration: const InputDecoration(hintText: 'e.g., +1 212 555 1234'),
+              validator: (v) => validator(input: v, label: 'Phone Number', isRequired: true),
             ),
           ),
           GPSGaps.h16,
@@ -95,12 +102,17 @@ class _BranchCardState extends State<BranchCard> {
           ),
           GPSGaps.h16,
 
-          SelectableLocationMap(onLocationSelected: (loc) {}),
+          SelectableLocationMap(
+            onLocationSelected: (loc) {
+              widget.branch.latitude = loc.latitude;
+              widget.branch.longitude = loc.longitude;
+            },
+          ),
           GPSGaps.h16,
 
           // Photos
           Text(
-            'Photos (Optional)',
+            'Photo (Optional)',
             style: Theme.of(
               context,
             ).textTheme.labelLarge?.copyWith(fontWeight: FontWeight.w600, color: GPSColors.text),
@@ -127,7 +139,19 @@ class _BranchCardState extends State<BranchCard> {
           ),
 
           GPSGaps.h16,
-
+          Text(
+            'Pick State and district',
+            style: Theme.of(
+              context,
+            ).textTheme.labelLarge?.copyWith(fontWeight: FontWeight.w600, color: GPSColors.text),
+          ),
+          GPSGaps.h8,
+          StateDistrictProvider(
+            onSelect: (SelectedStateAndDistrict s) {
+              widget.branch.stateId = s.selectedState?.id;
+              widget.branch.districtId = s.selectedDistrict?.id;
+            },
+          ),
           // Verified Toggle
         ],
       ),

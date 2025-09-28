@@ -31,113 +31,134 @@ class _RestaurantOnboardingBranchesScreenState extends State<RestaurantOnboardin
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: GPSColors.background,
-      body: SafeArea(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-              child: Row(
+      body: BlocConsumer<CreateRestaurantBranchesCubit, CreateRestaurantBranchesState>(
+        listener: (context, state) {
+          if (state.branchesResponse.response == ResponseEnum.success) {
+            Navigator.of(context).pushNamed(AppRoutesNames.restaurantOnboardingMenuScreen);
+          }
+        },
+        builder: (context, state) {
+          final cubit = context.read<CreateRestaurantBranchesCubit>();
+          return SafeArea(
+            child: Form(
+              key: _formKey,
+              child: Column(
                 children: [
-                  // IconButton(
-                  //   icon: const Icon(Icons.arrow_back_rounded),
-                  //   onPressed: () => Navigator.maybePop(context),
-                  // ),
-                  const Spacer(),
-                  Text(
-                    'Step 1 of 3',
-                    style: Theme.of(
-                      context,
-                    ).textTheme.bodyMedium?.copyWith(color: GPSColors.mutedText),
-                  ),
-                ],
-              ),
-            ),
-
-            BlocConsumer<CreateRestaurantBranchesCubit, CreateRestaurantBranchesState>(
-              listener: (context, state) {
-                if (state.branchesResponse.response == ResponseEnum.success) {
-                  Navigator.of(context).pushNamed(AppRoutesNames.restaurantOnboardingMenuScreen);
-                }
-              },
-              builder: (context, state) {
-                final cubit = context.read<CreateRestaurantBranchesCubit>();
-                return Expanded(
-                  child: SingleChildScrollView(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                    child: Row(
                       children: [
-                        // Title
+                        // IconButton(
+                        //   icon: const Icon(Icons.arrow_back_rounded),
+                        //   onPressed: () => Navigator.maybePop(context),
+                        // ),
+                        const Spacer(),
                         Text(
-                          '📍 Add Your Restaurant Branches',
-                          style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                            fontWeight: FontWeight.w800,
-                            color: GPSColors.primary,
-                          ),
-                        ),
-                        GPSGaps.h8,
-                        Text(
-                          'Let’s set up all your restaurant locations. You can add multiple branches below.',
+                          'Step 1 of 3',
                           style: Theme.of(
                             context,
-                          ).textTheme.bodyMedium?.copyWith(color: GPSColors.mutedText, height: 1.4),
+                          ).textTheme.bodyMedium?.copyWith(color: GPSColors.mutedText),
                         ),
-                        GPSGaps.h24,
-
-                        // Branch Cards
-                        ...state.branches.map((branch) {
-                          return BranchCard(
-                            branch: branch,
-                            onDelete: () => cubit.removeBranch(branchParam: branch),
-                          );
-                        }),
-
-                        // Add Another
-                        GPSGaps.h12,
-                        AddButton(
-                          label: '➕ Add Another Branch',
-                          onTap: () => cubit.addBranch(branchParam: BranchParam()),
-                        ),
-                        GPSGaps.h24,
                       ],
                     ),
                   ),
-                );
-              },
-            ),
 
-            // Footer Buttons
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: Row(
-                children: [
-                  // OutlinedButton(
-                  //   onPressed: () => Navigator.maybePop(context),
-                  //   style: OutlinedButton.styleFrom(
-                  //     padding: const EdgeInsets.symmetric(
-                  //       horizontal: 20,
-                  //       vertical: 14,
-                  //     ),
-                  //     shape: RoundedRectangleBorder(
-                  //       borderRadius: BorderRadius.circular(24),
-                  //     ),
-                  //   ),
-                  //   child: const Text('← Previous'),
-                  // ),
-                  const Spacer(),
-                  ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+                  Expanded(
+                    child: SingleChildScrollView(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // Title
+                          Text(
+                            '📍 Add Your Restaurant Branches',
+                            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                              fontWeight: FontWeight.w800,
+                              color: GPSColors.primary,
+                            ),
+                          ),
+                          GPSGaps.h8,
+                          Text(
+                            'Let’s set up all your restaurant locations. You can add multiple branches below.',
+                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                              color: GPSColors.mutedText,
+                              height: 1.4,
+                            ),
+                          ),
+                          GPSGaps.h24,
+
+                          // Branch Cards
+                          ...state.branches.map((branch) {
+                            return BranchCard(
+                              branch: branch,
+                              onDelete: () => cubit.removeBranch(branchParam: branch),
+                            );
+                          }),
+
+                          // Add Another
+                          GPSGaps.h12,
+                          AddButton(
+                            label: '➕ Add Another Branch',
+                            onTap: () => cubit.addBranch(branchParam: BranchParam()),
+                          ),
+                          GPSGaps.h24,
+                        ],
+                      ),
                     ),
-                    child: const Text('Next →'),
+                  ),
+
+                  // Footer Buttons
+                  Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Row(
+                      children: [
+                        // OutlinedButton(
+                        //   onPressed: () => Navigator.maybePop(context),
+                        //   style: OutlinedButton.styleFrom(
+                        //     padding: const EdgeInsets.symmetric(
+                        //       horizontal: 20,
+                        //       vertical: 14,
+                        //     ),
+                        //     shape: RoundedRectangleBorder(
+                        //       borderRadius: BorderRadius.circular(24),
+                        //     ),
+                        //   ),
+                        //   child: const Text('← Previous'),
+                        // ),
+                        const Spacer(),
+                        Builder(
+                          builder: (context) {
+                            return cubit.state.branchesResponse.response == ResponseEnum.loading
+                                ? Container(
+                                  margin: EdgeInsets.symmetric(horizontal: 30),
+                                  child: Center(child: CircularProgressIndicator()),
+                                )
+                                : ElevatedButton(
+                                  onPressed: () async {
+                                    if (!_formKey.currentState!.validate()) return;
+                                    cubit.createBranches();
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 24,
+                                      vertical: 14,
+                                    ),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(24),
+                                    ),
+                                  ),
+                                  child: const Text('Next →'),
+                                );
+                          },
+                        ),
+                      ],
+                    ),
                   ),
                 ],
-              ),
+              ).animate().fadeIn(duration: 400.ms).slideY(begin: 0.05),
             ),
-          ],
-        ).animate().fadeIn(duration: 400.ms).slideY(begin: 0.05),
+          );
+        },
       ),
     );
   }
