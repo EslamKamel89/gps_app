@@ -29,11 +29,11 @@
         "make sure that the middleware handle the restaurant.branches , (farm or store).sections when the vendor profile incomplete",
         "show snack bar in the event of incomplete profiles",
         "handle the routing after the OTP screen when registering a restaurant",
+        "create the method in  the controller to create branches",
+        "create the cubit to create branches",
         "------------------------------------------------"
     ],
     "todos": [
-        "create the method in  the controller to create branches",
-        "create the cubit to create branches",
         "connect the ui to the branches creation backend using the cubit",
         "------------------------------------------------"
     ],

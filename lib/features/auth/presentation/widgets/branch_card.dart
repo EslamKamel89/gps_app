@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:gps_app/features/auth/presentation/widgets/gps_label_field.dart';
 import 'package:gps_app/features/design/screens/vendor/on_boarding/models/branch.dart';
-import 'package:gps_app/features/design/screens/vendor/on_boarding/widgets/map_placeholder.dart';
-import 'package:gps_app/features/design/screens/vendor/on_boarding/widgets/opening_hours_editor.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 
@@ -85,9 +83,7 @@ class _BranchCardState extends State<BranchCard> {
             child: TextFormField(
               initialValue: _branch.branchName,
               onChanged: (v) => _update('branchName', v),
-              decoration: const InputDecoration(
-                hintText: 'e.g., Downtown Branch',
-              ),
+              decoration: const InputDecoration(hintText: 'e.g., Downtown Branch'),
             ),
           ),
           GPSGaps.h16,
@@ -99,17 +95,8 @@ class _BranchCardState extends State<BranchCard> {
               initialValue: _branch.phoneNumber,
               onChanged: (v) => _update('phoneNumber', v),
               keyboardType: TextInputType.phone,
-              decoration: const InputDecoration(
-                hintText: 'e.g., +1 212 555 1234',
-              ),
+              decoration: const InputDecoration(hintText: 'e.g., +1 212 555 1234'),
             ),
-          ),
-          GPSGaps.h16,
-
-          // Opening Hours
-          OpeningHoursEditor(
-            hours: _branch.openingHours,
-            onChanged: (hours) => _update('openingHours', hours),
           ),
           GPSGaps.h16,
 
@@ -119,35 +106,32 @@ class _BranchCardState extends State<BranchCard> {
             child: TextFormField(
               initialValue: _branch.website,
               onChanged: (v) => _update('website', v),
-              decoration: const InputDecoration(
-                hintText: 'https://yourrestaurant.com',
-              ),
+              decoration: const InputDecoration(hintText: 'https://yourrestaurant.com'),
             ),
           ),
           GPSGaps.h16,
 
           // Map
-          MapPlaceholder(
-            latitude: _branch.latitude,
-            longitude: _branch.longitude,
-            onTap: () {
-              // Placeholder for map edit dialog
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text("Map editing not implemented yet"),
-                ),
-              );
-            },
-          ),
+          // MapPlaceholder(
+          //   latitude: _branch.latitude,
+          //   longitude: _branch.longitude,
+          //   onTap: () {
+          //     // Placeholder for map edit dialog
+          //     ScaffoldMessenger.of(context).showSnackBar(
+          //       const SnackBar(
+          //         content: Text("Map editing not implemented yet"),
+          //       ),
+          //     );
+          //   },
+          // ),
           GPSGaps.h16,
 
           // Photos
           Text(
             'Photos (Optional)',
-            style: Theme.of(context).textTheme.labelLarge?.copyWith(
-              fontWeight: FontWeight.w600,
-              color: GPSColors.text,
-            ),
+            style: Theme.of(
+              context,
+            ).textTheme.labelLarge?.copyWith(fontWeight: FontWeight.w600, color: GPSColors.text),
           ),
           GPSGaps.h8,
           SizedBox(
@@ -182,11 +166,7 @@ class _BranchCardState extends State<BranchCard> {
           // Verified Toggle
           Row(
             children: [
-              const Icon(
-                Icons.verified_user_rounded,
-                size: 16,
-                color: GPSColors.primary,
-              ),
+              const Icon(Icons.verified_user_rounded, size: 16, color: GPSColors.primary),
               GPSGaps.w8,
               const Text('Verified'),
               const Spacer(),
