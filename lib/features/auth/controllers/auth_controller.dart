@@ -117,19 +117,19 @@ class AuthController {
 
   Future<ApiResponseModel<UserModel>> vendorRegister({required VendorRegisterParams param}) async {
     final t = prt('vendorRegister - AuthController');
-    // try {
-    final response = await _api.post(EndPoint.vendorRegister, data: param.toJson());
-    pr(response, '$t - response');
-    final UserModel model = UserModel.fromJson(response);
-    return pr(ApiResponseModel(response: ResponseEnum.success, data: model), t);
-    // } catch (e) {
-    //   String errorMessage = e.toString();
-    //   if (e is DioException) {
-    //     errorMessage = jsonEncode(e.response?.data ?? 'Unknown error occurred');
-    //   }
-    //   showSnackbar('Error', errorMessage, true);
-    //   return pr(ApiResponseModel(errorMessage: errorMessage, response: ResponseEnum.failed), t);
-    // }
+    try {
+      final response = await _api.post(EndPoint.vendorRegister, data: param.toJson());
+      pr(response, '$t - response');
+      final UserModel model = UserModel.fromJson(response);
+      return pr(ApiResponseModel(response: ResponseEnum.success, data: model), t);
+    } catch (e) {
+      String errorMessage = e.toString();
+      if (e is DioException) {
+        errorMessage = jsonEncode(e.response?.data ?? 'Unknown error occurred');
+      }
+      showSnackbar('Error', errorMessage, true);
+      return pr(ApiResponseModel(errorMessage: errorMessage, response: ResponseEnum.failed), t);
+    }
   }
 
   Future<ApiResponseModel<List<CatalogSectionModel>>> createCatalogSection({
