@@ -1,3 +1,5 @@
+import 'package:gps_app/features/auth/models/image_model.dart';
+
 class BranchModel {
   String? branchName;
   String? phoneNumber;
@@ -10,10 +12,10 @@ class BranchModel {
   int? userId;
   int? vendorId;
   int? restaurantId;
-  DateTime? updatedAt;
-  DateTime? createdAt;
+  String? updatedAt;
+  String? createdAt;
   int? id;
-  dynamic image;
+  ImageModel? image;
 
   BranchModel({
     this.branchName,
@@ -42,24 +44,18 @@ class BranchModel {
     branchName: json['branch_name'] as String?,
     phoneNumber: json['phone_number'] as String?,
     website: json['website'] as String?,
-    longitude: (json['longitude'] as num?)?.toDouble(),
-    latitude: (json['latitude'] as num?)?.toDouble(),
-    status: json['status'] as bool?,
+    longitude: double.parse((json['longitude'])?.toString() ?? '0'),
+    latitude: double.parse((json['latitude'])?.toString() ?? '0'),
+    // status: json['status'] as bool?,
     districtId: json['district_id'] as int?,
     stateId: json['state_id'] as int?,
     userId: json['user_id'] as int?,
     vendorId: json['vendor_id'] as int?,
     restaurantId: json['restaurant_id'] as int?,
-    updatedAt:
-        json['updated_at'] == null
-            ? null
-            : DateTime.parse(json['updated_at'] as String),
-    createdAt:
-        json['created_at'] == null
-            ? null
-            : DateTime.parse(json['created_at'] as String),
+    updatedAt: json['updated_at'] as String?,
+    createdAt: json['created_at'] as String?,
     id: json['id'] as int?,
-    image: json['image'] as dynamic,
+    image: json['image'] == null ? null : ImageModel.fromJson(json['image']),
   );
 
   Map<String, dynamic> toJson() => {
@@ -74,8 +70,8 @@ class BranchModel {
     'user_id': userId,
     'vendor_id': vendorId,
     'restaurant_id': restaurantId,
-    'updated_at': updatedAt?.toIso8601String(),
-    'created_at': createdAt?.toIso8601String(),
+    'updated_at': updatedAt,
+    'created_at': createdAt,
     'id': id,
     'image': image,
   };
@@ -92,10 +88,10 @@ class BranchModel {
     int? userId,
     int? vendorId,
     int? restaurantId,
-    DateTime? updatedAt,
-    DateTime? createdAt,
+    String? updatedAt,
+    String? createdAt,
     int? id,
-    dynamic image,
+    ImageModel? image,
   }) {
     return BranchModel(
       branchName: branchName ?? this.branchName,

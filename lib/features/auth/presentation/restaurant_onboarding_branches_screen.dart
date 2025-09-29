@@ -34,7 +34,8 @@ class _RestaurantOnboardingBranchesScreenState extends State<RestaurantOnboardin
       body: BlocConsumer<CreateRestaurantBranchesCubit, CreateRestaurantBranchesState>(
         listener: (context, state) {
           if (state.branchesResponse.response == ResponseEnum.success) {
-            Navigator.of(context).pushNamed(AppRoutesNames.restaurantOnboardingMenuScreen);
+            // Navigator.of(context).pushNamed(AppRoutesNames.restaurantOnboardingMenuScreen);
+            Navigator.of(context).pushNamed(AppRoutesNames.homeSearchScreen);
           }
         },
         builder: (context, state) {
@@ -98,7 +99,7 @@ class _RestaurantOnboardingBranchesScreenState extends State<RestaurantOnboardin
                           // Add Another
                           GPSGaps.h12,
                           AddButton(
-                            label: '➕ Add Another Branch',
+                            label: 'Add Another Branch',
                             onTap: () => cubit.addBranch(branchParam: BranchParam()),
                           ),
                           GPSGaps.h24,

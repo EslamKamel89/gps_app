@@ -96,7 +96,7 @@ class _BranchCardState extends State<BranchCard> {
             label: 'Website (Optional)',
             child: TextFormField(
               initialValue: widget.branch.website,
-              onChanged: (v) => widget.branch.phoneNumber = v,
+              onChanged: (v) => widget.branch.website = v,
               decoration: const InputDecoration(hintText: 'https://yourrestaurant.com'),
             ),
           ),
