@@ -32,16 +32,14 @@ class StoreModel {
     id: json['id'] as int?,
     userId: json['user_id'] as int?,
     vendorId: json['vendor_id'] as int?,
-    longitude: json['longitude'] as double?,
-    latitude: json['latitude'] as double?,
+    longitude: double.parse(json['longitude']?.toString() ?? '0'),
+    latitude: double.parse(json['latitude']?.toString() ?? '0'),
     website: json['website'] as String?,
     createdAt: json['created_at'] as String?,
     updatedAt: json['updated_at'] as String?,
     sections:
-        (json['items'] as List<dynamic>?)
-            ?.map(
-              (e) => CatalogSectionModel.fromJson(e as Map<String, dynamic>),
-            )
+        (json['sections'] as List<dynamic>?)
+            ?.map((e) => CatalogSectionModel.fromJson(e as Map<String, dynamic>))
             .toList(),
   );
 
