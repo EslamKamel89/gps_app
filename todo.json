@@ -32,12 +32,12 @@
         "create the method in  the controller to create branches",
         "create the cubit to create branches",
         "connect the ui to the branches creation backend using the cubit",
+        "the cancel button in the logout modal don't work",
+        "make the home screen map point to the user location",
         "------------------------------------------------"
     ],
     "todos": [
-        "make the home screen map point to the user location",
         "change district to city",
-        "the cancel button in the logout modal don't work",
         "fix the layout when the home search screen filters is selected",
         "when changing the filters keep the state",
         "next button in the auth screen should be the same color as the app icon",
