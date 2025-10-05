@@ -35,6 +35,12 @@
         "------------------------------------------------"
     ],
     "todos": [
+        "make the home screen map point to the user location",
+        "change district to city",
+        "the cancel button in the logout modal don't work",
+        "fix the layout when the home search screen filters is selected",
+        "when changing the filters keep the state",
+        "next button in the auth screen should be the same color as the app icon",
         "------------------------------------------------"
     ],
     "backend_done_todos": [

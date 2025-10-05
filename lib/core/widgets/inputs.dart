@@ -49,16 +49,14 @@ class _AuthTextFormFieldState extends State<AuthTextFormField> {
                         });
                       },
                       icon: Icon(
-                        showPassword
-                            ? MdiIcons.eyeOffOutline
-                            : MdiIcons.eyeOutline,
+                        showPassword ? MdiIcons.eyeOffOutline : MdiIcons.eyeOutline,
                         color: context.primaryColorDark,
                       ),
                     );
                   },
                 )
                 : null,
-        border: context.inputDecorationTheme.border,
+        // border: context.inputDecorationTheme.border,
       ),
     );
   }
@@ -81,8 +79,7 @@ class CustomTextFormFieldWithSuggestions extends StatefulWidget {
       _CustomTextFormFieldWithSuggestionsState();
 }
 
-class _CustomTextFormFieldWithSuggestionsState
-    extends State<CustomTextFormFieldWithSuggestions> {
+class _CustomTextFormFieldWithSuggestionsState extends State<CustomTextFormFieldWithSuggestions> {
   String selectedValue = '';
   @override
   void initState() {
@@ -101,10 +98,8 @@ class _CustomTextFormFieldWithSuggestionsState
           final result =
               widget.suggestions
                   .where(
-                    (String suggestion) => suggestion
-                        .toLowerCase()
-                        .trim()
-                        .contains(search.trim().toLowerCase()),
+                    (String suggestion) =>
+                        suggestion.toLowerCase().trim().contains(search.trim().toLowerCase()),
                   )
                   .toList();
           return result;
@@ -183,16 +178,14 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
                         });
                       },
                       icon: Icon(
-                        showPassword
-                            ? MdiIcons.eyeOffOutline
-                            : MdiIcons.eyeOutline,
+                        showPassword ? MdiIcons.eyeOffOutline : MdiIcons.eyeOutline,
                         color: context.primaryColor,
                       ),
                     );
                   },
                 )
                 : null,
-        border: context.inputDecorationTheme.border,
+        // border: context.inputDecorationTheme.border,
       ),
     );
   }
@@ -213,8 +206,7 @@ class SearchableDropdownWidget extends StatefulWidget {
   final String hintText;
   final bool isRequired;
   @override
-  State<SearchableDropdownWidget> createState() =>
-      _SearchableDropdownWidgetState();
+  State<SearchableDropdownWidget> createState() => _SearchableDropdownWidgetState();
 }
 
 class _SearchableDropdownWidgetState extends State<SearchableDropdownWidget> {
@@ -299,11 +291,7 @@ class _SearchDialogState extends State<SearchDialog> {
     setState(() {
       filteredOptions =
           widget.options
-              .where(
-                (option) => option.trim().toLowerCase().contains(
-                  query.trim().toLowerCase(),
-                ),
-              )
+              .where((option) => option.trim().toLowerCase().contains(query.trim().toLowerCase()))
               .toList();
     });
   }
@@ -355,10 +343,7 @@ class TextAreaWidget extends StatelessWidget {
       readOnly: true,
       textAlign: TextAlign.right,
       maxLines: null,
-      decoration: InputDecoration(
-        labelText: label,
-        border: const OutlineInputBorder(),
-      ),
+      decoration: InputDecoration(labelText: label, border: const OutlineInputBorder()),
       controller: TextEditingController(text: text),
     );
   }
@@ -406,9 +391,7 @@ class _CustomDateFieldState extends State<CustomDateField> {
                   widget.initialDate != null
                       ? '${widget.initialDate?.year}-${widget.initialDate?.month.toString().padLeft(2, '0')}-${widget.initialDate?.day.toString().padLeft(2, '0')}'
                       : 'Select a date',
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8.0),
-              ),
+              border: OutlineInputBorder(borderRadius: BorderRadius.circular(8.0)),
             ),
             // validator: (_) => widget.selectedDate == null ? '${widget.label} is required' : null,
             validator: widget.validator,
@@ -518,10 +501,7 @@ class _DropDownWidgetState extends State<DropDownWidget> {
       decoration: _decoration(widget.label),
       items:
           widget.options
-              .map(
-                (option) =>
-                    DropdownMenuItem<String>(value: option, child: txt(option)),
-              )
+              .map((option) => DropdownMenuItem<String>(value: option, child: txt(option)))
               .toList(),
       onChanged: (String? value) {
         widget.onSelect(value);
@@ -536,12 +516,12 @@ class _DropDownWidgetState extends State<DropDownWidget> {
   InputDecoration _decoration(String label) {
     return InputDecoration(
       labelText: label,
-      labelStyle: context.inputDecorationTheme.labelStyle,
-      hintStyle: context.inputDecorationTheme.hintStyle,
-      border: context.inputDecorationTheme.border,
-      enabledBorder: context.inputDecorationTheme.enabledBorder,
-      focusedBorder: context.inputDecorationTheme.focusedBorder,
-      contentPadding: context.inputDecorationTheme.contentPadding,
+      // labelStyle: context.inputDecorationTheme.labelStyle,
+      // hintStyle: context.inputDecorationTheme.hintStyle,
+      // border: context.inputDecorationTheme.border,
+      // enabledBorder: context.inputDecorationTheme.enabledBorder,
+      // focusedBorder: context.inputDecorationTheme.focusedBorder,
+      // contentPadding: context.inputDecorationTheme.contentPadding,
     );
   }
 }
