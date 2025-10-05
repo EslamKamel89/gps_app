@@ -244,7 +244,7 @@ class _UserRegisterScreenState extends State<UserRegisterScreen> {
                         child: ElevatedButton(
                           onPressed: state.response == ResponseEnum.loading ? null : _onRegister,
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: GPSColors.primaryDark,
+                            backgroundColor: GPSColors.primary,
                             foregroundColor: Colors.white,
                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                           ),

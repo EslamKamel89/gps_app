@@ -107,7 +107,7 @@ class _OTPWidgetState extends State<OTPWidget> {
                           await context.read<VerifyOtpCubit>().verifyOtp(code: otp);
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: GPSColors.primaryDark,
+                          backgroundColor: GPSColors.primary,
                           foregroundColor: Colors.white,
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                         ),

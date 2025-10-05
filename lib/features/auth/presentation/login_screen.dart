@@ -102,7 +102,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: ElevatedButton(
                           onPressed: loading ? null : () => _submit(context),
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: GPSColors.primaryDark,
+                            backgroundColor: GPSColors.primary,
                             foregroundColor: Colors.white,
                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                           ),
