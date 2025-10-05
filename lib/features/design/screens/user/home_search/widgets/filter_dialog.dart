@@ -76,7 +76,7 @@ class _FilterDialogState extends State<FilterDialog> {
         mainAxisSize: MainAxisSize.min,
         children: [
           DropdownButtonFormField<String>(
-            initialValue: _distance,
+            value: _distance,
             decoration: const InputDecoration(hintText: 'Please Select Distance'),
             items: _distances.map((d) => DropdownMenuItem(value: d, child: Text(d))).toList(),
             onChanged: (v) => setState(() => _distance = v),
@@ -84,7 +84,7 @@ class _FilterDialogState extends State<FilterDialog> {
           const SizedBox(height: 12),
 
           DropdownButtonFormField<String>(
-            initialValue: _category,
+            value: _category,
             decoration: const InputDecoration(hintText: 'Please Select Category'),
             items: _categories.keys.map((c) => DropdownMenuItem(value: c, child: Text(c))).toList(),
             onChanged: (v) {
@@ -97,7 +97,7 @@ class _FilterDialogState extends State<FilterDialog> {
           const SizedBox(height: 12),
 
           DropdownButtonFormField<String>(
-            initialValue: _subcategory,
+            value: _subcategory,
             decoration: const InputDecoration(hintText: 'Please Select Subcategory'),
             items: subcats.map((s) => DropdownMenuItem(value: s, child: Text(s))).toList(),
             onChanged: (_category == null) ? null : (v) => setState(() => _subcategory = v),
