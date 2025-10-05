@@ -26,9 +26,10 @@ class HomeSearchScreen extends StatefulWidget {
   State<HomeSearchScreen> createState() => _HomeSearchScreenState();
 }
 
+HomeFilters? _filters;
+
 class _HomeSearchScreenState extends State<HomeSearchScreen> {
   int _currentTab = 0;
-  HomeFilters? _filters;
 
   Future<void> _openFilters({bool isBottomSheet = false}) async {
     HomeFilters? result;

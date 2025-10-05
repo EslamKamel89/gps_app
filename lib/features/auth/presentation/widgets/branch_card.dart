@@ -140,7 +140,7 @@ class _BranchCardState extends State<BranchCard> {
 
           GPSGaps.h16,
           Text(
-            'Pick State and district',
+            'Pick State and city',
             style: Theme.of(
               context,
             ).textTheme.labelLarge?.copyWith(fontWeight: FontWeight.w600, color: GPSColors.text),
