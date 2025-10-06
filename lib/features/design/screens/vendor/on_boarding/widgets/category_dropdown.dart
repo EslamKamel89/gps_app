@@ -19,20 +19,16 @@ class CategoryDropdown extends StatelessWidget {
     'Gluten-Free',
   ];
 
-  const CategoryDropdown({
-    super.key,
-    required this.value,
-    required this.onChanged,
-  });
+  const CategoryDropdown({super.key, required this.value, required this.onChanged});
 
   @override
   Widget build(BuildContext context) {
     return DropdownButtonFormField<String>(
-      value: value,
+      initialValue: value,
       decoration: const InputDecoration(
         hintText: 'Select category',
         contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-        isDense: true,
+        isDense: false,
       ),
       items:
           categories.map((cat) {

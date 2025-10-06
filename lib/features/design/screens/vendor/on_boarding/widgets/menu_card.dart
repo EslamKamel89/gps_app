@@ -8,7 +8,6 @@ import 'package:gps_app/features/auth/presentation/widgets/gps_label_field.dart'
 import 'package:gps_app/features/design/screens/user/resturant_details/widgets/section_header.dart';
 import 'package:gps_app/features/design/screens/vendor/on_boarding/models/restaurant_menu.dart';
 import 'package:gps_app/features/design/screens/vendor/on_boarding/widgets/menu_item_form.dart';
-import 'package:gps_app/features/design/screens/vendor/on_boarding/widgets/opening_hours_editor.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 
@@ -17,12 +16,7 @@ class MenuCard extends StatefulWidget {
   final VoidCallback onDelete;
   final ValueChanged<RestaurantMenu> onChanged;
 
-  const MenuCard({
-    super.key,
-    required this.menu,
-    required this.onDelete,
-    required this.onChanged,
-  });
+  const MenuCard({super.key, required this.menu, required this.onDelete, required this.onChanged});
 
   @override
   State<MenuCard> createState() => _MenuCardState();
@@ -41,12 +35,9 @@ class _MenuCardState extends State<MenuCard> {
     _menu = RestaurantMenu(
       id: _menu.id,
       menuName: field == 'menuName' ? (value as String) : _menu.menuName,
-      description:
-          field == 'description' ? (value as String?) : _menu.description,
+      description: field == 'description' ? (value as String?) : _menu.description,
       availabilityHours:
-          field == 'availabilityHours'
-              ? (value as Map<String, String>)
-              : _menu.availabilityHours,
+          field == 'availabilityHours' ? (value as Map<String, String>) : _menu.availabilityHours,
       items: field == 'items' ? (value as List<MenuItem>) : _menu.items,
     );
     widget.onChanged(_menu);
@@ -134,19 +125,17 @@ class _MenuCardState extends State<MenuCard> {
               initialValue: _menu.description,
               onChanged: (v) => _update('description', v),
               maxLines: 2,
-              decoration: const InputDecoration(
-                hintText: 'e.g., Weekday lunch specials',
-              ),
+              decoration: const InputDecoration(hintText: 'e.g., Weekday lunch specials'),
             ),
           ),
           GPSGaps.h16,
 
           // Availability Hours
-          OpeningHoursEditor(
-            hours: _menu.availabilityHours,
-            onChanged: (hours) => _update('availabilityHours', hours),
-          ),
-          GPSGaps.h20,
+          // OpeningHoursEditor(
+          //   hours: _menu.availabilityHours,
+          //   onChanged: (hours) => _update('availabilityHours', hours),
+          // ),
+          // GPSGaps.h20,
 
           // Menu Items Section
           const SectionHeader(title: 'Menu Items'),
@@ -154,9 +143,7 @@ class _MenuCardState extends State<MenuCard> {
           if (_menu.items.isEmpty)
             Text(
               'No items added yet.',
-              style: Theme.of(
-                context,
-              ).textTheme.bodySmall?.copyWith(color: GPSColors.mutedText),
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(color: GPSColors.mutedText),
             ),
           ..._menu.items.map((item) {
             return MenuItemForm(

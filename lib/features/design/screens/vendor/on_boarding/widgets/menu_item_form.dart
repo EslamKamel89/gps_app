@@ -85,8 +85,7 @@ class _MenuItemFormState extends State<MenuItemForm> {
           GpsLabeledField(
             label: 'Price',
             child: TextFormField(
-              initialValue:
-                  _item.price > 0 ? _item.price.toStringAsFixed(2) : '',
+              initialValue: _item.price > 0 ? _item.price.toStringAsFixed(2) : '',
               onChanged: (v) => _update('price', double.tryParse(v) ?? 0.0),
               keyboardType: TextInputType.numberWithOptions(decimal: true),
               decoration: const InputDecoration(
@@ -121,25 +120,33 @@ class _MenuItemFormState extends State<MenuItemForm> {
             ),
           ),
           GPSGaps.h12,
+          GpsLabeledField(
+            label: 'Sub category',
+            child: CategoryDropdown(
+              value: _item.category,
+              onChanged: (v) => _update('category', v),
+            ),
+          ),
+          // GPSGaps.h12,
 
           // Spicy Toggle
-          Row(
-            children: [
-              const Icon(
-                Icons.local_fire_department_rounded,
-                size: 16,
-                color: Colors.orange,
-              ),
-              GPSGaps.w8,
-              const Text('Spicy?', style: TextStyle(fontSize: 14)),
-              const Spacer(),
-              Switch(
-                value: _item.isSpicy,
-                onChanged: (v) => _update('isSpicy', v),
-                activeColor: Colors.orange,
-              ),
-            ],
-          ),
+          // Row(
+          //   children: [
+          //     const Icon(
+          //       Icons.local_fire_department_rounded,
+          //       size: 16,
+          //       color: Colors.orange,
+          //     ),
+          //     GPSGaps.w8,
+          //     const Text('Spicy?', style: TextStyle(fontSize: 14)),
+          //     const Spacer(),
+          //     Switch(
+          //       value: _item.isSpicy,
+          //       onChanged: (v) => _update('isSpicy', v),
+          //       activeColor: Colors.orange,
+          //     ),
+          //   ],
+          // ),
         ],
       ),
     ).animate().fadeIn(duration: 200.ms).slideY(begin: 0.06);
