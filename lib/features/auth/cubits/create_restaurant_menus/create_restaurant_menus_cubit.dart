@@ -44,7 +44,7 @@ class CreateRestaurantMenusCubit extends Cubit<CreateRestaurantMenusState> {
       m.restaurantId = user?.restaurant?.id;
     }
     pr(state.menus, 'state.menus');
-    return;
+    // return;
     emit(
       state.copyWith(
         menusResponse: state.menusResponse.copyWith(

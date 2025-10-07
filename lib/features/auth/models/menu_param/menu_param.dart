@@ -29,6 +29,7 @@ class MenuParam {
     'name': name,
     'description': description,
     'image_id': imageId,
+
     'restaurant_id': restaurantId,
     'meals': meals?.map((e) => e.toJson()).toList(),
   };
