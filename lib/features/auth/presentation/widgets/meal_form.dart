@@ -3,6 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:gps_app/core/helpers/validator.dart';
+import 'package:gps_app/core/widgets/uploads/image_upload_field.dart';
+import 'package:gps_app/core/widgets/uploads/uploaded_image.dart';
 import 'package:gps_app/features/auth/models/menu_param/meal_param.dart';
 import 'package:gps_app/features/auth/presentation/widgets/gps_label_field.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
@@ -79,8 +81,26 @@ class _MealFormState extends State<MealForm> {
             ),
           ),
           GPSGaps.h12,
-
+          ImageUploadField(
+            multiple: false,
+            resource: UploadResource.meal,
+            initial: const [],
+            onChanged: (images) {
+              if (images.isEmpty) return;
+              widget.meal.imageId = images[0].id;
+            },
+            child: Container(
+              height: 56,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: Colors.grey.shade400),
+              ),
+              child: const Text('Tap to upload meal image'),
+            ),
+          ),
           // Description
+          GPSGaps.h12,
           GpsLabeledField(
             label: 'Description (Optional)',
             child: TextFormField(

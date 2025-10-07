@@ -28,6 +28,8 @@ enum UploadResource {
   user,
   section,
   item,
+  menu,
+  meal,
   common;
 
   String get dir => name;

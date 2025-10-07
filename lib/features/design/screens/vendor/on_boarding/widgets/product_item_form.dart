@@ -75,7 +75,6 @@ class _ProductItemFormState extends State<ProductItemForm> {
           GPSGaps.h12,
           ImageUploadField(
             multiple: false,
-            // maxCount: 6,
             resource: UploadResource.item,
             initial: const [],
             onChanged: (images) {
