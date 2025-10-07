@@ -109,29 +109,38 @@ class _RestaurantOnboardingMenuScreenState extends State<RestaurantOnboardingMen
                 padding: const EdgeInsets.all(16),
                 child: Row(
                   children: [
-                    OutlinedButton(
-                      onPressed: () => Navigator.maybePop(context),
-                      style: OutlinedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-                      ),
-                      child: const Text('← Previous'),
-                    ),
+                    // OutlinedButton(
+                    //   onPressed: () => Navigator.maybePop(context),
+                    //   style: OutlinedButton.styleFrom(
+                    //     padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+                    //     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+                    //   ),
+                    //   child: const Text('← Previous'),
+                    // ),
                     const Spacer(),
-                    ElevatedButton(
-                      onPressed: () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text("Proceeding to certifications...")),
-                        );
-                        Navigator.of(
-                          context,
-                        ).pushNamed(AppRoutesNames.restaurantOnboardingCertificationsScreen);
+                    Builder(
+                      builder: (context) {
+                        final cubit = context.watch<CreateRestaurantMenusCubit>();
+
+                        return cubit.state.menusResponse.response == ResponseEnum.loading
+                            ? Container(
+                              margin: EdgeInsets.symmetric(horizontal: 30),
+                              child: Center(child: CircularProgressIndicator()),
+                            )
+                            : ElevatedButton(
+                              onPressed: () {
+                                if (!_formKey.currentState!.validate()) return;
+                                cubit.createMenus();
+                              },
+                              style: ElevatedButton.styleFrom(
+                                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(24),
+                                ),
+                              ),
+                              child: const Text('Next →'),
+                            );
                       },
-                      style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-                      ),
-                      child: const Text('Next →'),
                     ),
                   ],
                 ),
