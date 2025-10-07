@@ -4,7 +4,10 @@ part of 'create_restaurant_branches_cubit.dart';
 class CreateRestaurantBranchesState {
   ApiResponseModel<List<BranchModel>> branchesResponse;
   List<BranchParam> branches;
-  CreateRestaurantBranchesState({required this.branchesResponse, required this.branches});
+  CreateRestaurantBranchesState({
+    required this.branchesResponse,
+    required this.branches,
+  });
 
   CreateRestaurantBranchesState copyWith({
     ApiResponseModel<List<BranchModel>>? branchesResponse,

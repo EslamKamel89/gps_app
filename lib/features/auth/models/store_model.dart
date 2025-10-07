@@ -39,7 +39,9 @@ class StoreModel {
     updatedAt: json['updated_at'] as String?,
     sections:
         (json['sections'] as List<dynamic>?)
-            ?.map((e) => CatalogSectionModel.fromJson(e as Map<String, dynamic>))
+            ?.map(
+              (e) => CatalogSectionModel.fromJson(e as Map<String, dynamic>),
+            )
             .toList(),
   );
 

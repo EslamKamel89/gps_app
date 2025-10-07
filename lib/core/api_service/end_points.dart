@@ -14,4 +14,5 @@ class EndPoint {
   static const String otpVerify = "$baseUrl/api/email/otp/verify";
   static const String otpRequest = "$baseUrl/api/email/otp";
   static const String restaurantBranches = "$baseUrl/api/vendors/branch/bulk";
+  static const String restaurantMenus = "$baseUrl/api/restaurant-menus";
 }

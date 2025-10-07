@@ -9,9 +9,11 @@ import 'package:gps_app/features/auth/models/branch_param.dart';
 
 part 'create_restaurant_branches_state.dart';
 
-class CreateRestaurantBranchesCubit extends Cubit<CreateRestaurantBranchesState> {
+class CreateRestaurantBranchesCubit
+    extends Cubit<CreateRestaurantBranchesState> {
   final controller = serviceLocator<AuthController>();
-  CreateRestaurantBranchesCubit() : super(CreateRestaurantBranchesState.initial());
+  CreateRestaurantBranchesCubit()
+    : super(CreateRestaurantBranchesState.initial());
   void addBranch({required BranchParam branchParam}) {
     state.branches.add(branchParam);
     emit(state.copyWith());
@@ -36,9 +38,8 @@ class CreateRestaurantBranchesCubit extends Cubit<CreateRestaurantBranchesState>
         ),
       ),
     );
-    final ApiResponseModel<List<BranchModel>> response = await controller.createBranches(
-      param: state.branches,
-    );
+    final ApiResponseModel<List<BranchModel>> response = await controller
+        .createBranches(param: state.branches);
     pr(response, t);
     emit(state.copyWith(branchesResponse: response));
   }

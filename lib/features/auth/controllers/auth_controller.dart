@@ -15,6 +15,7 @@ import 'package:gps_app/features/auth/models/catalog_section_model.dart';
 import 'package:gps_app/features/auth/models/catalog_section_param/catalog_section_param.dart';
 import 'package:gps_app/features/auth/models/district_model.dart';
 import 'package:gps_app/features/auth/models/holiday_model.dart';
+import 'package:gps_app/features/auth/models/menu_param/menu_param.dart';
 import 'package:gps_app/features/auth/models/state_model.dart';
 import 'package:gps_app/features/auth/models/user_register_param.dart';
 import 'package:gps_app/features/auth/models/vendor_register_params/vendor_register_params.dart';
@@ -222,6 +223,27 @@ class AuthController {
       final List<BranchModel> models =
           (response as List<dynamic>).map((json) => BranchModel.fromJson(json)).toList();
       return pr(ApiResponseModel(response: ResponseEnum.success, data: models), t);
+    } catch (e) {
+      String errorMessage = e.toString();
+      if (e is DioException) {
+        errorMessage = jsonEncode(e.response?.data ?? 'Unknown error occurred');
+      }
+      showSnackbar('Error', errorMessage, true);
+      return pr(ApiResponseModel(errorMessage: errorMessage, response: ResponseEnum.failed), t);
+    }
+  }
+
+  Future<ApiResponseModel<bool>> createRestaurantMenus({required List<MenuParam> param}) async {
+    final t = prt('createRestaurantMenus - AuthController');
+    try {
+      final response = await _api.post(
+        EndPoint.restaurantMenus,
+        data: param.map((e) => e.toJson()).toList(),
+      );
+      pr(response, '$t - response');
+      // final List<CatalogSectionModel> models =
+      //     (response as List<dynamic>).map((json) => CatalogSectionModel.fromJson(json)).toList();
+      return pr(ApiResponseModel(response: ResponseEnum.success, data: true), t);
     } catch (e) {
       String errorMessage = e.toString();
       if (e is DioException) {

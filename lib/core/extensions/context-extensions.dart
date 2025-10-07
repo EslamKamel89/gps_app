@@ -13,5 +13,6 @@ extension ScreenWidth on BuildContext {
   Color get canvasColor => Theme.of(this).canvasColor;
   // InputDecorationTheme get inputDecorationTheme =>
   //     Theme.of(this).inputDecorationTheme;
-  OutlinedButtonThemeData get outlinedButtonTheme => Theme.of(this).outlinedButtonTheme;
+  OutlinedButtonThemeData get outlinedButtonTheme =>
+      Theme.of(this).outlinedButtonTheme;
 }

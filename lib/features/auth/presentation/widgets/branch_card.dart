@@ -72,8 +72,15 @@ class _BranchCardState extends State<BranchCard> {
                 widget.branch.branchName = v;
                 setState(() {});
               },
-              decoration: const InputDecoration(hintText: 'e.g., Downtown Branch'),
-              validator: (v) => validator(input: v, label: 'Branch Name', isRequired: true),
+              decoration: const InputDecoration(
+                hintText: 'e.g., Downtown Branch',
+              ),
+              validator:
+                  (v) => validator(
+                    input: v,
+                    label: 'Branch Name',
+                    isRequired: true,
+                  ),
             ),
           ),
           GPSGaps.h16,
@@ -85,8 +92,15 @@ class _BranchCardState extends State<BranchCard> {
               initialValue: widget.branch.phoneNumber,
               onChanged: (v) => widget.branch.phoneNumber = v,
               keyboardType: TextInputType.phone,
-              decoration: const InputDecoration(hintText: 'e.g., +1 212 555 1234'),
-              validator: (v) => validator(input: v, label: 'Phone Number', isRequired: true),
+              decoration: const InputDecoration(
+                hintText: 'e.g., +1 212 555 1234',
+              ),
+              validator:
+                  (v) => validator(
+                    input: v,
+                    label: 'Phone Number',
+                    isRequired: true,
+                  ),
             ),
           ),
           GPSGaps.h16,
@@ -97,7 +111,9 @@ class _BranchCardState extends State<BranchCard> {
             child: TextFormField(
               initialValue: widget.branch.website,
               onChanged: (v) => widget.branch.website = v,
-              decoration: const InputDecoration(hintText: 'https://yourrestaurant.com'),
+              decoration: const InputDecoration(
+                hintText: 'https://yourrestaurant.com',
+              ),
             ),
           ),
           GPSGaps.h16,
@@ -113,9 +129,10 @@ class _BranchCardState extends State<BranchCard> {
           // Photos
           Text(
             'Photo (Optional)',
-            style: Theme.of(
-              context,
-            ).textTheme.labelLarge?.copyWith(fontWeight: FontWeight.w600, color: GPSColors.text),
+            style: Theme.of(context).textTheme.labelLarge?.copyWith(
+              fontWeight: FontWeight.w600,
+              color: GPSColors.text,
+            ),
           ),
           GPSGaps.h8,
           ImageUploadField(
@@ -141,9 +158,10 @@ class _BranchCardState extends State<BranchCard> {
           GPSGaps.h16,
           Text(
             'Pick State and city',
-            style: Theme.of(
-              context,
-            ).textTheme.labelLarge?.copyWith(fontWeight: FontWeight.w600, color: GPSColors.text),
+            style: Theme.of(context).textTheme.labelLarge?.copyWith(
+              fontWeight: FontWeight.w600,
+              color: GPSColors.text,
+            ),
           ),
           GPSGaps.h8,
           StateDistrictProvider(

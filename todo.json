@@ -38,9 +38,14 @@
         "when changing the filters keep the state",
         "next button in the auth screen should be the same color as the app icon",
         "change district to city",
+        "add the menu create method in the auth controller",
         "------------------------------------------------"
     ],
     "todos": [
+        "create the cubit",
+        "move the ui from the design folder to the auth feature with it's widgets",
+        "fix the navigation from the branches screen to the menu item screen",
+        "wire the ui with the cubit and test the app",
         "------------------------------------------------"
     ],
     "backend_done_todos": [

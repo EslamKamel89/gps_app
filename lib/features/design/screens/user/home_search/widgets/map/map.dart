@@ -17,7 +17,8 @@ class MapView extends StatefulWidget {
 
 class _MapViewState extends State<MapView> {
   Position? _currentLocation;
-  final Completer<GoogleMapController> _controller = Completer<GoogleMapController>();
+  final Completer<GoogleMapController> _controller =
+      Completer<GoogleMapController>();
 
   static const CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(27.6648, 81.5158),
@@ -36,7 +37,11 @@ class _MapViewState extends State<MapView> {
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
-        showSnackbar('Location permissions', 'Location permissions are denied', true);
+        showSnackbar(
+          'Location permissions',
+          'Location permissions are denied',
+          true,
+        );
       }
     }
     if (permission == LocationPermission.deniedForever) {
@@ -46,7 +51,8 @@ class _MapViewState extends State<MapView> {
         true,
       );
     }
-    if (permission == LocationPermission.always || permission == LocationPermission.whileInUse) {
+    if (permission == LocationPermission.always ||
+        permission == LocationPermission.whileInUse) {
       Position position = await Geolocator.getCurrentPosition();
 
       log("latitude: ${position.latitude.toString()}");
@@ -74,7 +80,10 @@ class _MapViewState extends State<MapView> {
     if (!_controller.isCompleted) return;
 
     final GoogleMapController controller = await _controller.future;
-    final target = LatLng(_currentLocation!.latitude, _currentLocation!.longitude);
+    final target = LatLng(
+      _currentLocation!.latitude,
+      _currentLocation!.longitude,
+    );
 
     await controller.animateCamera(
       CameraUpdate.newCameraPosition(CameraPosition(target: target, zoom: 16)),

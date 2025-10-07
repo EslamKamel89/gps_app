@@ -3,7 +3,11 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 
 class GpsShortDescription extends StatelessWidget {
-  const GpsShortDescription({super.key, this.isSplashScreen = false, this.description});
+  const GpsShortDescription({
+    super.key,
+    this.isSplashScreen = false,
+    this.description,
+  });
   final bool isSplashScreen;
   final String? description;
 
