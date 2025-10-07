@@ -9,6 +9,7 @@ import 'package:gps_app/features/auth/models/menu_param/meal_param.dart';
 import 'package:gps_app/features/auth/presentation/widgets/gps_label_field.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
+import 'package:gps_app/features/user/categories/presentation/widgets/category_selector.dart';
 
 class MealForm extends StatefulWidget {
   final MealParam meal;
@@ -100,6 +101,13 @@ class _MealFormState extends State<MealForm> {
             ),
           ),
           // Description
+          GPSGaps.h12,
+          CategorySelectorProvider(
+            onSelect: (selected) {
+              widget.meal.categoryId = selected.selectedCategory?.id;
+              widget.meal.subCategoryId = selected.selectedSubCategory?.id;
+            },
+          ),
           GPSGaps.h12,
           GpsLabeledField(
             label: 'Description (Optional)',

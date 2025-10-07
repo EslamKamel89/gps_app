@@ -1,33 +1,32 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-part of 'category_cubit.dart';
+part of 'category_onboarding_cubit.dart';
 
-class CategoryState {
+class CategoryOnboardingState {
   ApiResponseModel<List<CategoryModel>> categories;
   List<CategoryModel> selectedCategories;
   List<SubCategoryModel> selectedSubCategories;
-  CategoryState({
+  CategoryOnboardingState({
     required this.categories,
     required this.selectedCategories,
     required this.selectedSubCategories,
   });
-  factory CategoryState.initial() {
-    return CategoryState(
+  factory CategoryOnboardingState.initial() {
+    return CategoryOnboardingState(
       selectedCategories: [],
       selectedSubCategories: [],
       categories: ApiResponseModel(),
     );
   }
 
-  CategoryState copyWith({
+  CategoryOnboardingState copyWith({
     ApiResponseModel<List<CategoryModel>>? categories,
     List<CategoryModel>? selectedCategories,
     List<SubCategoryModel>? selectedSubCategories,
   }) {
-    return CategoryState(
+    return CategoryOnboardingState(
       categories: categories ?? this.categories,
       selectedCategories: selectedCategories ?? this.selectedCategories,
-      selectedSubCategories:
-          selectedSubCategories ?? this.selectedSubCategories,
+      selectedSubCategories: selectedSubCategories ?? this.selectedSubCategories,
     );
   }
 

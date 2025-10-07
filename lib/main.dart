@@ -7,7 +7,7 @@ import 'package:gps_app/core/router/app_router.dart';
 import 'package:gps_app/core/router/app_routes_names.dart';
 import 'package:gps_app/core/service_locator/service_locator.dart';
 import 'package:gps_app/core/themes/theme_cubit.dart';
-import 'package:gps_app/features/user/categories/cubits/category/category_cubit.dart';
+import 'package:gps_app/features/user/categories/cubits/category_onboarding_cubit/category_onboarding_cubit.dart';
 import 'package:intl/intl_standalone.dart';
 
 void main() async {
@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
       child: MultiBlocProvider(
         providers: [
           BlocProvider(create: (_) => ThemeCubit()),
-          BlocProvider(create: (_) => CategoryCubit()),
+          BlocProvider(create: (_) => CategoryOnboardingCubit()),
         ],
         child: Builder(
           builder: (context) {
@@ -47,8 +47,8 @@ class MyApp extends StatelessWidget {
               navigatorKey: navigatorKey,
               theme: themeCubit.state,
               debugShowCheckedModeBanner: false,
-              initialRoute: AppRoutesNames.gpsSplashScreen,
-              // initialRoute: AppRoutesNames.otpScreen,
+              // initialRoute: AppRoutesNames.gpsSplashScreen,
+              initialRoute: AppRoutesNames.restaurantOnboardingMenuScreen,
               locale: context.locale,
               supportedLocales: context.supportedLocales,
               localizationsDelegates: context.localizationDelegates,

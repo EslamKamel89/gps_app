@@ -7,13 +7,13 @@ import 'package:gps_app/features/user/categories/controllers/category_controller
 import 'package:gps_app/features/user/categories/models/category_model/category_model.dart';
 import 'package:gps_app/features/user/categories/models/category_model/sub_category_model.dart';
 
-part 'category_state.dart';
+part 'category_onboarding_state.dart';
 
-class CategoryCubit extends Cubit<CategoryState> {
-  CategoryCubit() : super(CategoryState.initial());
+class CategoryOnboardingCubit extends Cubit<CategoryOnboardingState> {
+  CategoryOnboardingCubit() : super(CategoryOnboardingState.initial());
   final CategoryController controller = serviceLocator<CategoryController>();
   Future categoriesIndex() async {
-    final t = prt('categoriesIndex - CategoryCubit');
+    final t = prt('categoriesIndex - CategoryOnboardingCubit');
 
     emit(
       state.copyWith(
@@ -24,17 +24,13 @@ class CategoryCubit extends Cubit<CategoryState> {
         ),
       ),
     );
-    final ApiResponseModel<List<CategoryModel>> response =
-        await controller.categoriesIndex();
+    final ApiResponseModel<List<CategoryModel>> response = await controller.categoriesIndex();
     pr(response, t);
     emit(state.copyWith(categories: response));
   }
 
   void toggleSelectedCategory(CategoryModel category) {
-    bool categoryExist =
-        state.selectedCategories
-            .where((cat) => cat.id == category.id)
-            .isNotEmpty;
+    bool categoryExist = state.selectedCategories.where((cat) => cat.id == category.id).isNotEmpty;
     if (categoryExist) {
       state.selectedCategories.removeWhere((cat) => cat.id == category.id);
     } else {
@@ -45,9 +41,7 @@ class CategoryCubit extends Cubit<CategoryState> {
 
   void toggleSelectedSubCategory(SubCategoryModel subCat) {
     bool subCategoryExist =
-        state.selectedSubCategories
-            .where((cat) => cat.id == subCat.id)
-            .isNotEmpty;
+        state.selectedSubCategories.where((cat) => cat.id == subCat.id).isNotEmpty;
     if (subCategoryExist) {
       state.selectedSubCategories.removeWhere((cat) => cat.id == subCat.id);
     } else {
