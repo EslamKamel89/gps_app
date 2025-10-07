@@ -2,42 +2,23 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:gps_app/core/helpers/validator.dart';
+import 'package:gps_app/features/auth/models/menu_param/meal_param.dart';
 import 'package:gps_app/features/auth/presentation/widgets/gps_label_field.dart';
-import 'package:gps_app/features/design/screens/vendor/on_boarding/models/restaurant_menu.dart';
-import 'package:gps_app/features/design/screens/vendor/on_boarding/widgets/category_dropdown.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 
-class MenuItemForm extends StatefulWidget {
-  final MenuItem item;
+class MealForm extends StatefulWidget {
+  final MealParam meal;
   final VoidCallback onRemove;
-  final ValueChanged<MenuItem> onChanged;
 
-  const MenuItemForm({
-    super.key,
-    required this.item,
-    required this.onRemove,
-    required this.onChanged,
-  });
+  const MealForm({super.key, required this.meal, required this.onRemove});
 
   @override
-  State<MenuItemForm> createState() => _MenuItemFormState();
+  State<MealForm> createState() => _MealFormState();
 }
 
-class _MenuItemFormState extends State<MenuItemForm> {
-  late MenuItem _item;
-
-  @override
-  void initState() {
-    _item = widget.item;
-    super.initState();
-  }
-
-  void _update(String field, dynamic value) {
-    // _item = _item.copyWith({field: value});
-    widget.onChanged(_item);
-  }
-
+class _MealFormState extends State<MealForm> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -54,7 +35,7 @@ class _MenuItemFormState extends State<MenuItemForm> {
           Row(
             children: [
               Text(
-                'Item • ${_item.name.isEmpty ? 'Untitled' : _item.name}',
+                'Item • ${widget.meal.name ?? 'Untitled'}',
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   fontWeight: FontWeight.w600,
                   color: GPSColors.text,
@@ -74,9 +55,10 @@ class _MenuItemFormState extends State<MenuItemForm> {
           GpsLabeledField(
             label: 'Name',
             child: TextFormField(
-              initialValue: _item.name,
-              onChanged: (v) => _update('name', v),
+              initialValue: widget.meal.name,
+              onChanged: (v) => widget.meal.name = v,
               decoration: const InputDecoration(hintText: 'e.g., Beef Burger'),
+              validator: (v) => validator(input: v, label: 'Name', isRequired: true),
             ),
           ),
           GPSGaps.h12,
@@ -85,10 +67,10 @@ class _MenuItemFormState extends State<MenuItemForm> {
           GpsLabeledField(
             label: 'Price',
             child: TextFormField(
-              initialValue:
-                  _item.price > 0 ? _item.price.toStringAsFixed(2) : '',
-              onChanged: (v) => _update('price', double.tryParse(v) ?? 0.0),
+              initialValue: widget.meal.price?.toString() ?? '',
+              onChanged: (v) => widget.meal.price = double.parse(v),
               keyboardType: TextInputType.numberWithOptions(decimal: true),
+              validator: (v) => validator(input: v, label: 'Price', isRequired: true),
               decoration: const InputDecoration(
                 hintText: 'e.g., 12.95',
                 prefixText: '\$ ',
@@ -102,8 +84,8 @@ class _MenuItemFormState extends State<MenuItemForm> {
           GpsLabeledField(
             label: 'Description (Optional)',
             child: TextFormField(
-              initialValue: _item.description,
-              onChanged: (v) => _update('description', v),
+              initialValue: widget.meal.description,
+              onChanged: (v) => widget.meal.description = v,
               maxLines: 2,
               decoration: const InputDecoration(
                 hintText: 'e.g., Grass-fed beef, cheddar, lettuce...',
@@ -113,21 +95,21 @@ class _MenuItemFormState extends State<MenuItemForm> {
           GPSGaps.h12,
 
           // Category
-          GpsLabeledField(
-            label: 'Category',
-            child: CategoryDropdown(
-              value: _item.category,
-              onChanged: (v) => _update('category', v),
-            ),
-          ),
-          GPSGaps.h12,
-          GpsLabeledField(
-            label: 'Sub category',
-            child: CategoryDropdown(
-              value: _item.category,
-              onChanged: (v) => _update('category', v),
-            ),
-          ),
+          // GpsLabeledField(
+          //   label: 'Category',
+          //   child: CategoryDropdown(
+          //     value: _item.category,
+          //     onChanged: (v) => _update('category', v),
+          //   ),
+          // ),
+          // GPSGaps.h12,
+          // GpsLabeledField(
+          //   label: 'Sub category',
+          //   child: CategoryDropdown(
+          //     value: _item.category,
+          //     onChanged: (v) => _update('category', v),
+          //   ),
+          // ),
           // GPSGaps.h12,
 
           // Spicy Toggle

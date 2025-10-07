@@ -1,7 +1,7 @@
 class MealParam {
   String? name;
   String? description;
-  int? price;
+  double? price;
   int? imageId;
   int? categoryId;
   int? subCategoryId;
@@ -23,7 +23,7 @@ class MealParam {
   factory MealParam.fromJson(Map<String, dynamic> json) => MealParam(
     name: json['name'] as String?,
     description: json['description'] as String?,
-    price: json['price'] as int?,
+    price: json['price'] as double?,
     imageId: json['image_id'] as int?,
     categoryId: json['category_id'] as int?,
     subCategoryId: json['sub_category_id'] as int?,
@@ -41,7 +41,7 @@ class MealParam {
   MealParam copyWith({
     String? name,
     String? description,
-    int? price,
+    double? price,
     int? imageId,
     int? categoryId,
     int? subCategoryId,

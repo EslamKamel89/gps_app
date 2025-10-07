@@ -1,4 +1,4 @@
-import 'meal.dart';
+import 'meal_param.dart';
 
 class MenuParam {
   String? name;
