@@ -4,6 +4,7 @@ import 'package:gps_app/core/router/app_routes_names.dart';
 import 'package:gps_app/core/router/middleware.dart';
 import 'package:gps_app/features/auth/cubits/create_catalog_section_items/create_catalog_section_items_cubit.dart';
 import 'package:gps_app/features/auth/cubits/create_restaurant_branches/create_restaurant_branches_cubit.dart';
+import 'package:gps_app/features/auth/cubits/create_restaurant_menus/create_restaurant_menus_cubit.dart';
 import 'package:gps_app/features/auth/cubits/login_cubit.dart';
 import 'package:gps_app/features/auth/cubits/user_register_cubit.dart';
 import 'package:gps_app/features/auth/cubits/vendor_register_cubit.dart';
@@ -110,7 +111,11 @@ class AppRouter {
         );
       case AppRoutesNames.restaurantOnboardingMenuScreen:
         return CustomPageRoute(
-          builder: (context) => RestaurantOnboardingMenuScreen(),
+          builder:
+              (context) => BlocProvider(
+                create: (context) => CreateRestaurantMenusCubit(),
+                child: RestaurantOnboardingMenuScreen(),
+              ),
           settings: routeSettings,
         );
       case AppRoutesNames.restaurantOnboardingCertificationsScreen:

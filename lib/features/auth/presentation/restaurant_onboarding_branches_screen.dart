@@ -20,8 +20,7 @@ class RestaurantOnboardingBranchesScreen extends StatefulWidget {
       _RestaurantOnboardingBranchesScreenState();
 }
 
-class _RestaurantOnboardingBranchesScreenState
-    extends State<RestaurantOnboardingBranchesScreen> {
+class _RestaurantOnboardingBranchesScreenState extends State<RestaurantOnboardingBranchesScreen> {
   final _formKey = GlobalKey<FormState>();
 
   bool get _isNextEnabled {
@@ -32,14 +31,11 @@ class _RestaurantOnboardingBranchesScreenState
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: GPSColors.background,
-      body: BlocConsumer<
-        CreateRestaurantBranchesCubit,
-        CreateRestaurantBranchesState
-      >(
+      body: BlocConsumer<CreateRestaurantBranchesCubit, CreateRestaurantBranchesState>(
         listener: (context, state) {
           if (state.branchesResponse.response == ResponseEnum.success) {
-            // Navigator.of(context).pushNamed(AppRoutesNames.restaurantOnboardingMenuScreen);
-            Navigator.of(context).pushNamed(AppRoutesNames.homeSearchScreen);
+            Navigator.of(context).pushNamed(AppRoutesNames.restaurantOnboardingMenuScreen);
+            // Navigator.of(context).pushNamed(AppRoutesNames.homeSearchScreen);
           }
         },
         builder: (context, state) {
@@ -50,10 +46,7 @@ class _RestaurantOnboardingBranchesScreenState
               child: Column(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 12,
-                    ),
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                     child: Row(
                       children: [
                         // IconButton(
@@ -63,8 +56,9 @@ class _RestaurantOnboardingBranchesScreenState
                         const Spacer(),
                         Text(
                           'Step 1 of 3',
-                          style: Theme.of(context).textTheme.bodyMedium
-                              ?.copyWith(color: GPSColors.mutedText),
+                          style: Theme.of(
+                            context,
+                          ).textTheme.bodyMedium?.copyWith(color: GPSColors.mutedText),
                         ),
                       ],
                     ),
@@ -79,9 +73,7 @@ class _RestaurantOnboardingBranchesScreenState
                           // Title
                           Text(
                             '📍 Add Your Restaurant Branches',
-                            style: Theme.of(
-                              context,
-                            ).textTheme.titleLarge?.copyWith(
+                            style: Theme.of(context).textTheme.titleLarge?.copyWith(
                               fontWeight: FontWeight.w800,
                               color: GPSColors.primary,
                             ),
@@ -89,9 +81,7 @@ class _RestaurantOnboardingBranchesScreenState
                           GPSGaps.h8,
                           Text(
                             'Let’s set up all your restaurant locations. You can add multiple branches below.',
-                            style: Theme.of(
-                              context,
-                            ).textTheme.bodyMedium?.copyWith(
+                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                               color: GPSColors.mutedText,
                               height: 1.4,
                             ),
@@ -102,8 +92,7 @@ class _RestaurantOnboardingBranchesScreenState
                           ...state.branches.map((branch) {
                             return BranchCard(
                               branch: branch,
-                              onDelete:
-                                  () => cubit.removeBranch(branchParam: branch),
+                              onDelete: () => cubit.removeBranch(branchParam: branch),
                             );
                           }),
 
@@ -111,9 +100,7 @@ class _RestaurantOnboardingBranchesScreenState
                           GPSGaps.h12,
                           AddButton(
                             label: 'Add Another Branch',
-                            onTap:
-                                () =>
-                                    cubit.addBranch(branchParam: BranchParam()),
+                            onTap: () => cubit.addBranch(branchParam: BranchParam()),
                           ),
                           GPSGaps.h24,
                         ],
@@ -142,18 +129,14 @@ class _RestaurantOnboardingBranchesScreenState
                         const Spacer(),
                         Builder(
                           builder: (context) {
-                            return cubit.state.branchesResponse.response ==
-                                    ResponseEnum.loading
+                            return cubit.state.branchesResponse.response == ResponseEnum.loading
                                 ? Container(
                                   margin: EdgeInsets.symmetric(horizontal: 30),
-                                  child: Center(
-                                    child: CircularProgressIndicator(),
-                                  ),
+                                  child: Center(child: CircularProgressIndicator()),
                                 )
                                 : ElevatedButton(
                                   onPressed: () async {
-                                    if (!_formKey.currentState!.validate())
-                                      return;
+                                    if (!_formKey.currentState!.validate()) return;
                                     cubit.createBranches();
                                   },
                                   style: ElevatedButton.styleFrom(
