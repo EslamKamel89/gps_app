@@ -39,8 +39,8 @@ class UploadResponse {
 
 enum _UploadStatus { idle, picking, ready, uploading, success, failed }
 
-class SingleAnyFileUploadField extends StatefulWidget {
-  const SingleAnyFileUploadField({
+class SingleFileUploadField extends StatefulWidget {
+  const SingleFileUploadField({
     super.key,
     required this.baseUrl,
     required this.dir,
@@ -59,10 +59,10 @@ class SingleAnyFileUploadField extends StatefulWidget {
   final bool enabled;
 
   @override
-  State<SingleAnyFileUploadField> createState() => _SingleAnyFileUploadFieldState();
+  State<SingleFileUploadField> createState() => _SingleFileUploadFieldState();
 }
 
-class _SingleAnyFileUploadFieldState extends State<SingleAnyFileUploadField> {
+class _SingleFileUploadFieldState extends State<SingleFileUploadField> {
   late final Dio _dio = serviceLocator<Dio>();
   final _imagePicker = ImagePicker();
 

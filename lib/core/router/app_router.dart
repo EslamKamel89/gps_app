@@ -11,6 +11,7 @@ import 'package:gps_app/features/auth/cubits/vendor_register_cubit.dart';
 import 'package:gps_app/features/auth/presentation/login_screen.dart';
 import 'package:gps_app/features/auth/presentation/otp_screen.dart';
 import 'package:gps_app/features/auth/presentation/restaurant_onboarding_branches_screen.dart';
+import 'package:gps_app/features/auth/presentation/restaurant_onboarding_certifications_screen.dart';
 import 'package:gps_app/features/auth/presentation/restaurant_onboarding_menu_screen.dart';
 import 'package:gps_app/features/auth/presentation/store_farm_onboarding_products.dart';
 import 'package:gps_app/features/auth/presentation/user_register_screen.dart';
@@ -24,7 +25,6 @@ import 'package:gps_app/features/design/screens/user/market_place/market_place_s
 import 'package:gps_app/features/design/screens/user/resturant_details/resturant_details_screen.dart';
 import 'package:gps_app/features/design/screens/user/scann_image/scan_image_screen.dart';
 import 'package:gps_app/features/design/screens/user/splash/splash_screen.dart';
-import 'package:gps_app/features/design/screens/vendor/on_boarding/screens/restaurant_onboarding_certifications_screen.dart';
 import 'package:gps_app/features/user/categories/presentation/category_selection_screen.dart';
 import 'package:gps_app/features/user/categories/presentation/subcategory_selection_screen.dart';
 

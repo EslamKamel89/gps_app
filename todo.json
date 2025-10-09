@@ -39,13 +39,18 @@
         "next button in the auth screen should be the same color as the app icon",
         "change district to city",
         "add the menu create method in the auth controller",
-        "------------------------------------------------"
-    ],
-    "todos": [
         "create the cubit",
         "move the ui from the design folder to the auth feature with it's widgets",
         "fix the navigation from the branches screen to the menu item screen",
         "wire the ui with the cubit and test the app",
+        "------------------------------------------------"
+    ],
+    "todos": [
+        "move all the files from the design folder to the auth folder",
+        "create the necessary param models",
+        "create the method in the controller",
+        "create the cubit",
+        "wire the front end",
         "------------------------------------------------"
     ],
     "backend_done_todos": [

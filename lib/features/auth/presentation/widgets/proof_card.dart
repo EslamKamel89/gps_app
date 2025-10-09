@@ -2,9 +2,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:gps_app/core/api_service/end_points.dart';
+import 'package:gps_app/core/helpers/print_helper.dart';
+import 'package:gps_app/core/widgets/uploads/single_file_upload_field.dart';
 import 'package:gps_app/features/auth/presentation/widgets/gps_label_field.dart';
 import 'package:gps_app/features/design/screens/vendor/on_boarding/models/proof.dart';
-import 'package:gps_app/features/design/screens/vendor/on_boarding/widgets/image_upload_button.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 
@@ -84,9 +86,7 @@ class _ProofCardState extends State<ProofCard> {
             child: TextFormField(
               initialValue: _proof.title,
               onChanged: (v) => _update('title', v),
-              decoration: const InputDecoration(
-                hintText: 'e.g., Health License',
-              ),
+              decoration: const InputDecoration(hintText: 'e.g., Health License'),
             ),
           ),
           GPSGaps.h16,
@@ -98,24 +98,23 @@ class _ProofCardState extends State<ProofCard> {
               initialValue: _proof.description,
               onChanged: (v) => _update('description', v),
               maxLines: 2,
-              decoration: const InputDecoration(
-                hintText: 'e.g., Issued by City Health Dept.',
-              ),
+              decoration: const InputDecoration(hintText: 'e.g., Issued by City Health Dept.'),
             ),
           ),
           GPSGaps.h16,
-
-          // Image Upload
-          ImageUploadButton(
-            imageUrl: _proof.imageUrl,
-            onTap: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text("Image picker not implemented yet"),
-                ),
-              );
-            },
+          GpsLabeledField(
+            label: 'Upload Certificate',
+            child: SingleFileUploadField(
+              baseUrl: EndPoint.baseUrl,
+              dir: 'certificate',
+              initialText: 'No file selected',
+              onUploaded: (file) {
+                pr(file.id, 'file.id');
+                pr(file.path, 'file.path');
+              },
+            ),
           ),
+          GPSGaps.h16,
         ],
       ),
     ).animate().fadeIn(duration: 300.ms).slideY(begin: 0.08);
