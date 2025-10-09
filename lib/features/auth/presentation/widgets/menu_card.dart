@@ -30,8 +30,7 @@ class MenuCard extends StatefulWidget {
 class _MenuCardState extends State<MenuCard> {
   @override
   Widget build(BuildContext context) {
-    CreateRestaurantMenusCubit cubit =
-        context.watch<CreateRestaurantMenusCubit>();
+    CreateRestaurantMenusCubit cubit = context.watch<CreateRestaurantMenusCubit>();
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
       padding: const EdgeInsets.all(16),
@@ -77,15 +76,13 @@ class _MenuCardState extends State<MenuCard> {
               initialValue: widget.menu.name,
               onChanged: (v) => widget.menu.name = v,
               decoration: const InputDecoration(hintText: 'e.g., Lunch Menu'),
-              validator:
-                  (v) =>
-                      validator(input: v, label: 'Menu Name', isRequired: true),
+              validator: (v) => validator(input: v, label: 'Menu Name', isRequired: true),
             ),
           ),
           GPSGaps.h16,
           ImageUploadField(
             multiple: false,
-            resource: UploadResource.menu,
+            resource: UploadResource.branch,
             initial: const [],
             onChanged: (images) {
               if (images.isEmpty) return;
@@ -109,9 +106,7 @@ class _MenuCardState extends State<MenuCard> {
               initialValue: widget.menu.description,
               onChanged: (v) => widget.menu.description = v,
               maxLines: 2,
-              decoration: const InputDecoration(
-                hintText: 'e.g., Weekday lunch specials',
-              ),
+              decoration: const InputDecoration(hintText: 'e.g., Weekday lunch specials'),
             ),
           ),
           GPSGaps.h16,
@@ -129,16 +124,12 @@ class _MenuCardState extends State<MenuCard> {
           if ((widget.menu.meals ?? []).isEmpty == true)
             Text(
               'No meals added yet.',
-              style: Theme.of(
-                context,
-              ).textTheme.bodySmall?.copyWith(color: GPSColors.mutedText),
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(color: GPSColors.mutedText),
             ),
           ...(widget.menu.meals ?? []).map((meal) {
             return MealForm(
               meal: meal,
-              onRemove:
-                  () =>
-                      cubit.removeMeal(menuParam: widget.menu, mealParam: meal),
+              onRemove: () => cubit.removeMeal(menuParam: widget.menu, mealParam: meal),
             );
           }),
 
@@ -149,11 +140,7 @@ class _MenuCardState extends State<MenuCard> {
               width: context.width * 0.5,
               child: AddButton(
                 label: 'Add Menu Item',
-                onTap:
-                    () => cubit.addMeal(
-                      menuParam: widget.menu,
-                      mealParam: MealParam(),
-                    ),
+                onTap: () => cubit.addMeal(menuParam: widget.menu, mealParam: MealParam()),
               ),
             ),
           ),

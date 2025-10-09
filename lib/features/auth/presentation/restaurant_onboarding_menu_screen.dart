@@ -37,10 +37,10 @@ class _RestaurantOnboardingMenuScreenState extends State<RestaurantOnboardingMen
                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                 child: Row(
                   children: [
-                    IconButton(
-                      icon: const Icon(Icons.arrow_back_rounded),
-                      onPressed: () => Navigator.maybePop(context),
-                    ),
+                    // IconButton(
+                    //   icon: const Icon(Icons.arrow_back_rounded),
+                    //   onPressed: () => Navigator.maybePop(context),
+                    // ),
                     const Spacer(),
                     Text(
                       'Step 2 of 3',

@@ -40,10 +40,7 @@ class AppMiddleWare {
     }
     if (detectConflict(routeName)) {
       final newRoute = _handleEntryPoint();
-      pr(
-        'conflict detected, original route : $routeName , newRoute: $newRoute',
-        'AppMiddleware',
-      );
+      pr('conflict detected, original route : $routeName , newRoute: $newRoute', 'AppMiddleware');
       return newRoute;
     }
     return routeName;
@@ -54,9 +51,7 @@ class AppMiddleWare {
         (signedInButNotVerifiedRoutes.contains(routeName) &&
             !_storage.isSignedIn &&
             _storage.isVerified) ||
-        (verifiedRoutes.contains(routeName) &&
-            !_storage.isSignedIn &&
-            !_storage.isVerified);
+        (verifiedRoutes.contains(routeName) && !_storage.isSignedIn && !_storage.isVerified);
   }
 
   String _handleEntryPoint() {
@@ -64,7 +59,8 @@ class AppMiddleWare {
       return AppRoutesNames.loginScreen;
     }
     if (!_storage.isVerified) {
-      return AppRoutesNames.otpScreen;
+      return AppRoutesNames.loginScreen;
+      // return AppRoutesNames.otpScreen;
     }
     // handle not complete profile logic
     if (_storage.isFarm && !_storage.isFarmProfileComplete) {
