@@ -18,7 +18,6 @@ import 'package:gps_app/features/design/utils/gps_gaps.dart';
 import 'package:gps_app/features/design/widgets/categories_shortcut.dart';
 import 'package:gps_app/features/design/widgets/gps_bottom_nav.dart';
 import 'package:gps_app/features/user/restaurants/models/restaurant_main_data.dart';
-import 'package:gps_app/features/user/restaurants/presentation/dummy_data.dart';
 import 'package:gps_app/features/user/restaurants/presentation/resturant_details_screen.dart';
 import 'package:gps_app/features/user/restaurants/presentation/widgets/most_loved_restaurants.dart';
 
@@ -342,11 +341,9 @@ class _HomeSearchScreenState extends State<HomeSearchScreen> {
                     delegate: SliverChildListDelegate([
                       FeaturedRestaurantCard(
                         onTap: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (_) => RestaurantDetailProvider(model: demoModel),
-                            ),
-                          );
+                          Navigator.of(
+                            context,
+                          ).push(MaterialPageRoute(builder: (_) => RestaurantDetailProvider()));
                         },
                       ),
                       GPSGaps.h12,

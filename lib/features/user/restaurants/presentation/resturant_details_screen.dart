@@ -1,15 +1,16 @@
-// restaurant_detail_screen.dart (refactored)
+// restaurant_detail_screen.dart (enhanced loading & error)
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gps_app/core/api_service/end_points.dart';
+import 'package:gps_app/core/enums/response_type.dart';
 import 'package:gps_app/core/models/api_response_model.dart';
 import 'package:gps_app/features/design/screens/user/resturant_details/widgets/menu_item_card.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 import 'package:gps_app/features/user/restaurants/cubits/restaurant_cubit.dart';
 import 'package:gps_app/features/user/restaurants/models/restaurant_detailed_model/import.dart';
-
-// === import your models ===
 
 // === TEMP: same MenuItem class you used for MenuItemCard ===
 // (If it's already defined elsewhere, use that one; this is just to show the adapter.)
@@ -30,8 +31,7 @@ class MenuItem {
 }
 
 // === Helpers ===
-const String kMediaBaseUrl =
-    'https://your-backend.example.com/'; // <-- change to your files base URL
+const String kMediaBaseUrl = EndPoint.baseUrl; // <-- change to your files base URL
 
 String resolveMediaUrl(String? path) {
   if (path == null || path.isEmpty) {
@@ -49,22 +49,20 @@ double parsePrice(String? s) {
 }
 
 class RestaurantDetailProvider extends StatelessWidget {
-  const RestaurantDetailProvider({super.key, required this.model, this.restaurantId = 1});
-  final RestaurantDetailedModel model;
+  const RestaurantDetailProvider({super.key, this.restaurantId = 1});
   final int restaurantId;
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => RestaurantCubit()..restaurant(restaurantId: restaurantId),
-      child: RestaurantDetailWidget(model: model, restaurantId: restaurantId),
+      child: RestaurantDetailWidget(restaurantId: restaurantId),
     );
   }
 }
 
 class RestaurantDetailWidget extends StatefulWidget {
-  const RestaurantDetailWidget({super.key, required this.model, this.restaurantId = 1});
+  const RestaurantDetailWidget({super.key, this.restaurantId = 1});
 
-  final RestaurantDetailedModel model;
   final int restaurantId;
 
   @override
@@ -96,177 +94,213 @@ class _RestaurantDetailWidgetState extends State<RestaurantDetailWidget>
 
   @override
   Widget build(BuildContext context) {
-    final menus = widget.model.menus ?? const <Menu>[];
-    final tabs = menus.map((m) => m.name ?? 'Menu').toList();
-
-    // Cover image = user.images[0].path
-    final String coverUrl = resolveMediaUrl(
-      widget.model.user?.images?.isNotEmpty == true ? widget.model.user!.images!.first.path : null,
-    );
-
-    // Fallback restaurant title: vendor.vendorName or "Restaurant"
-    final restaurantTitle =
-        widget.model.vendor?.vendorName?.trim().isNotEmpty == true
-            ? widget.model.vendor!.vendorName!
-            : 'Restaurant';
     return BlocConsumer<RestaurantCubit, ApiResponseModel<RestaurantDetailedModel>>(
       listener: (context, state) {
-        // TODO: implement listener
+        // keep listener hook for future side effects
       },
       builder: (context, state) {
-        return DefaultTabController(
-          length: tabs.length,
-          child: Scaffold(
-            backgroundColor: GPSColors.background,
-            body: NestedScrollView(
-              headerSliverBuilder:
-                  (context, inner) => [
-                    SliverAppBar(
-                      backgroundColor: GPSColors.background,
-                      expandedHeight: 260,
-                      pinned: true,
-                      elevation: 0,
-                      leading: CircleBack(onTap: () => Navigator.of(context).maybePop()),
-                      actions: [
-                        IconButton(
-                          tooltip: 'Share',
-                          icon: const Icon(Icons.share_rounded, color: Colors.black),
-                          onPressed: () {}, // TODO: wire your share logic
-                        ),
-                      ],
-                      flexibleSpace: FlexibleSpaceBar(
-                        background: Stack(
-                          fit: StackFit.expand,
-                          children: [
-                            Image.network(coverUrl, fit: BoxFit.cover)
-                                .animate()
-                                .fadeIn(duration: 400.ms)
-                                .scale(begin: const Offset(1.02, 1.02), end: const Offset(1, 1)),
-                            Container(
-                              decoration: const BoxDecoration(
-                                gradient: LinearGradient(
-                                  begin: Alignment.topCenter,
-                                  end: Alignment.bottomCenter,
-                                  colors: [Colors.transparent, Color(0x55000000)],
-                                ),
-                              ),
+        switch (state.response) {
+          case ResponseEnum.initial:
+          case ResponseEnum.loading:
+            // Full-screen skeleton that matches your layout vibe
+            return const _LoadingScaffold();
+
+          case ResponseEnum.failed:
+            // Friendly error + retry calling the same cubit method
+            return _ErrorScaffold(
+              onRetry:
+                  () =>
+                      context.read<RestaurantCubit>().restaurant(restaurantId: widget.restaurantId),
+            );
+
+          case ResponseEnum.success:
+            // === success UI (logic unchanged) ===
+            final menus = state.data?.menus ?? const <Menu>[];
+            final tabs = menus.map((m) => m.name ?? 'Menu').toList();
+
+            // Cover image = user.images[0].path
+            final String coverUrl = resolveMediaUrl(
+              state.data?.user?.images?.isNotEmpty == true
+                  ? state.data!.user!.images!.first.path
+                  : null,
+            );
+
+            // Fallback restaurant title: vendor.vendorName or "Restaurant"
+            final restaurantTitle =
+                state.data?.vendor?.vendorName?.trim().isNotEmpty == true
+                    ? state.data!.vendor!.vendorName!
+                    : 'Restaurant';
+
+            return DefaultTabController(
+              length: tabs.length,
+              child: Scaffold(
+                backgroundColor: GPSColors.background,
+                body: NestedScrollView(
+                  headerSliverBuilder:
+                      (context, inner) => [
+                        SliverAppBar(
+                          backgroundColor: GPSColors.background,
+                          expandedHeight: 260,
+                          pinned: true,
+                          elevation: 0,
+                          leading: CircleBack(onTap: () => Navigator.of(context).maybePop()),
+                          actions: [
+                            IconButton(
+                              tooltip: 'Share',
+                              icon: const Icon(Icons.share_rounded, color: Colors.black),
+                              onPressed: () {}, // TODO: wire your share logic
                             ),
                           ],
-                        ),
-                      ),
-                    ),
-
-                    // Info block (title, badges, about, reviews)
-                    SliverToBoxAdapter(
-                      child: Container(
-                        decoration: const BoxDecoration(
-                          color: GPSColors.background,
-                          borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(16, 18, 16, 14),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Expanded(
-                                    child: Text(
-                                      restaurantTitle, // dynamic title
-                                      style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                                        color: GPSColors.text,
-                                        fontWeight: FontWeight.w800,
-                                      ),
+                          flexibleSpace: FlexibleSpaceBar(
+                            background: Stack(
+                              fit: StackFit.expand,
+                              children: [
+                                // ⬇️ CachedNetworkImage with loading & error states
+                                CachedNetworkImage(
+                                      imageUrl: coverUrl,
+                                      fit: BoxFit.cover,
+                                      placeholder: (_, __) => const _CoverPlaceholder(),
+                                      errorWidget: (_, __, ___) => const _CoverError(),
+                                    )
+                                    .animate()
+                                    .fadeIn(duration: 400.ms)
+                                    .scale(
+                                      begin: const Offset(1.02, 1.02),
+                                      end: const Offset(1, 1),
+                                    ),
+                                Container(
+                                  decoration: const BoxDecoration(
+                                    gradient: LinearGradient(
+                                      begin: Alignment.topCenter,
+                                      end: Alignment.bottomCenter,
+                                      colors: [Colors.transparent, Color(0x55000000)],
                                     ),
                                   ),
-                                  IconButton(
-                                    tooltip: _isFav ? 'Remove from favorites' : 'Add to favorites',
-                                    onPressed: () => setState(() => _isFav = !_isFav),
-                                    icon: Icon(
-                                      _isFav ? Icons.favorite_rounded : Icons.favorite_outline,
-                                      color: _isFav ? Colors.redAccent : GPSColors.mutedText,
-                                    ),
-                                  ),
-                                ],
-                              ).animate().fadeIn(duration: 280.ms).slideY(begin: .1),
-
-                              GPSGaps.h12,
-
-                              // Keep badges static (per requirements)
-                              const Wrap(
-                                spacing: 10,
-                                runSpacing: 10,
-                                children: [
-                                  BadgeChip(label: '100% Grass-fed'),
-                                  BadgeChip(label: 'Organic'),
-                                  BadgeChip(label: 'Locally sourced'),
-                                  BadgeChip(label: 'Non-GMO'),
-                                ],
-                              ).animate(delay: 70.ms).fadeIn(duration: 250.ms).slideY(begin: .08),
-
-                              GPSGaps.h16,
-
-                              // Simple dynamic about from vendor.address if you want, or keep static.
-                              // Requirement: it's okay to keep this static; keeping your original static text:
-                              GPSGaps.h8,
-                              Text(
-                                'Neighborhood kitchen serving grass-fed meats, raw cheeses, and seasonal produce from nearby farms.',
-                                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                  color: GPSColors.mutedText,
-                                  height: 1.4,
                                 ),
-                              ).animate().fadeIn(duration: 250.ms).slideY(begin: .06),
-
-                              GPSGaps.h16,
-                              const SectionHeader(title: 'Reviews'),
-                              ReviewsSection(reviews: _reviews),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                    ),
 
-                    // Pinned TabBar (dynamic from menus)
-                    SliverPersistentHeader(
-                      pinned: true,
-                      delegate: TabBarDelegate(
-                        TabBar(
-                          isScrollable: true,
-                          indicatorWeight: 3,
-                          indicatorColor: Colors.green,
-                          labelColor: Colors.black,
-                          unselectedLabelColor: Colors.grey,
-                          labelStyle: Theme.of(
-                            context,
-                          ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w800),
-                          tabs: [
-                            for (final t in tabs)
-                              Tab(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(1.0),
-                                  child: Text(t, style: const TextStyle(fontSize: 16)),
-                                ),
+                        // Info block (title, badges, about, reviews)
+                        SliverToBoxAdapter(
+                          child: Container(
+                            decoration: const BoxDecoration(
+                              color: GPSColors.background,
+                              borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.fromLTRB(16, 18, 16, 14),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Expanded(
+                                        child: Text(
+                                          restaurantTitle, // dynamic title
+                                          style: Theme.of(
+                                            context,
+                                          ).textTheme.headlineSmall?.copyWith(
+                                            color: GPSColors.text,
+                                            fontWeight: FontWeight.w800,
+                                          ),
+                                        ),
+                                      ),
+                                      IconButton(
+                                        tooltip:
+                                            _isFav ? 'Remove from favorites' : 'Add to favorites',
+                                        onPressed: () => setState(() => _isFav = !_isFav),
+                                        icon: Icon(
+                                          _isFav ? Icons.favorite_rounded : Icons.favorite_outline,
+                                          color: _isFav ? Colors.redAccent : GPSColors.mutedText,
+                                        ),
+                                      ),
+                                    ],
+                                  ).animate().fadeIn(duration: 280.ms).slideY(begin: .1),
+
+                                  GPSGaps.h12,
+
+                                  // Keep badges static (per requirements)
+                                  const Wrap(
+                                        spacing: 10,
+                                        runSpacing: 10,
+                                        children: [
+                                          BadgeChip(label: '100% Grass-fed'),
+                                          BadgeChip(label: 'Organic'),
+                                          BadgeChip(label: 'Locally sourced'),
+                                          BadgeChip(label: 'Non-GMO'),
+                                        ],
+                                      )
+                                      .animate(delay: 70.ms)
+                                      .fadeIn(duration: 250.ms)
+                                      .slideY(begin: .08),
+
+                                  GPSGaps.h16,
+
+                                  // keep static about text
+                                  GPSGaps.h8,
+                                  Text(
+                                    'Neighborhood kitchen serving grass-fed meats, raw cheeses, and seasonal produce from nearby farms.',
+                                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                      color: GPSColors.mutedText,
+                                      height: 1.4,
+                                    ),
+                                  ).animate().fadeIn(duration: 250.ms).slideY(begin: .06),
+
+                                  GPSGaps.h16,
+                                  const SectionHeader(title: 'Reviews'),
+                                  ReviewsSection(reviews: _reviews),
+                                ],
                               ),
-                          ],
-                        ).animate().fadeIn(duration: 220.ms).slideY(begin: .08),
-                      ),
-                    ),
-                  ],
+                            ),
+                          ),
+                        ),
 
-              // Tab bodies → each menu.meals (adapt Meal → MenuItem for your existing MenuItemCard)
-              body: TabBarView(
-                children: [
-                  for (int ti = 0; ti < tabs.length; ti++)
-                    MenuMealsListView(
-                      heroPrefix: 'tab$ti',
-                      meals: menus[ti].meals ?? const <Meal>[],
-                    ),
-                ],
+                        // Pinned TabBar (dynamic from menus)
+                        SliverPersistentHeader(
+                          pinned: true,
+                          delegate: TabBarDelegate(
+                            TabBar(
+                              isScrollable: true,
+                              indicatorWeight: 3,
+                              indicatorColor: Colors.green,
+                              labelColor: Colors.black,
+                              unselectedLabelColor: Colors.grey,
+                              labelStyle: Theme.of(
+                                context,
+                              ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w800),
+                              tabs: [
+                                for (final t in tabs)
+                                  Tab(
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(1.0),
+                                      child: Text(t, style: const TextStyle(fontSize: 16)),
+                                    ),
+                                  ),
+                              ],
+                            ).animate().fadeIn(duration: 220.ms).slideY(begin: .08),
+                          ),
+                        ),
+                      ],
+
+                  // Tab bodies → each menu.meals (adapt Meal → MenuItem for your existing MenuItemCard)
+                  body: TabBarView(
+                    children: [
+                      for (int ti = 0; ti < tabs.length; ti++)
+                        MenuMealsListView(
+                          heroPrefix: 'tab$ti',
+                          meals: menus[ti].meals ?? const <Meal>[],
+                        ),
+                    ],
+                  ),
+                ),
               ),
-            ),
-          ),
-        );
+            );
+          case null:
+            return SizedBox();
+        }
       },
     );
   }
@@ -528,8 +562,6 @@ class MenuMealsListView extends StatelessWidget {
       isSpicy: false, // keep static as requested
       tags: const [], // keep static; your card can still render default tags
     );
-    // If you want to keep your *old* static tags (like ['Spicy'] for some items),
-    // inject them here based on any heuristic you prefer.
   }
 
   @override
@@ -548,6 +580,170 @@ class MenuMealsListView extends StatelessWidget {
             .slideY(begin: .08, curve: Curves.easeOutCubic)
             .scale(begin: const Offset(.98, .98), end: const Offset(1, 1));
       },
+    );
+  }
+}
+
+// ================== Loading & Error Helpers (visual only) ==================
+
+class _CoverPlaceholder extends StatelessWidget {
+  const _CoverPlaceholder();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: const Color(0x11000000),
+      child: const Center(child: CircularProgressIndicator(strokeWidth: 2)),
+    );
+  }
+}
+
+class _CoverError extends StatelessWidget {
+  const _CoverError();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: const Color(0x14000000),
+      child: const Center(
+        child: Icon(Icons.broken_image_outlined, size: 48, color: Colors.black45),
+      ),
+    );
+  }
+}
+
+class _LoadingScaffold extends StatelessWidget {
+  const _LoadingScaffold();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: GPSColors.background,
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            backgroundColor: GPSColors.background,
+            expandedHeight: 260,
+            pinned: true,
+            elevation: 0,
+            leading: const CircleBack(),
+            flexibleSpace: const FlexibleSpaceBar(background: _CoverPlaceholder()),
+          ),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 18, 16, 14),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // title skeleton
+                  Container(
+                    height: 22,
+                    width: 200,
+                    color: Colors.white,
+                  ).animate().fadeIn(duration: 200.ms).slideY(begin: .1),
+                  GPSGaps.h12,
+                  // badges skeleton
+                  Row(
+                    children: [
+                      Expanded(child: Container(height: 34, color: Colors.white)),
+                      GPSGaps.w8,
+                      Expanded(child: Container(height: 34, color: Colors.white)),
+                      GPSGaps.w8,
+                      Expanded(child: Container(height: 34, color: Colors.white)),
+                    ],
+                  ),
+                  GPSGaps.h16,
+                  // about text skeleton
+                  Container(height: 14, width: double.infinity, color: Colors.white),
+                  GPSGaps.h8,
+                  Container(
+                    height: 14,
+                    width: MediaQuery.sizeOf(context).width * .7,
+                    color: Colors.white,
+                  ),
+                  GPSGaps.h16,
+                  // reviews header skeleton
+                  Container(height: 18, width: 120, color: Colors.white),
+                  GPSGaps.h12,
+                  // few review blocks skeleton
+                  for (int i = 0; i < 3; i++) ...[
+                    Container(
+                      height: 84,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(color: GPSColors.cardBorder),
+                      ),
+                    ),
+                    GPSGaps.h12,
+                  ],
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _ErrorScaffold extends StatelessWidget {
+  const _ErrorScaffold({required this.onRetry});
+  final VoidCallback onRetry;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: GPSColors.background,
+      body: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 320),
+          child: Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              border: Border.all(color: GPSColors.cardBorder),
+              borderRadius: BorderRadius.circular(16),
+              boxShadow: const [
+                BoxShadow(
+                  blurRadius: 14,
+                  spreadRadius: -4,
+                  offset: Offset(0, 6),
+                  color: Color(0x1A000000),
+                ),
+              ],
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(Icons.wifi_off_rounded, size: 42, color: Colors.black54),
+                GPSGaps.h12,
+                Text(
+                  'Failed to load restaurant.',
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    color: GPSColors.text,
+                    fontWeight: FontWeight.w800,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                GPSGaps.h8,
+                Text(
+                  'Please check your connection and try again.',
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodyMedium?.copyWith(color: GPSColors.mutedText, height: 1.35),
+                  textAlign: TextAlign.center,
+                ),
+                GPSGaps.h16,
+                SizedBox(
+                  width: double.infinity,
+                  child: FilledButton(onPressed: onRetry, child: const Text('Retry')),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

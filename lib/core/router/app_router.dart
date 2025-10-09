@@ -27,7 +27,6 @@ import 'package:gps_app/features/design/screens/user/scann_image/scan_image_scre
 import 'package:gps_app/features/design/screens/user/splash/splash_screen.dart';
 import 'package:gps_app/features/user/categories/presentation/category_selection_screen.dart';
 import 'package:gps_app/features/user/categories/presentation/subcategory_selection_screen.dart';
-import 'package:gps_app/features/user/restaurants/presentation/dummy_data.dart';
 import 'package:gps_app/features/user/restaurants/presentation/resturant_details_screen.dart';
 
 class AppRouter {
@@ -48,7 +47,7 @@ class AppRouter {
         return CustomPageRoute(builder: (context) => HomeSearchScreen(), settings: routeSettings);
       case AppRoutesNames.restaurantDetailScreen:
         return CustomPageRoute(
-          builder: (context) => RestaurantDetailProvider(model: demoModel),
+          builder: (context) => RestaurantDetailProvider(),
           settings: routeSettings,
         );
       case AppRoutesNames.gpsSplashScreen:
