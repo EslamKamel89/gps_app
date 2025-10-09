@@ -5,7 +5,7 @@ class User {
   String? userName;
   String? email;
   String? mobile;
-  List<Image>? images;
+  List<RestaurantImage>? images;
 
   User({this.fullName, this.userName, this.email, this.mobile, this.images});
 
@@ -21,7 +21,7 @@ class User {
     mobile: json['mobile'] as String?,
     images:
         (json['images'] as List<dynamic>?)
-            ?.map((e) => Image.fromJson(e as Map<String, dynamic>))
+            ?.map((e) => RestaurantImage.fromJson(e as Map<String, dynamic>))
             .toList(),
   );
 
@@ -38,7 +38,7 @@ class User {
     String? userName,
     String? email,
     String? mobile,
-    List<Image>? images,
+    List<RestaurantImage>? images,
   }) {
     return User(
       fullName: fullName ?? this.fullName,

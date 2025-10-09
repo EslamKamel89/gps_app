@@ -9,7 +9,7 @@ class Menu {
   int? imageId;
   DateTime? createdAt;
   DateTime? updatedAt;
-  List<Image>? images;
+  List<RestaurantImage>? images;
   List<Meal>? meals;
 
   Menu({
@@ -35,17 +35,11 @@ class Menu {
     name: json['name'] as String?,
     description: json['description'] as String?,
     imageId: json['image_id'] as int?,
-    createdAt:
-        json['created_at'] == null
-            ? null
-            : DateTime.parse(json['created_at'] as String),
-    updatedAt:
-        json['updated_at'] == null
-            ? null
-            : DateTime.parse(json['updated_at'] as String),
+    createdAt: json['created_at'] == null ? null : DateTime.parse(json['created_at'] as String),
+    updatedAt: json['updated_at'] == null ? null : DateTime.parse(json['updated_at'] as String),
     images:
         (json['images'] as List<dynamic>?)
-            ?.map((e) => Image.fromJson(e as Map<String, dynamic>))
+            ?.map((e) => RestaurantImage.fromJson(e as Map<String, dynamic>))
             .toList(),
     meals:
         (json['meals'] as List<dynamic>?)
@@ -73,7 +67,7 @@ class Menu {
     int? imageId,
     DateTime? createdAt,
     DateTime? updatedAt,
-    List<Image>? images,
+    List<RestaurantImage>? images,
     List<Meal>? meals,
   }) {
     return Menu(

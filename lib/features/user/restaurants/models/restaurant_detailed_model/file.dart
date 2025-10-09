@@ -1,17 +1,17 @@
-class File {
+class RestaurantFile {
   String? path;
 
-  File({this.path});
+  RestaurantFile({this.path});
 
   @override
   String toString() => 'File(path: $path)';
 
-  factory File.fromJson(Map<String, dynamic> json) =>
-      File(path: json['path'] as String?);
+  factory RestaurantFile.fromJson(Map<String, dynamic> json) =>
+      RestaurantFile(path: json['path'] as String?);
 
   Map<String, dynamic> toJson() => {'path': path};
 
-  File copyWith({String? path}) {
-    return File(path: path ?? this.path);
+  RestaurantFile copyWith({String? path}) {
+    return RestaurantFile(path: path ?? this.path);
   }
 }

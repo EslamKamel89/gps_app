@@ -1,11 +1,54 @@
+// restaurant_detail_screen.dart (refactored)
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:gps_app/features/design/screens/user/resturant_details/widgets/menu_item_card.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
+import 'package:gps_app/features/user/restaurants/models/restaurant_detailed_model/import.dart';
+
+// === import your models ===
+
+// === TEMP: same MenuItem class you used for MenuItemCard ===
+// (If it's already defined elsewhere, use that one; this is just to show the adapter.)
+class MenuItem {
+  final String name;
+  final String description;
+  final double price;
+  final bool isSpicy;
+  final List<String> tags;
+
+  const MenuItem({
+    required this.name,
+    required this.description,
+    required this.price,
+    required this.isSpicy,
+    required this.tags,
+  });
+}
+
+// === Helpers ===
+const String kMediaBaseUrl =
+    'https://your-backend.example.com/'; // <-- change to your files base URL
+
+String resolveMediaUrl(String? path) {
+  if (path == null || path.isEmpty) {
+    return 'https://images.unsplash.com/photo-1550547660-d9450f859349?q=80&w=1600&auto=format&fit=crop';
+  }
+  if (path.startsWith('http')) return path;
+  // join base + relative (very naive join; consider Uri if needed)
+  return kMediaBaseUrl.endsWith('/') ? '$kMediaBaseUrl$path' : '$kMediaBaseUrl/$path';
+}
+
+double parsePrice(String? s) {
+  if (s == null) return 0.0;
+  final v = double.tryParse(s.trim());
+  return v ?? 0.0;
+}
 
 class RestaurantDetailScreen extends StatefulWidget {
-  const RestaurantDetailScreen({super.key});
+  const RestaurantDetailScreen({super.key, required this.model});
+
+  final RestaurantDetailedModel model;
 
   @override
   State<RestaurantDetailScreen> createState() => _RestaurantDetailScreenState();
@@ -15,77 +58,7 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen>
     with SingleTickerProviderStateMixin {
   bool _isFav = false;
 
-  late final Map<String, List<MenuItem>> _menus = {
-    'Meat Lovers': [
-      MenuItem(
-        name: 'Grass-Fed Beef Burger',
-        description: '200g patty, raw cheddar, pickles, sprouted bun',
-        price: 12.95,
-        isSpicy: false,
-        tags: const ['100% Grass-fed', 'Local'],
-      ),
-      MenuItem(
-        name: 'Wood-Smoked Short Ribs',
-        description: '24h brine, slow smoked, rosemary jus',
-        price: 19.50,
-        isSpicy: false,
-        tags: const ['Slow Cooked'],
-      ),
-      MenuItem(
-        name: 'Harissa Lamb Skewers',
-        description: 'Free-range lamb, citrus yogurt, mint',
-        price: 15.75,
-        isSpicy: true,
-        tags: const ['Spicy'],
-      ),
-    ],
-    'Cheese Lovers': [
-      MenuItem(
-        name: 'Raw Milk Cheese Board',
-        description: 'Farm selection, seasonal fruit, sprouted crackers',
-        price: 14.20,
-        isSpicy: false,
-        tags: const ['Raw Milk', 'Local'],
-      ),
-      MenuItem(
-        name: 'Baked Brie & Honey',
-        description: 'Wildflower honey, toasted walnuts, sourdough',
-        price: 10.90,
-        isSpicy: false,
-        tags: const ['Vegetarian'],
-      ),
-      MenuItem(
-        name: 'Halloumi Herb Fries',
-        description: 'Crisp halloumi, olive oil, thyme',
-        price: 9.60,
-        isSpicy: false,
-        tags: const ['Vegetarian', 'Share'],
-      ),
-    ],
-    "Today's Specials": [
-      MenuItem(
-        name: 'Wild Salmon Bowl',
-        description: 'Quinoa, avocado, citrus greens, dill dressing',
-        price: 17.40,
-        isSpicy: false,
-        tags: const ['Omega-3', 'Gluten-Free'],
-      ),
-      MenuItem(
-        name: 'Truffle Mushroom Tagliatelle',
-        description: 'Cremini, porcini, shaved truffle, parmigiano',
-        price: 16.30,
-        isSpicy: false,
-        tags: const ['Vegetarian'],
-      ),
-      MenuItem(
-        name: 'Spicy Kimchi Chicken',
-        description: 'Fermented kimchi glaze, sesame, scallion',
-        price: 13.80,
-        isSpicy: true,
-        tags: const ['Spicy'],
-      ),
-    ],
-  };
+  // Static reviews remain as-is (per requirements)
   late final List<Review> _reviews = const [
     Review(
       reviewerName: 'Amina H.',
@@ -106,7 +79,20 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen>
 
   @override
   Widget build(BuildContext context) {
-    final tabs = _menus.keys.toList();
+    final menus = widget.model.menus ?? const <Menu>[];
+    final tabs = menus.map((m) => m.name ?? 'Menu').toList();
+
+    // Cover image = user.images[0].path
+    final String coverUrl = resolveMediaUrl(
+      widget.model.user?.images?.isNotEmpty == true ? widget.model.user!.images!.first.path : null,
+    );
+
+    // Fallback restaurant title: vendor.vendorName or "Restaurant"
+    final restaurantTitle =
+        widget.model.vendor?.vendorName?.trim().isNotEmpty == true
+            ? widget.model.vendor!.vendorName!
+            : 'Restaurant';
+
     return DefaultTabController(
       length: tabs.length,
       child: Scaffold(
@@ -124,17 +110,14 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen>
                     IconButton(
                       tooltip: 'Share',
                       icon: const Icon(Icons.share_rounded, color: Colors.black),
-                      onPressed: () {},
+                      onPressed: () {}, // TODO: wire your share logic
                     ),
                   ],
                   flexibleSpace: FlexibleSpaceBar(
                     background: Stack(
                       fit: StackFit.expand,
                       children: [
-                        Image.network(
-                              'https://images.unsplash.com/photo-1550547660-d9450f859349?q=80&w=1600&auto=format&fit=crop',
-                              fit: BoxFit.cover,
-                            )
+                        Image.network(coverUrl, fit: BoxFit.cover)
                             .animate()
                             .fadeIn(duration: 400.ms)
                             .scale(begin: const Offset(1.02, 1.02), end: const Offset(1, 1)),
@@ -152,6 +135,7 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen>
                   ),
                 ),
 
+                // Info block (title, badges, about, reviews)
                 SliverToBoxAdapter(
                   child: Container(
                     decoration: const BoxDecoration(
@@ -168,7 +152,7 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen>
                             children: [
                               Expanded(
                                 child: Text(
-                                  'True Acre',
+                                  restaurantTitle, // dynamic title
                                   style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                                     color: GPSColors.text,
                                     fontWeight: FontWeight.w800,
@@ -188,10 +172,11 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen>
 
                           GPSGaps.h12,
 
-                          Wrap(
+                          // Keep badges static (per requirements)
+                          const Wrap(
                             spacing: 10,
                             runSpacing: 10,
-                            children: const [
+                            children: [
                               BadgeChip(label: '100% Grass-fed'),
                               BadgeChip(label: 'Organic'),
                               BadgeChip(label: 'Locally sourced'),
@@ -201,8 +186,8 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen>
 
                           GPSGaps.h16,
 
-                          // const _SectionHeader(title: 'About'),
-                          // GPSGaps.h16,
+                          // Simple dynamic about from vendor.address if you want, or keep static.
+                          // Requirement: it's okay to keep this static; keeping your original static text:
                           GPSGaps.h8,
                           Text(
                             'Neighborhood kitchen serving grass-fed meats, raw cheeses, and seasonal produce from nearby farms.',
@@ -211,23 +196,17 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen>
                               height: 1.4,
                             ),
                           ).animate().fadeIn(duration: 250.ms).slideY(begin: .06),
+
                           GPSGaps.h16,
                           const SectionHeader(title: 'Reviews'),
-                          // GPSGaps.h8,
                           ReviewsSection(reviews: _reviews),
-                          // const _SectionHeader(title: 'Menu'),
-                          // GPSGaps.h8,
-                          // _AddToFavoritesRow(
-                          //   isFav: _isFav,
-                          //   onChanged: (v) => setState(() => _isFav = v),
-                          // ).animate().fadeIn(duration: 260.ms).slideY(begin: .06),
                         ],
                       ),
                     ),
                   ),
                 ),
 
-                // Pinned TabBar
+                // Pinned TabBar (dynamic from menus)
                 SliverPersistentHeader(
                   pinned: true,
                   delegate: TabBarDelegate(
@@ -245,7 +224,7 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen>
                           Tab(
                             child: Padding(
                               padding: const EdgeInsets.all(1.0),
-                              child: Text(t, style: TextStyle(fontSize: 16)),
+                              child: Text(t, style: const TextStyle(fontSize: 16)),
                             ),
                           ),
                       ],
@@ -254,11 +233,11 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen>
                 ),
               ],
 
-          // Tab bodies
+          // Tab bodies → each menu.meals (adapt Meal → MenuItem for your existing MenuItemCard)
           body: TabBarView(
             children: [
               for (int ti = 0; ti < tabs.length; ti++)
-                MenuListView(items: _menus[tabs[ti]]!, heroPrefix: 'tab$ti'),
+                MenuMealsListView(heroPrefix: 'tab$ti', meals: menus[ti].meals ?? const <Meal>[]),
             ],
           ),
         ),
@@ -267,21 +246,7 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen>
   }
 }
 
-class MenuItem {
-  final String name;
-  final String description;
-  final double price;
-  final bool isSpicy;
-  final List<String> tags;
-
-  const MenuItem({
-    required this.name,
-    required this.description,
-    required this.price,
-    required this.isSpicy,
-    required this.tags,
-  });
-}
+// =============== Components you already had (kept) ===============
 
 class BadgeChip extends StatelessWidget {
   const BadgeChip({super.key, required this.label});
@@ -391,134 +356,51 @@ class SectionHeader extends StatelessWidget {
   }
 }
 
+// Simple review model & section kept (static)
 class Review {
   final String reviewerName;
   final String comment;
-
   final double rating;
-
   const Review({required this.reviewerName, required this.comment, required this.rating});
 }
 
 class ReviewsSection extends StatelessWidget {
-  const ReviewsSection({
-    super.key,
-    required this.reviews,
-    this.title = 'Reviews',
-    this.compact = false,
-  });
-
+  const ReviewsSection({super.key, required this.reviews});
   final List<Review> reviews;
-  final String title;
-  final bool compact;
-
-  double get _avg {
-    if (reviews.isEmpty) return 0;
-    return reviews.map((r) => r.rating).reduce((a, b) => a + b) / reviews.length;
-  }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context).textTheme;
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        // Header
-        // Row(
-        //   children: [
-        //     Expanded(
-        //       child: Text(
-        //         title,
-        //         style: theme.titleMedium?.copyWith(
-        //           color: GPSColors.text,
-        //           fontWeight: FontWeight.w800,
-        //         ),
-        //       ),
-        //     ),
-        //     // Average badge
-        //     _AvgRatingBadge(avg: _avg, count: reviews.length),
-        //   ],
-        // ).animate().fadeIn(duration: 220.ms).slideY(begin: .08),
-
-        // GPSGaps.h12,
-        if (reviews.isEmpty)
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              border: Border.all(color: GPSColors.cardBorder),
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: Text(
-              'No reviews yet.',
-              style: theme.bodyMedium?.copyWith(color: GPSColors.mutedText),
-            ),
-          ).animate().fadeIn(duration: 240.ms).slideY(begin: .06)
-        else
-          ListView.separated(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: reviews.length,
-            separatorBuilder: (_, __) => GPSGaps.h12,
-            itemBuilder: (context, i) {
-              final r = reviews[i];
-              final delay = (80 * i).ms;
-              return _ReviewCard(review: r)
-                  .animate(delay: delay)
-                  .fadeIn(duration: 260.ms, curve: Curves.easeOutCubic)
-                  .slideY(begin: .08, curve: Curves.easeOutCubic)
-                  .scale(begin: const Offset(.98, .98), end: const Offset(1, 1));
-            },
-          ),
-      ],
-    );
-  }
-}
-
-class _AvgRatingBadge extends StatelessWidget {
-  const _AvgRatingBadge({required this.avg, required this.count});
-  final double avg;
-  final int count;
-
-  @override
-  Widget build(BuildContext context) {
-    final txt = Theme.of(context).textTheme;
-
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          colors: [Color(0xFF111827), Color(0xFF334155)],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
+    if (reviews.isEmpty) {
+      return Container(
+        width: double.infinity,
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border.all(color: GPSColors.cardBorder),
+          borderRadius: BorderRadius.circular(16),
         ),
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          _StarRow(rating: avg, size: 16, color: Colors.amber),
-          GPSGaps.w8,
-          TweenAnimationBuilder<double>(
-            tween: Tween(begin: 0, end: avg),
-            duration: 300.ms,
-            builder:
-                (_, v, __) => Text(
-                  v.toStringAsFixed(1),
-                  style: txt.labelLarge?.copyWith(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w800,
-                    fontFeatures: const [FontFeature.tabularFigures()],
-                  ),
-                ),
-          ),
-          GPSGaps.w8,
-          Text('($count)', style: txt.labelMedium?.copyWith(color: Colors.white70)),
-        ],
-      ),
-    ).animate().fadeIn(duration: 220.ms).scale(begin: const Offset(.95, .95));
+        child: Text(
+          'No reviews yet.',
+          style: theme.bodyMedium?.copyWith(color: GPSColors.mutedText),
+        ),
+      ).animate().fadeIn(duration: 240.ms).slideY(begin: .06);
+    }
+    return ListView.separated(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: reviews.length,
+      separatorBuilder: (_, __) => GPSGaps.h12,
+      itemBuilder: (context, i) {
+        final r = reviews[i];
+        final delay = (80 * i).ms;
+        return _ReviewCard(review: r)
+            .animate(delay: delay)
+            .fadeIn(duration: 260.ms, curve: Curves.easeOutCubic)
+            .slideY(begin: .08, curve: Curves.easeOutCubic)
+            .scale(begin: const Offset(.98, .98), end: const Offset(1, 1));
+      },
+    );
   }
 }
 
@@ -585,7 +467,7 @@ class _StarRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Color c = color ?? const Color(0xFFFFC107); // default amber
+    final Color c = color ?? const Color(0xFFFFC107);
     final stars = List<Widget>.generate(5, (i) {
       final idx = i + 1;
       IconData icon;
@@ -603,22 +485,37 @@ class _StarRow extends StatelessWidget {
   }
 }
 
-class MenuListView extends StatelessWidget {
-  const MenuListView({super.key, required this.items, required this.heroPrefix});
-  final List<MenuItem> items;
+// ================== Meals list using your existing MenuItemCard ==================
+
+class MenuMealsListView extends StatelessWidget {
+  const MenuMealsListView({super.key, required this.meals, required this.heroPrefix});
+
+  final List<Meal> meals;
   final String heroPrefix;
+
+  // Adapter: Meal -> MenuItem (for your existing MenuItemCard)
+  MenuItem _toMenuItem(Meal meal) {
+    return MenuItem(
+      name: meal.name ?? '',
+      description: meal.description ?? '',
+      price: parsePrice(meal.price),
+      isSpicy: false, // keep static as requested
+      tags: const [], // keep static; your card can still render default tags
+    );
+    // If you want to keep your *old* static tags (like ['Spicy'] for some items),
+    // inject them here based on any heuristic you prefer.
+  }
 
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
       physics: const ClampingScrollPhysics(),
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 28),
-      itemCount: items.length,
+      itemCount: meals.length,
       separatorBuilder: (_, __) => GPSGaps.h12,
       itemBuilder: (context, index) {
-        final item = items[index];
+        final item = _toMenuItem(meals[index]);
         final delay = (70 * index).ms;
-
         return MenuItemCard(item: item, heroTag: '$heroPrefix-$index')
             .animate(delay: delay)
             .fadeIn(duration: 260.ms, curve: Curves.easeOutCubic)

@@ -15,7 +15,7 @@ import 'package:gps_app/features/auth/presentation/widgets/gps_label_field.dart'
 import 'package:gps_app/features/design/screens/vendor/on_boarding/widgets/product_item_form.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
-import 'package:gps_app/features/user/restaurants/presentation/resturant_details_screen.dart';
+import 'package:gps_app/features/user/restaurants/presentation/widgets/resturant_details_screen.dart';
 
 class SectionCard extends StatefulWidget {
   final CatalogSectionParam section;

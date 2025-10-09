@@ -7,7 +7,7 @@ class Branch {
   String? website;
   String? longitude;
   String? latitude;
-  List<Image>? images;
+  List<RestaurantImage>? images;
 
   Branch({
     this.id,
@@ -33,7 +33,7 @@ class Branch {
     latitude: json['latitude'] as String?,
     images:
         (json['images'] as List<dynamic>?)
-            ?.map((e) => Image.fromJson(e as Map<String, dynamic>))
+            ?.map((e) => RestaurantImage.fromJson(e as Map<String, dynamic>))
             .toList(),
   );
 
@@ -54,7 +54,7 @@ class Branch {
     String? website,
     String? longitude,
     String? latitude,
-    List<Image>? images,
+    List<RestaurantImage>? images,
   }) {
     return Branch(
       id: id ?? this.id,

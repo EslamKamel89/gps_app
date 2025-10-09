@@ -7,7 +7,7 @@ class Certification {
   int? restaurantId;
   DateTime? createdAt;
   DateTime? updatedAt;
-  List<File>? file;
+  List<RestaurantFile>? file;
 
   Certification({
     this.id,
@@ -29,17 +29,11 @@ class Certification {
     title: json['title'] as String?,
     description: json['description'] as String?,
     restaurantId: json['restaurant_id'] as int?,
-    createdAt:
-        json['created_at'] == null
-            ? null
-            : DateTime.parse(json['created_at'] as String),
-    updatedAt:
-        json['updated_at'] == null
-            ? null
-            : DateTime.parse(json['updated_at'] as String),
+    createdAt: json['created_at'] == null ? null : DateTime.parse(json['created_at'] as String),
+    updatedAt: json['updated_at'] == null ? null : DateTime.parse(json['updated_at'] as String),
     file:
         (json['file'] as List<dynamic>?)
-            ?.map((e) => File.fromJson(e as Map<String, dynamic>))
+            ?.map((e) => RestaurantFile.fromJson(e as Map<String, dynamic>))
             .toList(),
   );
 
@@ -60,7 +54,7 @@ class Certification {
     int? restaurantId,
     DateTime? createdAt,
     DateTime? updatedAt,
-    List<File>? file,
+    List<RestaurantFile>? file,
   }) {
     return Certification(
       id: id ?? this.id,
