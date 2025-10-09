@@ -9,7 +9,7 @@ import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 import 'package:gps_app/features/user/restaurants/cubits/restaurants_cubit.dart';
 import 'package:gps_app/features/user/restaurants/models/restaurant_main_data.dart';
-import 'package:gps_app/features/user/restaurants/presentation/resturant_details_screen.dart';
+import 'package:gps_app/features/user/restaurants/presentation/restaurant_detail_provider.dart';
 
 class MostLovedRestaurantsProvider extends StatelessWidget {
   const MostLovedRestaurantsProvider({super.key});
