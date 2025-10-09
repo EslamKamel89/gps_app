@@ -27,7 +27,7 @@ import 'package:gps_app/features/design/screens/user/scann_image/scan_image_scre
 import 'package:gps_app/features/design/screens/user/splash/splash_screen.dart';
 import 'package:gps_app/features/user/categories/presentation/category_selection_screen.dart';
 import 'package:gps_app/features/user/categories/presentation/subcategory_selection_screen.dart';
-import 'package:gps_app/features/user/restaurants/presentation/widgets/resturant_details_static_screen.dart';
+import 'package:gps_app/features/user/restaurants/presentation/resturant_details_screen.dart';
 
 class AppRouter {
   AppMiddleWare appMiddleWare;
