@@ -3,24 +3,12 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:gps_app/core/router/app_routes_names.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
-
-class RestaurantItem {
-  final String name;
-  final String imageUrl;
-  final double rating;
-  final String cuisine;
-  const RestaurantItem({
-    required this.name,
-    required this.imageUrl,
-    required this.rating,
-    required this.cuisine,
-  });
-}
+import 'package:gps_app/features/user/restaurants/models/restaurant_main_data.dart';
 
 class MostLovedRestaurantsWidget extends StatelessWidget {
   const MostLovedRestaurantsWidget({super.key, required this.items});
 
-  final List<RestaurantItem> items;
+  final List<RestaurantMainData> items;
 
   @override
   Widget build(BuildContext context) {
@@ -36,10 +24,9 @@ class MostLovedRestaurantsWidget extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Text(
               "Most ❤️ Restaurants",
-              style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                color: GPSColors.text,
-                fontWeight: FontWeight.w800,
-              ),
+              style: Theme.of(
+                context,
+              ).textTheme.titleLarge?.copyWith(color: GPSColors.text, fontWeight: FontWeight.w800),
             ).animate().fadeIn(duration: 250.ms).slideY(begin: .15),
           ),
           GPSGaps.h12,
@@ -53,16 +40,11 @@ class MostLovedRestaurantsWidget extends StatelessWidget {
               itemBuilder: (context, i) {
                 final it = items[i];
                 return _RestaurantItem(
-                      restaurant: it,
-                      onTap: () {
-                        Navigator.of(
-                          context,
-                        ).pushNamed(AppRoutesNames.restaurantDetailScreen);
-                      },
-                    )
-                    .animate()
-                    .fadeIn(duration: 280.ms, delay: (i * 60).ms)
-                    .slideX(begin: .08);
+                  restaurant: it,
+                  onTap: () {
+                    Navigator.of(context).pushNamed(AppRoutesNames.restaurantDetailScreen);
+                  },
+                ).animate().fadeIn(duration: 280.ms, delay: (i * 60).ms).slideX(begin: .08);
               },
             ),
           ),
@@ -75,7 +57,7 @@ class MostLovedRestaurantsWidget extends StatelessWidget {
 class _RestaurantItem extends StatelessWidget {
   const _RestaurantItem({required this.restaurant, required this.onTap});
 
-  final RestaurantItem restaurant;
+  final RestaurantMainData restaurant;
   final VoidCallback onTap;
 
   @override
@@ -97,43 +79,7 @@ class _RestaurantItem extends StatelessWidget {
                           border: Border.all(color: GPSColors.cardBorder),
                           shape: BoxShape.circle,
                         ),
-                        child: Image.network(
-                          restaurant.imageUrl,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      bottom: 0,
-                      right: 0,
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 6,
-                          vertical: 2,
-                        ),
-                        decoration: BoxDecoration(
-                          color: GPSColors.primary,
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(color: Colors.white, width: 2),
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(
-                              restaurant.rating.toString(),
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 10,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            const Icon(
-                              Icons.star,
-                              color: Colors.white,
-                              size: 10,
-                            ),
-                          ],
-                        ),
+                        child: Image.network(restaurant.path ?? '', fit: BoxFit.cover),
                       ),
                     ),
                   ],
@@ -143,7 +89,7 @@ class _RestaurantItem extends StatelessWidget {
             GPSGaps.h8,
             // Restaurant name
             Text(
-              restaurant.name,
+              restaurant.vendorName ?? '',
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               textAlign: TextAlign.center,
@@ -151,17 +97,6 @@ class _RestaurantItem extends StatelessWidget {
                 color: GPSColors.text,
                 fontWeight: FontWeight.w700,
                 fontSize: 12,
-              ),
-            ),
-            GPSGaps.h8,
-            Text(
-              restaurant.cuisine,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                color: GPSColors.mutedText,
-                fontSize: 10,
               ),
             ),
           ],

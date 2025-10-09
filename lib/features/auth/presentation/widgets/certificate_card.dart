@@ -14,7 +14,11 @@ class CertificateCard extends StatefulWidget {
   final CertificateParam certificate;
   final VoidCallback onDelete;
 
-  const CertificateCard({super.key, required this.certificate, required this.onDelete});
+  const CertificateCard({
+    super.key,
+    required this.certificate,
+    required this.onDelete,
+  });
 
   @override
   State<CertificateCard> createState() => _CertificateCardState();
@@ -72,8 +76,11 @@ class _CertificateCardState extends State<CertificateCard> {
             child: TextFormField(
               initialValue: widget.certificate.title,
               onChanged: (v) => widget.certificate.title = v,
-              decoration: const InputDecoration(hintText: 'e.g., Health License'),
-              validator: (v) => validator(input: v, label: 'Title', isRequired: true),
+              decoration: const InputDecoration(
+                hintText: 'e.g., Health License',
+              ),
+              validator:
+                  (v) => validator(input: v, label: 'Title', isRequired: true),
             ),
           ),
           GPSGaps.h16,
@@ -85,7 +92,9 @@ class _CertificateCardState extends State<CertificateCard> {
               initialValue: widget.certificate.description,
               onChanged: (v) => widget.certificate.description = v,
               maxLines: 2,
-              decoration: const InputDecoration(hintText: 'e.g., Issued by City Health Dept.'),
+              decoration: const InputDecoration(
+                hintText: 'e.g., Issued by City Health Dept.',
+              ),
             ),
           ),
           GPSGaps.h16,

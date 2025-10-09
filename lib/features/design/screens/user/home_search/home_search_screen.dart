@@ -17,7 +17,8 @@ import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 import 'package:gps_app/features/design/widgets/categories_shortcut.dart';
 import 'package:gps_app/features/design/widgets/gps_bottom_nav.dart';
-import 'package:gps_app/features/design/widgets/most_loved_restaurants.dart';
+import 'package:gps_app/features/user/restaurants/models/restaurant_main_data.dart';
+import 'package:gps_app/features/user/restaurants/presentation/widgets/most_loved_restaurants.dart';
 
 class HomeSearchScreen extends StatefulWidget {
   const HomeSearchScreen({super.key});
@@ -37,10 +38,7 @@ class _HomeSearchScreenState extends State<HomeSearchScreen> {
       result = await showModalBottomSheet<HomeFilters>(
         context: context,
         builder: (_) {
-          return FilterDialog(
-            initial: _filters ?? HomeFilters(),
-            isBottomSheet: isBottomSheet,
-          );
+          return FilterDialog(initial: _filters ?? HomeFilters(), isBottomSheet: isBottomSheet);
         },
       );
     } else {
@@ -54,19 +52,13 @@ class _HomeSearchScreenState extends State<HomeSearchScreen> {
     }
   }
 
-  void _clearDistance() => setState(
-    () => _filters = (_filters ?? HomeFilters()).copyWith(distance: null),
-  );
+  void _clearDistance() =>
+      setState(() => _filters = (_filters ?? HomeFilters()).copyWith(distance: null));
   void _clearCategory() => setState(
-    () =>
-        _filters = (_filters ?? HomeFilters()).copyWith(
-          category: null,
-          subcategory: null,
-        ),
+    () => _filters = (_filters ?? HomeFilters()).copyWith(category: null, subcategory: null),
   );
-  void _clearSubcategory() => setState(
-    () => _filters = (_filters ?? HomeFilters()).copyWith(subcategory: null),
-  );
+  void _clearSubcategory() =>
+      setState(() => _filters = (_filters ?? HomeFilters()).copyWith(subcategory: null));
   void _removeDiet(String d) {
     final f = _filters ?? HomeFilters();
     final next = Set<String>.from(f.diets)..remove(d);
@@ -176,70 +168,69 @@ class _HomeSearchScreenState extends State<HomeSearchScreen> {
           'https://images.unsplash.com/photo-1546793665-c74683f339c1?q=80&w=1200&auto=format&fit=crop',
     ),
   ];
-  final List<RestaurantItem> _mostLovedRestaurants = const [
-    RestaurantItem(
-      name: 'La Bella Vista',
-      imageUrl:
+  final List<RestaurantMainData> _mostLovedRestaurants = [
+    RestaurantMainData(
+      vendorName: 'La Bella Vista',
+      path:
           'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=1200&auto=format&fit=crop',
-      rating: 4.8,
-      cuisine: 'Italian',
+      // rating: 4.8,
+      // cuisine: 'Italian',
     ),
-    RestaurantItem(
-      name: 'Sakura Sushi',
-      imageUrl:
+    RestaurantMainData(
+      vendorName: 'Sakura Sushi',
+      path:
           'https://images.unsplash.com/photo-1579871494447-9811cf80d66c?q=80&w=1200&auto=format&fit=crop',
-      rating: 4.9,
-      cuisine: 'Japanese',
+      // rating: 4.9,
+      // cuisine: 'Japanese',
     ),
-    RestaurantItem(
-      name: 'El Fuego',
-      imageUrl:
+    RestaurantMainData(
+      vendorName: 'El Fuego',
+      path:
           'https://images.unsplash.com/photo-1424847651672-bf20a4b0982b?q=80&w=1200&auto=format&fit=crop',
-      rating: 4.7,
-      cuisine: 'Mexican',
+      // rating: 4.7,
+      // cuisine: 'Mexican',
     ),
-    RestaurantItem(
-      name: 'Le Petit Paris',
-      imageUrl:
+    RestaurantMainData(
+      vendorName: 'Le Petit Paris',
+      path:
           'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=1200&auto=format&fit=crop',
-      rating: 4.6,
-      cuisine: 'French',
+      // rating: 4.6,
+      // cuisine: 'French',
     ),
-    RestaurantItem(
-      name: 'Spice Garden',
-      imageUrl:
+    RestaurantMainData(
+      vendorName: 'Spice Garden',
+      path:
           'https://images.unsplash.com/photo-1585937421612-70a008356fbe?q=80&w=1200&auto=format&fit=crop',
-      rating: 4.5,
-      cuisine: 'Indian',
+      // rating: 4.5,
+      // cuisine: 'Indian',
     ),
-    RestaurantItem(
-      name: 'Coastal Grill',
-      imageUrl:
+    RestaurantMainData(
+      vendorName: 'Coastal Grill',
+      path:
           'https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?q=80&w=1200&auto=format&fit=crop',
-      rating: 4.8,
-      cuisine: 'Seafood',
+      // rating: 4.8,
+      // cuisine: 'Seafood',
     ),
-    RestaurantItem(
-      name: 'Golden Wok',
-      imageUrl:
+    RestaurantMainData(
+      vendorName: 'Golden Wok',
+      path:
           'https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?q=80&w=1200&auto=format&fit=crop',
-      rating: 4.4,
-      cuisine: 'Chinese',
+      // rating: 4.4,
+      // cuisine: 'Chinese',
     ),
-    RestaurantItem(
-      name: 'Mediterranean Breeze',
-      imageUrl:
+    RestaurantMainData(
+      vendorName: 'Mediterranean Breeze',
+      path:
           'https://images.unsplash.com/photo-1600565193348-f74bd3c7ccdf?q=80&w=1200&auto=format&fit=crop',
-      rating: 4.7,
-      cuisine: 'Mediterranean',
+      // rating: 4.7,
+      // cuisine: 'Mediterranean',
     ),
   ];
   List<RestaurantSuggestion> get _filtered {
     final q = _searchCtrl.text.trim().toLowerCase();
     if (q.isEmpty) return _allRestaurants;
     return _allRestaurants.where((r) {
-      return r.name.toLowerCase().contains(q) ||
-          r.address.toLowerCase().contains(q);
+      return r.name.toLowerCase().contains(q) || r.address.toLowerCase().contains(q);
     }).toList();
   }
 
@@ -325,28 +316,21 @@ class _HomeSearchScreenState extends State<HomeSearchScreen> {
                         GPSGaps.h16,
                         const FilterChipsRow(),
                         GPSGaps.h16,
-                        CategoryShortcutWidget(items: _shortcutItems),
-                        GPSGaps.h16,
-                        MostLovedRestaurantsWidget(
-                          items: _mostLovedRestaurants,
-                        ),
+                        // CategoryShortcutWidget(items: _shortcutItems),
+                        // GPSGaps.h16,
+                        MostLovedRestaurantsWidget(items: _mostLovedRestaurants),
                         GPSGaps.h20,
                         const PromoCard(),
                         GPSGaps.h20,
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 16),
                           child: Text(
-                                'Farm to Fork',
-                                style: Theme.of(
-                                  context,
-                                ).textTheme.titleLarge?.copyWith(
-                                  color: GPSColors.text,
-                                  fontWeight: FontWeight.w800,
-                                ),
-                              )
-                              .animate()
-                              .fadeIn(duration: 300.ms)
-                              .slideY(begin: .2),
+                            'Farm to Fork',
+                            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                              color: GPSColors.text,
+                              fontWeight: FontWeight.w800,
+                            ),
+                          ).animate().fadeIn(duration: 300.ms).slideY(begin: .2),
                         ),
                         GPSGaps.h12,
                       ],
@@ -356,9 +340,7 @@ class _HomeSearchScreenState extends State<HomeSearchScreen> {
                     delegate: SliverChildListDelegate([
                       FeaturedRestaurantCard(
                         onTap: () {
-                          Navigator.of(
-                            context,
-                          ).pushNamed(AppRoutesNames.restaurantDetailScreen);
+                          Navigator.of(context).pushNamed(AppRoutesNames.restaurantDetailScreen);
                         },
                       ),
                       GPSGaps.h12,
@@ -371,9 +353,7 @@ class _HomeSearchScreenState extends State<HomeSearchScreen> {
                         imageUrl:
                             'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=1200&auto=format&fit=crop',
                         onTap: () {
-                          Navigator.of(
-                            context,
-                          ).pushNamed(AppRoutesNames.restaurantDetailScreen);
+                          Navigator.of(context).pushNamed(AppRoutesNames.restaurantDetailScreen);
                         },
                       ),
                       GPSGaps.h12,
@@ -386,9 +366,7 @@ class _HomeSearchScreenState extends State<HomeSearchScreen> {
                         imageUrl:
                             'https://images.unsplash.com/photo-1543353071-10c8ba85a904?q=80&w=1200&auto=format&fit=crop',
                         onTap: () {
-                          Navigator.of(
-                            context,
-                          ).pushNamed(AppRoutesNames.restaurantDetailScreen);
+                          Navigator.of(context).pushNamed(AppRoutesNames.restaurantDetailScreen);
                         },
                       ),
                       GPSGaps.h24,
@@ -469,12 +447,7 @@ class _HomeSearchScreenState extends State<HomeSearchScreen> {
                       child:
                           _showSuggestions
                               ? Padding(
-                                padding: const EdgeInsets.fromLTRB(
-                                  16,
-                                  10,
-                                  16,
-                                  0,
-                                ),
+                                padding: const EdgeInsets.fromLTRB(16, 10, 16, 0),
                                 child: SuggestionsList(
                                   items: _filtered,
                                   onSelect: _selectSuggestion,
@@ -529,10 +502,7 @@ class _HomeSearchScreenState extends State<HomeSearchScreen> {
                     onDeleted: _clearSubcategory,
                   ),
                 ...(_filters?.diets ?? {}).map(
-                  (d) => InputChip(
-                    label: Text(d),
-                    onDeleted: () => _removeDiet(d),
-                  ),
+                  (d) => InputChip(label: Text(d), onDeleted: () => _removeDiet(d)),
                 ),
               ],
             ),

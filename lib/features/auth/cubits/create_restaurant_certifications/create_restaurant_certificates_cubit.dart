@@ -8,9 +8,11 @@ import 'package:gps_app/features/auth/models/certificate_param.dart';
 
 part 'create_restaurant_certificates_state.dart';
 
-class CreateRestaurantCertificatesCubit extends Cubit<CreateRestaurantCertificatesState> {
+class CreateRestaurantCertificatesCubit
+    extends Cubit<CreateRestaurantCertificatesState> {
   final controller = serviceLocator<AuthController>();
-  CreateRestaurantCertificatesCubit() : super(CreateRestaurantCertificatesState.initial());
+  CreateRestaurantCertificatesCubit()
+    : super(CreateRestaurantCertificatesState.initial());
   void addCertificate({required CertificateParam param}) {
     state.certificates.add(param);
     emit(state.copyWith());
@@ -28,7 +30,9 @@ class CreateRestaurantCertificatesCubit extends Cubit<CreateRestaurantCertificat
     // return;
     emit(
       state.copyWith(
-        certificatesResponse: state.certificatesResponse.copyWith(response: ResponseEnum.loading),
+        certificatesResponse: state.certificatesResponse.copyWith(
+          response: ResponseEnum.loading,
+        ),
       ),
     );
     final ApiResponseModel<bool> response = await controller.createCertificates(
