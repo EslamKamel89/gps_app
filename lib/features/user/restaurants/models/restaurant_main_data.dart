@@ -15,7 +15,10 @@ class RestaurantMainData {
     return RestaurantMainData(
       id: json['id'] as int?,
       verified: json['verified'] as int?,
-      vendorName: json['vendor'] != null ? json['vendor']['vendor_name'] as String? : null,
+      vendorName:
+          json['vendor'] != null
+              ? json['vendor']['vendor_name'] as String?
+              : null,
       path:
           (json['user'] != null &&
                   json['user']['images'] != null &&
@@ -25,7 +28,12 @@ class RestaurantMainData {
     );
   }
 
-  RestaurantMainData copyWith({int? id, int? verified, String? vendorName, String? path}) {
+  RestaurantMainData copyWith({
+    int? id,
+    int? verified,
+    String? vendorName,
+    String? path,
+  }) {
     return RestaurantMainData(
       id: id ?? this.id,
       verified: verified ?? this.verified,

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:gps_app/features/design/screens/user/resturant_details/resturant_details_screen.dart';
 import 'package:gps_app/features/design/screens/user/resturant_details/widgets/icon_action.dart';
 import 'package:gps_app/features/design/screens/user/resturant_details/widgets/pill.dart';
 import 'package:gps_app/features/design/screens/user/resturant_details/widgets/price_badge.dart';
 import 'package:gps_app/features/design/screens/user/resturant_details/widgets/thumb.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
+import 'package:gps_app/features/user/restaurants/presentation/widgets/resturant_details_static_screen.dart';
 
 class MenuItemCard extends StatelessWidget {
   const MenuItemCard({super.key, required this.item, required this.heroTag});
@@ -74,10 +74,7 @@ class MenuItemCard extends StatelessWidget {
                       runSpacing: 8,
                       children: [
                         if (item.isSpicy)
-                          const Pill(
-                            label: 'Spicy',
-                            icon: Icons.local_fire_department_rounded,
-                          ),
+                          const Pill(label: 'Spicy', icon: Icons.local_fire_department_rounded),
                         for (final t in item.tags) Pill(label: t),
                       ],
                     ),
@@ -87,10 +84,7 @@ class MenuItemCard extends StatelessWidget {
                         // Expanded(child: _AddButton(label: 'Add to order', onTap: () {})),
                         Spacer(),
                         // GPSGaps.w12,
-                        IconAction(
-                          icon: Icons.favorite_border_rounded,
-                          onTap: () {},
-                        ),
+                        IconAction(icon: Icons.favorite_border_rounded, onTap: () {}),
                       ],
                     ),
                   ],
