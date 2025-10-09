@@ -8,6 +8,7 @@ import 'package:gps_app/core/helpers/print_helper.dart';
 import 'package:gps_app/core/helpers/snackbar.dart';
 import 'package:gps_app/core/models/api_response_model.dart';
 import 'package:gps_app/core/service_locator/service_locator.dart';
+import 'package:gps_app/features/user/restaurants/models/restaurant_detailed_model/import.dart';
 import 'package:gps_app/features/user/restaurants/models/restaurant_main_data.dart';
 
 class RestaurantsController {
@@ -21,23 +22,31 @@ class RestaurantsController {
           (response['unverified'] as List)
               .map((json) => RestaurantMainData.fromJson(json))
               .toList();
-      return pr(
-        ApiResponseModel(response: ResponseEnum.success, data: models),
-        t,
-      );
+      return pr(ApiResponseModel(response: ResponseEnum.success, data: models), t);
     } catch (e) {
       String errorMessage = e.toString();
       if (e is DioException) {
         errorMessage = jsonEncode(e.response?.data ?? 'Unknown error occurred');
       }
       showSnackbar('Error', errorMessage, true);
-      return pr(
-        ApiResponseModel(
-          errorMessage: errorMessage,
-          response: ResponseEnum.failed,
-        ),
-        t,
-      );
+      return pr(ApiResponseModel(errorMessage: errorMessage, response: ResponseEnum.failed), t);
     }
+  }
+
+  Future<ApiResponseModel<RestaurantDetailedModel>> restaurant({required int restaurantId}) async {
+    final t = prt('restaurant - RestaurantsController');
+    // try {
+    final response = await _api.get("${EndPoint.restaurants}/$restaurantId");
+    pr(response, '$t - response');
+    final RestaurantDetailedModel model = RestaurantDetailedModel.fromJson(response);
+    return pr(ApiResponseModel(response: ResponseEnum.success, data: model), t);
+    // } catch (e) {
+    //   String errorMessage = e.toString();
+    //   if (e is DioException) {
+    //     errorMessage = jsonEncode(e.response?.data ?? 'Unknown error occurred');
+    //   }
+    //   showSnackbar('Error', errorMessage, true);
+    //   return pr(ApiResponseModel(errorMessage: errorMessage, response: ResponseEnum.failed), t);
+    // }
   }
 }

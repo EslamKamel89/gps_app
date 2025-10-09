@@ -344,7 +344,7 @@ class _HomeSearchScreenState extends State<HomeSearchScreen> {
                         onTap: () {
                           Navigator.of(context).push(
                             MaterialPageRoute(
-                              builder: (_) => RestaurantDetailScreen(model: demoModel),
+                              builder: (_) => RestaurantDetailProvider(model: demoModel),
                             ),
                           );
                         },

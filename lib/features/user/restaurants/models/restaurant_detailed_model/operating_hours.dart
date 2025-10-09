@@ -1,3 +1,5 @@
+import 'package:gps_app/core/helpers/to_string_list.dart';
+
 class OperatingHours {
   List<String>? mon;
   List<String>? tue;
@@ -7,15 +9,7 @@ class OperatingHours {
   List<String>? sat;
   List<String>? sun;
 
-  OperatingHours({
-    this.mon,
-    this.tue,
-    this.wed,
-    this.thu,
-    this.fri,
-    this.sat,
-    this.sun,
-  });
+  OperatingHours({this.mon, this.tue, this.wed, this.thu, this.fri, this.sat, this.sun});
 
   @override
   String toString() {
@@ -24,13 +18,13 @@ class OperatingHours {
 
   factory OperatingHours.fromJson(Map<String, dynamic> json) {
     return OperatingHours(
-      mon: json['mon'] as List<String>?,
-      tue: json['tue'] as List<String>?,
-      wed: json['wed'] as List<String>?,
-      thu: json['thu'] as List<String>?,
-      fri: json['fri'] as List<String>?,
-      sat: json['sat'] as List<String>?,
-      sun: json['sun'] as List<String>?,
+      mon: toStringList(json['mon']),
+      tue: toStringList(json['tue']),
+      wed: toStringList(json['wed']),
+      thu: toStringList(json['thu']),
+      fri: toStringList(json['fri']),
+      sat: toStringList(json['sat']),
+      sun: toStringList(json['sun']),
     );
   }
 

@@ -69,7 +69,7 @@ class _MostLovedRestaurantsWidgetState extends State<MostLovedRestaurantsWidget>
                                     Navigator.of(context).push(
                                       MaterialPageRoute(
                                         builder:
-                                            (_) => RestaurantDetailScreen(
+                                            (_) => RestaurantDetailProvider(
                                               model: demoModel,
                                               restaurantId: it.id ?? 1,
                                             ),

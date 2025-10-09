@@ -1,9 +1,12 @@
 // restaurant_detail_screen.dart (refactored)
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gps_app/core/models/api_response_model.dart';
 import 'package:gps_app/features/design/screens/user/resturant_details/widgets/menu_item_card.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
+import 'package:gps_app/features/user/restaurants/cubits/restaurant_cubit.dart';
 import 'package:gps_app/features/user/restaurants/models/restaurant_detailed_model/import.dart';
 
 // === import your models ===
@@ -45,17 +48,30 @@ double parsePrice(String? s) {
   return v ?? 0.0;
 }
 
-class RestaurantDetailScreen extends StatefulWidget {
-  const RestaurantDetailScreen({super.key, required this.model, this.restaurantId = 1});
+class RestaurantDetailProvider extends StatelessWidget {
+  const RestaurantDetailProvider({super.key, required this.model, this.restaurantId = 1});
+  final RestaurantDetailedModel model;
+  final int restaurantId;
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => RestaurantCubit()..restaurant(restaurantId: restaurantId),
+      child: RestaurantDetailWidget(model: model, restaurantId: restaurantId),
+    );
+  }
+}
+
+class RestaurantDetailWidget extends StatefulWidget {
+  const RestaurantDetailWidget({super.key, required this.model, this.restaurantId = 1});
 
   final RestaurantDetailedModel model;
   final int restaurantId;
 
   @override
-  State<RestaurantDetailScreen> createState() => _RestaurantDetailScreenState();
+  State<RestaurantDetailWidget> createState() => _RestaurantDetailWidgetState();
 }
 
-class _RestaurantDetailScreenState extends State<RestaurantDetailScreen>
+class _RestaurantDetailWidgetState extends State<RestaurantDetailWidget>
     with SingleTickerProviderStateMixin {
   bool _isFav = false;
 
@@ -93,155 +109,165 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen>
         widget.model.vendor?.vendorName?.trim().isNotEmpty == true
             ? widget.model.vendor!.vendorName!
             : 'Restaurant';
-    return DefaultTabController(
-      length: tabs.length,
-      child: Scaffold(
-        backgroundColor: GPSColors.background,
-        body: NestedScrollView(
-          headerSliverBuilder:
-              (context, inner) => [
-                SliverAppBar(
-                  backgroundColor: GPSColors.background,
-                  expandedHeight: 260,
-                  pinned: true,
-                  elevation: 0,
-                  leading: CircleBack(onTap: () => Navigator.of(context).maybePop()),
-                  actions: [
-                    IconButton(
-                      tooltip: 'Share',
-                      icon: const Icon(Icons.share_rounded, color: Colors.black),
-                      onPressed: () {}, // TODO: wire your share logic
-                    ),
-                  ],
-                  flexibleSpace: FlexibleSpaceBar(
-                    background: Stack(
-                      fit: StackFit.expand,
-                      children: [
-                        Image.network(coverUrl, fit: BoxFit.cover)
-                            .animate()
-                            .fadeIn(duration: 400.ms)
-                            .scale(begin: const Offset(1.02, 1.02), end: const Offset(1, 1)),
-                        Container(
-                          decoration: const BoxDecoration(
-                            gradient: LinearGradient(
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter,
-                              colors: [Colors.transparent, Color(0x55000000)],
-                            ),
-                          ),
+    return BlocConsumer<RestaurantCubit, ApiResponseModel<RestaurantDetailedModel>>(
+      listener: (context, state) {
+        // TODO: implement listener
+      },
+      builder: (context, state) {
+        return DefaultTabController(
+          length: tabs.length,
+          child: Scaffold(
+            backgroundColor: GPSColors.background,
+            body: NestedScrollView(
+              headerSliverBuilder:
+                  (context, inner) => [
+                    SliverAppBar(
+                      backgroundColor: GPSColors.background,
+                      expandedHeight: 260,
+                      pinned: true,
+                      elevation: 0,
+                      leading: CircleBack(onTap: () => Navigator.of(context).maybePop()),
+                      actions: [
+                        IconButton(
+                          tooltip: 'Share',
+                          icon: const Icon(Icons.share_rounded, color: Colors.black),
+                          onPressed: () {}, // TODO: wire your share logic
                         ),
                       ],
-                    ),
-                  ),
-                ),
-
-                // Info block (title, badges, about, reviews)
-                SliverToBoxAdapter(
-                  child: Container(
-                    decoration: const BoxDecoration(
-                      color: GPSColors.background,
-                      borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(16, 18, 16, 14),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Expanded(
-                                child: Text(
-                                  restaurantTitle, // dynamic title
-                                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                                    color: GPSColors.text,
-                                    fontWeight: FontWeight.w800,
-                                  ),
+                      flexibleSpace: FlexibleSpaceBar(
+                        background: Stack(
+                          fit: StackFit.expand,
+                          children: [
+                            Image.network(coverUrl, fit: BoxFit.cover)
+                                .animate()
+                                .fadeIn(duration: 400.ms)
+                                .scale(begin: const Offset(1.02, 1.02), end: const Offset(1, 1)),
+                            Container(
+                              decoration: const BoxDecoration(
+                                gradient: LinearGradient(
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter,
+                                  colors: [Colors.transparent, Color(0x55000000)],
                                 ),
                               ),
-                              IconButton(
-                                tooltip: _isFav ? 'Remove from favorites' : 'Add to favorites',
-                                onPressed: () => setState(() => _isFav = !_isFav),
-                                icon: Icon(
-                                  _isFav ? Icons.favorite_rounded : Icons.favorite_outline,
-                                  color: _isFav ? Colors.redAccent : GPSColors.mutedText,
-                                ),
-                              ),
-                            ],
-                          ).animate().fadeIn(duration: 280.ms).slideY(begin: .1),
-
-                          GPSGaps.h12,
-
-                          // Keep badges static (per requirements)
-                          const Wrap(
-                            spacing: 10,
-                            runSpacing: 10,
-                            children: [
-                              BadgeChip(label: '100% Grass-fed'),
-                              BadgeChip(label: 'Organic'),
-                              BadgeChip(label: 'Locally sourced'),
-                              BadgeChip(label: 'Non-GMO'),
-                            ],
-                          ).animate(delay: 70.ms).fadeIn(duration: 250.ms).slideY(begin: .08),
-
-                          GPSGaps.h16,
-
-                          // Simple dynamic about from vendor.address if you want, or keep static.
-                          // Requirement: it's okay to keep this static; keeping your original static text:
-                          GPSGaps.h8,
-                          Text(
-                            'Neighborhood kitchen serving grass-fed meats, raw cheeses, and seasonal produce from nearby farms.',
-                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                              color: GPSColors.mutedText,
-                              height: 1.4,
                             ),
-                          ).animate().fadeIn(duration: 250.ms).slideY(begin: .06),
-
-                          GPSGaps.h16,
-                          const SectionHeader(title: 'Reviews'),
-                          ReviewsSection(reviews: _reviews),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                ),
 
-                // Pinned TabBar (dynamic from menus)
-                SliverPersistentHeader(
-                  pinned: true,
-                  delegate: TabBarDelegate(
-                    TabBar(
-                      isScrollable: true,
-                      indicatorWeight: 3,
-                      indicatorColor: Colors.green,
-                      labelColor: Colors.black,
-                      unselectedLabelColor: Colors.grey,
-                      labelStyle: Theme.of(
-                        context,
-                      ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w800),
-                      tabs: [
-                        for (final t in tabs)
-                          Tab(
-                            child: Padding(
-                              padding: const EdgeInsets.all(1.0),
-                              child: Text(t, style: const TextStyle(fontSize: 16)),
-                            ),
+                    // Info block (title, badges, about, reviews)
+                    SliverToBoxAdapter(
+                      child: Container(
+                        decoration: const BoxDecoration(
+                          color: GPSColors.background,
+                          borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(16, 18, 16, 14),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      restaurantTitle, // dynamic title
+                                      style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                                        color: GPSColors.text,
+                                        fontWeight: FontWeight.w800,
+                                      ),
+                                    ),
+                                  ),
+                                  IconButton(
+                                    tooltip: _isFav ? 'Remove from favorites' : 'Add to favorites',
+                                    onPressed: () => setState(() => _isFav = !_isFav),
+                                    icon: Icon(
+                                      _isFav ? Icons.favorite_rounded : Icons.favorite_outline,
+                                      color: _isFav ? Colors.redAccent : GPSColors.mutedText,
+                                    ),
+                                  ),
+                                ],
+                              ).animate().fadeIn(duration: 280.ms).slideY(begin: .1),
+
+                              GPSGaps.h12,
+
+                              // Keep badges static (per requirements)
+                              const Wrap(
+                                spacing: 10,
+                                runSpacing: 10,
+                                children: [
+                                  BadgeChip(label: '100% Grass-fed'),
+                                  BadgeChip(label: 'Organic'),
+                                  BadgeChip(label: 'Locally sourced'),
+                                  BadgeChip(label: 'Non-GMO'),
+                                ],
+                              ).animate(delay: 70.ms).fadeIn(duration: 250.ms).slideY(begin: .08),
+
+                              GPSGaps.h16,
+
+                              // Simple dynamic about from vendor.address if you want, or keep static.
+                              // Requirement: it's okay to keep this static; keeping your original static text:
+                              GPSGaps.h8,
+                              Text(
+                                'Neighborhood kitchen serving grass-fed meats, raw cheeses, and seasonal produce from nearby farms.',
+                                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                  color: GPSColors.mutedText,
+                                  height: 1.4,
+                                ),
+                              ).animate().fadeIn(duration: 250.ms).slideY(begin: .06),
+
+                              GPSGaps.h16,
+                              const SectionHeader(title: 'Reviews'),
+                              ReviewsSection(reviews: _reviews),
+                            ],
                           ),
-                      ],
-                    ).animate().fadeIn(duration: 220.ms).slideY(begin: .08),
-                  ),
-                ),
-              ],
+                        ),
+                      ),
+                    ),
 
-          // Tab bodies → each menu.meals (adapt Meal → MenuItem for your existing MenuItemCard)
-          body: TabBarView(
-            children: [
-              for (int ti = 0; ti < tabs.length; ti++)
-                MenuMealsListView(heroPrefix: 'tab$ti', meals: menus[ti].meals ?? const <Meal>[]),
-            ],
+                    // Pinned TabBar (dynamic from menus)
+                    SliverPersistentHeader(
+                      pinned: true,
+                      delegate: TabBarDelegate(
+                        TabBar(
+                          isScrollable: true,
+                          indicatorWeight: 3,
+                          indicatorColor: Colors.green,
+                          labelColor: Colors.black,
+                          unselectedLabelColor: Colors.grey,
+                          labelStyle: Theme.of(
+                            context,
+                          ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w800),
+                          tabs: [
+                            for (final t in tabs)
+                              Tab(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(1.0),
+                                  child: Text(t, style: const TextStyle(fontSize: 16)),
+                                ),
+                              ),
+                          ],
+                        ).animate().fadeIn(duration: 220.ms).slideY(begin: .08),
+                      ),
+                    ),
+                  ],
+
+              // Tab bodies → each menu.meals (adapt Meal → MenuItem for your existing MenuItemCard)
+              body: TabBarView(
+                children: [
+                  for (int ti = 0; ti < tabs.length; ti++)
+                    MenuMealsListView(
+                      heroPrefix: 'tab$ti',
+                      meals: menus[ti].meals ?? const <Meal>[],
+                    ),
+                ],
+              ),
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }
