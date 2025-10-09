@@ -318,7 +318,7 @@ class _HomeSearchScreenState extends State<HomeSearchScreen> {
                         GPSGaps.h16,
                         // CategoryShortcutWidget(items: _shortcutItems),
                         // GPSGaps.h16,
-                        MostLovedRestaurantsWidget(items: _mostLovedRestaurants),
+                        MostLovedRestaurantsProvider(),
                         GPSGaps.h20,
                         const PromoCard(),
                         GPSGaps.h20,
