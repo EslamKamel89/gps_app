@@ -2,27 +2,30 @@
 part of 'create_restaurant_certificates_cubit.dart';
 
 class CreateRestaurantCertificatesState {
-  ApiResponseModel<bool> response;
+  ApiResponseModel<bool> certificatesResponse;
   List<CertificateParam> certificates;
-  CreateRestaurantCertificatesState({required this.response, required this.certificates});
+  CreateRestaurantCertificatesState({
+    required this.certificatesResponse,
+    required this.certificates,
+  });
 
   CreateRestaurantCertificatesState copyWith({
-    ApiResponseModel<bool>? response,
+    ApiResponseModel<bool>? certificatesResponse,
     List<CertificateParam>? certificates,
   }) {
     return CreateRestaurantCertificatesState(
-      response: response ?? this.response,
+      certificatesResponse: certificatesResponse ?? this.certificatesResponse,
       certificates: certificates ?? this.certificates,
     );
   }
 
   @override
   String toString() =>
-      'CreateRestaurantCertificatesState(response: $response, certificates: $certificates)';
+      'CreateRestaurantCertificatesState(response: $certificatesResponse, certificates: $certificates)';
   factory CreateRestaurantCertificatesState.initial() {
     return CreateRestaurantCertificatesState(
       certificates: [CertificateParam()],
-      response: ApiResponseModel(),
+      certificatesResponse: ApiResponseModel(),
     );
   }
 }

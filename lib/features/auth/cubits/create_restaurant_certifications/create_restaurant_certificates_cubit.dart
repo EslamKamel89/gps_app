@@ -26,11 +26,15 @@ class CreateRestaurantCertificatesCubit extends Cubit<CreateRestaurantCertificat
 
     pr(state.certificates, 'state.certificates');
     // return;
-    emit(state.copyWith(response: state.response.copyWith(response: ResponseEnum.loading)));
+    emit(
+      state.copyWith(
+        certificatesResponse: state.certificatesResponse.copyWith(response: ResponseEnum.loading),
+      ),
+    );
     final ApiResponseModel<bool> response = await controller.createCertificates(
       param: state.certificates,
     );
     pr(response, t);
-    emit(state.copyWith(response: response));
+    emit(state.copyWith(certificatesResponse: response));
   }
 }
