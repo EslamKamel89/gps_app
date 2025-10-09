@@ -21,7 +21,10 @@ class CreateRestaurantMenusCubit extends Cubit<CreateRestaurantMenusState> {
     emit(state.copyWith());
   }
 
-  void removeMeal({required MenuParam menuParam, required MealParam mealParam}) {
+  void removeMeal({
+    required MenuParam menuParam,
+    required MealParam mealParam,
+  }) {
     menuParam.meals ??= [];
     menuParam.meals!.remove(mealParam);
     emit(state.copyWith());
@@ -54,9 +57,8 @@ class CreateRestaurantMenusCubit extends Cubit<CreateRestaurantMenusState> {
         ),
       ),
     );
-    final ApiResponseModel<bool> response = await controller.createRestaurantMenus(
-      param: state.menus,
-    );
+    final ApiResponseModel<bool> response = await controller
+        .createRestaurantMenus(param: state.menus);
     pr(response, t);
     emit(state.copyWith(menusResponse: response));
   }

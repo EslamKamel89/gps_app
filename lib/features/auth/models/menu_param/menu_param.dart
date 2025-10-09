@@ -7,7 +7,13 @@ class MenuParam {
   int? restaurantId;
   List<MealParam>? meals;
 
-  MenuParam({this.name, this.description, this.imageId, this.restaurantId, this.meals});
+  MenuParam({
+    this.name,
+    this.description,
+    this.imageId,
+    this.restaurantId,
+    this.meals,
+  });
 
   @override
   String toString() {

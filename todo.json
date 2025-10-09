@@ -43,12 +43,12 @@
         "move the ui from the design folder to the auth feature with it's widgets",
         "fix the navigation from the branches screen to the menu item screen",
         "wire the ui with the cubit and test the app",
-        "------------------------------------------------"
-    ],
-    "todos": [
         "move all the files from the design folder to the auth folder",
         "create the necessary param models",
         "create the method in the controller",
+        "------------------------------------------------"
+    ],
+    "todos": [
         "create the cubit",
         "wire the front end",
         "------------------------------------------------"

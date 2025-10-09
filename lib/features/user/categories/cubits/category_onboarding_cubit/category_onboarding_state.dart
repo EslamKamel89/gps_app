@@ -26,7 +26,8 @@ class CategoryOnboardingState {
     return CategoryOnboardingState(
       categories: categories ?? this.categories,
       selectedCategories: selectedCategories ?? this.selectedCategories,
-      selectedSubCategories: selectedSubCategories ?? this.selectedSubCategories,
+      selectedSubCategories:
+          selectedSubCategories ?? this.selectedSubCategories,
     );
   }
 

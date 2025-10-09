@@ -63,17 +63,25 @@ class _CategorySelectorWidgetState extends State<CategorySelectorWidget> {
                 hintText: 'Select category',
                 isRequired: true,
                 options:
-                    state.categories.data?.map((category) => category.name ?? '').toList() ?? [],
+                    state.categories.data
+                        ?.map((category) => category.name ?? '')
+                        .toList() ??
+                    [],
                 handleSelectOption: (String option) {
                   final category = cubit.selectCategory(option);
                   widget.onSelect(
-                    CategorySelector(selectedCategory: category, selectedSubCategory: null),
+                    CategorySelector(
+                      selectedCategory: category,
+                      selectedSubCategory: null,
+                    ),
                   );
                 },
               ),
-            if (state.categories.data?.isNotEmpty == true && state.selectedCategory != null)
+            if (state.categories.data?.isNotEmpty == true &&
+                state.selectedCategory != null)
               GPSGaps.h16,
-            if (state.categories.data?.isNotEmpty == true && state.selectedCategory != null)
+            if (state.categories.data?.isNotEmpty == true &&
+                state.selectedCategory != null)
               SearchableDropdownWidget(
                 key: Key('subCategory'),
                 label: 'Sub Category',

@@ -4,7 +4,10 @@ part of 'create_restaurant_menus_cubit.dart';
 class CreateRestaurantMenusState {
   ApiResponseModel<bool> menusResponse;
   List<MenuParam> menus;
-  CreateRestaurantMenusState({required this.menusResponse, required this.menus});
+  CreateRestaurantMenusState({
+    required this.menusResponse,
+    required this.menus,
+  });
 
   CreateRestaurantMenusState copyWith({
     ApiResponseModel<bool>? menusResponse,
@@ -17,7 +20,8 @@ class CreateRestaurantMenusState {
   }
 
   @override
-  String toString() => 'CreateRestaurantMenusState(menusResponse: $menusResponse, menus: $menus)';
+  String toString() =>
+      'CreateRestaurantMenusState(menusResponse: $menusResponse, menus: $menus)';
 
   factory CreateRestaurantMenusState.initial() {
     return CreateRestaurantMenusState(

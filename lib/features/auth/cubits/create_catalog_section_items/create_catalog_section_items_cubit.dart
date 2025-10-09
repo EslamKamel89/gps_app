@@ -10,10 +10,15 @@ import 'package:gps_app/features/auth/models/catalog_section_param/catalog_secti
 
 part 'create_catalog_section_items_state.dart';
 
-class CreateCatalogSectionItemsCubit extends Cubit<CreateCatalogSectionItemsState> {
+class CreateCatalogSectionItemsCubit
+    extends Cubit<CreateCatalogSectionItemsState> {
   final controller = serviceLocator<AuthController>();
-  CreateCatalogSectionItemsCubit() : super(CreateCatalogSectionItemsState.initial());
-  void addItem({required CatalogSectionParam sectionParam, required CatalogItemParam itemParam}) {
+  CreateCatalogSectionItemsCubit()
+    : super(CreateCatalogSectionItemsState.initial());
+  void addItem({
+    required CatalogSectionParam sectionParam,
+    required CatalogItemParam itemParam,
+  }) {
     sectionParam.catalogItems ??= [];
     sectionParam.catalogItems!.add(itemParam);
     emit(state.copyWith());
@@ -59,8 +64,8 @@ class CreateCatalogSectionItemsCubit extends Cubit<CreateCatalogSectionItemsStat
         ),
       ),
     );
-    final ApiResponseModel<List<CatalogSectionModel>> response = await controller
-        .createCatalogSection(param: state.sections);
+    final ApiResponseModel<List<CatalogSectionModel>> response =
+        await controller.createCatalogSection(param: state.sections);
     pr(response, t);
     emit(state.copyWith(sectionsResponse: response));
   }

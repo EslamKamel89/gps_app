@@ -48,7 +48,8 @@ class MyApp extends StatelessWidget {
               theme: themeCubit.state,
               debugShowCheckedModeBanner: false,
               // initialRoute: AppRoutesNames.gpsSplashScreen,
-              initialRoute: AppRoutesNames.restaurantOnboardingCertificationsScreen,
+              initialRoute:
+                  AppRoutesNames.restaurantOnboardingCertificationsScreen,
               locale: context.locale,
               supportedLocales: context.supportedLocales,
               localizationsDelegates: context.localizationDelegates,

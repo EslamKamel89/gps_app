@@ -16,7 +16,11 @@ class ProductItemForm extends StatefulWidget {
   final CatalogItemParam item;
   final VoidCallback onRemove;
 
-  const ProductItemForm({super.key, required this.item, required this.onRemove});
+  const ProductItemForm({
+    super.key,
+    required this.item,
+    required this.onRemove,
+  });
 
   @override
   State<ProductItemForm> createState() => _ProductItemFormState();
@@ -69,7 +73,8 @@ class _ProductItemFormState extends State<ProductItemForm> {
               initialValue: widget.item.name,
               onChanged: (v) => widget.item.name = v,
               decoration: const InputDecoration(hintText: 'e.g., Beef Burger'),
-              validator: (v) => validator(input: v, label: 'Name', isRequired: true),
+              validator:
+                  (v) => validator(input: v, label: 'Name', isRequired: true),
             ),
           ),
           GPSGaps.h12,
@@ -97,7 +102,10 @@ class _ProductItemFormState extends State<ProductItemForm> {
           GpsLabeledField(
             label: 'Price',
             child: TextFormField(
-              initialValue: widget.item.price != null ? widget.item.price!.toStringAsFixed(2) : '',
+              initialValue:
+                  widget.item.price != null
+                      ? widget.item.price!.toStringAsFixed(2)
+                      : '',
               onChanged: (v) => widget.item.price = double.parse(v),
               keyboardType: TextInputType.numberWithOptions(decimal: true),
               decoration: const InputDecoration(
@@ -105,7 +113,8 @@ class _ProductItemFormState extends State<ProductItemForm> {
                 prefixText: '\$ ',
                 prefixStyle: TextStyle(color: GPSColors.primary),
               ),
-              validator: (v) => validator(input: v, label: 'Price', isRequired: true),
+              validator:
+                  (v) => validator(input: v, label: 'Price', isRequired: true),
             ),
           ),
           GPSGaps.h12,

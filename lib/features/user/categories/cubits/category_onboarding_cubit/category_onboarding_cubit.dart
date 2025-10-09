@@ -24,13 +24,17 @@ class CategoryOnboardingCubit extends Cubit<CategoryOnboardingState> {
         ),
       ),
     );
-    final ApiResponseModel<List<CategoryModel>> response = await controller.categoriesIndex();
+    final ApiResponseModel<List<CategoryModel>> response =
+        await controller.categoriesIndex();
     pr(response, t);
     emit(state.copyWith(categories: response));
   }
 
   void toggleSelectedCategory(CategoryModel category) {
-    bool categoryExist = state.selectedCategories.where((cat) => cat.id == category.id).isNotEmpty;
+    bool categoryExist =
+        state.selectedCategories
+            .where((cat) => cat.id == category.id)
+            .isNotEmpty;
     if (categoryExist) {
       state.selectedCategories.removeWhere((cat) => cat.id == category.id);
     } else {
@@ -41,7 +45,9 @@ class CategoryOnboardingCubit extends Cubit<CategoryOnboardingState> {
 
   void toggleSelectedSubCategory(SubCategoryModel subCat) {
     bool subCategoryExist =
-        state.selectedSubCategories.where((cat) => cat.id == subCat.id).isNotEmpty;
+        state.selectedSubCategories
+            .where((cat) => cat.id == subCat.id)
+            .isNotEmpty;
     if (subCategoryExist) {
       state.selectedSubCategories.removeWhere((cat) => cat.id == subCat.id);
     } else {
