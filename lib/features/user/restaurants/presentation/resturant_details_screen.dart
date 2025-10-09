@@ -46,9 +46,10 @@ double parsePrice(String? s) {
 }
 
 class RestaurantDetailScreen extends StatefulWidget {
-  const RestaurantDetailScreen({super.key, required this.model});
+  const RestaurantDetailScreen({super.key, required this.model, this.restaurantId = 1});
 
   final RestaurantDetailedModel model;
+  final int restaurantId;
 
   @override
   State<RestaurantDetailScreen> createState() => _RestaurantDetailScreenState();
@@ -92,7 +93,6 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen>
         widget.model.vendor?.vendorName?.trim().isNotEmpty == true
             ? widget.model.vendor!.vendorName!
             : 'Restaurant';
-
     return DefaultTabController(
       length: tabs.length,
       child: Scaffold(

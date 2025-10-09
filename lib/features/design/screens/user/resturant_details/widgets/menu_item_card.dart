@@ -5,7 +5,7 @@ import 'package:gps_app/features/design/screens/user/resturant_details/widgets/p
 import 'package:gps_app/features/design/screens/user/resturant_details/widgets/thumb.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
-import 'package:gps_app/features/user/restaurants/presentation/widgets/resturant_details_screen.dart';
+import 'package:gps_app/features/user/restaurants/presentation/resturant_details_screen.dart';
 
 class MenuItemCard extends StatelessWidget {
   const MenuItemCard({super.key, required this.item, required this.heroTag});
