@@ -118,6 +118,7 @@ class _RestaurantOnboardingBranchesScreenState extends State<RestaurantOnboardin
                                     cubit.createBranches();
                                   },
                                   style: ElevatedButton.styleFrom(
+                                    backgroundColor: GPSColors.accent,
                                     padding: const EdgeInsets.symmetric(
                                       horizontal: 24,
                                       vertical: 14,

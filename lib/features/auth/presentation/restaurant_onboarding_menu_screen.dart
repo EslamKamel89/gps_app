@@ -135,6 +135,7 @@ class _RestaurantOnboardingMenuScreenState extends State<RestaurantOnboardingMen
                                 cubit.createMenus();
                               },
                               style: ElevatedButton.styleFrom(
+                                backgroundColor: GPSColors.accent,
                                 padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(24),
