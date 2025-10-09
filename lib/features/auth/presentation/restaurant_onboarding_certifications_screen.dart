@@ -106,14 +106,6 @@ class _RestaurantOnboardingCertificationsScreenState
                     padding: const EdgeInsets.all(16),
                     child: Row(
                       children: [
-                        OutlinedButton(
-                          onPressed: () => Navigator.maybePop(context),
-                          style: OutlinedButton.styleFrom(
-                            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-                          ),
-                          child: const Text('← Previous'),
-                        ),
                         const Spacer(),
                         Builder(
                           builder: (context) {
@@ -128,6 +120,7 @@ class _RestaurantOnboardingCertificationsScreenState
                                     cubit.createCertificate();
                                   },
                                   style: ElevatedButton.styleFrom(
+                                    backgroundColor: GPSColors.accent,
                                     padding: const EdgeInsets.symmetric(
                                       horizontal: 24,
                                       vertical: 14,

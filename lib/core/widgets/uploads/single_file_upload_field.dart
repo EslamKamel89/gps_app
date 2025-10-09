@@ -4,6 +4,8 @@ import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:gps_app/core/service_locator/service_locator.dart';
+import 'package:gps_app/features/design/utils/gps_colors.dart';
+import 'package:gps_app/features/design/utils/gps_gaps.dart';
 import 'package:image_picker/image_picker.dart';
 
 class UploadedFile {
@@ -13,10 +15,7 @@ class UploadedFile {
   final String path;
 
   factory UploadedFile.fromJson(Map<String, dynamic> json) {
-    return UploadedFile(
-      id: (json['id'] as num).toInt(),
-      path: (json['path'] as String),
-    );
+    return UploadedFile(id: (json['id'] as num).toInt(), path: (json['path'] as String));
   }
 
   @override
@@ -32,9 +31,7 @@ class UploadResponse {
   factory UploadResponse.fromJson(Map<String, dynamic> json) {
     return UploadResponse(
       message: json['message'] as String,
-      file: UploadedFile.fromJson(
-        Map<String, dynamic>.from(json['file'] as Map),
-      ),
+      file: UploadedFile.fromJson(Map<String, dynamic>.from(json['file'] as Map)),
     );
   }
 
@@ -81,19 +78,32 @@ class _SingleFileUploadFieldState extends State<SingleFileUploadField> {
   @override
   Widget build(BuildContext context) {
     final hasSelection = _selection != null || _uploadedFile != null;
-    final isBusy =
-        _status == _UploadStatus.picking || _status == _UploadStatus.uploading;
+    final isBusy = _status == _UploadStatus.picking || _status == _UploadStatus.uploading;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
           children: [
-            ElevatedButton.icon(
-              onPressed:
-                  widget.enabled && !isBusy ? _openPickActionSheet : null,
-              icon: const Icon(Icons.upload_file),
-              label: Text(hasSelection ? 'Change File' : widget.buttonLabel),
+            InkWell(
+              onTap: widget.enabled && !isBusy ? _openPickActionSheet : null,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: GPSColors.accent,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                padding: EdgeInsets.all(10),
+                child: Row(
+                  children: [
+                    const Icon(Icons.upload_file, color: Colors.white),
+                    GPSGaps.w8,
+                    Text(
+                      hasSelection ? 'Change File' : widget.buttonLabel,
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ],
+                ),
+              ),
             ),
             const SizedBox(width: 12),
             if (isBusy)
@@ -146,13 +156,7 @@ class _SingleFileUploadFieldState extends State<SingleFileUploadField> {
     if (!mounted) return;
 
     if (action == null) {
-      setState(
-        () =>
-            _status =
-                _uploadedFile == null
-                    ? _UploadStatus.idle
-                    : _UploadStatus.success,
-      );
+      setState(() => _status = _uploadedFile == null ? _UploadStatus.idle : _UploadStatus.success);
       return;
     }
 
@@ -173,13 +177,7 @@ class _SingleFileUploadFieldState extends State<SingleFileUploadField> {
   Future<void> _pickFromCamera() async {
     final x = await _imagePicker.pickImage(source: ImageSource.camera);
     if (x == null) {
-      setState(
-        () =>
-            _status =
-                _uploadedFile == null
-                    ? _UploadStatus.idle
-                    : _UploadStatus.success,
-      );
+      setState(() => _status = _uploadedFile == null ? _UploadStatus.idle : _UploadStatus.success);
       return;
     }
 
@@ -198,13 +196,7 @@ class _SingleFileUploadFieldState extends State<SingleFileUploadField> {
       type: FileType.any,
     );
     if (res == null || res.files.isEmpty) {
-      setState(
-        () =>
-            _status =
-                _uploadedFile == null
-                    ? _UploadStatus.idle
-                    : _UploadStatus.success,
-      );
+      setState(() => _status = _uploadedFile == null ? _UploadStatus.idle : _UploadStatus.success);
       return;
     }
 
@@ -229,18 +221,12 @@ class _SingleFileUploadFieldState extends State<SingleFileUploadField> {
     try {
       final filePart = await _toMultipart(sel);
 
-      final form = FormData.fromMap(<String, dynamic>{
-        'dir': widget.dir,
-        'file': filePart,
-      });
+      final form = FormData.fromMap(<String, dynamic>{'dir': widget.dir, 'file': filePart});
 
       final response = await _dio.post(
         _endpoint,
         data: form,
-        options: Options(
-          contentType: 'multipart/form-data',
-          responseType: ResponseType.json,
-        ),
+        options: Options(contentType: 'multipart/form-data', responseType: ResponseType.json),
         onSendProgress: (sent, total) {
           if (!mounted) return;
           if (total > 0) {
@@ -281,13 +267,7 @@ class _SingleFileUploadFieldState extends State<SingleFileUploadField> {
   }
 
   void _failPick(String msg) {
-    setState(
-      () =>
-          _status =
-              _uploadedFile == null
-                  ? _UploadStatus.idle
-                  : _UploadStatus.success,
-    );
+    setState(() => _status = _uploadedFile == null ? _UploadStatus.idle : _UploadStatus.success);
     _showSnack(msg);
   }
 
@@ -300,11 +280,7 @@ class _SingleFileUploadFieldState extends State<SingleFileUploadField> {
 enum _PickAction { camera, files }
 
 class _LocalSelection {
-  _LocalSelection({
-    required this.path,
-    required this.name,
-    required this.bytes,
-  });
+  _LocalSelection({required this.path, required this.name, required this.bytes});
 
   final String? path;
   final String name;
@@ -344,13 +320,8 @@ class _SelectionPanel extends StatelessWidget {
 
     if (selection == null && uploadedFile == null) {
       final hint =
-          (initialText == null || initialText!.trim().isEmpty)
-              ? 'No file selected.'
-              : initialText!;
-      return Text(
-        hint,
-        style: theme.textTheme.bodyMedium?.copyWith(color: theme.hintColor),
-      );
+          (initialText == null || initialText!.trim().isEmpty) ? 'No file selected.' : initialText!;
+      return Text(hint, style: theme.textTheme.bodyMedium?.copyWith(color: theme.hintColor));
     }
 
     return Card(
@@ -378,12 +349,7 @@ class _SelectionPanel extends StatelessWidget {
       if (File(p).existsSync()) {
         return ClipRRect(
           borderRadius: BorderRadius.circular(8),
-          child: Image.file(
-            File(p),
-            width: size,
-            height: size,
-            fit: BoxFit.cover,
-          ),
+          child: Image.file(File(p), width: size, height: size, fit: BoxFit.cover),
         );
       }
     }
@@ -406,8 +372,7 @@ class _SelectionPanel extends StatelessWidget {
   Widget _buildMeta(BuildContext context) {
     final theme = Theme.of(context);
 
-    final name =
-        selection?.name ?? uploadedFile?.path.split('/').last ?? '(file)';
+    final name = selection?.name ?? uploadedFile?.path.split('/').last ?? '(file)';
     final statusText = switch (status) {
       _UploadStatus.idle => 'Idle',
       _UploadStatus.picking => 'Opening picker…',
