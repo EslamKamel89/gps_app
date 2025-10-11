@@ -10,6 +10,7 @@ import 'package:gps_app/core/models/api_response_model.dart';
 import 'package:gps_app/core/service_locator/service_locator.dart';
 import 'package:gps_app/features/user/restaurants/models/restaurant_detailed_model/import.dart';
 import 'package:gps_app/features/user/restaurants/models/restaurant_main_data.dart';
+import 'package:gps_app/features/user/restaurants/presentation/dummy_data.dart';
 
 class RestaurantsController {
   final _api = serviceLocator<ApiConsumer>();
@@ -39,7 +40,7 @@ class RestaurantsController {
       final response = await _api.get("${EndPoint.restaurants}/$restaurantId");
       pr(response, '$t - response');
       final RestaurantDetailedModel model = RestaurantDetailedModel.fromJson(response);
-      return pr(ApiResponseModel(response: ResponseEnum.success, data: model), t);
+      return pr(ApiResponseModel(response: ResponseEnum.success, data: demoModel), t);
     } catch (e) {
       String errorMessage = e.toString();
       if (e is DioException) {

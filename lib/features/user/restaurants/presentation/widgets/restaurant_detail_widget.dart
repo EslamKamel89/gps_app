@@ -8,6 +8,9 @@ import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 import 'package:gps_app/features/user/restaurants/cubits/restaurant_cubit.dart';
 import 'package:gps_app/features/user/restaurants/models/restaurant_detailed_model/import.dart';
+import 'package:gps_app/features/user/restaurants/presentation/branch_list.dart';
+import 'package:gps_app/features/user/restaurants/presentation/widgets/branch_nav_button.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import 'badges.dart';
 import 'circle_back.dart';
@@ -15,7 +18,6 @@ import 'helpers.dart';
 import 'loading_error_scaffolds.dart';
 import 'menu_meals_list_view.dart';
 import 'reviews.dart';
-import 'section_header.dart';
 import 'tab_bar_delegate.dart';
 
 class RestaurantDetailWidget extends StatefulWidget {
@@ -201,8 +203,26 @@ class _RestaurantDetailWidgetState extends State<RestaurantDetailWidget>
                                   ).animate().fadeIn(duration: 250.ms).slideY(begin: .06),
 
                                   GPSGaps.h16,
-                                  const SectionHeader(title: 'Reviews'),
-                                  ReviewsSection(reviews: _reviews),
+                                  // const SectionHeader(title: 'Reviews'),
+                                  // ReviewsSection(reviews: _reviews),
+                                  BranchCTAButton(
+                                    label: 'View Branches',
+                                    onPressed: () {
+                                      Future.delayed(100.ms, () {
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder:
+                                                (_) => BranchList(
+                                                  branches: state.data?.branches ?? [],
+                                                ),
+                                          ),
+                                        );
+                                      });
+                                    },
+                                    icon: MdiIcons.foodForkDrink,
+                                    tooltip: 'Go to branch details',
+                                    expand: true,
+                                  ),
                                 ],
                               ),
                             ),

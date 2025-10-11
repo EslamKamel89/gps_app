@@ -47,6 +47,48 @@ final RestaurantDetailedModel demoModel = RestaurantDetailedModel(
         ),
       ],
     ),
+    Branch(
+      id: 2,
+      branchName: 'GPS Arlington',
+      phoneNumber: '7038459922',
+      website: 'www.gpsOrganic.com/arlington',
+      longitude: '-77.090980',
+      latitude: '38.881620',
+      images: [RestaurantImage(id: 10, path: 'storage/images/user/branch_arlington_1.jpg')],
+    ),
+    Branch(
+      id: 3,
+      branchName: 'GPS Tysons Corner',
+      phoneNumber: '7037341100',
+      website: 'www.gpsOrganic.com/tysons',
+      longitude: '-77.223050',
+      latitude: '38.917970',
+      images: [
+        RestaurantImage(id: 11, path: 'storage/images/user/branch_tysons_1.jpg'),
+        RestaurantImage(id: 12, path: 'storage/images/user/branch_tysons_2.jpg'),
+      ],
+    ),
+    Branch(
+      id: 4,
+      branchName: 'GPS Fairfax',
+      phoneNumber: '5713982244',
+      website: 'www.gpsOrganic.com/fairfax',
+      longitude: '-77.305480',
+      latitude: '38.846220',
+      images: [RestaurantImage(id: 13, path: 'storage/images/user/branch_fairfax_1.jpg')],
+    ),
+    Branch(
+      id: 5,
+      branchName: 'GPS Alexandria',
+      phoneNumber: '7036019901',
+      website: 'www.gpsOrganic.com/alexandria',
+      longitude: '-77.046920',
+      latitude: '38.804840',
+      images: [
+        RestaurantImage(id: 14, path: 'storage/images/user/branch_alexandria_1.jpg'),
+        RestaurantImage(id: 15, path: 'storage/images/user/branch_alexandria_2.jpg'),
+      ],
+    ),
   ],
   menus: [
     Menu(

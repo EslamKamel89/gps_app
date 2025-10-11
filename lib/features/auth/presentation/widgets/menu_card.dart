@@ -82,7 +82,7 @@ class _MenuCardState extends State<MenuCard> {
           GPSGaps.h16,
           ImageUploadField(
             multiple: false,
-            resource: UploadResource.branch,
+            resource: UploadResource.common,
             initial: const [],
             onChanged: (images) {
               if (images.isEmpty) return;

@@ -61,8 +61,7 @@ class _MealFormState extends State<MealForm> {
               initialValue: widget.meal.name,
               onChanged: (v) => widget.meal.name = v,
               decoration: const InputDecoration(hintText: 'e.g., Beef Burger'),
-              validator:
-                  (v) => validator(input: v, label: 'Name', isRequired: true),
+              validator: (v) => validator(input: v, label: 'Name', isRequired: true),
             ),
           ),
           GPSGaps.h12,
@@ -74,8 +73,7 @@ class _MealFormState extends State<MealForm> {
               initialValue: widget.meal.price?.toString() ?? '',
               onChanged: (v) => widget.meal.price = double.parse(v),
               keyboardType: TextInputType.numberWithOptions(decimal: true),
-              validator:
-                  (v) => validator(input: v, label: 'Price', isRequired: true),
+              validator: (v) => validator(input: v, label: 'Price', isRequired: true),
               decoration: const InputDecoration(
                 hintText: 'e.g., 12.95',
                 prefixText: '\$ ',
@@ -86,7 +84,7 @@ class _MealFormState extends State<MealForm> {
           GPSGaps.h12,
           ImageUploadField(
             multiple: false,
-            resource: UploadResource.meal,
+            resource: UploadResource.common,
             initial: const [],
             onChanged: (images) {
               if (images.isEmpty) return;
