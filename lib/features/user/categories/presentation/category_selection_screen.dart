@@ -9,7 +9,7 @@ import 'package:gps_app/features/design/utils/gps_gaps.dart';
 import 'package:gps_app/features/design/widgets/footer.dart';
 import 'package:gps_app/features/design/widgets/header.dart';
 import 'package:gps_app/features/user/categories/cubits/category_onboarding_cubit/category_onboarding_cubit.dart';
-import 'package:gps_app/features/user/categories/presentation/widgets/asset_category_card.dart';
+import 'package:gps_app/features/user/categories/presentation/widgets/category_card.dart';
 
 class CategorySelectionScreen extends StatefulWidget {
   const CategorySelectionScreen({super.key});
@@ -87,7 +87,7 @@ class _CategorySelectionScreenState extends State<CategorySelectionScreen> {
                                     .where((cat) => cat.id == category.id)
                                     .isNotEmpty;
 
-                            final card = AssetCategoryCard(
+                            final card = CategoryCard(
                               label: category.name ?? '',
                               description: category.description ?? '', // NEW
                               imageUrl: "${EndPoint.baseUrl}/${category.image?.path}",

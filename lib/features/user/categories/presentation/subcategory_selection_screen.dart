@@ -10,7 +10,7 @@ import 'package:gps_app/features/design/widgets/header.dart';
 import 'package:gps_app/features/user/categories/cubits/category_onboarding_cubit/category_onboarding_cubit.dart';
 import 'package:gps_app/features/user/categories/models/category_model/category_model.dart';
 import 'package:gps_app/features/user/categories/models/category_model/sub_category_model.dart';
-import 'package:gps_app/features/user/categories/presentation/widgets/asset_category_card.dart';
+import 'package:gps_app/features/user/categories/presentation/widgets/category_card.dart';
 
 class SubCategorySelectionScreen extends StatefulWidget {
   const SubCategorySelectionScreen({super.key});
@@ -67,9 +67,9 @@ class _SubCategorySelectionScreenState extends State<SubCategorySelectionScreen>
                                 itemCount: selectedCategories.length,
                                 itemBuilder: (context, index) {
                                   final category = selectedCategories[index];
-                                  final card = AssetCategoryCard(
+                                  final card = CategoryCard(
                                     label: category.name ?? '',
-                                    description: category.description ?? '', // NEW
+                                    description: category.description ?? '',
                                     imageUrl: "${EndPoint.baseUrl}/${category.image?.path}",
 
                                     selected: true,
@@ -169,7 +169,7 @@ class _SubCategorySelectionScreenState extends State<SubCategorySelectionScreen>
                                 ),
                               );
                               Future.delayed(300.ms, () {
-                                Navigator.of(context).pushNamed(AppRoutesNames.foodSelectionScreen);
+                                Navigator.of(context).pushNamed(AppRoutesNames.homeSearchScreen);
                               });
                             }
                             : null,

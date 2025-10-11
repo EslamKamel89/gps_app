@@ -6,7 +6,7 @@ import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 import 'package:gps_app/features/design/widgets/footer.dart';
 import 'package:gps_app/features/design/widgets/gps_bottom_nav.dart';
-import 'package:gps_app/features/user/categories/presentation/widgets/asset_category_card.dart';
+import 'package:gps_app/features/user/categories/presentation/widgets/category_card.dart';
 import 'package:gps_app/utils/assets/assets.dart';
 
 class CategoryOption {
@@ -66,12 +66,10 @@ class MarketCategorySelectionScreen extends StatefulWidget {
   const MarketCategorySelectionScreen({super.key});
 
   @override
-  State<MarketCategorySelectionScreen> createState() =>
-      _MarketCategorySelectionScreenState();
+  State<MarketCategorySelectionScreen> createState() => _MarketCategorySelectionScreenState();
 }
 
-class _MarketCategorySelectionScreenState
-    extends State<MarketCategorySelectionScreen> {
+class _MarketCategorySelectionScreenState extends State<MarketCategorySelectionScreen> {
   final Set<String> _selected = <String>{};
   int _currentTab = 1;
 
@@ -111,19 +109,18 @@ class _MarketCategorySelectionScreenState
                         padding: const EdgeInsets.all(8.0),
                         child: GridView.builder(
                           padding: EdgeInsets.zero,
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2,
-                                mainAxisSpacing: 14,
-                                crossAxisSpacing: 14,
-                                childAspectRatio: 1.05,
-                              ),
+                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            mainAxisSpacing: 14,
+                            crossAxisSpacing: 14,
+                            childAspectRatio: 1.05,
+                          ),
                           itemCount: _categories.length,
                           itemBuilder: (context, index) {
                             final item = _categories[index];
                             final selected = _selected.contains(item.id);
 
-                            final card = AssetCategoryCard(
+                            final card = CategoryCard(
                               label: item.label,
                               description: item.description, // NEW
                               imageUrl: item.assetPath,
@@ -135,10 +132,7 @@ class _MarketCategorySelectionScreenState
                                 .animate(delay: (80 * index).ms)
                                 .fadeIn(duration: 300.ms)
                                 .slideY(begin: .15)
-                                .scale(
-                                  begin: const Offset(.98, .98),
-                                  curve: Curves.easeOutBack,
-                                );
+                                .scale(begin: const Offset(.98, .98), curve: Curves.easeOutBack);
                           },
                         ),
                       ),
@@ -150,23 +144,17 @@ class _MarketCategorySelectionScreenState
                       padding: const EdgeInsets.all(8.0),
                       child: Footer(
                         onSkip:
-                            () => Navigator.of(
-                              context,
-                            ).pushNamed(AppRoutesNames.marketPlaceScreen),
+                            () => Navigator.of(context).pushNamed(AppRoutesNames.marketPlaceScreen),
                         onNext:
                             _selected.isNotEmpty
                                 ? () {
                                   ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text(
-                                        'Selected: ${_selected.join(', ')}',
-                                      ),
-                                    ),
+                                    SnackBar(content: Text('Selected: ${_selected.join(', ')}')),
                                   );
                                   Future.delayed(300.ms, () {
-                                    Navigator.of(context).pushNamed(
-                                      AppRoutesNames.marketPlaceScreen,
-                                    );
+                                    Navigator.of(
+                                      context,
+                                    ).pushNamed(AppRoutesNames.marketPlaceScreen);
                                   });
                                 }
                                 : null,

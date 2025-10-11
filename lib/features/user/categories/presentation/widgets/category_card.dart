@@ -1,10 +1,11 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 
-class AssetCategoryCard extends StatelessWidget {
-  const AssetCategoryCard({
+class CategoryCard extends StatelessWidget {
+  const CategoryCard({
     super.key,
     required this.label,
     required this.description,
@@ -14,7 +15,7 @@ class AssetCategoryCard extends StatelessWidget {
   });
 
   final String label;
-  final String description; // NEW
+  final String description;
   final String imageUrl;
   final bool selected;
   final VoidCallback onTap;
@@ -26,11 +27,22 @@ class AssetCategoryCard extends StatelessWidget {
 
     final image = ClipRRect(
       borderRadius: BorderRadius.circular(12),
-      child: Image.network(
-        imageUrl,
+      child: CachedNetworkImage(
+        imageUrl: imageUrl,
         fit: BoxFit.contain,
         width: double.infinity,
         height: 70,
+        placeholder:
+            (context, url) => const Center(
+              child: SizedBox(
+                width: 24,
+                height: 24,
+                child: CircularProgressIndicator(strokeWidth: 2),
+              ),
+            ),
+        errorWidget:
+            (context, url, error) =>
+                const Center(child: Icon(Icons.broken_image, color: Colors.grey, size: 28)),
       ),
     );
 
@@ -65,7 +77,7 @@ class AssetCategoryCard extends StatelessWidget {
                 description,
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: GPSColors.text.withOpacity(.70), // lighter
+                  color: GPSColors.text.withOpacity(.70),
                   height: 1.25,
                 ),
               ),
