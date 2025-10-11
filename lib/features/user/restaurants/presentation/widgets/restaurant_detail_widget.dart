@@ -9,6 +9,7 @@ import 'package:gps_app/features/design/utils/gps_gaps.dart';
 import 'package:gps_app/features/user/restaurants/cubits/restaurant_cubit.dart';
 import 'package:gps_app/features/user/restaurants/models/restaurant_detailed_model/import.dart';
 import 'package:gps_app/features/user/restaurants/presentation/branch_list.dart';
+import 'package:gps_app/features/user/restaurants/presentation/certifications_screen.dart';
 import 'package:gps_app/features/user/restaurants/presentation/widgets/branch_nav_button.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
@@ -220,6 +221,25 @@ class _RestaurantDetailWidgetState extends State<RestaurantDetailWidget>
                                       });
                                     },
                                     icon: MdiIcons.foodForkDrink,
+                                    tooltip: 'Go to branch details',
+                                    expand: true,
+                                  ),
+                                  GPSGaps.h8,
+                                  BranchCTAButton(
+                                    label: 'View Certifications',
+                                    onPressed: () {
+                                      Future.delayed(100.ms, () {
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder:
+                                                (_) => CertificationsScreen(
+                                                  items: state.data?.certifications ?? [],
+                                                ),
+                                          ),
+                                        );
+                                      });
+                                    },
+                                    icon: MdiIcons.certificate,
                                     tooltip: 'Go to branch details',
                                     expand: true,
                                   ),

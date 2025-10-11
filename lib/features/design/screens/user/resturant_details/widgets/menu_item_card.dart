@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:gps_app/features/design/screens/user/resturant_details/widgets/icon_action.dart';
-import 'package:gps_app/features/design/screens/user/resturant_details/widgets/pill.dart';
 import 'package:gps_app/features/design/screens/user/resturant_details/widgets/price_badge.dart';
 import 'package:gps_app/features/design/screens/user/resturant_details/widgets/thumb.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
-import 'package:gps_app/features/user/restaurants/presentation/widgets/helpers.dart';
+import 'package:gps_app/features/user/restaurants/models/restaurant_detailed_model/import.dart';
 
 class MenuItemCard extends StatelessWidget {
-  const MenuItemCard({super.key, required this.item, required this.heroTag});
-  final MenuItem item;
+  const MenuItemCard({super.key, required this.meal, required this.heroTag});
+  final Meal meal;
   final String heroTag;
 
   @override
@@ -38,7 +37,7 @@ class MenuItemCard extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              ThumbWidget(heroTag: heroTag),
+              ThumbWidget(meal: meal),
               // .animate().fadeIn(duration: 200.ms),
               GPSGaps.w12,
               Expanded(
@@ -50,34 +49,25 @@ class MenuItemCard extends StatelessWidget {
                       children: [
                         Expanded(
                           child: Text(
-                            item.name,
+                            meal.name ?? '',
                             style: textTheme.titleMedium?.copyWith(
                               color: GPSColors.text,
                               fontWeight: FontWeight.w800,
                             ),
                           ),
                         ),
-                        PriceBadge(price: item.price),
+                        PriceBadge(price: double.parse(meal.price ?? '0')),
                       ],
                     ),
                     GPSGaps.h8,
                     Text(
-                      item.description,
+                      meal.description ?? '',
                       style: textTheme.bodyMedium?.copyWith(
                         color: GPSColors.mutedText,
                         height: 1.35,
                       ),
                     ),
-                    GPSGaps.h8,
-                    Wrap(
-                      spacing: 8,
-                      runSpacing: 8,
-                      children: [
-                        if (item.isSpicy)
-                          const Pill(label: 'Spicy', icon: Icons.local_fire_department_rounded),
-                        for (final t in item.tags) Pill(label: t),
-                      ],
-                    ),
+
                     GPSGaps.h12,
                     Row(
                       children: [

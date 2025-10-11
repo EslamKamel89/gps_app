@@ -150,8 +150,6 @@ final RestaurantDetailedModel demoModel = RestaurantDetailedModel(
       title: 'one',
       description: 'one',
       restaurantId: 1,
-      createdAt: DateTime.parse('2025-10-09T06:14:46.000Z'),
-      updatedAt: DateTime.parse('2025-10-09T06:14:46.000Z'),
       file: [
         RestaurantFile(
           path:

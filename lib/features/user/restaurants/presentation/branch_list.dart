@@ -6,6 +6,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 import 'package:gps_app/features/user/restaurants/models/restaurant_detailed_model/import.dart';
+import 'package:gps_app/features/user/restaurants/presentation/widgets/branch_map_screen.dart';
 
 class BranchList extends StatelessWidget {
   const BranchList({
@@ -132,18 +133,37 @@ class _BranchCard extends StatelessWidget {
                         ),
                       ),
                       // Actions (call / website)
-                      if ((branch.phoneNumber ?? '').isNotEmpty)
-                        _IconAction(
-                          tooltip: 'Call',
-                          icon: Icons.call_rounded,
-                          onTap: () => onCall?.call(branch.phoneNumber!.trim()),
-                        ).animate().fadeIn(duration: 150.ms),
+                      // if ((branch.phoneNumber ?? '').isNotEmpty)
+                      //   _IconAction(
+                      //     tooltip: 'Call',
+                      //     icon: Icons.call_rounded,
+                      //     onTap: () => onCall?.call(branch.phoneNumber!.trim()),
+                      //   ).animate().fadeIn(duration: 150.ms),
                       if ((branch.website ?? '').isNotEmpty) GPSGaps.w8,
                       if ((branch.website ?? '').isNotEmpty)
                         _IconAction(
                           tooltip: 'Open website',
                           icon: Icons.language_rounded,
                           onTap: () => onOpenWebsite?.call(branch.website!.trim()),
+                        ).animate(delay: 40.ms).fadeIn(duration: 150.ms),
+                      if ((branch.latitude ?? '').isNotEmpty) GPSGaps.w8,
+                      if ((branch.latitude ?? '').isNotEmpty)
+                        _IconAction(
+                          tooltip: 'Open Map',
+                          icon: Icons.location_on,
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder:
+                                    (_) => BranchMapScreen(
+                                      latitude: branch.latitude ?? '0',
+                                      longitude: branch.longitude ?? '0',
+                                      title: branch.branchName ?? 'Branch Location',
+                                    ),
+                                fullscreenDialog: true,
+                              ),
+                            );
+                          },
                         ).animate(delay: 40.ms).fadeIn(duration: 150.ms),
                     ],
                   ),
@@ -197,6 +217,7 @@ class _BranchImageHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final radius = const BorderRadius.vertical(top: Radius.circular(16));
+    // pr(image, 'image');
     final url = image?.path ?? '';
 
     final imgWidget = CachedNetworkImage(
