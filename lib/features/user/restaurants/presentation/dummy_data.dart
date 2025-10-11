@@ -97,8 +97,6 @@ final RestaurantDetailedModel demoModel = RestaurantDetailedModel(
       name: "Meat Lovers",
       description: 'High quality grass-fed meats',
       imageId: 4,
-      createdAt: DateTime.parse('2025-10-06T11:43:25.000Z'),
-      updatedAt: DateTime.parse('2025-10-06T11:43:25.000Z'),
       images: [
         RestaurantImage(
           id: 9,
@@ -117,8 +115,6 @@ final RestaurantDetailedModel demoModel = RestaurantDetailedModel(
       name: "Cheese Lovers",
       description: 'Raw & local cheeses',
       imageId: 5,
-      createdAt: DateTime.parse('2025-10-06T11:43:25.000Z'),
-      updatedAt: DateTime.parse('2025-10-06T11:43:25.000Z'),
       meals: [
         Meal(name: 'Raw Milk Cheese Board', description: 'Farm selection', price: '14.20'),
         Meal(name: 'Baked Brie & Honey', description: 'Wildflower honey', price: '10.90'),
@@ -131,8 +127,6 @@ final RestaurantDetailedModel demoModel = RestaurantDetailedModel(
       name: "Today's Specials",
       description: 'Seasonal picks',
       imageId: 6,
-      createdAt: DateTime.parse('2025-10-06T11:43:25.000Z'),
-      updatedAt: DateTime.parse('2025-10-06T11:43:25.000Z'),
       meals: [
         Meal(name: 'Wild Salmon Bowl', description: 'Quinoa, dill dressing', price: '17.40'),
         Meal(

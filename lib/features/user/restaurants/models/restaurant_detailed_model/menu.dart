@@ -7,8 +7,6 @@ class Menu {
   String? name;
   String? description;
   int? imageId;
-  DateTime? createdAt;
-  DateTime? updatedAt;
   List<RestaurantImage>? images;
   List<Meal>? meals;
 
@@ -18,15 +16,13 @@ class Menu {
     this.name,
     this.description,
     this.imageId,
-    this.createdAt,
-    this.updatedAt,
     this.images,
     this.meals,
   });
 
   @override
   String toString() {
-    return 'Menu(id: $id, restaurantId: $restaurantId, name: $name, description: $description, imageId: $imageId, createdAt: $createdAt, updatedAt: $updatedAt, images: $images, meals: $meals)';
+    return 'Menu(id: $id, restaurantId: $restaurantId, name: $name, description: $description, imageId: $imageId, images: $images, meals: $meals)';
   }
 
   factory Menu.fromJson(Map<String, dynamic> json) => Menu(
@@ -35,8 +31,6 @@ class Menu {
     name: json['name'] as String?,
     description: json['description'] as String?,
     imageId: json['image_id'] as int?,
-    createdAt: json['created_at'] == null ? null : DateTime.parse(json['created_at'] as String),
-    updatedAt: json['updated_at'] == null ? null : DateTime.parse(json['updated_at'] as String),
     images:
         (json['images'] as List<dynamic>?)
             ?.map((e) => RestaurantImage.fromJson(e as Map<String, dynamic>))
@@ -53,8 +47,6 @@ class Menu {
     'name': name,
     'description': description,
     'image_id': imageId,
-    'created_at': createdAt?.toIso8601String(),
-    'updated_at': updatedAt?.toIso8601String(),
     'images': images?.map((e) => e.toJson()).toList(),
     'meals': meals?.map((e) => e.toJson()).toList(),
   };
@@ -76,8 +68,6 @@ class Menu {
       name: name ?? this.name,
       description: description ?? this.description,
       imageId: imageId ?? this.imageId,
-      createdAt: createdAt ?? this.createdAt,
-      updatedAt: updatedAt ?? this.updatedAt,
       images: images ?? this.images,
       meals: meals ?? this.meals,
     );

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:gps_app/core/helpers/print_helper.dart';
 // Keep your existing MenuItemCard import
 import 'package:gps_app/features/design/screens/user/resturant_details/widgets/menu_item_card.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
@@ -22,7 +21,7 @@ class MenuMealsListView extends StatelessWidget {
       itemBuilder: (context, index) {
         final meal = meals[index];
         final delay = (70 * index).ms;
-        return MenuItemCard(meal: pr(meal, 'menu'), heroTag: '$heroPrefix-$index')
+        return MenuItemCard(meal: meal)
             .animate(delay: delay)
             .fadeIn(duration: 260.ms, curve: Curves.easeOutCubic)
             .slideY(begin: .08, curve: Curves.easeOutCubic)
