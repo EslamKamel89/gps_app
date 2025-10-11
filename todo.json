@@ -46,11 +46,17 @@
         "move all the files from the design folder to the auth folder",
         "create the necessary param models",
         "create the method in the controller",
+        "create the cubit",
+        "wire the front end",
         "------------------------------------------------"
     ],
     "todos": [
-        "create the cubit",
-        "wire the front end",
+        "alter the category controller to use the new structure",
+        "alter the app flow> after successful login or register go to the categories page then go to the main page.",
+        "add cached network image with loading and error states",
+        "test the categories screen and make sure it works",
+        "ask if there is an change in the certificates page in the request data send",
+        "...continue to the restaurant details page",
         "------------------------------------------------"
     ],
     "backend_done_todos": [
