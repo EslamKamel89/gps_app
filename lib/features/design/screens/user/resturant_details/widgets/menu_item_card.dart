@@ -72,14 +72,18 @@ class MenuItemCard extends StatelessWidget {
                     GPSGaps.h12,
                     Row(
                       children: [
-                        if (meal.categories?.name != null)
-                          CategoryChip(title: meal.categories?.name ?? ''),
+                        Expanded(
+                          child: Wrap(
+                            children: [
+                              if (meal.categories?.name != null)
+                                CategoryChip(title: meal.categories?.name ?? ''),
+                              if (meal.subcategories?.name != null)
+                                CategoryChip(title: meal.subcategories?.name ?? ''),
+                            ],
+                          ),
+                        ),
 
-                        GPSGaps.w8,
-                        if (meal.subcategories?.name != null)
-                          CategoryChip(title: meal.subcategories?.name ?? ''),
-
-                        Spacer(),
+                        // Spacer(),
                         // GPSGaps.w12,
                         IconAction(icon: Icons.favorite_border_rounded, onTap: () {}),
                       ],

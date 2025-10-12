@@ -6,11 +6,14 @@ class CategoryChip extends StatelessWidget {
   final String title;
   @override
   Widget build(BuildContext context) {
-    return Badge(
-      backgroundColor: GPSColors.accent,
-      label: Padding(
-        padding: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
-        child: Text(title, style: TextStyle(fontSize: 12)),
+    return Container(
+      margin: EdgeInsets.all(2),
+      child: Badge(
+        backgroundColor: GPSColors.accent,
+        label: Padding(
+          padding: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+          child: Text(title, style: TextStyle(fontSize: 12)),
+        ),
       ),
     );
   }

@@ -178,14 +178,16 @@ class _RestaurantDetailWidgetState extends State<RestaurantDetailWidget>
 
                                   GPSGaps.h12,
 
-                                  const Wrap(
+                                  Wrap(
                                         spacing: 10,
                                         runSpacing: 10,
                                         children: [
-                                          BadgeChip(label: '100% Grass-fed'),
-                                          BadgeChip(label: 'Organic'),
-                                          BadgeChip(label: 'Locally sourced'),
-                                          BadgeChip(label: 'Non-GMO'),
+                                          ...(state.data?.mainCategories ?? []).map(
+                                            (c) => BadgeChip(label: c.name ?? ''),
+                                          ),
+                                          ...(state.data?.subCategories ?? []).map(
+                                            (c) => BadgeChip(label: c.name ?? ''),
+                                          ),
                                         ],
                                       )
                                       .animate(delay: 70.ms)
@@ -194,15 +196,14 @@ class _RestaurantDetailWidgetState extends State<RestaurantDetailWidget>
 
                                   GPSGaps.h16,
 
-                                  GPSGaps.h8,
-                                  Text(
-                                    'Neighborhood kitchen serving grass-fed meats, raw cheeses, and seasonal produce from nearby farms.',
-                                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                      color: GPSColors.mutedText,
-                                      height: 1.4,
-                                    ),
-                                  ).animate().fadeIn(duration: 250.ms).slideY(begin: .06),
-
+                                  // GPSGaps.h8,
+                                  // Text(
+                                  //   'Neighborhood kitchen serving grass-fed meats, raw cheeses, and seasonal produce from nearby farms.',
+                                  //   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                  //     color: GPSColors.mutedText,
+                                  //     height: 1.4,
+                                  //   ),
+                                  // ).animate().fadeIn(duration: 250.ms).slideY(begin: .06),
                                   GPSGaps.h16,
                                   // const SectionHeader(title: 'Reviews'),
                                   // ReviewsSection(reviews: _reviews),
