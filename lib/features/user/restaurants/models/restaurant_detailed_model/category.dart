@@ -1,18 +1,18 @@
 class Category {
   int? id;
-  String? path;
+  String? name;
 
-  Category({this.id, this.path});
+  Category({this.id, this.name});
 
   @override
-  String toString() => 'Category(id: $id, path: $path)';
+  String toString() => 'Category(id: $id, name: $name)';
 
   factory Category.fromJson(Map<String, dynamic> json) =>
-      Category(id: json['id'] as int?, path: json['path'] as String?);
+      Category(id: json['id'] as int?, name: json['name'] as String?);
 
-  Map<String, dynamic> toJson() => {'id': id, 'path': path};
+  Map<String, dynamic> toJson() => {'id': id, 'name': name};
 
-  Category copyWith({int? id, String? path}) {
-    return Category(id: id ?? this.id, path: path ?? this.path);
+  Category copyWith({int? id, String? name}) {
+    return Category(id: id ?? this.id, name: name ?? this.name);
   }
 }

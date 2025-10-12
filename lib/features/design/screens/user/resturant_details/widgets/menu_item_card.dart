@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:gps_app/core/helpers/print_helper.dart';
+import 'package:gps_app/features/design/screens/user/resturant_details/widgets/category_chip.dart';
 import 'package:gps_app/features/design/screens/user/resturant_details/widgets/icon_action.dart';
 import 'package:gps_app/features/design/screens/user/resturant_details/widgets/price_badge.dart';
 import 'package:gps_app/features/design/screens/user/resturant_details/widgets/thumb.dart';
@@ -14,7 +16,7 @@ class MenuItemCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-
+    pr(meal, 'meal');
     return InkWell(
       borderRadius: BorderRadius.circular(16),
       onTap: () {},
@@ -70,13 +72,16 @@ class MenuItemCard extends StatelessWidget {
                     GPSGaps.h12,
                     Row(
                       children: [
-                        // Chip(label: Text(meal.)),
+                        if (meal.categories?.name != null)
+                          CategoryChip(title: meal.categories?.name ?? ''),
+
+                        GPSGaps.w8,
+                        if (meal.subcategories?.name != null)
+                          CategoryChip(title: meal.subcategories?.name ?? ''),
+
                         Spacer(),
                         // GPSGaps.w12,
-                        IconAction(
-                          icon: Icons.favorite_border_rounded,
-                          onTap: () {},
-                        ),
+                        IconAction(icon: Icons.favorite_border_rounded, onTap: () {}),
                       ],
                     ),
                   ],

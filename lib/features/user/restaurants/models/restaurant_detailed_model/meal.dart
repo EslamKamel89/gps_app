@@ -5,12 +5,14 @@ class Meal {
   String? description;
   String? price;
   List<RestaurantImage>? images;
+  Category? categories;
+  Category? subcategories;
 
-  Meal({this.name, this.description, this.price, this.images});
+  Meal({this.name, this.description, this.price, this.images, this.categories, this.subcategories});
 
   @override
   String toString() {
-    return 'Meal(name: $name, description: $description, price: $price , image: $images)';
+    return 'Meal(name: $name, description: $description, price: $price , image: $images , categories: $categories , subcategories: $subcategories)';
   }
 
   factory Meal.fromJson(Map<String, dynamic> json) => Meal(
@@ -21,6 +23,14 @@ class Meal {
         (json['images'] as List<dynamic>?)
             ?.map((e) => RestaurantImage.fromJson(e as Map<String, dynamic>))
             .toList(),
+    categories:
+        json['categories'] == null
+            ? null
+            : Category.fromJson(json['categories'] as Map<String, dynamic>),
+    subcategories:
+        json['subcategories'] == null
+            ? null
+            : Category.fromJson(json['subcategories'] as Map<String, dynamic>),
   );
 
   Map<String, dynamic> toJson() => {
@@ -28,14 +38,25 @@ class Meal {
     'description': description,
     'price': price,
     'images': images?.map((e) => e.toJson()).toList(),
+    'categories': categories?.toJson(),
+    'subcategories': subcategories?.toJson(),
   };
 
-  Meal copyWith({String? name, String? description, String? price, List<RestaurantImage>? images}) {
+  Meal copyWith({
+    String? name,
+    String? description,
+    String? price,
+    List<RestaurantImage>? images,
+    Category? categories,
+    Category? subcategories,
+  }) {
     return Meal(
       name: name ?? this.name,
       description: description ?? this.description,
       price: price ?? this.price,
       images: images ?? this.images,
+      categories: categories ?? this.categories,
+      subcategories: subcategories ?? this.subcategories,
     );
   }
 }
