@@ -53,13 +53,13 @@
     "add cached network image with loading and error states",
     "test the categories screen and make sure it works",
     "ask if there is an change in the certificates page in the request data send",
+    "fix the meal display - fix image parsing and fix static data",
+    "create the certificate screen",
+    "create the widget to display the map",
     "------------------------------------------------"
   ],
   "todos": [
     "menu and meal images upload their images to the common folder",
-    "fix the meal display - fix image parsing and fix static data",
-    "create the certificate screen",
-    "create the widget to display the map",
     "------------------------------------------------"
   ],
   "backend_done_todos": [
