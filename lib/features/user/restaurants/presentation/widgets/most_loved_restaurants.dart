@@ -27,13 +27,18 @@ class MostLovedRestaurantsWidget extends StatefulWidget {
   const MostLovedRestaurantsWidget({super.key});
 
   @override
-  State<MostLovedRestaurantsWidget> createState() => _MostLovedRestaurantsWidgetState();
+  State<MostLovedRestaurantsWidget> createState() =>
+      _MostLovedRestaurantsWidgetState();
 }
 
-class _MostLovedRestaurantsWidgetState extends State<MostLovedRestaurantsWidget> {
+class _MostLovedRestaurantsWidgetState
+    extends State<MostLovedRestaurantsWidget> {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<RestaurantsCubit, ApiResponseModel<List<RestaurantMainData>>>(
+    return BlocBuilder<
+      RestaurantsCubit,
+      ApiResponseModel<List<RestaurantMainData>>
+    >(
       builder: (context, state) {
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 8),
@@ -68,8 +73,9 @@ class _MostLovedRestaurantsWidgetState extends State<MostLovedRestaurantsWidget>
                                     Navigator.of(context).push(
                                       MaterialPageRoute(
                                         builder:
-                                            (_) =>
-                                                RestaurantDetailProvider(restaurantId: it.id ?? 1),
+                                            (_) => RestaurantDetailProvider(
+                                              restaurantId: it.id ?? 1,
+                                            ),
                                       ),
                                     );
                                   },
@@ -121,8 +127,12 @@ class _RestaurantItem extends StatelessWidget {
                           imageUrl: imageUrl,
                           fit: BoxFit.cover,
                           placeholder:
-                              (_, __) => const _CircleImagePlaceholderShimmer(size: _avatarSize),
-                          errorWidget: (_, __, ___) => const _CircleImageError(size: _avatarSize),
+                              (_, __) => const _CircleImagePlaceholderShimmer(
+                                size: _avatarSize,
+                              ),
+                          errorWidget:
+                              (_, __, ___) =>
+                                  const _CircleImageError(size: _avatarSize),
                           fadeInDuration: 250.ms,
                         ),
                       ),
@@ -169,9 +179,10 @@ class _LoadingListShimmer extends StatelessWidget {
       itemBuilder: (context, i) {
         return Column(
           children: [
-            const _CircleImagePlaceholderShimmer(
-              size: 80,
-            ).animate(delay: (i * 60).ms).fadeIn(duration: 250.ms).shimmer(duration: 1200.ms),
+            const _CircleImagePlaceholderShimmer(size: 80)
+                .animate(delay: (i * 60).ms)
+                .fadeIn(duration: 250.ms)
+                .shimmer(duration: 1200.ms),
             GPSGaps.h8,
             Container(
                   width: 80,
@@ -219,15 +230,22 @@ class _CircleImageError extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: size,
-      height: size,
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-        color: GPSColors.cardBorder.withOpacity(.18),
-        shape: BoxShape.circle,
-        border: Border.all(color: GPSColors.cardBorder),
-      ),
-      child: const Icon(Icons.broken_image_outlined, size: 24, color: Colors.black54),
-    ).animate().fadeIn(duration: 200.ms).shake(hz: 3, offset: const Offset(2, 0), duration: 350.ms);
+          width: size,
+          height: size,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color: GPSColors.cardBorder.withOpacity(.18),
+            shape: BoxShape.circle,
+            border: Border.all(color: GPSColors.cardBorder),
+          ),
+          child: const Icon(
+            Icons.broken_image_outlined,
+            size: 24,
+            color: Colors.black54,
+          ),
+        )
+        .animate()
+        .fadeIn(duration: 200.ms)
+        .shake(hz: 3, offset: const Offset(2, 0), duration: 350.ms);
   }
 }

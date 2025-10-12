@@ -24,7 +24,9 @@ String resolveMediaUrl(String? path) {
     return 'https://images.unsplash.com/photo-1550547660-d9450f859349?q=80&w=1600&auto=format&fit=crop';
   }
   if (path.startsWith('http')) return path;
-  return kMediaBaseUrl.endsWith('/') ? '$kMediaBaseUrl$path' : '$kMediaBaseUrl/$path';
+  return kMediaBaseUrl.endsWith('/')
+      ? '$kMediaBaseUrl$path'
+      : '$kMediaBaseUrl/$path';
 }
 
 double parsePrice(String? s) {

@@ -1,4 +1,5 @@
 export 'branch.dart';
+export 'category.dart';
 export 'certification.dart';
 export 'file.dart';
 export 'image.dart';

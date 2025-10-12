@@ -42,7 +42,10 @@ class _BranchMapScreenState extends State<BranchMapScreen> {
   Widget build(BuildContext context) {
     if (!_valid) {
       return Scaffold(
-        appBar: AppBar(title: const Text('Branch Location'), backgroundColor: Colors.black87),
+        appBar: AppBar(
+          title: const Text('Branch Location'),
+          backgroundColor: Colors.black87,
+        ),
         body: const Center(
           child: Text(
             'Invalid coordinates. Unable to show map.',
@@ -52,7 +55,9 @@ class _BranchMapScreenState extends State<BranchMapScreen> {
       );
     }
 
-    final markers = <Marker>{Marker(markerId: const MarkerId('branch-marker'), position: _target)};
+    final markers = <Marker>{
+      Marker(markerId: const MarkerId('branch-marker'), position: _target),
+    };
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.light,
@@ -73,7 +78,10 @@ class _BranchMapScreenState extends State<BranchMapScreen> {
           ),
           leading: IconButton(
             tooltip: 'Back',
-            icon: const Icon(Icons.arrow_back_ios_new_rounded, color: Colors.white),
+            icon: const Icon(
+              Icons.arrow_back_ios_new_rounded,
+              color: Colors.white,
+            ),
             onPressed: () => Navigator.of(context).maybePop(),
           ),
         ),
@@ -100,11 +108,15 @@ class _BranchMapScreenState extends State<BranchMapScreen> {
                 )
                 .animate()
                 .fadeIn(duration: 250.ms)
-                .scale(begin: const Offset(1.02, 1.02), end: const Offset(1, 1)),
+                .scale(
+                  begin: const Offset(1.02, 1.02),
+                  end: const Offset(1, 1),
+                ),
 
             IgnorePointer(
               child: Container(
-                height: kToolbarHeight + MediaQuery.of(context).padding.top + 12,
+                height:
+                    kToolbarHeight + MediaQuery.of(context).padding.top + 12,
                 decoration: const BoxDecoration(
                   gradient: LinearGradient(
                     begin: Alignment.topCenter,

@@ -4,7 +4,7 @@ import 'package:gps_app/core/helpers/print_helper.dart';
 import 'package:gps_app/core/models/api_response_model.dart';
 import 'package:gps_app/core/service_locator/service_locator.dart';
 import 'package:gps_app/features/user/restaurants/controllers/restaurants_controller.dart';
-import 'package:gps_app/features/user/restaurants/models/restaurant_detailed_model/import.dart';
+import 'package:gps_app/features/user/restaurants/models/restaurant_detailed_model/export.dart';
 
 class RestaurantCubit extends Cubit<ApiResponseModel<RestaurantDetailedModel>> {
   RestaurantCubit() : super(ApiResponseModel());

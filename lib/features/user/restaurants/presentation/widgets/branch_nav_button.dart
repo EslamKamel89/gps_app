@@ -63,7 +63,10 @@ class BranchCTAButton extends StatelessWidget {
             HapticFeedback.selectionClick();
             onPressed();
           },
-          child: expand ? SizedBox(width: double.infinity, child: buttonCore) : buttonCore,
+          child:
+              expand
+                  ? SizedBox(width: double.infinity, child: buttonCore)
+                  : buttonCore,
         ),
       ),
     );
@@ -77,29 +80,32 @@ class _ButtonCore extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 48,
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(14),
-        gradient: const LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [GPSColors.primary, Color(0xFF2BB673)],
-        ),
-        boxShadow: const [
-          BoxShadow(
-            blurRadius: 18,
-            spreadRadius: -6,
-            offset: Offset(0, 10),
-            color: Color(0x3300A86B),
+          height: 48,
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(14),
+            gradient: const LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [GPSColors.primary, Color(0xFF2BB673)],
+            ),
+            boxShadow: const [
+              BoxShadow(
+                blurRadius: 18,
+                spreadRadius: -6,
+                offset: Offset(0, 10),
+                color: Color(0x3300A86B),
+              ),
+            ],
           ),
-        ],
-      ),
-      child: DefaultTextStyle.merge(
-        style: const TextStyle(color: Colors.white),
-        child: Center(child: child),
-      ),
-    ).animate().fadeIn(duration: 220.ms).slideY(begin: .08, curve: Curves.easeOutCubic);
+          child: DefaultTextStyle.merge(
+            style: const TextStyle(color: Colors.white),
+            child: Center(child: child),
+          ),
+        )
+        .animate()
+        .fadeIn(duration: 220.ms)
+        .slideY(begin: .08, curve: Curves.easeOutCubic);
   }
 }
 
@@ -124,9 +130,18 @@ class _TapWrapperState extends State<_TapWrapper> {
       onTap: widget.onTap,
       child: widget.child
           .animate(target: _pressed ? 1 : 0)
-          .scale(begin: const Offset(1, 1), end: const Offset(.98, .98), duration: 120.ms)
+          .scale(
+            begin: const Offset(1, 1),
+            end: const Offset(.98, .98),
+            duration: 120.ms,
+          )
           .then()
-          .rotate(begin: 0, end: .15, duration: 140.ms, curve: Curves.easeOutCubic),
+          .rotate(
+            begin: 0,
+            end: .15,
+            duration: 140.ms,
+            curve: Curves.easeOutCubic,
+          ),
     );
   }
 }

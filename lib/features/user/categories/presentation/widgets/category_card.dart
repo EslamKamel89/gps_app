@@ -41,8 +41,9 @@ class CategoryCard extends StatelessWidget {
               ),
             ),
         errorWidget:
-            (context, url, error) =>
-                const Center(child: Icon(Icons.broken_image, color: Colors.grey, size: 28)),
+            (context, url, error) => const Center(
+              child: Icon(Icons.broken_image, color: Colors.grey, size: 28),
+            ),
       ),
     );
 

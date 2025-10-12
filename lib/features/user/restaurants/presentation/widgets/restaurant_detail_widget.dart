@@ -7,7 +7,7 @@ import 'package:gps_app/core/models/api_response_model.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 import 'package:gps_app/features/user/restaurants/cubits/restaurant_cubit.dart';
-import 'package:gps_app/features/user/restaurants/models/restaurant_detailed_model/import.dart';
+import 'package:gps_app/features/user/restaurants/models/restaurant_detailed_model/export.dart';
 import 'package:gps_app/features/user/restaurants/presentation/branch_list.dart';
 import 'package:gps_app/features/user/restaurants/presentation/certifications_screen.dart';
 import 'package:gps_app/features/user/restaurants/presentation/widgets/branch_nav_button.dart';

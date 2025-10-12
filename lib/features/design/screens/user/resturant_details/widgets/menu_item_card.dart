@@ -5,7 +5,7 @@ import 'package:gps_app/features/design/screens/user/resturant_details/widgets/p
 import 'package:gps_app/features/design/screens/user/resturant_details/widgets/thumb.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
-import 'package:gps_app/features/user/restaurants/models/restaurant_detailed_model/import.dart';
+import 'package:gps_app/features/user/restaurants/models/restaurant_detailed_model/export.dart';
 
 class MenuItemCard extends StatelessWidget {
   const MenuItemCard({super.key, required this.meal});
@@ -70,10 +70,13 @@ class MenuItemCard extends StatelessWidget {
                     GPSGaps.h12,
                     Row(
                       children: [
-                        // Expanded(child: _AddButton(label: 'Add to order', onTap: () {})),
+                        // Chip(label: Text(meal.)),
                         Spacer(),
                         // GPSGaps.w12,
-                        IconAction(icon: Icons.favorite_border_rounded, onTap: () {}),
+                        IconAction(
+                          icon: Icons.favorite_border_rounded,
+                          onTap: () {},
+                        ),
                       ],
                     ),
                   ],

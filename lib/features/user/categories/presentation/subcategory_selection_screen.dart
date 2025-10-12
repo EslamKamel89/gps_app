@@ -16,10 +16,12 @@ class SubCategorySelectionScreen extends StatefulWidget {
   const SubCategorySelectionScreen({super.key});
 
   @override
-  State<SubCategorySelectionScreen> createState() => _SubCategorySelectionScreenState();
+  State<SubCategorySelectionScreen> createState() =>
+      _SubCategorySelectionScreenState();
 }
 
-class _SubCategorySelectionScreenState extends State<SubCategorySelectionScreen> {
+class _SubCategorySelectionScreenState
+    extends State<SubCategorySelectionScreen> {
   late CategoryOnboardingCubit cubit;
   @override
   void initState() {
@@ -43,8 +45,11 @@ class _SubCategorySelectionScreenState extends State<SubCategorySelectionScreen>
                 children: [
                   GPSGaps.h24,
                   const GpsHeader(
-                    title: 'Which sub-categories are you interested in?',
-                  ).animate().fadeIn(duration: 300.ms).slideY(begin: .2, curve: Curves.easeOutQuad),
+                        title: 'Which sub-categories are you interested in?',
+                      )
+                      .animate()
+                      .fadeIn(duration: 300.ms)
+                      .slideY(begin: .2, curve: Curves.easeOutQuad),
                   GPSGaps.h24,
 
                   Builder(
@@ -58,19 +63,21 @@ class _SubCategorySelectionScreenState extends State<SubCategorySelectionScreen>
                                 padding: EdgeInsets.zero,
                                 physics: NeverScrollableScrollPhysics(),
                                 shrinkWrap: true,
-                                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 2,
-                                  mainAxisSpacing: 14,
-                                  crossAxisSpacing: 14,
-                                  childAspectRatio: 1.05,
-                                ),
+                                gridDelegate:
+                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 2,
+                                      mainAxisSpacing: 14,
+                                      crossAxisSpacing: 14,
+                                      childAspectRatio: 1.05,
+                                    ),
                                 itemCount: selectedCategories.length,
                                 itemBuilder: (context, index) {
                                   final category = selectedCategories[index];
                                   final card = CategoryCard(
                                     label: category.name ?? '',
                                     description: category.description ?? '',
-                                    imageUrl: "${EndPoint.baseUrl}/${category.image?.path}",
+                                    imageUrl:
+                                        "${EndPoint.baseUrl}/${category.image?.path}",
 
                                     selected: true,
                                     onTap: () {},
@@ -92,57 +99,73 @@ class _SubCategorySelectionScreenState extends State<SubCategorySelectionScreen>
                                   return Wrap(
                                     runSpacing: 10,
                                     spacing: 5,
-                                    children: List.generate(subCategories.length, (index) {
-                                      final subCat = subCategories[index];
-                                      final selected =
-                                          state.selectedSubCategories
-                                              .where((cat) => cat.id == subCat.id)
-                                              .isNotEmpty;
-                                      return InkWell(
-                                            onTap: () {
-                                              cubit.toggleSelectedSubCategory(subCat);
-                                            },
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                color:
-                                                    selected
-                                                        ? GPSColors.primary
-                                                        : GPSColors.primary.withOpacity(0.2),
-                                                borderRadius: BorderRadius.circular(5),
-                                              ),
-                                              // margin: EdgeInsets.all(5),
-                                              padding: EdgeInsets.only(
-                                                top: 5,
-                                                bottom: 5,
-                                                right: 10,
-                                                left: 5,
-                                              ),
-                                              child: Row(
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: [
-                                                  Icon(
-                                                    Icons.add,
-                                                    color: selected ? Colors.white : Colors.black,
-                                                  ),
-                                                  Text(
-                                                    subCat.name ?? '',
-                                                    style: TextStyle(
-                                                      color: selected ? Colors.white : Colors.black,
-                                                      fontSize: 20,
+                                    children: List.generate(
+                                      subCategories.length,
+                                      (index) {
+                                        final subCat = subCategories[index];
+                                        final selected =
+                                            state.selectedSubCategories
+                                                .where(
+                                                  (cat) => cat.id == subCat.id,
+                                                )
+                                                .isNotEmpty;
+                                        return InkWell(
+                                              onTap: () {
+                                                cubit.toggleSelectedSubCategory(
+                                                  subCat,
+                                                );
+                                              },
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                  color:
+                                                      selected
+                                                          ? GPSColors.primary
+                                                          : GPSColors.primary
+                                                              .withOpacity(0.2),
+                                                  borderRadius:
+                                                      BorderRadius.circular(5),
+                                                ),
+                                                // margin: EdgeInsets.all(5),
+                                                padding: EdgeInsets.only(
+                                                  top: 5,
+                                                  bottom: 5,
+                                                  right: 10,
+                                                  left: 5,
+                                                ),
+                                                child: Row(
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  children: [
+                                                    Icon(
+                                                      Icons.add,
+                                                      color:
+                                                          selected
+                                                              ? Colors.white
+                                                              : Colors.black,
                                                     ),
-                                                  ),
-                                                ],
+                                                    Text(
+                                                      subCat.name ?? '',
+                                                      style: TextStyle(
+                                                        color:
+                                                            selected
+                                                                ? Colors.white
+                                                                : Colors.black,
+                                                        fontSize: 20,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
                                               ),
-                                            ),
-                                          )
-                                          .animate(delay: (80 * index).ms)
-                                          .fadeIn(duration: 300.ms)
-                                          .slideY(begin: .15)
-                                          .scale(
-                                            begin: const Offset(.98, .98),
-                                            curve: Curves.easeOutBack,
-                                          );
-                                    }),
+                                            )
+                                            .animate(delay: (80 * index).ms)
+                                            .fadeIn(duration: 300.ms)
+                                            .slideY(begin: .15)
+                                            .scale(
+                                              begin: const Offset(.98, .98),
+                                              curve: Curves.easeOutBack,
+                                            );
+                                      },
+                                    ),
                                   );
                                 },
                               ),
@@ -157,7 +180,9 @@ class _SubCategorySelectionScreenState extends State<SubCategorySelectionScreen>
 
                   Footer(
                     onSkip:
-                        () => Navigator.of(context).pushNamed(AppRoutesNames.foodSelectionScreen),
+                        () => Navigator.of(
+                          context,
+                        ).pushNamed(AppRoutesNames.foodSelectionScreen),
                     onNext:
                         state.selectedCategories.isNotEmpty
                             ? () {
@@ -169,7 +194,9 @@ class _SubCategorySelectionScreenState extends State<SubCategorySelectionScreen>
                                 ),
                               );
                               Future.delayed(300.ms, () {
-                                Navigator.of(context).pushNamed(AppRoutesNames.homeSearchScreen);
+                                Navigator.of(
+                                  context,
+                                ).pushNamed(AppRoutesNames.homeSearchScreen);
                               });
                             }
                             : null,

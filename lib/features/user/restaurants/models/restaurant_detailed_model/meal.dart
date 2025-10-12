@@ -1,4 +1,4 @@
-import 'package:gps_app/features/user/restaurants/models/restaurant_detailed_model/import.dart';
+import 'package:gps_app/features/user/restaurants/models/restaurant_detailed_model/export.dart';
 
 class Meal {
   String? name;

@@ -13,9 +13,10 @@ class SectionHeader extends StatelessWidget {
         Expanded(
           child: Text(
             title,
-            style: Theme.of(
-              context,
-            ).textTheme.titleMedium?.copyWith(color: GPSColors.text, fontWeight: FontWeight.w800),
+            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+              color: GPSColors.text,
+              fontWeight: FontWeight.w800,
+            ),
           ),
         ),
         const Icon(Icons.chevron_right_rounded, color: GPSColors.mutedText),

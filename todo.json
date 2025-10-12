@@ -56,10 +56,12 @@
     "fix the meal display - fix image parsing and fix static data",
     "create the certificate screen",
     "create the widget to display the map",
+    "fix the issue with the meal image not working",
     "------------------------------------------------"
   ],
   "todos": [
     "menu and meal images upload their images to the common folder",
+    "handle the category and subcategories in the home search page and in the meal",
     "------------------------------------------------"
   ],
   "backend_done_todos": [

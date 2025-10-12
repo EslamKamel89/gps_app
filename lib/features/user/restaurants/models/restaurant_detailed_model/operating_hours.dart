@@ -9,7 +9,15 @@ class OperatingHours {
   List<String>? sat;
   List<String>? sun;
 
-  OperatingHours({this.mon, this.tue, this.wed, this.thu, this.fri, this.sat, this.sun});
+  OperatingHours({
+    this.mon,
+    this.tue,
+    this.wed,
+    this.thu,
+    this.fri,
+    this.sat,
+    this.sun,
+  });
 
   @override
   String toString() {

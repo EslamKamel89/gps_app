@@ -24,7 +24,11 @@ class CoverError extends StatelessWidget {
     return Container(
       color: const Color(0x14000000),
       child: const Center(
-        child: Icon(Icons.broken_image_outlined, size: 48, color: Colors.black45),
+        child: Icon(
+          Icons.broken_image_outlined,
+          size: 48,
+          color: Colors.black45,
+        ),
       ),
     );
   }
@@ -45,7 +49,9 @@ class LoadingScaffold extends StatelessWidget {
             pinned: true,
             elevation: 0,
             leading: const CircleBack(),
-            flexibleSpace: const FlexibleSpaceBar(background: CoverPlaceholder()),
+            flexibleSpace: const FlexibleSpaceBar(
+              background: CoverPlaceholder(),
+            ),
           ),
           SliverToBoxAdapter(
             child: Padding(
@@ -57,15 +63,25 @@ class LoadingScaffold extends StatelessWidget {
                   GPSGaps.h12,
                   Row(
                     children: [
-                      Expanded(child: Container(height: 34, color: Colors.white)),
+                      Expanded(
+                        child: Container(height: 34, color: Colors.white),
+                      ),
                       GPSGaps.w8,
-                      Expanded(child: Container(height: 34, color: Colors.white)),
+                      Expanded(
+                        child: Container(height: 34, color: Colors.white),
+                      ),
                       GPSGaps.w8,
-                      Expanded(child: Container(height: 34, color: Colors.white)),
+                      Expanded(
+                        child: Container(height: 34, color: Colors.white),
+                      ),
                     ],
                   ),
                   GPSGaps.h16,
-                  Container(height: 14, width: double.infinity, color: Colors.white),
+                  Container(
+                    height: 14,
+                    width: double.infinity,
+                    color: Colors.white,
+                  ),
                   GPSGaps.h8,
                   Container(
                     height: 14,
@@ -125,7 +141,11 @@ class ErrorScaffold extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Icon(Icons.wifi_off_rounded, size: 42, color: Colors.black54),
+                const Icon(
+                  Icons.wifi_off_rounded,
+                  size: 42,
+                  color: Colors.black54,
+                ),
                 GPSGaps.h12,
                 Text(
                   'Failed to load restaurant.',
@@ -138,15 +158,19 @@ class ErrorScaffold extends StatelessWidget {
                 GPSGaps.h8,
                 Text(
                   'Please check your connection and try again.',
-                  style: Theme.of(
-                    context,
-                  ).textTheme.bodyMedium?.copyWith(color: GPSColors.mutedText, height: 1.35),
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: GPSColors.mutedText,
+                    height: 1.35,
+                  ),
                   textAlign: TextAlign.center,
                 ),
                 GPSGaps.h16,
                 SizedBox(
                   width: double.infinity,
-                  child: FilledButton(onPressed: onRetry, child: const Text('Retry')),
+                  child: FilledButton(
+                    onPressed: onRetry,
+                    child: const Text('Retry'),
+                  ),
                 ),
               ],
             ),

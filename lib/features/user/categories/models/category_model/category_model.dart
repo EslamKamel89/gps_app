@@ -9,7 +9,13 @@ class CategoryModel {
   ImageModel? image;
   List<SubCategoryModel>? subCategories;
 
-  CategoryModel({this.id, this.name, this.description, this.image, this.subCategories});
+  CategoryModel({
+    this.id,
+    this.name,
+    this.description,
+    this.image,
+    this.subCategories,
+  });
 
   @override
   String toString() {

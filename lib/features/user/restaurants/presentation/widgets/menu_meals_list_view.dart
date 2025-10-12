@@ -3,10 +3,14 @@ import 'package:flutter_animate/flutter_animate.dart';
 // Keep your existing MenuItemCard import
 import 'package:gps_app/features/design/screens/user/resturant_details/widgets/menu_item_card.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
-import 'package:gps_app/features/user/restaurants/models/restaurant_detailed_model/import.dart';
+import 'package:gps_app/features/user/restaurants/models/restaurant_detailed_model/export.dart';
 
 class MenuMealsListView extends StatelessWidget {
-  const MenuMealsListView({super.key, required this.meals, required this.heroPrefix});
+  const MenuMealsListView({
+    super.key,
+    required this.meals,
+    required this.heroPrefix,
+  });
 
   final List<Meal> meals;
   final String heroPrefix;

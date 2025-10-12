@@ -22,9 +22,10 @@ class BadgeChip extends StatelessWidget {
           GPSGaps.w8,
           Text(
             label,
-            style: Theme.of(
-              context,
-            ).textTheme.labelMedium?.copyWith(color: GPSColors.text, fontWeight: FontWeight.w700),
+            style: Theme.of(context).textTheme.labelMedium?.copyWith(
+              color: GPSColors.text,
+              fontWeight: FontWeight.w700,
+            ),
           ),
         ],
       ),

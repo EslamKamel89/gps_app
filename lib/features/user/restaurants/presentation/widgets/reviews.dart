@@ -7,7 +7,11 @@ class Review {
   final String reviewerName;
   final String comment;
   final double rating;
-  const Review({required this.reviewerName, required this.comment, required this.rating});
+  const Review({
+    required this.reviewerName,
+    required this.comment,
+    required this.rating,
+  });
 }
 
 class ReviewsSection extends StatelessWidget {
@@ -94,7 +98,10 @@ class _ReviewCard extends StatelessWidget {
             GPSGaps.h8,
             Text(
               review.comment,
-              style: txt.bodyMedium?.copyWith(color: GPSColors.mutedText, height: 1.35),
+              style: txt.bodyMedium?.copyWith(
+                color: GPSColors.mutedText,
+                height: 1.35,
+              ),
             ).animate().fadeIn(duration: 200.ms).slideY(begin: .05),
           ],
         ),
