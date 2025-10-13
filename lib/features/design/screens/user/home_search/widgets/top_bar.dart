@@ -84,8 +84,10 @@ class _TopBarState extends State<TopBar> {
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder:
-                            (_) =>
-                                RestaurantDetailProvider(restaurantId: user()?.restaurant?.id ?? 1),
+                            (_) => RestaurantDetailProvider(
+                              restaurantId: user()?.restaurant?.id ?? 1,
+                              enableEdit: true,
+                            ),
                       ),
                     );
                   } else {

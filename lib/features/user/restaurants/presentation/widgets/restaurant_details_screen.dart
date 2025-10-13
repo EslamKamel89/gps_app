@@ -6,11 +6,14 @@ import 'package:gps_app/core/enums/response_type.dart';
 import 'package:gps_app/core/models/api_response_model.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
+import 'package:gps_app/features/user/categories/presentation/widgets/category_selector.dart';
 import 'package:gps_app/features/user/restaurants/cubits/restaurant_cubit.dart';
 import 'package:gps_app/features/user/restaurants/models/restaurant_detailed_model/export.dart';
 import 'package:gps_app/features/user/restaurants/presentation/branch_list.dart';
 import 'package:gps_app/features/user/restaurants/presentation/certifications_screen.dart';
 import 'package:gps_app/features/user/restaurants/presentation/widgets/branch_nav_button.dart';
+import 'package:gps_app/features/user/restaurants/presentation/widgets/form_bottom_sheet.dart';
+import 'package:gps_app/features/user/restaurants/presentation/widgets/restaurant_details_forms.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import 'badges.dart';
@@ -22,8 +25,9 @@ import 'reviews.dart';
 import 'tab_bar_delegate.dart';
 
 class RestaurantDetailsScreen extends StatefulWidget {
-  const RestaurantDetailsScreen({super.key, this.restaurantId = 1});
+  const RestaurantDetailsScreen({super.key, this.restaurantId = 1, required this.enableEdit});
   final int restaurantId;
+  final bool enableEdit;
 
   @override
   State<RestaurantDetailsScreen> createState() => _RestaurantDetailsScreenState();
@@ -105,8 +109,27 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen>
                             IconButton(
                               tooltip: 'Share',
                               icon: const Icon(Icons.share_rounded, color: Colors.black),
-                              onPressed: () {}, // TODO: wire share logic
+                              onPressed: () {},
                             ),
+                            if (widget.enableEdit)
+                              EditButton(
+                                onPressed: () async {
+                                  // final String? name = await showFormBottomSheet<String>(
+                                  //   context,
+                                  //   builder: (ctx, ctl) => CustomForm(controller: ctl),
+                                  // );
+
+                                  // if (name != null) {
+                                  //   ScaffoldMessenger.of(
+                                  //     context,
+                                  //   ).showSnackBar(SnackBar(content: Text('Saved: $name')));
+                                  // } else {
+                                  //   ScaffoldMessenger.of(
+                                  //     context,
+                                  //   ).showSnackBar(const SnackBar(content: Text('Cancelled')));
+                                  // }
+                                },
+                              ),
                           ],
                           flexibleSpace: FlexibleSpaceBar(
                             background: Stack(
@@ -176,23 +199,62 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen>
                                     ],
                                   ).animate().fadeIn(duration: 280.ms).slideY(begin: .1),
 
-                                  GPSGaps.h12,
+                                  // GPSGaps.h12,
+                                  Stack(
+                                    children: [
+                                      Container(
+                                        width: double.infinity,
+                                        padding: EdgeInsets.only(top: 12),
+                                        child: Wrap(
+                                              spacing: 10,
+                                              runSpacing: 10,
+                                              children: [
+                                                ...(state.data?.mainCategories ?? []).map(
+                                                  (c) => BadgeChip(label: c.name ?? ''),
+                                                ),
+                                                ...(state.data?.subCategories ?? []).map(
+                                                  (c) => BadgeChip(label: c.name ?? ''),
+                                                ),
+                                              ],
+                                            )
+                                            .animate(delay: 70.ms)
+                                            .fadeIn(duration: 250.ms)
+                                            .slideY(begin: .08),
+                                      ),
+                                      Positioned(
+                                        top: 0,
+                                        right: 0,
+                                        child:
+                                            widget.enableEdit
+                                                ? EditButton(
+                                                  onPressed: () async {
+                                                    final CategorySelector? categorySelector =
+                                                        await showFormBottomSheet<CategorySelector>(
+                                                          context,
+                                                          builder:
+                                                              (ctx, ctl) =>
+                                                                  ProfileCategorySelectionForm(
+                                                                    controller: ctl,
+                                                                  ),
+                                                        );
 
-                                  Wrap(
-                                        spacing: 10,
-                                        runSpacing: 10,
-                                        children: [
-                                          ...(state.data?.mainCategories ?? []).map(
-                                            (c) => BadgeChip(label: c.name ?? ''),
-                                          ),
-                                          ...(state.data?.subCategories ?? []).map(
-                                            (c) => BadgeChip(label: c.name ?? ''),
-                                          ),
-                                        ],
-                                      )
-                                      .animate(delay: 70.ms)
-                                      .fadeIn(duration: 250.ms)
-                                      .slideY(begin: .08),
+                                                    if (categorySelector != null) {
+                                                      ScaffoldMessenger.of(context).showSnackBar(
+                                                        SnackBar(
+                                                          content: Text('Saved: $categorySelector'),
+                                                        ),
+                                                      );
+                                                    } else {
+                                                      ScaffoldMessenger.of(context).showSnackBar(
+                                                        const SnackBar(content: Text('Cancelled')),
+                                                      );
+                                                    }
+                                                  },
+                                                )
+                                                : SizedBox(),
+                                      ),
+                                    ],
+                                  ),
 
                                   GPSGaps.h16,
 

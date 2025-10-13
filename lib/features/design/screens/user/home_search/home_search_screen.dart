@@ -39,10 +39,7 @@ class _HomeSearchScreenState extends State<HomeSearchScreen> {
       result = await showModalBottomSheet<HomeFilters>(
         context: context,
         builder: (_) {
-          return FilterDialog(
-            initial: _filters ?? HomeFilters(),
-            isBottomSheet: isBottomSheet,
-          );
+          return FilterDialog(initial: _filters ?? HomeFilters(), isBottomSheet: isBottomSheet);
         },
       );
     } else {
@@ -56,19 +53,13 @@ class _HomeSearchScreenState extends State<HomeSearchScreen> {
     }
   }
 
-  void _clearDistance() => setState(
-    () => _filters = (_filters ?? HomeFilters()).copyWith(distance: null),
-  );
+  void _clearDistance() =>
+      setState(() => _filters = (_filters ?? HomeFilters()).copyWith(distance: null));
   void _clearCategory() => setState(
-    () =>
-        _filters = (_filters ?? HomeFilters()).copyWith(
-          category: null,
-          subcategory: null,
-        ),
+    () => _filters = (_filters ?? HomeFilters()).copyWith(category: null, subcategory: null),
   );
-  void _clearSubcategory() => setState(
-    () => _filters = (_filters ?? HomeFilters()).copyWith(subcategory: null),
-  );
+  void _clearSubcategory() =>
+      setState(() => _filters = (_filters ?? HomeFilters()).copyWith(subcategory: null));
   void _removeDiet(String d) {
     final f = _filters ?? HomeFilters();
     final next = Set<String>.from(f.diets)..remove(d);
@@ -240,8 +231,7 @@ class _HomeSearchScreenState extends State<HomeSearchScreen> {
     final q = _searchCtrl.text.trim().toLowerCase();
     if (q.isEmpty) return _allRestaurants;
     return _allRestaurants.where((r) {
-      return r.name.toLowerCase().contains(q) ||
-          r.address.toLowerCase().contains(q);
+      return r.name.toLowerCase().contains(q) || r.address.toLowerCase().contains(q);
     }).toList();
   }
 
@@ -336,17 +326,12 @@ class _HomeSearchScreenState extends State<HomeSearchScreen> {
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 16),
                           child: Text(
-                                'Farm to Fork',
-                                style: Theme.of(
-                                  context,
-                                ).textTheme.titleLarge?.copyWith(
-                                  color: GPSColors.text,
-                                  fontWeight: FontWeight.w800,
-                                ),
-                              )
-                              .animate()
-                              .fadeIn(duration: 300.ms)
-                              .slideY(begin: .2),
+                            'Farm to Fork',
+                            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                              color: GPSColors.text,
+                              fontWeight: FontWeight.w800,
+                            ),
+                          ).animate().fadeIn(duration: 300.ms).slideY(begin: .2),
                         ),
                         GPSGaps.h12,
                       ],
@@ -358,7 +343,7 @@ class _HomeSearchScreenState extends State<HomeSearchScreen> {
                         onTap: () {
                           Navigator.of(context).push(
                             MaterialPageRoute(
-                              builder: (_) => RestaurantDetailProvider(),
+                              builder: (_) => RestaurantDetailProvider(enableEdit: false),
                             ),
                           );
                         },
@@ -373,9 +358,7 @@ class _HomeSearchScreenState extends State<HomeSearchScreen> {
                         imageUrl:
                             'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=1200&auto=format&fit=crop',
                         onTap: () {
-                          Navigator.of(
-                            context,
-                          ).pushNamed(AppRoutesNames.restaurantDetailScreen);
+                          Navigator.of(context).pushNamed(AppRoutesNames.restaurantDetailScreen);
                         },
                       ),
                       GPSGaps.h12,
@@ -388,9 +371,7 @@ class _HomeSearchScreenState extends State<HomeSearchScreen> {
                         imageUrl:
                             'https://images.unsplash.com/photo-1543353071-10c8ba85a904?q=80&w=1200&auto=format&fit=crop',
                         onTap: () {
-                          Navigator.of(
-                            context,
-                          ).pushNamed(AppRoutesNames.restaurantDetailScreen);
+                          Navigator.of(context).pushNamed(AppRoutesNames.restaurantDetailScreen);
                         },
                       ),
                       GPSGaps.h24,
@@ -471,12 +452,7 @@ class _HomeSearchScreenState extends State<HomeSearchScreen> {
                       child:
                           _showSuggestions
                               ? Padding(
-                                padding: const EdgeInsets.fromLTRB(
-                                  16,
-                                  10,
-                                  16,
-                                  0,
-                                ),
+                                padding: const EdgeInsets.fromLTRB(16, 10, 16, 0),
                                 child: SuggestionsList(
                                   items: _filtered,
                                   onSelect: _selectSuggestion,
@@ -531,10 +507,7 @@ class _HomeSearchScreenState extends State<HomeSearchScreen> {
                     onDeleted: _clearSubcategory,
                   ),
                 ...(_filters?.diets ?? {}).map(
-                  (d) => InputChip(
-                    label: Text(d),
-                    onDeleted: () => _removeDiet(d),
-                  ),
+                  (d) => InputChip(label: Text(d), onDeleted: () => _removeDiet(d)),
                 ),
               ],
             ),

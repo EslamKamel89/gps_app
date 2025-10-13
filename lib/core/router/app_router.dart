@@ -47,7 +47,7 @@ class AppRouter {
         return CustomPageRoute(builder: (context) => HomeSearchScreen(), settings: routeSettings);
       case AppRoutesNames.restaurantDetailScreen:
         return CustomPageRoute(
-          builder: (context) => RestaurantDetailProvider(),
+          builder: (context) => RestaurantDetailProvider(enableEdit: false),
           settings: routeSettings,
         );
       case AppRoutesNames.gpsSplashScreen:
