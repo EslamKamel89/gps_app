@@ -118,7 +118,7 @@ class EditButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconButton(
       tooltip: 'Edit',
-      icon: const Icon(Icons.edit, color: Colors.black),
+      icon: const Icon(Icons.edit, color: Colors.grey, size: 16),
       onPressed: onPressed,
     );
   }

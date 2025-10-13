@@ -2,12 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:gps_app/core/helpers/print_helper.dart';
 import 'package:gps_app/features/design/screens/user/resturant_details/widgets/category_chip.dart';
+import 'package:gps_app/features/design/screens/user/resturant_details/widgets/custom_stack.dart';
 import 'package:gps_app/features/design/screens/user/resturant_details/widgets/icon_action.dart';
 import 'package:gps_app/features/design/screens/user/resturant_details/widgets/price_badge.dart';
 import 'package:gps_app/features/design/screens/user/resturant_details/widgets/thumb.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
+import 'package:gps_app/features/user/categories/presentation/widgets/category_selector.dart';
 import 'package:gps_app/features/user/restaurants/models/restaurant_detailed_model/export.dart';
+import 'package:gps_app/features/user/restaurants/presentation/widgets/form_bottom_sheet.dart';
+import 'package:gps_app/features/user/restaurants/presentation/widgets/restaurant_details_forms.dart';
 
 class MenuItemCard extends StatelessWidget {
   const MenuItemCard({super.key, required this.meal});
@@ -68,18 +72,50 @@ class MenuItemCard extends StatelessWidget {
                         height: 1.35,
                       ),
                     ),
-
-                    GPSGaps.h12,
+                    false ? GPSGaps.h8 : SizedBox(),
                     Row(
                       children: [
                         Expanded(
-                          child: Wrap(
-                            children: [
-                              if (meal.categories?.name != null)
-                                CategoryChip(title: meal.categories?.name ?? ''),
-                              if (meal.subcategories?.name != null)
-                                CategoryChip(title: meal.subcategories?.name ?? ''),
-                            ],
+                          child: CustomStack(
+                            top: 0,
+                            right: 0,
+                            actionWidget:
+                                true
+                                    ? Positioned(
+                                      top: 0,
+                                      right: 0,
+                                      child: EditButton(
+                                        onPressed: () async {
+                                          final CategorySelector? categorySelector =
+                                              await showFormBottomSheet<CategorySelector>(
+                                                context,
+                                                builder:
+                                                    (ctx, ctl) => ProfileCategorySelectionForm(
+                                                      controller: ctl,
+                                                    ),
+                                              );
+
+                                          if (categorySelector != null) {
+                                            ScaffoldMessenger.of(context).showSnackBar(
+                                              SnackBar(content: Text('Saved: $categorySelector')),
+                                            );
+                                          } else {
+                                            ScaffoldMessenger.of(context).showSnackBar(
+                                              const SnackBar(content: Text('Cancelled')),
+                                            );
+                                          }
+                                        },
+                                      ),
+                                    )
+                                    : SizedBox(),
+                            child: Wrap(
+                              children: [
+                                if (meal.categories?.name != null)
+                                  CategoryChip(title: meal.categories?.name ?? ''),
+                                if (meal.subcategories?.name != null)
+                                  CategoryChip(title: meal.subcategories?.name ?? ''),
+                              ],
+                            ),
                           ),
                         ),
 
