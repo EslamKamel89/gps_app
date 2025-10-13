@@ -20,9 +20,15 @@ class MenuActionItem extends StatelessWidget {
     final color = danger ? const Color(0xFFB42318) : const Color(0xFF0F172A);
     final iconColor = danger ? const Color(0xFFDC2626) : const Color(0xFF334155);
 
+    void handleTap() {
+      onTap?.call();
+
+      _DropdownScope.of(context)?.close();
+    }
+
     return InkWell(
       borderRadius: BorderRadius.circular(10),
-      onTap: onTap,
+      onTap: handleTap,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
         child: Row(
@@ -53,7 +59,6 @@ class ClickDropdown extends StatefulWidget {
     this.padding = const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
     this.maxWidth = 240,
     this.alignment = Alignment.topLeft,
-
     this.borderRadius = const BorderRadius.all(Radius.circular(14)),
     this.shadow = const [
       BoxShadow(color: Color(0x1A000000), blurRadius: 14, spreadRadius: -2, offset: Offset(0, 8)),
@@ -61,24 +66,16 @@ class ClickDropdown extends StatefulWidget {
   });
 
   final Widget child;
-
   final List<Widget> children;
-
   final double gap;
-
   final BoxDecoration? decoration;
-
   final EdgeInsets padding;
-
   final double maxWidth;
-
   final Alignment alignment;
-
   final BorderRadius borderRadius;
-
   final List<BoxShadow> shadow;
-
   final Offset offset;
+
   @override
   State<ClickDropdown> createState() => _ClickDropdownState();
 }
@@ -120,14 +117,14 @@ class _ClickDropdownState extends State<ClickDropdown> {
                 child: const SizedBox.expand(),
               ),
             ),
-
             CompositedTransformFollower(
               link: _link,
               showWhenUnlinked: false,
-
               offset: Offset(
-                widget.alignment == Alignment.topRight ? -widget.maxWidth + _childSize.width : 0,
-                _childSize.height + widget.gap,
+                widget.alignment == Alignment.topRight
+                    ? -widget.maxWidth + _childSize.width + widget.offset.dx
+                    : widget.offset.dx,
+                _childSize.height + widget.gap + widget.offset.dy,
               ),
               child: _DropdownCard(
                 padding: widget.padding,
@@ -136,7 +133,7 @@ class _ClickDropdownState extends State<ClickDropdown> {
                 borderRadius: widget.borderRadius,
                 shadow: widget.shadow,
                 onAnyItemTap: _hide,
-                offset: widget.offset,
+                offset: Offset.zero,
                 children: widget.children,
               ),
             ),
@@ -194,7 +191,7 @@ class _DropdownCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final child = Transform.translate(
+    final card = Transform.translate(
       offset: offset,
       child: ConstrainedBox(
         constraints: BoxConstraints(maxWidth: maxWidth),
@@ -210,9 +207,10 @@ class _DropdownCard extends StatelessWidget {
                   boxShadow: shadow,
                   border: Border.all(color: const Color(0x11000000)),
                 ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: _injectItemTap(children, onAnyItemTap),
+
+            child: _DropdownScope(
+              close: onAnyItemTap,
+              child: Column(mainAxisSize: MainAxisSize.min, children: children),
             ),
           ),
         ),
@@ -226,24 +224,21 @@ class _DropdownCard extends StatelessWidget {
       builder: (context, t, _) {
         return Opacity(
           opacity: t,
-          child: Transform.translate(offset: Offset(0, (1 - t) * 8), child: child),
+          child: Transform.translate(offset: Offset(0, (1 - t) * 8), child: card),
         );
       },
     );
   }
-
-  List<Widget> _injectItemTap(List<Widget> items, VoidCallback onTap) {
-    return items.map((w) => _CloseOnTapWrapper(onTap: onTap, child: w)).toList();
-  }
 }
 
-class _CloseOnTapWrapper extends StatelessWidget {
-  const _CloseOnTapWrapper({required this.onTap, required this.child});
-  final VoidCallback onTap;
-  final Widget child;
+class _DropdownScope extends InheritedWidget {
+  const _DropdownScope({required this.close, required super.child, super.key});
+
+  final VoidCallback close;
+
+  static _DropdownScope? of(BuildContext context) =>
+      context.dependOnInheritedWidgetOfExactType<_DropdownScope>();
 
   @override
-  Widget build(BuildContext context) {
-    return GestureDetector(behavior: HitTestBehavior.deferToChild, onTap: onTap, child: child);
-  }
+  bool updateShouldNotify(covariant _DropdownScope oldWidget) => false;
 }
