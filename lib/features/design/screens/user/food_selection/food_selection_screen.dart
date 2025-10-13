@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:gps_app/core/router/app_routes_names.dart';
 import 'package:gps_app/features/design/screens/user/food_selection/widgets/food_card.dart';
 import 'package:gps_app/features/design/screens/user/food_selection/widgets/header.dart';
@@ -27,14 +26,12 @@ class _FoodSelectionScreenState extends State<FoodSelectionScreen> {
     FoodItem(
       id: 'burger',
       name: 'Burger',
-      imageUrl:
-          'https://images.unsplash.com/photo-1550547660-d9450f859349?q=80&w=1200',
+      imageUrl: 'https://images.unsplash.com/photo-1550547660-d9450f859349?q=80&w=1200',
     ),
     FoodItem(
       id: 'sushi',
       name: 'Sushi',
-      imageUrl:
-          'https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=1200',
+      imageUrl: 'https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=1200',
     ),
     FoodItem(
       id: 'pasta',
@@ -51,8 +48,7 @@ class _FoodSelectionScreenState extends State<FoodSelectionScreen> {
     FoodItem(
       id: 'steak',
       name: 'Steak',
-      imageUrl:
-          'https://images.unsplash.com/photo-1551183053-bf91a1d81141?q=80&w=1200',
+      imageUrl: 'https://images.unsplash.com/photo-1551183053-bf91a1d81141?q=80&w=1200',
     ),
     FoodItem(
       id: 'tacos',
@@ -91,10 +87,7 @@ class _FoodSelectionScreenState extends State<FoodSelectionScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Header(
-                title: 'Select your foods',
-                subtitle: 'Pick as many as you like',
-              ),
+              Header(title: 'Select your foods', subtitle: 'Pick as many as you like'),
               const SizedBox(height: gap),
               Expanded(
                 child: GridView.builder(
@@ -122,25 +115,14 @@ class _FoodSelectionScreenState extends State<FoodSelectionScreen> {
               ),
               const SizedBox(height: gap),
               Footer(
-                onSkip:
-                    () => Navigator.of(
-                      context,
-                    ).pushNamed(AppRoutesNames.homeSearchScreen),
+                onSkip: () => Navigator.of(context).pushNamed(AppRoutesNames.homeSearchScreen),
                 onNext:
                     _selected.isNotEmpty
                         ? () {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(
-                                'Selected: ${_selected.join(', ')}',
-                              ),
-                            ),
+                            SnackBar(content: Text('Selected: ${_selected.join(', ')}')),
                           );
-                          Future.delayed(300.ms, () {
-                            Navigator.of(
-                              context,
-                            ).pushNamed(AppRoutesNames.homeSearchScreen);
-                          });
+                          Navigator.of(context).pushNamed(AppRoutesNames.homeSearchScreen);
                         }
                         : null,
               ),

@@ -21,15 +21,15 @@ import 'menu_meals_list_view.dart';
 import 'reviews.dart';
 import 'tab_bar_delegate.dart';
 
-class RestaurantDetailWidget extends StatefulWidget {
-  const RestaurantDetailWidget({super.key, this.restaurantId = 1});
+class RestaurantDetailsScreen extends StatefulWidget {
+  const RestaurantDetailsScreen({super.key, this.restaurantId = 1});
   final int restaurantId;
 
   @override
-  State<RestaurantDetailWidget> createState() => _RestaurantDetailWidgetState();
+  State<RestaurantDetailsScreen> createState() => _RestaurantDetailsScreenState();
 }
 
-class _RestaurantDetailWidgetState extends State<RestaurantDetailWidget>
+class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen>
     with SingleTickerProviderStateMixin {
   bool _isFav = false;
 

@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:gps_app/core/api_service/end_points.dart';
 import 'package:gps_app/core/cache/local_storage.dart';
+import 'package:gps_app/core/helpers/snackbar.dart';
 import 'package:gps_app/core/router/app_routes_names.dart';
 import 'package:gps_app/core/service_locator/service_locator.dart';
+import 'package:gps_app/features/auth/models/user_model.dart';
 import 'package:gps_app/features/design/screens/user/home_search/widgets/click_dropdown.dart';
 import 'package:gps_app/features/design/screens/user/home_search/widgets/round_icon.dart';
+import 'package:gps_app/features/design/screens/user/home_search/widgets/user_profile_tile.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
+import 'package:gps_app/features/user/restaurants/presentation/restaurant_detail_provider.dart';
 import 'package:gps_app/utils/assets/assets.dart';
 
 class TopBar extends StatefulWidget {
@@ -18,6 +23,10 @@ class TopBar extends StatefulWidget {
 }
 
 class _TopBarState extends State<TopBar> {
+  UserModel? user() {
+    return serviceLocator<LocalStorage>().cachedUser;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -56,12 +65,38 @@ class _TopBarState extends State<TopBar> {
             child: RoundIcon(icon: Icons.person_outline),
             offset: Offset(-200, 0),
             children: [
+              UserProfileTile(
+                name: user()?.userName ?? '',
+                email: user()?.email ?? '',
+                avatarUrl: "${EndPoint.baseUrl}/${user()?.image?.path}",
+              ),
               MenuActionItem(
                 icon: Icons.assignment_turned_in_rounded,
                 label: 'Finish Profile',
                 onTap: () {},
               ),
-              MenuActionItem(icon: Icons.person_rounded, label: 'View Profile', onTap: () {}),
+              MenuActionItem(
+                icon: Icons.person_rounded,
+                label: 'View Profile',
+                onTap: () {
+                  String? type = user()?.userType?.type;
+                  if (type == 'restaurant') {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder:
+                            (_) =>
+                                RestaurantDetailProvider(restaurantId: user()?.restaurant?.id ?? 1),
+                      ),
+                    );
+                  } else {
+                    showSnackbar(
+                      'Sorry',
+                      'the profile feature is not implemented for $type yet',
+                      true,
+                    );
+                  }
+                },
+              ),
               const Divider(height: 8, thickness: 0.7),
               MenuActionItem(
                 icon: Icons.logout_rounded,
