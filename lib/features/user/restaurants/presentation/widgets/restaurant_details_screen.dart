@@ -4,6 +4,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gps_app/core/enums/response_type.dart';
 import 'package:gps_app/core/models/api_response_model.dart';
+import 'package:gps_app/features/design/screens/user/resturant_details/widgets/custom_stack.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 import 'package:gps_app/features/user/restaurants/cubits/restaurant_cubit.dart';
@@ -12,6 +13,7 @@ import 'package:gps_app/features/user/restaurants/presentation/branch_list.dart'
 import 'package:gps_app/features/user/restaurants/presentation/certifications_screen.dart';
 import 'package:gps_app/features/user/restaurants/presentation/widgets/branch_nav_button.dart';
 import 'package:gps_app/features/user/restaurants/presentation/widgets/form_bottom_sheet.dart';
+import 'package:gps_app/features/user/restaurants/presentation/widgets/restaurant_details_forms.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import 'badges.dart';
@@ -109,25 +111,6 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen>
                               icon: const Icon(Icons.share_rounded, color: Colors.black),
                               onPressed: () {},
                             ),
-                            if (widget.enableEdit)
-                              EditButton(
-                                onPressed: () async {
-                                  // final String? name = await showFormBottomSheet<String>(
-                                  //   context,
-                                  //   builder: (ctx, ctl) => CustomForm(controller: ctl),
-                                  // );
-
-                                  // if (name != null) {
-                                  //   ScaffoldMessenger.of(
-                                  //     context,
-                                  //   ).showSnackBar(SnackBar(content: Text('Saved: $name')));
-                                  // } else {
-                                  //   ScaffoldMessenger.of(
-                                  //     context,
-                                  //   ).showSnackBar(const SnackBar(content: Text('Cancelled')));
-                                  // }
-                                },
-                              ),
                           ],
                           flexibleSpace: FlexibleSpaceBar(
                             background: Stack(
@@ -175,13 +158,31 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen>
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Expanded(
-                                        child: Text(
-                                          restaurantTitle,
-                                          style: Theme.of(
-                                            context,
-                                          ).textTheme.headlineSmall?.copyWith(
-                                            color: GPSColors.text,
-                                            fontWeight: FontWeight.w800,
+                                        child: CustomStack(
+                                          enableEdit: true,
+                                          actionWidget:
+                                              widget.enableEdit
+                                                  ? EditButton(
+                                                    onPressed: () async {
+                                                      final String? name =
+                                                          await showFormBottomSheet<String>(
+                                                            context,
+                                                            builder:
+                                                                (ctx, ctl) => ProfileTextForm(
+                                                                  controller: ctl,
+                                                                ),
+                                                          );
+                                                    },
+                                                  )
+                                                  : SizedBox(),
+                                          child: Text(
+                                            restaurantTitle,
+                                            style: Theme.of(
+                                              context,
+                                            ).textTheme.headlineSmall?.copyWith(
+                                              color: GPSColors.text,
+                                              fontWeight: FontWeight.w800,
+                                            ),
                                           ),
                                         ),
                                       ),
@@ -303,6 +304,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen>
                         MenuMealsListView(
                           heroPrefix: 'tab$ti',
                           meals: menus[ti].meals ?? const <Meal>[],
+                          enableEdit: widget.enableEdit,
                         ),
                     ],
                   ),

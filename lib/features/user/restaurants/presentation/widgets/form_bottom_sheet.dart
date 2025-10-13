@@ -1,31 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:gps_app/features/design/utils/gps_colors.dart';
 
-/// Controls how a bottom-sheet form returns values.
 class BottomSheetFormController<T> {
   BottomSheetFormController(this._ctx);
 
   final BuildContext _ctx;
 
-  /// Call from your child form when the user taps "Save"/"Submit".
   void submit(T value) => Navigator.of(_ctx).pop<T>(value);
 
-  /// Call from your child form when the user taps "Cancel".
   void cancel() => Navigator.of(_ctx).pop<T>(null);
 }
 
-/// Builder signature for your form widget.
-/// You receive a controller that lets you submit(T) or cancel().
 typedef BottomSheetFormBuilder<T> =
     Widget Function(BuildContext context, BottomSheetFormController<T> controller);
 
-/// Shows a modal bottom sheet that returns a `Future<T?>`.
-/// - On submit → returns T
-/// - On cancel → returns null
 Future<T?> showFormBottomSheet<T>(
   BuildContext context, {
   required BottomSheetFormBuilder<T> builder,
 
-  // Commonly-used sheet options (tweak as needed)
   bool isScrollControlled = true,
   ShapeBorder? shape,
   Color? backgroundColor,
@@ -41,14 +33,14 @@ Future<T?> showFormBottomSheet<T>(
         const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(16))),
     builder: (sheetCtx) {
       final controller = BottomSheetFormController<T>(sheetCtx);
-      // SafeArea + padding so forms play nice with keyboards
+
       return SafeArea(
         top: false,
         child: Padding(
           padding: EdgeInsets.only(
             left: 16,
             right: 16,
-            // Lift content above the keyboard when expanded
+
             bottom: MediaQuery.of(sheetCtx).viewInsets.bottom + 16,
             top: 16,
           ),
@@ -83,8 +75,6 @@ class FormSubmitButton extends StatelessWidget {
   }
 }
 
-/// Optional: a handy row with spacing for both buttons.
-/// Place it at the bottom of your form.
 class FormActionBar extends StatelessWidget {
   const FormActionBar({
     super.key,
@@ -116,10 +106,16 @@ class EditButton extends StatelessWidget {
   final void Function()? onPressed;
   @override
   Widget build(BuildContext context) {
-    return IconButton(
-      tooltip: 'Edit',
-      icon: const Icon(Icons.edit, color: Colors.grey, size: 16),
-      onPressed: onPressed,
+    return InkWell(
+      onTap: onPressed,
+      child: Container(
+        decoration: BoxDecoration(
+          color: GPSColors.primary.withOpacity(0.7),
+          shape: BoxShape.circle,
+        ),
+        padding: EdgeInsets.all(4),
+        child: const Icon(Icons.edit, color: Colors.white, size: 16),
+      ),
     );
   }
 }

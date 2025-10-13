@@ -10,11 +10,12 @@ class MenuMealsListView extends StatelessWidget {
     super.key,
     required this.meals,
     required this.heroPrefix,
+    required this.enableEdit,
   });
 
   final List<Meal> meals;
   final String heroPrefix;
-
+  final bool enableEdit;
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
@@ -25,7 +26,7 @@ class MenuMealsListView extends StatelessWidget {
       itemBuilder: (context, index) {
         final meal = meals[index];
         final delay = (70 * index).ms;
-        return MenuItemCard(meal: meal)
+        return MenuItemCard(meal: meal, enableEdit: enableEdit)
             .animate(delay: delay)
             .fadeIn(duration: 260.ms, curve: Curves.easeOutCubic)
             .slideY(begin: .08, curve: Curves.easeOutCubic)
