@@ -34,6 +34,7 @@ class VendorModel {
   factory VendorModel.fromJson(Map<String, dynamic> json) => VendorModel(
     id: json['id'] as int?,
     isActive: json['is_active'] as int?,
+    // isActive: 1,
     userId: json['user_id'] as int?,
     vendorName: json['vendor_name'] as String?,
     priceRange:

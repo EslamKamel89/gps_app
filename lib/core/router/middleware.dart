@@ -54,6 +54,9 @@ class AppMiddleWare {
   }
 
   String _handleEntryPoint() {
+    if (_storage.isBlocked) {
+      return AppRoutesNames.accountBlockedScreen;
+    }
     if (_storage.isGuest) {
       return AppRoutesNames.loginScreen;
     }

@@ -52,6 +52,10 @@ class LocalStorage {
     return token != null;
   }
 
+  bool get isBlocked {
+    return cachedUser?.vendor?.isActive == 0;
+  }
+
   bool get isVerified {
     return cachedUser?.emailVerifiedAt != null;
   }

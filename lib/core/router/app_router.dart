@@ -9,6 +9,7 @@ import 'package:gps_app/features/auth/cubits/create_restaurant_menus/create_rest
 import 'package:gps_app/features/auth/cubits/login_cubit.dart';
 import 'package:gps_app/features/auth/cubits/user_register_cubit.dart';
 import 'package:gps_app/features/auth/cubits/vendor_register_cubit.dart';
+import 'package:gps_app/features/auth/presentation/contact_support.dart';
 import 'package:gps_app/features/auth/presentation/login_screen.dart';
 import 'package:gps_app/features/auth/presentation/otp_screen.dart';
 import 'package:gps_app/features/auth/presentation/restaurant_onboarding_branches_screen.dart';
@@ -38,6 +39,11 @@ class AppRouter {
     switch (routeName) {
       case AppRoutesNames.emptyScreen:
         return CustomPageRoute(builder: (context) => EmptyScreen(), settings: routeSettings);
+      case AppRoutesNames.accountBlockedScreen:
+        return CustomPageRoute(
+          builder: (context) => AccountBlockedScreen(),
+          settings: routeSettings,
+        );
       case AppRoutesNames.dietSelectionScreen:
         return CustomPageRoute(
           builder: (context) => DietSelectionScreen(),
