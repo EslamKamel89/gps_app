@@ -59,6 +59,9 @@
     "fix the issue with the meal image not working",
     "handle the category and subcategories in the home search page and in the meal",
     "parse the menus-items and certificates to boolean value",
+    "fix the edit state for the restaurant profile page",
+    "Put the Ability to change categories in Profile",
+    "Make Normal View page for profile",
     "------------------------------------------------"
   ],
   "todos": [
@@ -66,10 +69,7 @@
     "simplify the middleware",
     "change auth Flow to be single step",
     "show a warning if a user didn't complete his profile with a modal",
-    "fix the edit state for the restaurant profile page",
     "Generalize Categories and subCategories over All app",
-    "Put the Ability to change categories in Profile",
-    "Make Normal View page for profile",
     "handle the disable functionality when the user is login",
     "------------------------------------------------"
   ],

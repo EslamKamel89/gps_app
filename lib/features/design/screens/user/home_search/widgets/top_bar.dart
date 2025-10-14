@@ -13,6 +13,7 @@ import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 import 'package:gps_app/features/user/restaurants/presentation/restaurant_detail_provider.dart';
 import 'package:gps_app/utils/assets/assets.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class TopBar extends StatefulWidget {
   const TopBar({super.key, this.title = 'GPS'});
@@ -71,13 +72,42 @@ class _TopBarState extends State<TopBar> {
                 avatarUrl: "${EndPoint.baseUrl}/${user()?.image?.path}",
               ),
               MenuActionItem(
-                icon: Icons.assignment_turned_in_rounded,
-                label: 'Finish Profile',
-                onTap: () {},
+                icon: MdiIcons.food,
+                label: 'Edit Food Preferences',
+                onTap: () {
+                  Future.delayed(100.ms, () {
+                    Navigator.of(context).pushNamed(AppRoutesNames.categorySelectionScreen);
+                  });
+                },
               ),
+              const Divider(height: 8, thickness: 0.7),
               MenuActionItem(
                 icon: Icons.person_rounded,
                 label: 'View Profile',
+                onTap: () {
+                  String? type = user()?.userType?.type;
+                  if (type == 'restaurant') {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder:
+                            (_) => RestaurantDetailProvider(
+                              restaurantId: user()?.restaurant?.id ?? 1,
+                              enableEdit: false,
+                            ),
+                      ),
+                    );
+                  } else {
+                    showSnackbar(
+                      'Sorry',
+                      'the profile feature is not implemented for $type yet',
+                      true,
+                    );
+                  }
+                },
+              ),
+              MenuActionItem(
+                icon: MdiIcons.pen,
+                label: 'Edit Profile',
                 onTap: () {
                   String? type = user()?.userType?.type;
                   if (type == 'restaurant') {
@@ -99,6 +129,7 @@ class _TopBarState extends State<TopBar> {
                   }
                 },
               ),
+
               const Divider(height: 8, thickness: 0.7),
               MenuActionItem(
                 icon: Icons.logout_rounded,

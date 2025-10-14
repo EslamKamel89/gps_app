@@ -159,22 +159,18 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen>
                                     children: [
                                       Expanded(
                                         child: CustomStack(
-                                          enableEdit: true,
-                                          actionWidget:
-                                              widget.enableEdit
-                                                  ? EditButton(
-                                                    onPressed: () async {
-                                                      final String? name =
-                                                          await showFormBottomSheet<String>(
-                                                            context,
-                                                            builder:
-                                                                (ctx, ctl) => ProfileTextForm(
-                                                                  controller: ctl,
-                                                                ),
-                                                          );
-                                                    },
-                                                  )
-                                                  : SizedBox(),
+                                          enableEdit: widget.enableEdit,
+                                          actionWidget: EditButton(
+                                            onPressed: () async {
+                                              final String? name =
+                                                  await showFormBottomSheet<String>(
+                                                    context,
+                                                    builder:
+                                                        (ctx, ctl) =>
+                                                            ProfileTextForm(controller: ctl),
+                                                  );
+                                            },
+                                          ),
                                           child: Text(
                                             restaurantTitle,
                                             style: Theme.of(
@@ -266,6 +262,20 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen>
                                     tooltip: 'Go to branch details',
                                     expand: true,
                                   ),
+                                  GPSGaps.h8,
+                                  //   BranchCTAButton(
+                                  //     label: 'Update Your Tastes',
+                                  //     onPressed: () {
+                                  //       Future.delayed(100.ms, () {
+                                  //         Navigator.of(
+                                  //           context,
+                                  //         ).pushNamed(AppRoutesNames.categorySelectionScreen);
+                                  //       });
+                                  //     },
+                                  //     icon: MdiIcons.food,
+                                  //     tooltip: 'Go to branch details',
+                                  //     expand: true,
+                                  //   ),
                                 ],
                               ),
                             ),
