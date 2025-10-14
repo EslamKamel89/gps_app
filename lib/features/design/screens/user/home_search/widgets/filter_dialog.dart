@@ -77,7 +77,7 @@ class _FilterDialogState extends State<FilterDialog> {
         mainAxisSize: MainAxisSize.min,
         children: [
           DropdownButtonFormField<String>(
-            initialValue: _distance,
+            value: _distance,
             decoration: const InputDecoration(hintText: 'Please Select Distance'),
             items: _distances.map((d) => DropdownMenuItem(value: d, child: Text(d))).toList(),
             onChanged: (v) => setState(() => _distance = v),
