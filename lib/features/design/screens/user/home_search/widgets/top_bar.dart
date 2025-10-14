@@ -3,9 +3,9 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:gps_app/core/api_service/end_points.dart';
 import 'package:gps_app/core/cache/local_storage.dart';
 import 'package:gps_app/core/helpers/snackbar.dart';
+import 'package:gps_app/core/helpers/user.dart';
 import 'package:gps_app/core/router/app_routes_names.dart';
 import 'package:gps_app/core/service_locator/service_locator.dart';
-import 'package:gps_app/features/auth/models/user_model.dart';
 import 'package:gps_app/features/design/screens/user/home_search/widgets/click_dropdown.dart';
 import 'package:gps_app/features/design/screens/user/home_search/widgets/round_icon.dart';
 import 'package:gps_app/features/design/screens/user/home_search/widgets/user_profile_tile.dart';
@@ -24,10 +24,6 @@ class TopBar extends StatefulWidget {
 }
 
 class _TopBarState extends State<TopBar> {
-  UserModel? user() {
-    return serviceLocator<LocalStorage>().cachedUser;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -93,6 +89,7 @@ class _TopBarState extends State<TopBar> {
                             (_) => RestaurantDetailProvider(
                               restaurantId: user()?.restaurant?.id ?? 1,
                               enableEdit: false,
+                              enableCompleteProfile: true,
                             ),
                       ),
                     );
@@ -117,6 +114,7 @@ class _TopBarState extends State<TopBar> {
                             (_) => RestaurantDetailProvider(
                               restaurantId: user()?.restaurant?.id ?? 1,
                               enableEdit: true,
+                              enableCompleteProfile: true,
                             ),
                       ),
                     );

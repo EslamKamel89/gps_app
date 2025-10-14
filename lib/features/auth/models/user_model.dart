@@ -92,7 +92,7 @@ class UserModel {
 
   @override
   String toString() {
-    return 'UserModel(restaurant: $restaurant)';
+    // return 'UserModel(restaurant: $restaurant)';
     return 'UserModel(id: $id, fullName: $fullName, userName: $userName, email: $email, emailVerifiedAt: $emailVerifiedAt, mobile: $mobile, createdAt: $createdAt, updatedAt: $updatedAt, userTypeId: $userTypeId, districtId: $districtId, stateId: $stateId, token: $token, userType: $userType, vendor: $vendor , image: $image , farm: $farm , store: $store , restaurant: $restaurant)';
   }
 }

@@ -7,6 +7,7 @@ import 'package:gps_app/core/router/app_routes_names.dart';
 import 'package:gps_app/features/design/screens/user/home_search/widgets/featured_resturant_card.dart';
 import 'package:gps_app/features/design/screens/user/home_search/widgets/filter_chip_row.dart';
 import 'package:gps_app/features/design/screens/user/home_search/widgets/filter_dialog.dart';
+import 'package:gps_app/features/design/screens/user/home_search/widgets/incomple_profile_model.dart';
 import 'package:gps_app/features/design/screens/user/home_search/widgets/map/map.dart';
 import 'package:gps_app/features/design/screens/user/home_search/widgets/promo_card.dart';
 import 'package:gps_app/features/design/screens/user/home_search/widgets/resturant_list_item.dart';
@@ -32,6 +33,11 @@ HomeFilters? _filters;
 
 class _HomeSearchScreenState extends State<HomeSearchScreen> {
   int _currentTab = 0;
+  @override
+  void initState() {
+    super.initState();
+    handleIncompleteProfile();
+  }
 
   Future<void> _openFilters({bool isBottomSheet = false}) async {
     HomeFilters? result;
@@ -299,6 +305,7 @@ class _HomeSearchScreenState extends State<HomeSearchScreen> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         const TopBar(),
+
                         GPSGaps.h16,
                         SearchRow(
                           controller: _searchCtrl,

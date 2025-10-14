@@ -4,6 +4,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gps_app/core/enums/response_type.dart';
 import 'package:gps_app/core/models/api_response_model.dart';
+import 'package:gps_app/core/router/app_routes_names.dart';
 import 'package:gps_app/features/design/screens/user/resturant_details/widgets/custom_stack.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
@@ -25,9 +26,15 @@ import 'reviews.dart';
 import 'tab_bar_delegate.dart';
 
 class RestaurantDetailsScreen extends StatefulWidget {
-  const RestaurantDetailsScreen({super.key, this.restaurantId = 1, required this.enableEdit});
+  const RestaurantDetailsScreen({
+    super.key,
+    this.restaurantId = 1,
+    required this.enableEdit,
+    this.enableCompleteProfile = false,
+  });
   final int restaurantId;
   final bool enableEdit;
+  final bool enableCompleteProfile;
 
   @override
   State<RestaurantDetailsScreen> createState() => _RestaurantDetailsScreenState();
@@ -37,7 +44,6 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen>
     with SingleTickerProviderStateMixin {
   bool _isFav = false;
 
-  // Static reviews (kept)
   late final List<Review> _reviews = const [
     Review(
       reviewerName: 'Amina H.',
@@ -59,9 +65,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen>
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<RestaurantCubit, ApiResponseModel<RestaurantDetailedModel>>(
-      listener: (context, state) {
-        // reserved for future side effects
-      },
+      listener: (context, state) {},
       builder: (context, state) {
         switch (state.response) {
           case ResponseEnum.initial:
@@ -86,7 +90,6 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen>
                   : null,
             );
 
-            // Title: vendor.vendorName or fallback
             final restaurantTitle =
                 (state.data?.vendor?.vendorName?.trim().isNotEmpty ?? false)
                     ? state.data!.vendor!.vendorName!
@@ -142,7 +145,6 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen>
                           ),
                         ),
 
-                        // Info block
                         SliverToBoxAdapter(
                           child: Container(
                             decoration: const BoxDecoration(
@@ -194,23 +196,27 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen>
                                     ],
                                   ).animate().fadeIn(duration: 280.ms).slideY(begin: .1),
 
-                                  // GPSGaps.h12,
-                                  GPSGaps.h12,
-                                  Wrap(
-                                        spacing: 10,
-                                        runSpacing: 10,
-                                        children: [
-                                          ...(state.data?.mainCategories ?? []).map(
-                                            (c) => BadgeChip(label: c.name ?? ''),
-                                          ),
-                                          ...(state.data?.subCategories ?? []).map(
-                                            (c) => BadgeChip(label: c.name ?? ''),
-                                          ),
-                                        ],
-                                      )
-                                      .animate(delay: 70.ms)
-                                      .fadeIn(duration: 250.ms)
-                                      .slideY(begin: .08),
+                                  if (state.data?.mainCategories?.isNotEmpty == true)
+                                    Column(
+                                      children: [
+                                        GPSGaps.h12,
+                                        Wrap(
+                                              spacing: 10,
+                                              runSpacing: 10,
+                                              children: [
+                                                ...(state.data?.mainCategories ?? []).map(
+                                                  (c) => BadgeChip(label: c.name ?? ''),
+                                                ),
+                                                ...(state.data?.subCategories ?? []).map(
+                                                  (c) => BadgeChip(label: c.name ?? ''),
+                                                ),
+                                              ],
+                                            )
+                                            .animate(delay: 70.ms)
+                                            .fadeIn(duration: 250.ms)
+                                            .slideY(begin: .08),
+                                      ],
+                                    ),
 
                                   GPSGaps.h16,
 
@@ -222,102 +228,166 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen>
                                   //     height: 1.4,
                                   //   ),
                                   // ).animate().fadeIn(duration: 250.ms).slideY(begin: .06),
-                                  GPSGaps.h16,
                                   // const SectionHeader(title: 'Reviews'),
                                   // ReviewsSection(reviews: _reviews),
-                                  BranchCTAButton(
-                                    label: 'View Branches',
-                                    onPressed: () {
-                                      Future.delayed(100.ms, () {
-                                        Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                            builder:
-                                                (_) => BranchList(
-                                                  branches: state.data?.branches ?? [],
+                                  if (state.data?.branches?.isNotEmpty == true)
+                                    Column(
+                                      children: [
+                                        GPSGaps.h16,
+                                        BranchCTAButton(
+                                          label: 'View Branches',
+                                          onPressed: () {
+                                            Future.delayed(100.ms, () {
+                                              Navigator.of(context).push(
+                                                MaterialPageRoute(
+                                                  builder:
+                                                      (_) => BranchList(
+                                                        branches: state.data?.branches ?? [],
+                                                      ),
                                                 ),
-                                          ),
-                                        );
-                                      });
-                                    },
-                                    icon: MdiIcons.foodForkDrink,
-                                    tooltip: 'Go to branch details',
-                                    expand: true,
-                                  ),
-                                  GPSGaps.h8,
-                                  BranchCTAButton(
-                                    label: 'View Certifications',
-                                    onPressed: () {
-                                      Future.delayed(100.ms, () {
-                                        Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                            builder:
-                                                (_) => CertificationsScreen(
-                                                  items: state.data?.certifications ?? [],
+                                              );
+                                            });
+                                          },
+                                          icon: MdiIcons.foodForkDrink,
+                                          tooltip: 'Go to branch details',
+                                          expand: true,
+                                        ),
+                                      ],
+                                    ),
+
+                                  if (state.data?.branches?.isNotEmpty == false &&
+                                      widget.enableCompleteProfile)
+                                    Column(
+                                      children: [
+                                        GPSGaps.h16,
+                                        BranchCTAButton(
+                                          label: 'Add Branches',
+                                          onPressed: () {
+                                            Future.delayed(100.ms, () {
+                                              Navigator.of(context).pushNamed(
+                                                AppRoutesNames.restaurantOnboardingBranchesScreen,
+                                              );
+                                            });
+                                          },
+                                          icon: MdiIcons.foodForkDrink,
+                                          tooltip: 'Go to branch details',
+                                          expand: true,
+                                        ),
+                                      ],
+                                    ),
+
+                                  if (state.data?.certifications?.isNotEmpty == true)
+                                    Column(
+                                      children: [
+                                        GPSGaps.h8,
+                                        BranchCTAButton(
+                                          label: 'View Certifications',
+                                          onPressed: () {
+                                            Future.delayed(100.ms, () {
+                                              Navigator.of(context).push(
+                                                MaterialPageRoute(
+                                                  builder:
+                                                      (_) => CertificationsScreen(
+                                                        items: state.data?.certifications ?? [],
+                                                      ),
                                                 ),
-                                          ),
-                                        );
-                                      });
-                                    },
-                                    icon: MdiIcons.certificate,
-                                    tooltip: 'Go to branch details',
-                                    expand: true,
-                                  ),
+                                              );
+                                            });
+                                          },
+                                          icon: MdiIcons.certificate,
+                                          tooltip: 'Go to branch details',
+                                          expand: true,
+                                        ),
+                                      ],
+                                    ),
+
+                                  if (state.data?.certifications?.isNotEmpty == false &&
+                                      widget.enableCompleteProfile)
+                                    Column(
+                                      children: [
+                                        GPSGaps.h8,
+                                        BranchCTAButton(
+                                          label: 'Add Certifications',
+                                          onPressed: () {
+                                            Future.delayed(100.ms, () {
+                                              Navigator.of(context).pushNamed(
+                                                AppRoutesNames
+                                                    .restaurantOnboardingCertificationsScreen,
+                                              );
+                                            });
+                                          },
+                                          icon: MdiIcons.certificate,
+                                          tooltip: 'Go to certification details',
+                                          expand: true,
+                                        ),
+                                      ],
+                                    ),
+                                  if (state.data?.menus?.isNotEmpty == false &&
+                                      widget.enableCompleteProfile)
+                                    Column(
+                                      children: [
+                                        GPSGaps.h8,
+                                        BranchCTAButton(
+                                          label: 'Add Menus',
+                                          onPressed: () {
+                                            Future.delayed(100.ms, () {
+                                              Navigator.of(context).pushNamed(
+                                                AppRoutesNames.restaurantOnboardingMenuScreen,
+                                              );
+                                            });
+                                          },
+                                          icon: MdiIcons.paperRoll,
+                                          tooltip: 'Go to menus details',
+                                          expand: true,
+                                        ),
+                                      ],
+                                    ),
                                   GPSGaps.h8,
-                                  //   BranchCTAButton(
-                                  //     label: 'Update Your Tastes',
-                                  //     onPressed: () {
-                                  //       Future.delayed(100.ms, () {
-                                  //         Navigator.of(
-                                  //           context,
-                                  //         ).pushNamed(AppRoutesNames.categorySelectionScreen);
-                                  //       });
-                                  //     },
-                                  //     icon: MdiIcons.food,
-                                  //     tooltip: 'Go to branch details',
-                                  //     expand: true,
-                                  //   ),
                                 ],
                               ),
                             ),
                           ),
                         ),
 
-                        // Pinned TabBar
-                        SliverPersistentHeader(
-                          pinned: true,
-                          delegate: TabBarDelegate(
-                            TabBar(
-                              isScrollable: true,
-                              indicatorWeight: 3,
-                              indicatorColor: Colors.green,
-                              labelColor: Colors.black,
-                              unselectedLabelColor: Colors.grey,
-                              labelStyle: Theme.of(
-                                context,
-                              ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w800),
-                              tabs: [
-                                for (final t in tabs)
-                                  Tab(
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(1.0),
-                                      child: Text(t, style: const TextStyle(fontSize: 16)),
+                        if (state.data?.menus?.isNotEmpty == true)
+                          SliverPersistentHeader(
+                            pinned: true,
+                            delegate: TabBarDelegate(
+                              TabBar(
+                                isScrollable: true,
+                                indicatorWeight: 3,
+                                indicatorColor: Colors.green,
+                                labelColor: Colors.black,
+                                unselectedLabelColor: Colors.grey,
+                                labelStyle: Theme.of(
+                                  context,
+                                ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w800),
+                                tabs: [
+                                  for (final t in tabs)
+                                    Tab(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(1.0),
+                                        child: Text(t, style: const TextStyle(fontSize: 16)),
+                                      ),
                                     ),
-                                  ),
-                              ],
-                            ).animate().fadeIn(duration: 220.ms).slideY(begin: .08),
+                                ],
+                              ).animate().fadeIn(duration: 220.ms).slideY(begin: .08),
+                            ),
                           ),
-                        ),
                       ],
-                  body: TabBarView(
-                    children: [
-                      for (int ti = 0; ti < tabs.length; ti++)
-                        MenuMealsListView(
-                          heroPrefix: 'tab$ti',
-                          meals: menus[ti].meals ?? const <Meal>[],
-                          enableEdit: widget.enableEdit,
-                        ),
-                    ],
-                  ),
+                  body:
+                      state.data?.menus?.isNotEmpty == true
+                          ? TabBarView(
+                            children: [
+                              for (int ti = 0; ti < tabs.length; ti++)
+                                MenuMealsListView(
+                                  heroPrefix: 'tab$ti',
+                                  meals: menus[ti].meals ?? const <Meal>[],
+                                  enableEdit: widget.enableEdit,
+                                ),
+                            ],
+                          )
+                          : SizedBox(),
                 ),
               ),
             );
