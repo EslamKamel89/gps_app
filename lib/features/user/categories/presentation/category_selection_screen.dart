@@ -117,13 +117,13 @@ class _CategorySelectionScreenState extends State<CategorySelectionScreen> {
                     onNext:
                         state.selectedCategories.isNotEmpty
                             ? () {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                    'Selected: ${state.selectedCategories.map((c) => c.name).join(', ')}',
-                                  ),
-                                ),
-                              );
+                              // ScaffoldMessenger.of(context).showSnackBar(
+                              //   SnackBar(
+                              //     content: Text(
+                              //       'Selected: ${state.selectedCategories.map((c) => c.name).join(', ')}',
+                              //     ),
+                              //   ),
+                              // );
                               Navigator.of(
                                 context,
                               ).pushNamed(AppRoutesNames.subcategorySelectionScreen);

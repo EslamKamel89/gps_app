@@ -151,7 +151,7 @@ class _ClickDropdownState extends State<ClickDropdown> {
   void _hide() {
     _entry?.remove();
     _entry = null;
-    if (mounted) setState(() {});
+    // if (mounted) setState(() {});
   }
 
   @override

@@ -62,15 +62,11 @@ class UserModel {
     stateId: j['state_id'],
     token: j['token'],
     image: j['image'] == null ? null : ImageModel.fromJson(j['image']),
-    userType:
-        j['user_type'] == null ? null : UserTypeModel.fromJson(j['user_type']),
+    userType: j['user_type'] == null ? null : UserTypeModel.fromJson(j['user_type']),
     vendor: j['vendor'] == null ? null : VendorModel.fromJson(j['vendor']),
     farm: j['farm'] == null ? null : FarmModel.fromJson(j['farm']),
     store: j['store'] == null ? null : StoreModel.fromJson(j['store']),
-    restaurant:
-        j['restaurant'] == null
-            ? null
-            : RestaurantModel.fromJson(j['restaurant']),
+    restaurant: j['restaurant'] == null ? null : RestaurantModel.fromJson(j['restaurant']),
   );
 
   Map<String, dynamic> toJson() => {
@@ -96,6 +92,7 @@ class UserModel {
 
   @override
   String toString() {
+    return 'UserModel(restaurant: $restaurant)';
     return 'UserModel(id: $id, fullName: $fullName, userName: $userName, email: $email, emailVerifiedAt: $emailVerifiedAt, mobile: $mobile, createdAt: $createdAt, updatedAt: $updatedAt, userTypeId: $userTypeId, districtId: $districtId, stateId: $stateId, token: $token, userType: $userType, vendor: $vendor , image: $image , farm: $farm , store: $store , restaurant: $restaurant)';
   }
 }

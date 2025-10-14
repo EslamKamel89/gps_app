@@ -8,6 +8,8 @@ class RestaurantModel {
   DateTime? createdAt;
   DateTime? updatedAt;
   List<BranchModel>? branches;
+  bool? menus;
+  bool? certificates;
 
   RestaurantModel({
     this.id,
@@ -17,11 +19,13 @@ class RestaurantModel {
     this.createdAt,
     this.updatedAt,
     this.branches,
+    this.menus,
+    this.certificates,
   });
 
   @override
   String toString() {
-    return 'RestaurantModel(id: $id, userId: $userId, vendorId: $vendorId, website: $website, createdAt: $createdAt, updatedAt: $updatedAt, branches: $branches)';
+    return 'RestaurantModel(id: $id, userId: $userId, vendorId: $vendorId, website: $website, branches length: ${branches?.length} , menus: $menus , certifications: $certificates)';
   }
 
   factory RestaurantModel.fromJson(Map<String, dynamic> json) {
@@ -30,18 +34,20 @@ class RestaurantModel {
       userId: json['user_id'] as int?,
       vendorId: json['vendor_id'] as int?,
       website: json['website'] as dynamic,
-      createdAt:
-          json['created_at'] == null
-              ? null
-              : DateTime.parse(json['created_at'] as String),
-      updatedAt:
-          json['updated_at'] == null
-              ? null
-              : DateTime.parse(json['updated_at'] as String),
+      createdAt: json['created_at'] == null ? null : DateTime.parse(json['created_at'] as String),
+      updatedAt: json['updated_at'] == null ? null : DateTime.parse(json['updated_at'] as String),
       branches:
           (json['branches'] as List<dynamic>?)
               ?.map((e) => BranchModel.fromJson(e as Map<String, dynamic>))
               .toList(),
+      menus:
+          json['branches'] is bool
+              ? json['branches']
+              : (json['branches'] as List<dynamic>?)?.isNotEmpty == true,
+      certificates:
+          json['certificates'] is bool
+              ? json['certificates']
+              : (json['certificates'] as List<dynamic>?)?.isNotEmpty == true,
     );
   }
 
@@ -53,6 +59,8 @@ class RestaurantModel {
     'created_at': createdAt?.toIso8601String(),
     'updated_at': updatedAt?.toIso8601String(),
     'branches': branches?.map((e) => e.toJson()).toList(),
+    'menus': menus,
+    'certificates': certificates,
   };
 
   RestaurantModel copyWith({
@@ -63,6 +71,8 @@ class RestaurantModel {
     DateTime? createdAt,
     DateTime? updatedAt,
     List<BranchModel>? branches,
+    bool? menus,
+    bool? certificates,
   }) {
     return RestaurantModel(
       id: id ?? this.id,
@@ -72,6 +82,8 @@ class RestaurantModel {
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
       branches: branches ?? this.branches,
+      menus: menus ?? this.menus,
+      certificates: certificates ?? this.certificates,
     );
   }
 }
