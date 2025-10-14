@@ -1,6 +1,5 @@
 import 'package:gps_app/core/cache/local_storage.dart';
 import 'package:gps_app/core/helpers/print_helper.dart';
-import 'package:gps_app/core/helpers/snackbar.dart';
 import 'package:gps_app/core/router/app_routes_names.dart';
 import 'package:gps_app/core/service_locator/service_locator.dart';
 import 'package:gps_app/features/auth/models/user_model.dart';
@@ -40,10 +39,7 @@ class AppMiddleWare {
     }
     if (detectConflict(routeName)) {
       final newRoute = _handleEntryPoint();
-      pr(
-        'conflict detected, original route : $routeName , newRoute: $newRoute',
-        'AppMiddleware',
-      );
+      pr('conflict detected, original route : $routeName , newRoute: $newRoute', 'AppMiddleware');
       return newRoute;
     }
     return routeName;
@@ -54,9 +50,7 @@ class AppMiddleWare {
         (signedInButNotVerifiedRoutes.contains(routeName) &&
             !_storage.isSignedIn &&
             _storage.isVerified) ||
-        (verifiedRoutes.contains(routeName) &&
-            !_storage.isSignedIn &&
-            !_storage.isVerified);
+        (verifiedRoutes.contains(routeName) && !_storage.isSignedIn && !_storage.isVerified);
   }
 
   String _handleEntryPoint() {
@@ -68,30 +62,30 @@ class AppMiddleWare {
       // return AppRoutesNames.otpScreen;
     }
     // handle not complete profile logic
-    if (_storage.isFarm && !_storage.isFarmProfileComplete) {
-      showSnackbar(
-        'Info',
-        "Unlock your farm's full potential. A complete profile helps you reach more buyers.",
-        false,
-      );
-      return AppRoutesNames.storeFarmOnboardingProductsScreen;
-    }
-    if (_storage.isStore && !_storage.isStoreProfileComplete) {
-      showSnackbar(
-        'Info',
-        "A complete store profile is key to making sales. Finish yours now!",
-        false,
-      );
-      return AppRoutesNames.storeFarmOnboardingProductsScreen;
-    }
-    if (_storage.isRestaurant && !_storage.isRestaurantProfileComplete) {
-      showSnackbar(
-        'Info',
-        "Complete your restaurant profile to appear in more searches and get more reservations.",
-        false,
-      );
-      return AppRoutesNames.restaurantOnboardingBranchesScreen;
-    }
+    // if (_storage.isFarm && !_storage.isFarmProfileComplete) {
+    //   showSnackbar(
+    //     'Info',
+    //     "Unlock your farm's full potential. A complete profile helps you reach more buyers.",
+    //     false,
+    //   );
+    //   return AppRoutesNames.storeFarmOnboardingProductsScreen;
+    // }
+    // if (_storage.isStore && !_storage.isStoreProfileComplete) {
+    //   showSnackbar(
+    //     'Info',
+    //     "A complete store profile is key to making sales. Finish yours now!",
+    //     false,
+    //   );
+    //   return AppRoutesNames.storeFarmOnboardingProductsScreen;
+    // }
+    // if (_storage.isRestaurant && !_storage.isRestaurantProfileComplete) {
+    //   showSnackbar(
+    //     'Info',
+    //     "Complete your restaurant profile to appear in more searches and get more reservations.",
+    //     false,
+    //   );
+    //   return AppRoutesNames.restaurantOnboardingBranchesScreen;
+    // }
 
     // todo: later each type of user will have his own screen
     if (_storage.isUser) {
