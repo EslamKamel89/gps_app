@@ -20,7 +20,7 @@ class CustomStack extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
-        border: BoxBorder.all(color: Colors.grey.withOpacity(0.3)),
+        border: Border.all(color: Colors.grey.withOpacity(0.3)),
       ),
       padding: EdgeInsets.only(bottom: 4, left: 4),
       margin: EdgeInsets.all(2),
