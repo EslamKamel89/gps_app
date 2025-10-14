@@ -348,31 +348,39 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen>
                             ),
                           ),
                         ),
-
                         if (state.data?.menus?.isNotEmpty == true)
                           SliverPersistentHeader(
                             pinned: true,
+
+                            // ====== THE ONLY CHANGED PART (robust PreferredSize + Material wrapper) ======
                             delegate: TabBarDelegate(
-                              TabBar(
-                                isScrollable: true,
-                                indicatorWeight: 3,
-                                indicatorColor: Colors.green,
-                                labelColor: Colors.black,
-                                unselectedLabelColor: Colors.grey,
-                                labelStyle: Theme.of(
-                                  context,
-                                ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w800),
-                                tabs: [
-                                  for (final t in tabs)
-                                    Tab(
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(1.0),
-                                        child: Text(t, style: const TextStyle(fontSize: 16)),
-                                      ),
-                                    ),
-                                ],
-                              ).animate().fadeIn(duration: 220.ms).slideY(begin: .08),
+                              PreferredSize(
+                                preferredSize: const Size.fromHeight(kTextTabBarHeight),
+                                child: Material(
+                                  color: Theme.of(context).scaffoldBackgroundColor,
+                                  child: TabBar(
+                                    isScrollable: true,
+                                    indicatorWeight: 3,
+                                    indicatorColor: Colors.green,
+                                    labelColor: Colors.black,
+                                    unselectedLabelColor: Colors.grey,
+                                    labelStyle: Theme.of(
+                                      context,
+                                    ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w800),
+                                    tabs: [
+                                      for (final t in tabs)
+                                        Tab(
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(1.0),
+                                            child: Text(t, style: const TextStyle(fontSize: 16)),
+                                          ),
+                                        ),
+                                    ],
+                                  ).animate().fadeIn(duration: 220.ms).slideY(begin: .08),
+                                ),
+                              ),
                             ),
+                            // ====== END OF CHANGED PART ======
                           ),
                       ],
                   body:
@@ -387,12 +395,12 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen>
                                 ),
                             ],
                           )
-                          : SizedBox(),
+                          : const SizedBox(),
                 ),
               ),
             );
           case null:
-            return SizedBox();
+            return const SizedBox();
         }
       },
     );
