@@ -66,13 +66,13 @@
     "simplify the middleware",
     "change auth Flow to be single step",
     "show a warning if a user didn't complete his profile with a modal",
+    "handle the disable functionality when the user login",
     "------------------------------------------------"
   ],
   "todos": [
     "menu and meal images upload their images to the common folder",
-    "allow the user to edit his main information",
+    "allow the user to edit his main information - but i have a problem the main data that the user entered is not visible in the response returned by the endpoint",
     "handle the verified state in the categories in the restaurant details",
-    "handle the disable functionality when the user login",
     "------------------------------------------------"
   ],
   "backend_done_todos": [

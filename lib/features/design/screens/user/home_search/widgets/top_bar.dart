@@ -12,6 +12,7 @@ import 'package:gps_app/features/design/screens/user/home_search/widgets/user_pr
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 import 'package:gps_app/features/user/restaurants/presentation/restaurant_detail_provider.dart';
+import 'package:gps_app/features/user/stores/presentation/store_details_screen.dart';
 import 'package:gps_app/utils/assets/assets.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
@@ -93,6 +94,11 @@ class _TopBarState extends State<TopBar> {
                             ),
                       ),
                     );
+                  }
+                  if (type == 'store') {
+                    Navigator.of(
+                      context,
+                    ).push(MaterialPageRoute(builder: (_) => StoreDetailsScreen(user: user()!)));
                   } else {
                     showSnackbar(
                       'Sorry',
