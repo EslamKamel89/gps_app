@@ -41,21 +41,15 @@ class StoreDetailsScreenState extends State<StoreDetailsScreen>
           ? _vendor!.vendorName!
           : (widget.user.fullName ?? 'Store');
 
-  // Build a usable image URL or fallback (kept simple on purpose)
   String _imageUrl([ImageModel? img]) {
     final p = img?.path ?? widget.user.image?.path;
     if (p == null || p.isEmpty) {
-      // nice neutral fallback
       return 'https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=1600&auto=format&fit=crop';
     }
-    // If your API serves relative "storage/..." paths, prepend your base URL.
-    // To keep this file self-contained, we'll just return the path;
-    // adjust as needed (e.g., "${Env.apiBase}/$p").
+
     return p.startsWith('http') ? p : p;
   }
 
-  // Simple "open now" using today's range from operatingHours
-  // operatingHours format: ["HH:MM","HH:MM"]
   bool get _isOpenNow {
     final oh = _vendor?.operatingHours;
     if (oh == null) return false;
@@ -108,7 +102,7 @@ class StoreDetailsScreenState extends State<StoreDetailsScreen>
       int toMinutes(TimeOfDay t) => t.hour * 60 + t.minute;
       final xs = toMinutes(xTod), as = toMinutes(a), bs = toMinutes(b);
       if (as <= bs) return xs >= as && xs <= bs;
-      // overnight range (e.g., 22:00 -> 06:00)
+
       return xs >= as || xs <= bs;
     }
 
@@ -126,7 +120,6 @@ class StoreDetailsScreenState extends State<StoreDetailsScreen>
         body: NestedScrollView(
           headerSliverBuilder:
               (context, innerScrolled) => [
-                // Hero / Media
                 SliverAppBar(
                   backgroundColor: GPSColors.background,
                   expandedHeight: 260,
@@ -162,7 +155,6 @@ class StoreDetailsScreenState extends State<StoreDetailsScreen>
                   ),
                 ),
 
-                // Header content
                 SliverToBoxAdapter(
                   child: Container(
                     decoration: const BoxDecoration(
@@ -174,7 +166,6 @@ class StoreDetailsScreenState extends State<StoreDetailsScreen>
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          // Title + Fav
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -202,7 +193,6 @@ class StoreDetailsScreenState extends State<StoreDetailsScreen>
 
                           GPSGaps.h12,
 
-                          // Quick badges (address / open now / type)
                           Wrap(
                             spacing: 10,
                             runSpacing: 10,
@@ -220,7 +210,6 @@ class StoreDetailsScreenState extends State<StoreDetailsScreen>
 
                           GPSGaps.h16,
 
-                          // Simple About (using whatever is available)
                           if ((_vendor?.address ?? '').isNotEmpty)
                             Text(
                               _vendor!.address!,
@@ -232,7 +221,6 @@ class StoreDetailsScreenState extends State<StoreDetailsScreen>
 
                           if ((_vendor?.address ?? '').isNotEmpty) GPSGaps.h16,
 
-                          // Hours preview (today only, readable)
                           if (_vendor?.operatingHours != null)
                             TodayHoursRow(
                               operating: _vendor!.operatingHours!,
@@ -244,7 +232,6 @@ class StoreDetailsScreenState extends State<StoreDetailsScreen>
                   ),
                 ),
 
-                // Pinned TabBar (only if we have sections)
                 SliverPersistentHeader(
                   pinned: true,
                   delegate: TabBarDelegate(
@@ -295,7 +282,6 @@ class StoreDetailsScreenState extends State<StoreDetailsScreen>
     );
   }
 
-  // If no sections, flatten items (kept very small/simple)
   List<CatalogItemModel> _flatItems() {
     final list = <CatalogItemModel>[];
     for (final s in _sections) {
