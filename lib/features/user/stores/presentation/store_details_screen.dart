@@ -11,6 +11,7 @@ import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 import 'package:gps_app/features/user/stores/presentation/widgets/badge_chip.dart';
 import 'package:gps_app/features/user/stores/presentation/widgets/circle_back.dart';
+import 'package:gps_app/features/user/stores/presentation/widgets/contact_card.dart';
 import 'package:gps_app/features/user/stores/presentation/widgets/empty_section_list.dart';
 import 'package:gps_app/features/user/stores/presentation/widgets/section_list_view.dart';
 import 'package:gps_app/features/user/stores/presentation/widgets/today_hours_row.dart';
@@ -27,7 +28,6 @@ class StoreDetailsScreen extends StatefulWidget {
 class StoreDetailsScreenState extends State<StoreDetailsScreen>
     with SingleTickerProviderStateMixin {
   bool _isFav = false;
-
   StoreModel? get _store => widget.user.store;
   VendorModel? get _vendor => widget.user.vendor;
 
@@ -216,12 +216,17 @@ class StoreDetailsScreenState extends State<StoreDetailsScreen>
                             ).animate().fadeIn(duration: 250.ms).slideY(begin: .06),
 
                           if ((_vendor?.address ?? '').isNotEmpty) GPSGaps.h16,
-
+                          ContactCard(
+                            email: widget.user.email,
+                            mobile: widget.user.mobile,
+                            website: _store?.website,
+                          ),
+                          if (_vendor?.operatingHours != null) GPSGaps.h16,
                           if (_vendor?.operatingHours != null)
                             TodayHoursRow(
                               operating: _vendor!.operatingHours!,
                             ).animate().fadeIn(duration: 240.ms).slideY(begin: .06),
-                          if (_vendor?.operatingHours != null) GPSGaps.h16,
+                          // if (_vendor?.operatingHours != null) GPSGaps.h16,
                         ],
                       ),
                     ),
