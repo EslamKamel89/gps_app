@@ -15,22 +15,16 @@ import 'package:gps_app/features/design/utils/gps_gaps.dart';
 import 'package:gps_app/features/user/stores/presentation/widgets/empty_state.dart';
 import 'package:gps_app/features/user/stores/presentation/widgets/item_card.dart';
 
-class SectionListView extends StatelessWidget {
-  const SectionListView({super.key, required this.section, required this.heroPrefix});
-
-  final CatalogSectionModel section;
+class EmptySectionList extends StatelessWidget {
+  const EmptySectionList({super.key, required this.items, required this.heroPrefix});
+  final List<CatalogItemModel> items;
   final String heroPrefix;
 
   @override
   Widget build(BuildContext context) {
-    final items =
-        (section.items ?? const []).where((i) => (i.status ?? true) == true).toList()
-          ..sort((a, b) => (a.position ?? 9999).compareTo(b.position ?? 9999));
-
     if (items.isEmpty) {
-      return const EmptyState(message: 'No items in this section.');
+      return const EmptyState(message: 'No items available.');
     }
-
     return ListView.separated(
       physics: const ClampingScrollPhysics(),
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 28),
