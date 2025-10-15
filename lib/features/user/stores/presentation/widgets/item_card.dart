@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:gps_app/core/api_service/end_points.dart';
 import 'package:gps_app/features/auth/models/catalog_item_model.dart';
-import 'package:gps_app/features/auth/models/image_model.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 
@@ -10,12 +10,12 @@ class ItemCard extends StatelessWidget {
   final CatalogItemModel item;
   final String heroTag;
 
-  String _imageUrl(ImageModel? img) {
-    final p = img?.path;
-    if (p == null || p.isEmpty) {
-      return 'https://images.unsplash.com/photo-1557821552-17105176677c?q=80&w=1200&auto=format&fit=crop';
+  String _imageUrl() {
+    final path = item.image?.path;
+    if (path == null) {
+      return 'https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=1600&auto=format&fit=crop';
     }
-    return p.startsWith('http') ? p : p;
+    return "${EndPoint.baseUrl}/$path";
   }
 
   @override
@@ -47,12 +47,7 @@ class ItemCard extends StatelessWidget {
             ),
             child: Hero(
               tag: heroTag,
-              child: Image.network(
-                _imageUrl(item.image),
-                width: 110,
-                height: 110,
-                fit: BoxFit.cover,
-              ),
+              child: Image.network(_imageUrl(), width: 110, height: 110, fit: BoxFit.cover),
             ),
           ),
 

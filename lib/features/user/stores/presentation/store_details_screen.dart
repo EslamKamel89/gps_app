@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:gps_app/core/api_service/end_points.dart';
 import 'package:gps_app/features/auth/models/catalog_item_model.dart';
 import 'package:gps_app/features/auth/models/catalog_section_model.dart';
-import 'package:gps_app/features/auth/models/image_model.dart';
 import 'package:gps_app/features/auth/models/store_model.dart';
 import 'package:gps_app/features/auth/models/user_model.dart';
 import 'package:gps_app/features/auth/models/vendor_model/vendor_model.dart';
@@ -11,12 +11,9 @@ import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 import 'package:gps_app/features/user/stores/presentation/widgets/badge_chip.dart';
 import 'package:gps_app/features/user/stores/presentation/widgets/circle_back.dart';
-import 'package:gps_app/features/user/stores/presentation/widgets/empty_section_list.dart'
-    show EmptySectionList;
-import 'package:gps_app/features/user/stores/presentation/widgets/section_list_view.dart'
-    show SectionListView;
-import 'package:gps_app/features/user/stores/presentation/widgets/today_hours_row.dart'
-    show TodayHoursRow;
+import 'package:gps_app/features/user/stores/presentation/widgets/empty_section_list.dart';
+import 'package:gps_app/features/user/stores/presentation/widgets/section_list_view.dart';
+import 'package:gps_app/features/user/stores/presentation/widgets/today_hours_row.dart';
 
 class StoreDetailsScreen extends StatefulWidget {
   const StoreDetailsScreen({super.key, required this.user});
@@ -41,13 +38,12 @@ class StoreDetailsScreenState extends State<StoreDetailsScreen>
           ? _vendor!.vendorName!
           : (widget.user.fullName ?? 'Store');
 
-  String _imageUrl([ImageModel? img]) {
-    final p = img?.path ?? widget.user.image?.path;
-    if (p == null || p.isEmpty) {
+  String _imageUrl() {
+    final path = widget.user.image?.path;
+    if (path == null) {
       return 'https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=1600&auto=format&fit=crop';
     }
-
-    return p.startsWith('http') ? p : p;
+    return "${EndPoint.baseUrl}/$path";
   }
 
   bool get _isOpenNow {
