@@ -1,7 +1,9 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:gps_app/features/auth/models/district_model.dart';
 import 'package:gps_app/features/auth/models/farm_model.dart';
 import 'package:gps_app/features/auth/models/image_model.dart';
 import 'package:gps_app/features/auth/models/restaurant_model.dart';
+import 'package:gps_app/features/auth/models/state_model.dart';
 import 'package:gps_app/features/auth/models/store_model.dart';
 import 'package:gps_app/features/auth/models/vendor_model/vendor_model.dart';
 
@@ -26,6 +28,8 @@ class UserModel {
   final StoreModel? store;
   final RestaurantModel? restaurant;
   final ImageModel? image;
+  final StateModel? state;
+  final DistrictModel? district;
 
   const UserModel({
     this.id,
@@ -46,6 +50,8 @@ class UserModel {
     this.farm,
     this.store,
     this.restaurant,
+    this.state,
+    this.district,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> j) => UserModel(
@@ -67,6 +73,8 @@ class UserModel {
     farm: j['farm'] == null ? null : FarmModel.fromJson(j['farm']),
     store: j['store'] == null ? null : StoreModel.fromJson(j['store']),
     restaurant: j['restaurant'] == null ? null : RestaurantModel.fromJson(j['restaurant']),
+    state: j['state'] == null ? null : StateModel.fromJson(j['state']),
+    district: j['district'] == null ? null : DistrictModel.fromJson(j['district']),
   );
 
   Map<String, dynamic> toJson() => {
@@ -88,6 +96,8 @@ class UserModel {
     'farm': farm?.toJson(),
     'store': store?.toJson(),
     'restaurant': restaurant?.toJson(),
+    'state': state?.toJson(),
+    'district': district?.toJson(),
   };
 
   @override

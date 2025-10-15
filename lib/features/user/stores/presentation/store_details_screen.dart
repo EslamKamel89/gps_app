@@ -15,6 +15,7 @@ import 'package:gps_app/features/user/stores/presentation/widgets/circle_back.da
 import 'package:gps_app/features/user/stores/presentation/widgets/contact_card.dart';
 import 'package:gps_app/features/user/stores/presentation/widgets/empty_section_list.dart';
 import 'package:gps_app/features/user/stores/presentation/widgets/section_list_view.dart';
+import 'package:gps_app/features/user/stores/presentation/widgets/state_city_card.dart';
 import 'package:gps_app/features/user/stores/presentation/widgets/today_hours_row.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
@@ -237,7 +238,13 @@ class StoreDetailsScreenState extends State<StoreDetailsScreen>
                                 height: 1.4,
                               ),
                             ).animate().fadeIn(duration: 250.ms).slideY(begin: .06),
-
+                          if (widget.user.state != null && widget.user.district != null)
+                            GPSGaps.h16,
+                          if (widget.user.state != null && widget.user.district != null)
+                            StateCityCard(
+                              state: widget.user.state!,
+                              district: widget.user.district!,
+                            ),
                           if ((_vendor?.address ?? '').isNotEmpty) GPSGaps.h16,
                           ContactCard(
                             email: widget.user.email,
