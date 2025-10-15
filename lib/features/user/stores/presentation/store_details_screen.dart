@@ -7,6 +7,7 @@ import 'package:gps_app/features/auth/models/operating_time_model.dart';
 import 'package:gps_app/features/auth/models/store_model.dart';
 import 'package:gps_app/features/auth/models/user_model.dart';
 import 'package:gps_app/features/auth/models/vendor_model/vendor_model.dart';
+import 'package:gps_app/features/design/screens/user/resturant_details/widgets/tabbar_delegate.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 
@@ -16,10 +17,10 @@ class StoreDetailsScreen extends StatefulWidget {
   final UserModel user;
 
   @override
-  State<StoreDetailsScreen> createState() => _StoreDetailsScreenState();
+  State<StoreDetailsScreen> createState() => StoreDetailsScreenState();
 }
 
-class _StoreDetailsScreenState extends State<StoreDetailsScreen>
+class StoreDetailsScreenState extends State<StoreDetailsScreen>
     with SingleTickerProviderStateMixin {
   bool _isFav = false;
 
@@ -226,7 +227,7 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen>
 
                           // Hours preview (today only, readable)
                           if (_vendor?.operatingHours != null)
-                            _TodayHoursRow(
+                            TodayHoursRow(
                               operating: _vendor!.operatingHours!,
                             ).animate().fadeIn(duration: 240.ms).slideY(begin: .06),
                           if (_vendor?.operatingHours != null) GPSGaps.h16,
@@ -275,11 +276,11 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen>
               ],
           body:
               tabs.isEmpty
-                  ? _EmptySectionList(items: _flatItems(), heroPrefix: 'all-0')
+                  ? EmptySectionList(items: _flatItems(), heroPrefix: 'all-0')
                   : TabBarView(
                     children: [
                       for (int ti = 0; ti < tabs.length; ti++)
-                        _SectionListView(section: _sections[ti], heroPrefix: 'tab$ti'),
+                        SectionListView(section: _sections[ti], heroPrefix: 'tab$ti'),
                     ],
                   ),
         ),
@@ -297,12 +298,8 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen>
   }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Section List + Item Card
-// ─────────────────────────────────────────────────────────────────────────────
-
-class _SectionListView extends StatelessWidget {
-  const _SectionListView({required this.section, required this.heroPrefix});
+class SectionListView extends StatelessWidget {
+  const SectionListView({super.key, required this.section, required this.heroPrefix});
 
   final CatalogSectionModel section;
   final String heroPrefix;
@@ -314,7 +311,7 @@ class _SectionListView extends StatelessWidget {
           ..sort((a, b) => (a.position ?? 9999).compareTo(b.position ?? 9999));
 
     if (items.isEmpty) {
-      return const _EmptyState(message: 'No items in this section.');
+      return const EmptyState(message: 'No items in this section.');
     }
 
     return ListView.separated(
@@ -324,7 +321,7 @@ class _SectionListView extends StatelessWidget {
       separatorBuilder: (_, __) => GPSGaps.h12,
       itemBuilder: (context, index) {
         final delay = (70 * index).ms;
-        return _ItemCard(item: items[index], heroTag: '$heroPrefix-$index')
+        return ItemCard(item: items[index], heroTag: '$heroPrefix-$index')
             .animate(delay: delay)
             .fadeIn(duration: 260.ms, curve: Curves.easeOutCubic)
             .slideY(begin: .08, curve: Curves.easeOutCubic)
@@ -334,15 +331,15 @@ class _SectionListView extends StatelessWidget {
   }
 }
 
-class _EmptySectionList extends StatelessWidget {
-  const _EmptySectionList({required this.items, required this.heroPrefix});
+class EmptySectionList extends StatelessWidget {
+  const EmptySectionList({super.key, required this.items, required this.heroPrefix});
   final List<CatalogItemModel> items;
   final String heroPrefix;
 
   @override
   Widget build(BuildContext context) {
     if (items.isEmpty) {
-      return const _EmptyState(message: 'No items available.');
+      return const EmptyState(message: 'No items available.');
     }
     return ListView.separated(
       physics: const ClampingScrollPhysics(),
@@ -351,7 +348,7 @@ class _EmptySectionList extends StatelessWidget {
       separatorBuilder: (_, __) => GPSGaps.h12,
       itemBuilder: (context, index) {
         final delay = (70 * index).ms;
-        return _ItemCard(item: items[index], heroTag: '$heroPrefix-$index')
+        return ItemCard(item: items[index], heroTag: '$heroPrefix-$index')
             .animate(delay: delay)
             .fadeIn(duration: 260.ms, curve: Curves.easeOutCubic)
             .slideY(begin: .08, curve: Curves.easeOutCubic)
@@ -361,8 +358,8 @@ class _EmptySectionList extends StatelessWidget {
   }
 }
 
-class _ItemCard extends StatelessWidget {
-  const _ItemCard({required this.item, required this.heroTag});
+class ItemCard extends StatelessWidget {
+  const ItemCard({super.key, required this.item, required this.heroTag});
 
   final CatalogItemModel item;
   final String heroTag;
@@ -457,10 +454,6 @@ class _ItemCard extends StatelessWidget {
   }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Small UI Atoms (shared with Restaurant style)
-// ─────────────────────────────────────────────────────────────────────────────
-
 class BadgeChip extends StatelessWidget {
   const BadgeChip({super.key, required this.label, this.icon, this.iconColor = GPSColors.primary});
 
@@ -518,40 +511,8 @@ class CircleBack extends StatelessWidget {
   }
 }
 
-class TabBarDelegate extends SliverPersistentHeaderDelegate {
-  TabBarDelegate(this._tabBar);
-  final Widget _tabBar;
-
-  @override
-  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return Container(
-      color: GPSColors.background,
-      child: SafeArea(
-        bottom: false,
-        child: Container(
-          decoration: const BoxDecoration(
-            color: GPSColors.background,
-            border: Border(
-              bottom: BorderSide(color: GPSColors.cardBorder),
-              top: BorderSide(color: GPSColors.cardBorder),
-            ),
-          ),
-          child: _tabBar,
-        ),
-      ),
-    );
-  }
-
-  @override
-  double get maxExtent => 52;
-  @override
-  double get minExtent => 52;
-  @override
-  bool shouldRebuild(covariant TabBarDelegate oldDelegate) => false;
-}
-
-class _TodayHoursRow extends StatelessWidget {
-  const _TodayHoursRow({required this.operating});
+class TodayHoursRow extends StatelessWidget {
+  const TodayHoursRow({super.key, required this.operating});
 
   final OperatingTimeModel operating;
 
@@ -601,8 +562,8 @@ class _TodayHoursRow extends StatelessWidget {
   }
 }
 
-class _EmptyState extends StatelessWidget {
-  const _EmptyState({required this.message});
+class EmptyState extends StatelessWidget {
+  const EmptyState({super.key, required this.message});
   final String message;
 
   @override

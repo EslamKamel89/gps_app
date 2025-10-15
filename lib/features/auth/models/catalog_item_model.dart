@@ -34,30 +34,21 @@ class CatalogItemModel {
     return 'Item(id: $id, userId: $userId, vendorId: $vendorId, catalogSectionId: $catalogSectionId, name: $name, price: $price, description: $description, status: $status, position: $position, createdAt: $createdAt, updatedAt: $updatedAt, image: $image)';
   }
 
-  factory CatalogItemModel.fromJson(Map<String, dynamic> json) =>
-      CatalogItemModel(
-        id: json['id'] as int?,
-        userId: json['user_id'] as int?,
-        vendorId: json['vendor_id'] as int?,
-        catalogSectionId: json['catalog_section_id'] as int?,
-        name: json['name'] as String?,
-        price: json['price'] as String?,
-        description: json['description'] as String?,
-        status: json['status'] as bool?,
-        position: json['position'] as int?,
-        createdAt:
-            json['created_at'] == null
-                ? null
-                : DateTime.parse(json['created_at'] as String),
-        updatedAt:
-            json['updated_at'] == null
-                ? null
-                : DateTime.parse(json['updated_at'] as String),
-        image:
-            json['image'] == null
-                ? null
-                : ImageModel.fromJson(json['image'] as Map<String, dynamic>),
-      );
+  factory CatalogItemModel.fromJson(Map<String, dynamic> json) => CatalogItemModel(
+    id: json['id'] as int?,
+    userId: json['user_id'] as int?,
+    vendorId: json['vendor_id'] as int?,
+    catalogSectionId: json['catalog_section_id'] as int?,
+    name: json['name'] as String?,
+    price: json['price'] as String?,
+    description: json['description'] as String?,
+    status: json['status'] as bool?,
+    position: json['position'] as int?,
+    createdAt: json['created_at'] == null ? null : DateTime.parse(json['created_at'] as String),
+    updatedAt: json['updated_at'] == null ? null : DateTime.parse(json['updated_at'] as String),
+    image:
+        json['images'] == null ? null : ImageModel.fromJson(json['images'] as Map<String, dynamic>),
+  );
 
   Map<String, dynamic> toJson() => {
     'id': id,
@@ -71,7 +62,7 @@ class CatalogItemModel {
     'position': position,
     'created_at': createdAt?.toIso8601String(),
     'updated_at': updatedAt?.toIso8601String(),
-    'image': image?.toJson(),
+    'images': image?.toJson(),
   };
 
   CatalogItemModel copyWith({

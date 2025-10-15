@@ -72,6 +72,11 @@
   "todos": [
     "menu and meal images upload their images to the common folder",
     "allow the user to edit his main information - but i have a problem the main data that the user entered is not visible in the response returned by the endpoint",
+    "refactor the code into reusable snippets",
+    "fix the issue of the image not visible",
+    "check exactly which name is displayed in the store details screen",
+    "create the contact widget that will display the email , mobile , website",
+    "create the widget to go to a location in the map",
     "handle the verified state in the categories in the restaurant details",
     "------------------------------------------------"
   ],
