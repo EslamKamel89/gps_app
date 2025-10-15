@@ -240,8 +240,6 @@ class _BranchImageHeader extends StatelessWidget {
   }
 }
 
-/// ——— Small atoms ———
-
 class _IconAction extends StatelessWidget {
   const _IconAction({required this.icon, required this.onTap, required this.tooltip});
   final IconData icon;

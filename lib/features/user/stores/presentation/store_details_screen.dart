@@ -9,12 +9,14 @@ import 'package:gps_app/features/auth/models/vendor_model/vendor_model.dart';
 import 'package:gps_app/features/design/screens/user/resturant_details/widgets/tabbar_delegate.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
+import 'package:gps_app/features/user/restaurants/presentation/widgets/branch_map_screen.dart';
 import 'package:gps_app/features/user/stores/presentation/widgets/badge_chip.dart';
 import 'package:gps_app/features/user/stores/presentation/widgets/circle_back.dart';
 import 'package:gps_app/features/user/stores/presentation/widgets/contact_card.dart';
 import 'package:gps_app/features/user/stores/presentation/widgets/empty_section_list.dart';
 import 'package:gps_app/features/user/stores/presentation/widgets/section_list_view.dart';
 import 'package:gps_app/features/user/stores/presentation/widgets/today_hours_row.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class StoreDetailsScreen extends StatefulWidget {
   const StoreDetailsScreen({super.key, required this.user});
@@ -177,6 +179,24 @@ class StoreDetailsScreenState extends State<StoreDetailsScreen>
                                 ),
                               ),
                               IconButton(
+                                tooltip: 'Open Map',
+                                icon: Icon(Icons.location_on),
+                                onPressed: () {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder:
+                                          (_) => BranchMapScreen(
+                                            latitude: _store?.latitude?.toString() ?? '0',
+                                            longitude: _store?.longitude?.toString() ?? '0',
+                                            title: "$_title Location",
+                                          ),
+                                      fullscreenDialog: true,
+                                    ),
+                                  );
+                                },
+                              ).animate(delay: 40.ms).fadeIn(duration: 150.ms),
+
+                              IconButton(
                                 tooltip: _isFav ? 'Remove from favorites' : 'Add to favorites',
                                 onPressed: () => setState(() => _isFav = !_isFav),
                                 icon: Icon(
@@ -200,7 +220,10 @@ class StoreDetailsScreenState extends State<StoreDetailsScreen>
                                 label: _isOpenNow ? 'Open now' : 'Closed',
                                 iconColor: _isOpenNow ? Colors.green : GPSColors.mutedText,
                               ),
-                              const BadgeChip(icon: Icons.storefront_rounded, label: 'Store'),
+                              if (widget.user.userType?.type == 'store')
+                                const BadgeChip(icon: Icons.storefront_rounded, label: 'Store'),
+                              if (widget.user.userType?.type == 'farm')
+                                BadgeChip(icon: MdiIcons.tree, label: 'Store'),
                             ],
                           ).animate(delay: 70.ms).fadeIn(duration: 250.ms).slideY(begin: .08),
 
