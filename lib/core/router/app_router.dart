@@ -29,6 +29,7 @@ import 'package:gps_app/features/design/screens/user/splash/splash_screen.dart';
 import 'package:gps_app/features/user/categories/presentation/category_selection_screen.dart';
 import 'package:gps_app/features/user/categories/presentation/subcategory_selection_screen.dart';
 import 'package:gps_app/features/user/restaurants/presentation/restaurant_detail_provider.dart';
+import 'package:gps_app/features/wishlist/presentation/wishlist_screen.dart';
 
 class AppRouter {
   AppMiddleWare appMiddleWare;
@@ -145,7 +146,8 @@ class AppRouter {
         );
       case AppRoutesNames.otpScreen:
         return CustomPageRoute(builder: (context) => OTPScreen(), settings: routeSettings);
-
+      case AppRoutesNames.wishList:
+        return CustomPageRoute(builder: (context) => WishListScreen(), settings: routeSettings);
       default:
         return null;
     }

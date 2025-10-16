@@ -22,6 +22,7 @@ class AppRoutesNames {
   // static const String farmOnboardingProductsScreen =
   //     '/farmOnboardingProductsScreen';
   static const String emptyScreen = '/emptyScreen';
+  static const String wishList = '/wishList';
   static const String accountBlockedScreen = '/accountBlockedScreen';
   static const String otpScreen = '/otpScreen';
 }
