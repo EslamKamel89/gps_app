@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
+import 'package:gps_app/features/design/widgets/gps_bottom_nav.dart';
 import 'package:gps_app/features/wishlist/entities/acceptor_entity.dart';
 import 'package:gps_app/features/wishlist/entities/meal_entity.dart';
 import 'package:gps_app/features/wishlist/entities/wish_entity.dart';
@@ -93,7 +94,7 @@ class _WishListScreenState extends State<WishListScreen> with TickerProviderStat
   ];
 
   final Set<String> _expanded = {};
-
+  int _currentTab = 3;
   @override
   Widget build(BuildContext context) {
     final txt = Theme.of(context).textTheme;
@@ -169,7 +170,7 @@ class _WishListScreenState extends State<WishListScreen> with TickerProviderStat
                   onViewRestaurant: (acceptor) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text('Open ${acceptor?.restaurantName} details'),
+                        content: Text('Open ${acceptor.restaurantName} details'),
                         behavior: SnackBarBehavior.floating,
                       ),
                     );
@@ -181,6 +182,12 @@ class _WishListScreenState extends State<WishListScreen> with TickerProviderStat
                 .scale(begin: const Offset(.98, .98));
           },
         ),
+      ),
+      bottomNavigationBar: GPSBottomNav(
+        currentIndex: _currentTab,
+        onChanged: (i) {
+          setState(() => _currentTab = i);
+        },
       ),
     );
   }
