@@ -3,16 +3,12 @@ import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
+import 'package:gps_app/features/wishlist/presentation/widgets/wish_list_create_widget.dart';
+import 'package:lottie/lottie.dart';
 
 class WishButton extends StatefulWidget {
-  const WishButton({
-    super.key,
-    this.onPressed,
-    this.label = 'Ask the Chef',
-    this.isLoading = false,
-  });
+  const WishButton({super.key, this.label = 'Ask the Chef', this.isLoading = false});
 
-  final VoidCallback? onPressed;
   final String label;
   final bool isLoading;
 
@@ -26,7 +22,17 @@ class _WishButtonState extends State<WishButton> {
   void _tap() {
     if (widget.isLoading) return;
     HapticFeedback.lightImpact();
-    widget.onPressed?.call();
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return BottomSheet(
+          onClosing: () {},
+          builder: (context) {
+            return WishListCreateWidget();
+          },
+        );
+      },
+    );
   }
 
   @override
@@ -45,65 +51,45 @@ class _WishButtonState extends State<WishButton> {
         child: Stack(
           children: [
             Container(
-              height: 64,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(18),
-                boxShadow: const [
-                  BoxShadow(
-                    color: Color(0x3300C853),
-                    blurRadius: 28,
-                    spreadRadius: -2,
-                    offset: Offset(0, 10),
-                  ),
-                ],
-              ),
-            ),
-
-            Container(
-                  height: 64,
+                  height: 60,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(18),
 
                     gradient: LinearGradient(
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
-                      colors: [GPSColors.primary, GPSColors.primary.withOpacity(.92)],
+                      colors: [
+                        GPSColors.primary.withOpacity(0.4),
+                        GPSColors.primary.withOpacity(.6),
+                      ],
                     ),
                     border: Border.all(color: Colors.white.withOpacity(.25)),
                   ),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(18),
-                    child: Stack(
-                      fit: StackFit.expand,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
                       children: [
-                        Container(
-                          decoration: const BoxDecoration(
-                            gradient: LinearGradient(
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter,
-                              colors: [Colors.white24, Colors.transparent],
-                            ),
-                          ),
+                        // const Icon(Icons.auto_awesome, color: Colors.white, size: 22),
+                        GPSGaps.w8,
+                        Lottie.asset(
+                          'assets/animations/cooking.json',
+                          // width: 200,
+                          // height: 200,
+                          fit: BoxFit.contain,
                         ),
 
-                        Center(
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              const Icon(Icons.auto_awesome, color: Colors.white, size: 22),
-                              GPSGaps.w8,
-                              Text(
-                                key: const ValueKey('label'),
-                                widget.label,
-                                style: txt.titleSmall?.copyWith(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w800,
-                                  letterSpacing: .2,
-                                ),
-                              ),
-                            ],
+                        GPSGaps.w8,
+                        Text(
+                          key: const ValueKey('label'),
+                          widget.label,
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w800,
+                            letterSpacing: .2,
                           ),
                         ),
+                        GPSGaps.w16,
                       ],
                     ),
                   ),

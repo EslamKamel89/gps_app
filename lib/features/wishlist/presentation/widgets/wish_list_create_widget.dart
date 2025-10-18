@@ -48,93 +48,95 @@ class _WishListCreateWidgetState extends State<WishListCreateWidget> {
   @override
   Widget build(BuildContext context) {
     final txt = Theme.of(context).textTheme;
-    return ListView(
+    return Padding(
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
-      children: [
-        Text(
-          'Describe your wish',
-          style: txt.labelMedium?.copyWith(
-            color: GPSColors.mutedText,
-            fontWeight: FontWeight.w700,
-            letterSpacing: .2,
-          ),
-        ).animate().fadeIn(duration: 200.ms).slideY(begin: .04),
+      child: Column(
+        children: [
+          Text(
+            'Describe your wish',
+            style: txt.labelMedium?.copyWith(
+              color: GPSColors.mutedText,
+              fontWeight: FontWeight.w700,
+              letterSpacing: .2,
+            ),
+          ).animate().fadeIn(duration: 200.ms).slideY(begin: .04),
 
-        GPSGaps.h8,
+          GPSGaps.h8,
 
-        WishTextBox(controller: _controller)
-            .animate()
-            .fadeIn(duration: 240.ms)
-            .slideY(begin: .06)
-            .scale(begin: const Offset(.98, .98)),
+          WishTextBox(controller: _controller)
+              .animate()
+              .fadeIn(duration: 240.ms)
+              .slideY(begin: .06)
+              .scale(begin: const Offset(.98, .98)),
 
-        GPSGaps.h16,
+          GPSGaps.h16,
 
-        Text(
-          'Dietary tags',
-          style: txt.labelMedium?.copyWith(
-            color: GPSColors.mutedText,
-            fontWeight: FontWeight.w700,
-            letterSpacing: .2,
-          ),
-        ).animate().fadeIn(duration: 200.ms).slideY(begin: .04),
+          Text(
+            'Dietary tags',
+            style: txt.labelMedium?.copyWith(
+              color: GPSColors.mutedText,
+              fontWeight: FontWeight.w700,
+              letterSpacing: .2,
+            ),
+          ).animate().fadeIn(duration: 200.ms).slideY(begin: .04),
 
-        GPSGaps.h8,
+          GPSGaps.h8,
 
-        DietTagSelector(
-          allTags: _allDietTags,
-          selected: _selectedTags,
-          onChanged: (tag, isSelected) {
-            setState(() {
-              if (isSelected) {
-                _selectedTags.add(tag);
-              } else {
-                _selectedTags.remove(tag);
-              }
-            });
-          },
-        ).animate().fadeIn(duration: 220.ms).slideY(begin: .06),
+          DietTagSelector(
+            allTags: _allDietTags,
+            selected: _selectedTags,
+            onChanged: (tag, isSelected) {
+              setState(() {
+                if (isSelected) {
+                  _selectedTags.add(tag);
+                } else {
+                  _selectedTags.remove(tag);
+                }
+              });
+            },
+          ).animate().fadeIn(duration: 220.ms).slideY(begin: .06),
 
-        if (_selectedTags.isNotEmpty) ...[
-          GPSGaps.h12,
-          Wrap(
-            spacing: 8,
-            runSpacing: 8,
-            children: _selectedTags.map((t) => TagChip(label: t)).toList(growable: false),
-          ).animate().fadeIn(duration: 220.ms).slideY(begin: .04),
-        ],
-
-        GPSGaps.h24,
-
-        Row(
-          children: [
-            OutlinedButton(
-              onPressed: _onCancel,
-              style: OutlinedButton.styleFrom(
-                foregroundColor: GPSColors.text,
-                side: const BorderSide(color: GPSColors.cardBorder),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-              ),
-              child: const Text('Cancel', style: TextStyle(fontWeight: FontWeight.w700)),
+          if (_selectedTags.isNotEmpty) ...[
+            GPSGaps.h12,
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: _selectedTags.map((t) => TagChip(label: t)).toList(growable: false),
             ).animate().fadeIn(duration: 220.ms).slideY(begin: .04),
-
-            GPSGaps.w12,
-
-            ElevatedButton(
-              onPressed: _onSave,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: GPSColors.primary,
-                foregroundColor: Colors.white,
-                elevation: 0,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
-              ),
-              child: const Text('Save', style: TextStyle(fontWeight: FontWeight.w800)),
-            ).animate().fadeIn(duration: 220.ms).scale(begin: const Offset(.98, .98)),
           ],
-        ),
-      ],
+
+          GPSGaps.h24,
+
+          Row(
+            children: [
+              OutlinedButton(
+                onPressed: _onCancel,
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: GPSColors.text,
+                  side: const BorderSide(color: GPSColors.cardBorder),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                ),
+                child: const Text('Cancel', style: TextStyle(fontWeight: FontWeight.w700)),
+              ).animate().fadeIn(duration: 220.ms).slideY(begin: .04),
+
+              GPSGaps.w12,
+
+              ElevatedButton(
+                onPressed: _onSave,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: GPSColors.primary,
+                  foregroundColor: Colors.white,
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                  padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
+                ),
+                child: const Text('Save', style: TextStyle(fontWeight: FontWeight.w800)),
+              ).animate().fadeIn(duration: 220.ms).scale(begin: const Offset(.98, .98)),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }

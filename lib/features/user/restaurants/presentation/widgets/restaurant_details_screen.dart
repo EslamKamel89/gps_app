@@ -141,6 +141,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen>
                                     ),
                                   ),
                                 ),
+                                Positioned(bottom: 5, right: 5, child: WishButton()),
                               ],
                             ),
                           ),
@@ -197,31 +198,29 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen>
                                     ],
                                   ).animate().fadeIn(duration: 280.ms).slideY(begin: .1),
 
-                                  if (state.data?.mainCategories?.isNotEmpty == true)
-                                    Column(
-                                      children: [
-                                        GPSGaps.h12,
-                                        Wrap(
-                                              spacing: 10,
-                                              runSpacing: 10,
-                                              children: [
-                                                ...(state.data?.mainCategories ?? []).map(
-                                                  (c) => BadgeChip(label: c.name ?? ''),
-                                                ),
-                                                ...(state.data?.subCategories ?? []).map(
-                                                  (c) => BadgeChip(label: c.name ?? ''),
-                                                ),
-                                              ],
-                                            )
-                                            .animate(delay: 70.ms)
-                                            .fadeIn(duration: 250.ms)
-                                            .slideY(begin: .08),
-                                      ],
-                                    ),
+                                  // if (state.data?.mainCategories?.isNotEmpty == true)
+                                  Column(
+                                    children: [
+                                      GPSGaps.h12,
+                                      Wrap(
+                                            spacing: 10,
+                                            runSpacing: 10,
+                                            children: [
+                                              ...(state.data?.mainCategories ?? []).map(
+                                                (c) => BadgeChip(label: c.name ?? ''),
+                                              ),
+                                              ...(state.data?.subCategories ?? []).map(
+                                                (c) => BadgeChip(label: c.name ?? ''),
+                                              ),
+                                            ],
+                                          )
+                                          .animate(delay: 70.ms)
+                                          .fadeIn(duration: 250.ms)
+                                          .slideY(begin: .08),
+                                    ],
+                                  ),
 
                                   GPSGaps.h16,
-                                  WishButton(),
-                                  // GPSGaps.h16,
 
                                   // GPSGaps.h8,
                                   // Text(

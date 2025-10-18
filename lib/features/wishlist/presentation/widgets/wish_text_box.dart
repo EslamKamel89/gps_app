@@ -17,7 +17,7 @@ class WishTextBox extends StatelessWidget {
     final txt = Theme.of(context).textTheme;
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        // color: Colors.white,
         border: Border.all(color: GPSColors.cardBorder),
         borderRadius: BorderRadius.circular(12),
       ),
