@@ -15,6 +15,7 @@ import 'package:gps_app/features/user/restaurants/presentation/certifications_sc
 import 'package:gps_app/features/user/restaurants/presentation/widgets/branch_nav_button.dart';
 import 'package:gps_app/features/user/restaurants/presentation/widgets/form_bottom_sheet.dart';
 import 'package:gps_app/features/user/restaurants/presentation/widgets/restaurant_details_forms.dart';
+import 'package:gps_app/features/user/restaurants/presentation/widgets/wish_button.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import 'badges.dart';
@@ -219,6 +220,8 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen>
                                     ),
 
                                   GPSGaps.h16,
+                                  WishButton(),
+                                  // GPSGaps.h16,
 
                                   // GPSGaps.h8,
                                   // Text(
