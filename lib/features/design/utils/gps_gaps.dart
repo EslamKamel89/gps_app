@@ -11,6 +11,7 @@ class GPSGaps {
   static const h24 = SizedBox(height: 24);
   static const w8 = SizedBox(width: 8);
   static const w4 = SizedBox(width: 4);
+  static const w10 = SizedBox(width: 10);
   static const w12 = SizedBox(width: 12);
   static const w16 = SizedBox(width: 16);
 }
