@@ -25,9 +25,7 @@ class _GPSSplashScreenState extends State<GPSSplashScreen> {
   Future _init() async {
     await serviceLocator<AuthController>().userSync();
     await Future.delayed(const Duration(seconds: 3));
-    // Navigator.of(
-    //   context,
-    // ).pushNamedAndRemoveUntil(AppRoutesNames.entryPoint, (_) => false);
+    // Navigator.of(context).pushNamedAndRemoveUntil(AppRoutesNames.entryPoint, (_) => false);
     Navigator.of(
       context,
     ).pushAndRemoveUntil(MaterialPageRoute(builder: (_) => GrassFedGuideScreen()), (_) => false);

@@ -1,4 +1,4 @@
-package com.example.gps_app
+package com.gaztec.gps_app;
 
 import io.flutter.embedding.android.FlutterActivity
 
