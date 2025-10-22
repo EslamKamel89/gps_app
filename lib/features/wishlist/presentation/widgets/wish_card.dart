@@ -81,13 +81,13 @@ class WishCard extends StatelessWidget {
                     ),
                   ),
                   GPSGaps.w8,
-                  StatusPill(status: wish.status, count: wish.acceptors.length),
+                  StatusPill(status: wish.status ?? 0, count: wish.acceptors?.length ?? 0),
                 ],
               ).animate().fadeIn(duration: 200.ms).slideY(begin: .04),
 
               GPSGaps.h12,
 
-              if (wish.status == 1) AcceptedPreviewRow(acceptors: wish.acceptors),
+              if (wish.status == 1) AcceptedPreviewRow(acceptors: wish.acceptors ?? []),
 
               if (wish.status == 0)
                 WaitingTip().animate().fadeIn(duration: 220.ms).slideY(begin: .06),
@@ -119,7 +119,7 @@ class WishCard extends StatelessWidget {
                             GPSGaps.h12,
                             if (wish.status == 1)
                               AcceptorsList(
-                                acceptors: wish.acceptors,
+                                acceptors: wish.acceptors ?? [],
                                 onViewRestaurant: onViewRestaurant,
                               )
                             else

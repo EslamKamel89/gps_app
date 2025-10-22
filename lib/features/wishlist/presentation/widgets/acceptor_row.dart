@@ -4,7 +4,6 @@ import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 import 'package:gps_app/features/wishlist/entities/acceptor_model.dart';
 import 'package:gps_app/features/wishlist/presentation/widgets/logo_box.dart';
-import 'package:gps_app/features/wishlist/presentation/widgets/star_row.dart';
 
 class AcceptorRow extends StatelessWidget {
   const AcceptorRow({super.key, required this.acceptor, required this.onTap});
@@ -37,7 +36,7 @@ class AcceptorRow extends StatelessWidget {
                     children: [
                       Expanded(
                         child: Text(
-                          acceptor.restaurantName,
+                          acceptor.user?.userName ?? '',
                           style: txt.titleSmall?.copyWith(
                             color: GPSColors.text,
                             fontWeight: FontWeight.w800,
@@ -46,39 +45,31 @@ class AcceptorRow extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                      StarRow(rating: acceptor.rating, size: 16),
-                      GPSGaps.w8,
-                      Text(
-                        '${acceptor.distanceKm.toStringAsFixed(1)} km',
-                        style: txt.labelMedium?.copyWith(color: GPSColors.mutedText),
-                      ),
+                      // StarRow(rating: acceptor.rating, size: 16),
+                      // GPSGaps.w8,
+                      // Text(
+                      //   '${acceptor.distanceKm.toStringAsFixed(1)} km',
+                      //   style: txt.labelMedium?.copyWith(color: GPSColors.mutedText),
+                      // ),
                     ],
                   ),
                   GPSGaps.h8,
 
                   Text(
-                    acceptor.item.name,
+                    acceptor.item?.name ?? '',
                     style: txt.bodyMedium?.copyWith(
                       color: GPSColors.text,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
                   GPSGaps.h6,
-                  Text(
-                    acceptor.item.description,
-                    style: txt.bodySmall?.copyWith(color: GPSColors.mutedText, height: 1.35),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  // GPSGaps.h6,
-                  // Wrap(
-                  //   spacing: 8,
-                  //   runSpacing: 8,
-                  //   children: [
-                  //     for (final t in acceptor.item.dietTags) TagChip(label: t),
-                  //     PriceTag(price: acceptor.item.price),
-                  //   ],
-                  // ),
+                  if (acceptor.item?.description != null)
+                    Text(
+                      (acceptor.item?.description)!,
+                      style: txt.bodySmall?.copyWith(color: GPSColors.mutedText, height: 1.35),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                 ],
               ),
             ),

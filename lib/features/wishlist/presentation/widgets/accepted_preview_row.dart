@@ -22,7 +22,7 @@ class AcceptedPreviewRow extends StatelessWidget {
           spacing: 8,
           runSpacing: 8,
           children: [
-            for (final a in preview) MiniRestaurantChip(name: a.restaurantName),
+            for (final a in preview) MiniRestaurantChip(name: a.user?.userName ?? ''),
             if (remaining > 0) MiniRestaurantChip(name: '+$remaining more'),
           ],
         ).animate().fadeIn(duration: 220.ms).slideY(begin: .04),

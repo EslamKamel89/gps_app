@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:gps_app/features/auth/models/user_model.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 import 'package:gps_app/features/design/widgets/gps_bottom_nav.dart';
@@ -21,72 +22,72 @@ class _WishListScreenState extends State<WishListScreen> with TickerProviderStat
 
   late final List<WishModel> _wishes = [
     WishModel(
-      id: 'w1',
+      id: 1,
       description: 'I love vegan pizza',
       status: 1,
       acceptors: [
         AcceptorModel(
-          id: 'r1',
-          restaurantName: 'True Acre',
-          rating: 4.6,
-          distanceKm: 1.2,
+          id: 1,
+          user: UserModel(userName: 'True Acre'),
+          // rating: 4.6,
+          // distanceKm: 1.2,
           item: ItemModel(
             name: 'Margherita Verde',
             description: 'Cashew mozzarella, fresh basil, heirloom tomatoes',
-            price: 9.50,
+            price: "9.50",
           ),
         ),
         AcceptorModel(
-          id: 'r2',
-          restaurantName: 'Green Bites',
-          rating: 4.2,
-          distanceKm: 2.4,
+          id: 3,
+          user: UserModel(userName: 'Green Bites'),
+          // rating: 4.2,
+          // distanceKm: 2.4,
           item: ItemModel(
             name: 'Forest Pesto Pizza',
             description: 'Kale pesto, artichoke hearts, olives',
-            price: 10.90,
+            price: "10.90",
           ),
         ),
         AcceptorModel(
-          id: 'r3',
-          restaurantName: 'Vegano+',
-          rating: 4.8,
-          distanceKm: 3.1,
+          id: 4,
+          user: UserModel(userName: 'Vegano+'),
+          // rating: 4.8,
+          // distanceKm: 3.1,
           item: ItemModel(
             name: 'Truffle Funghi Flatbread',
             description: 'Roasted mushrooms, rocket, truffle drizzle',
-            price: 12.40,
+            price: "12.40",
           ),
         ),
       ],
     ),
     WishModel(
-      id: 'w2',
+      id: 5,
       description: 'Looking for gluten-free falafel wrap',
       status: 0,
       acceptors: const [],
     ),
     WishModel(
-      id: 'w3',
+      id: 6,
       description: 'Cold-pressed green juice nearby',
       status: 1,
       acceptors: [
         AcceptorModel(
-          id: 'r4',
-          restaurantName: 'Leaf & Loom',
-          rating: 4.4,
-          distanceKm: 0.8,
+          id: 7,
+          user: UserModel(userName: 'Leaf & Loom'),
+          // rating: 4.4,
+          // distanceKm: 0.8,
           item: ItemModel(
             name: 'Morning Greens',
             description: 'Kale, spinach, cucumber, apple, ginger',
-            price: 5.90,
+            price: "5.90",
           ),
         ),
       ],
     ),
   ];
 
-  final Set<String> _expanded = {};
+  final Set<int> _expanded = {};
   int _currentTab = 3;
   @override
   Widget build(BuildContext context) {
@@ -152,18 +153,19 @@ class _WishListScreenState extends State<WishListScreen> with TickerProviderStat
                   wish: wish,
                   expanded: isExpanded,
                   onToggleExpanded: () {
+                    if (wish.id == null) return;
                     setState(() {
                       if (isExpanded) {
                         _expanded.remove(wish.id);
                       } else {
-                        _expanded.add(wish.id);
+                        _expanded.add(wish.id!);
                       }
                     });
                   },
                   onViewRestaurant: (acceptor) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text('Open ${acceptor.restaurantName} details'),
+                        content: Text('Open ${acceptor.user?.userName} details'),
                         behavior: SnackBarBehavior.floating,
                       ),
                     );
