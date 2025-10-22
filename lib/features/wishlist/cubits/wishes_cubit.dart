@@ -17,11 +17,7 @@ class WishesCubit extends Cubit<ApiResponseModel<List<WishModel>>> {
     emit(response);
   }
 
-  Future addWish({
-    required int categoryId,
-    required int subCategoryId,
-    required String description,
-  }) async {
+  Future addWish({required String description, int? categoryId, int? subCategoryId}) async {
     final t = prt('addWish - WishesCubit');
     final ApiResponseModel<bool> response = await controller.addWish(
       categoryId: categoryId,

@@ -9,8 +9,6 @@ import 'package:gps_app/features/wishlist/presentation/widgets/category_preview_
 import 'package:gps_app/features/wishlist/presentation/widgets/leaf_badge.dart';
 import 'package:gps_app/features/wishlist/presentation/widgets/primary_action_row.dart';
 import 'package:gps_app/features/wishlist/presentation/widgets/status_bill.dart';
-import 'package:gps_app/features/wishlist/presentation/widgets/waiting_suggestions.dart';
-import 'package:gps_app/features/wishlist/presentation/widgets/wating_tip.dart';
 
 class WishCard extends StatelessWidget {
   const WishCard({
@@ -89,15 +87,15 @@ class WishCard extends StatelessWidget {
               if (![wish.category, wish.subcategory].contains(null))
                 CategoryPreviewRow(category: wish.category!, subCategory: wish.subcategory!),
 
-              if (wish.status == 0)
-                WaitingTip().animate().fadeIn(duration: 220.ms).slideY(begin: .06),
-
+              // if (wish.status == 0)
+              //   WaitingTip().animate().fadeIn(duration: 220.ms).slideY(begin: .06),
               GPSGaps.h12,
-              PrimaryActionRow(
-                expanded: expanded,
-                isAccepted: wish.status == 1,
-                onPressed: onToggleExpanded,
-              ),
+              if (wish.acceptors?.isNotEmpty == true)
+                PrimaryActionRow(
+                  expanded: expanded,
+                  isAccepted: wish.status == 1,
+                  onPressed: onToggleExpanded,
+                ),
 
               AnimatedSwitcher(
                 duration: 260.ms,
@@ -122,8 +120,10 @@ class WishCard extends StatelessWidget {
                                 acceptors: wish.acceptors ?? [],
                                 onViewRestaurant: onViewRestaurant,
                               )
+                            // else
+                            //   WaitingSuggestions(),
                             else
-                              WaitingSuggestions(),
+                              SizedBox(),
                           ],
                         )
                         : const SizedBox.shrink(key: ValueKey('collapsed')),

@@ -27,7 +27,7 @@ class CategoryPreviewRow extends StatelessWidget {
         ).animate().fadeIn(duration: 220.ms).slideY(begin: .04),
         GPSGaps.h8,
         Text(
-          'Matched restaurants can satisfy this wish with specific menu items.',
+          'Matched vendors can satisfy this wish with specific menu items.',
           style: txt.bodySmall?.copyWith(color: GPSColors.mutedText),
         ),
       ],

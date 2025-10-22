@@ -31,9 +31,9 @@ class WishListController {
   }
 
   Future<ApiResponseModel<bool>> addWish({
-    required int categoryId,
-    required int subCategoryId,
     required String description,
+    int? categoryId,
+    int? subCategoryId,
   }) async {
     final t = prt('addWish - WishListController');
     try {

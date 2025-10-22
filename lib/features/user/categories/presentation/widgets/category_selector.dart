@@ -28,20 +28,22 @@ class CategorySelector {
 }
 
 class CategorySelectorProvider extends StatelessWidget {
-  const CategorySelectorProvider({super.key, required this.onSelect});
+  const CategorySelectorProvider({super.key, required this.onSelect, this.isRequired = true});
   final Function(CategorySelector) onSelect;
+  final bool isRequired;
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => CategorySelectorCubit()..categoriesIndex(),
-      child: CategorySelectorWidget(onSelect),
+      child: CategorySelectorWidget(onSelect, isRequired: isRequired),
     );
   }
 }
 
 class CategorySelectorWidget extends StatefulWidget {
-  const CategorySelectorWidget(this.onSelect, {super.key});
+  const CategorySelectorWidget(this.onSelect, {super.key, this.isRequired = true});
   final Function(CategorySelector) onSelect;
+  final bool isRequired;
 
   @override
   State<CategorySelectorWidget> createState() => _CategorySelectorWidgetState();
@@ -61,32 +63,24 @@ class _CategorySelectorWidgetState extends State<CategorySelectorWidget> {
                 key: Key('category'),
                 label: 'Category',
                 hintText: 'Select category',
-                isRequired: true,
+                isRequired: widget.isRequired,
                 options:
-                    state.categories.data
-                        ?.map((category) => category.name ?? '')
-                        .toList() ??
-                    [],
+                    state.categories.data?.map((category) => category.name ?? '').toList() ?? [],
                 handleSelectOption: (String option) {
                   final category = cubit.selectCategory(option);
                   widget.onSelect(
-                    CategorySelector(
-                      selectedCategory: category,
-                      selectedSubCategory: null,
-                    ),
+                    CategorySelector(selectedCategory: category, selectedSubCategory: null),
                   );
                 },
               ),
-            if (state.categories.data?.isNotEmpty == true &&
-                state.selectedCategory != null)
+            if (state.categories.data?.isNotEmpty == true && state.selectedCategory != null)
               GPSGaps.h16,
-            if (state.categories.data?.isNotEmpty == true &&
-                state.selectedCategory != null)
+            if (state.categories.data?.isNotEmpty == true && state.selectedCategory != null)
               SearchableDropdownWidget(
                 key: Key('subCategory'),
                 label: 'Sub Category',
                 hintText: 'Select Sub category',
-                isRequired: true,
+                isRequired: widget.isRequired,
                 options:
                     state.selectedCategory?.subCategories
                         ?.map((subCat) => subCat.name ?? '')
