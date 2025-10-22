@@ -18,5 +18,6 @@ class EndPoint {
   static const String restaurantCertificates = "$baseUrl/api/certificates";
   static const String restaurants = "$baseUrl/api/restaurants";
   static const String wishlist = "$baseUrl/api/wishlists";
+  static const String acceptWishList = "$baseUrl/api/accept-wishlists";
   static const String mealItems = "$baseUrl/api/wishlists/get-items";
 }

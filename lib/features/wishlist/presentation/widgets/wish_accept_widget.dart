@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gps_app/core/enums/response_type.dart';
+import 'package:gps_app/core/service_locator/service_locator.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
+import 'package:gps_app/features/wishlist/controllers/wishlist_controller.dart';
 import 'package:gps_app/features/wishlist/cubits/wishes_cubit.dart';
 import 'package:gps_app/features/wishlist/presentation/widgets/meal_item_selector.dart';
 
@@ -27,15 +30,22 @@ class _WishListAcceptWidgetState extends State<WishListAcceptWidget> {
 
   bool isLoading = false;
   Future _onSave() async {
-    if (!_formKey.currentState!.validate()) return;
+    if (!_formKey.currentState!.validate() || itemId == null) return;
+
+    final wishesCubit = context.read<WishesCubit>();
     setState(() {
       isLoading = true;
     });
-    final wishesCubit = context.read<WishesCubit>();
-
+    final res = await serviceLocator<WishListController>().acceptWish(
+      itemId: itemId!,
+      wishListId: widget.wishListId,
+    );
     setState(() {
       isLoading = false;
     });
+    if (res.response == ResponseEnum.success) {
+      await wishesCubit.wishes();
+    }
     Navigator.pop(context);
   }
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:gps_app/core/helpers/user.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 import 'package:gps_app/features/user/restaurants/presentation/widgets/wish_accept_button.dart';
@@ -84,8 +85,14 @@ class WishCard extends StatelessWidget {
                 ],
               ).animate().fadeIn(duration: 200.ms).slideY(begin: .04),
 
-              if (wish.id != null) GPSGaps.h12,
-              if (wish.id != null) WishAcceptButton(wishListId: wish.id!),
+              if (wish.id != null &&
+                  user()?.userType?.type != null &&
+                  user()?.userType?.type != 'user')
+                GPSGaps.h12,
+              if (wish.id != null &&
+                  user()?.userType?.type != null &&
+                  user()?.userType?.type != 'user')
+                WishAcceptButton(wishListId: wish.id!),
               GPSGaps.h12,
               if (![wish.category, wish.subcategory].contains(null))
                 CategoryPreviewRow(category: wish.category!, subCategory: wish.subcategory!),
