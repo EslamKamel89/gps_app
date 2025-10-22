@@ -1,7 +1,7 @@
 import 'package:gps_app/features/auth/models/user_model.dart';
 import 'package:gps_app/features/user/categories/models/category_model/category_model.dart';
 import 'package:gps_app/features/user/categories/models/category_model/sub_category_model.dart';
-import 'package:gps_app/features/wishlist/entities/acceptor_model.dart';
+import 'package:gps_app/features/wishlist/models/acceptor_model.dart';
 
 class WishModel {
   final int? id;

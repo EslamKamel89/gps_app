@@ -4,9 +4,9 @@ import 'package:gps_app/features/auth/models/user_model.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 import 'package:gps_app/features/design/widgets/gps_bottom_nav.dart';
-import 'package:gps_app/features/wishlist/entities/acceptor_model.dart';
-import 'package:gps_app/features/wishlist/entities/item_model.dart';
-import 'package:gps_app/features/wishlist/entities/wish_model.dart';
+import 'package:gps_app/features/wishlist/models/acceptor_model.dart';
+import 'package:gps_app/features/wishlist/models/item_model.dart';
+import 'package:gps_app/features/wishlist/models/wish_model.dart';
 import 'package:gps_app/features/wishlist/presentation/widgets/wish_card.dart';
 
 class WishListScreen extends StatefulWidget {

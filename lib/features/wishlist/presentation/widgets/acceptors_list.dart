@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
-import 'package:gps_app/features/wishlist/entities/acceptor_model.dart';
+import 'package:gps_app/features/wishlist/models/acceptor_model.dart';
 import 'package:gps_app/features/wishlist/presentation/widgets/acceptor_row.dart';
 
 class AcceptorsList extends StatelessWidget {

@@ -1,5 +1,5 @@
 import 'package:gps_app/features/auth/models/user_model.dart';
-import 'package:gps_app/features/wishlist/entities/item_model.dart';
+import 'package:gps_app/features/wishlist/models/item_model.dart';
 
 class AcceptorModel {
   final int? id;
