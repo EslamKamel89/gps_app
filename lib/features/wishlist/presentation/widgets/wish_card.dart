@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
+import 'package:gps_app/features/user/restaurants/presentation/widgets/wish_accept_button.dart';
 import 'package:gps_app/features/wishlist/models/acceptor_model/acceptor_model.dart';
 import 'package:gps_app/features/wishlist/models/acceptor_model/wish_model.dart';
 import 'package:gps_app/features/wishlist/presentation/widgets/acceptors_list.dart';
@@ -83,12 +84,12 @@ class WishCard extends StatelessWidget {
                 ],
               ).animate().fadeIn(duration: 200.ms).slideY(begin: .04),
 
+              if (wish.id != null) GPSGaps.h12,
+              if (wish.id != null) WishAcceptButton(wishListId: wish.id!),
               GPSGaps.h12,
               if (![wish.category, wish.subcategory].contains(null))
                 CategoryPreviewRow(category: wish.category!, subCategory: wish.subcategory!),
 
-              // if (wish.status == 0)
-              //   WaitingTip().animate().fadeIn(duration: 220.ms).slideY(begin: .06),
               GPSGaps.h12,
               if (wish.acceptors?.isNotEmpty == true)
                 PrimaryActionRow(
@@ -120,8 +121,6 @@ class WishCard extends StatelessWidget {
                                 acceptors: wish.acceptors ?? [],
                                 onViewRestaurant: onViewRestaurant,
                               )
-                            // else
-                            //   WaitingSuggestions(),
                             else
                               SizedBox(),
                           ],
