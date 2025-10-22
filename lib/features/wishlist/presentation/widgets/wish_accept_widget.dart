@@ -14,6 +14,7 @@ import 'package:gps_app/features/wishlist/cubits/meal_items_cubit.dart';
 import 'package:gps_app/features/wishlist/cubits/wishes_cubit.dart';
 import 'package:gps_app/features/wishlist/presentation/widgets/diet_tag_selector.dart';
 import 'package:gps_app/features/wishlist/presentation/widgets/leaf_badge.dart';
+import 'package:gps_app/features/wishlist/presentation/widgets/meal_item_selector.dart';
 import 'package:gps_app/features/wishlist/presentation/widgets/wish_text_box.dart';
 
 class WishListAcceptWidget extends StatefulWidget {
@@ -56,9 +57,10 @@ class _WishListAcceptWidgetState extends State<WishListAcceptWidget> {
       child: Padding(
         padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              'Let’s make it happen — what’s your wish?',
+              'Say Yes to the Wish',
               style: txt.labelMedium?.copyWith(
                 color: GPSColors.mutedText,
                 fontWeight: FontWeight.w700,
@@ -67,7 +69,13 @@ class _WishListAcceptWidgetState extends State<WishListAcceptWidget> {
             ).animate().fadeIn(duration: 200.ms).slideY(begin: .04),
 
             GPSGaps.h8,
-
+            MealItemSelectorProvider(
+              onSelect: (item) {
+                itemId = item.id;
+              },
+              isRequired: true,
+            ),
+            GPSGaps.h8,
             Row(
               children: [
                 OutlinedButton(

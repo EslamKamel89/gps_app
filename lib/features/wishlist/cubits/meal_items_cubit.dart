@@ -16,4 +16,9 @@ class MealItemsCubit extends Cubit<ApiResponseModel<List<MealItemModel>>> {
     pr(response, t);
     emit(response);
   }
+
+  MealItemModel? selectItem(String itemName) {
+    final item = state.data?.where((c) => itemName == c.name).first;
+    return item;
+  }
 }

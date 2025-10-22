@@ -24,15 +24,13 @@ class CategorySelectorCubit extends Cubit<CategorySelectorState> {
         ),
       ),
     );
-    final ApiResponseModel<List<CategoryModel>> response =
-        await controller.categoriesIndex();
+    final ApiResponseModel<List<CategoryModel>> response = await controller.categoriesIndex();
     pr(response, t);
     emit(state.copyWith(categories: response));
   }
 
   CategoryModel? selectCategory(String categoryName) {
-    final category =
-        state.categories.data?.where((c) => categoryName == c.name).first;
+    final category = state.categories.data?.where((c) => categoryName == c.name).first;
     state.selectedSubCategory = null;
     state.selectedCategory = category;
     emit(state.copyWith());
@@ -40,10 +38,7 @@ class CategorySelectorCubit extends Cubit<CategorySelectorState> {
   }
 
   SubCategoryModel? selectSubCategory(String subCatName) {
-    final subCat =
-        state.selectedCategory?.subCategories
-            ?.where((c) => subCatName == c.name)
-            .first;
+    final subCat = state.selectedCategory?.subCategories?.where((c) => subCatName == c.name).first;
     emit(state.copyWith(selectedSubCategory: subCat));
     return subCat;
   }
