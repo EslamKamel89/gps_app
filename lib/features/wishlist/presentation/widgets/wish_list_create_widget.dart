@@ -2,10 +2,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:gps_app/core/helpers/validator.dart';
 import 'package:gps_app/core/router/app_routes_names.dart';
+import 'package:gps_app/features/auth/presentation/widgets/labeled_field.dart';
 import 'package:gps_app/features/design/screens/user/home_search/widgets/tag_chip.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
+import 'package:gps_app/features/user/categories/presentation/widgets/category_selector.dart';
 import 'package:gps_app/features/wishlist/presentation/widgets/diet_tag_selector.dart';
 import 'package:gps_app/features/wishlist/presentation/widgets/leaf_badge.dart';
 import 'package:gps_app/features/wishlist/presentation/widgets/wish_text_box.dart';
@@ -18,22 +21,8 @@ class WishListCreateWidget extends StatefulWidget {
 }
 
 class _WishListCreateWidgetState extends State<WishListCreateWidget> {
-  final _controller = TextEditingController();
-
-  static const List<String> _allDietTags = <String>[
-    'Vegan',
-    'Vegetarian',
-    'Organic',
-    'Gluten-free',
-    'Dairy-free',
-    'Halal',
-  ];
-
-  final Set<String> _selectedTags = {};
-
   @override
   void dispose() {
-    _controller.dispose();
     super.dispose();
   }
 
@@ -41,9 +30,7 @@ class _WishListCreateWidgetState extends State<WishListCreateWidget> {
     Navigator.pop(context);
   }
 
-  void _onSave() {
-    Navigator.of(context).pushNamedAndRemoveUntil(AppRoutesNames.wishList, (_) => false);
-  }
+  void _onSave() {}
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +40,7 @@ class _WishListCreateWidgetState extends State<WishListCreateWidget> {
       child: Column(
         children: [
           Text(
-            'Describe your wish',
+            'Let’s make it happen — what’s your wish?',
             style: txt.labelMedium?.copyWith(
               color: GPSColors.mutedText,
               fontWeight: FontWeight.w700,
@@ -63,7 +50,17 @@ class _WishListCreateWidgetState extends State<WishListCreateWidget> {
 
           GPSGaps.h8,
 
-          WishTextBox(controller: _controller)
+          LabeledField(
+                label: 'Make a wish come true',
+                child: TextFormField(
+                  keyboardType: TextInputType.emailAddress,
+                  textInputAction: TextInputAction.next,
+                  validator: (v) => validator(input: v, label: 'Wish', isRequired: true),
+                  decoration: _inputDecoration(
+                    'e.g., “I love vegan pizza” or “Gluten-free falafel wrap”',
+                  ),
+                ),
+              )
               .animate()
               .fadeIn(duration: 240.ms)
               .slideY(begin: .06)
@@ -71,40 +68,7 @@ class _WishListCreateWidgetState extends State<WishListCreateWidget> {
 
           GPSGaps.h16,
 
-          Text(
-            'Dietary tags',
-            style: txt.labelMedium?.copyWith(
-              color: GPSColors.mutedText,
-              fontWeight: FontWeight.w700,
-              letterSpacing: .2,
-            ),
-          ).animate().fadeIn(duration: 200.ms).slideY(begin: .04),
-
-          GPSGaps.h8,
-
-          DietTagSelector(
-            allTags: _allDietTags,
-            selected: _selectedTags,
-            onChanged: (tag, isSelected) {
-              setState(() {
-                if (isSelected) {
-                  _selectedTags.add(tag);
-                } else {
-                  _selectedTags.remove(tag);
-                }
-              });
-            },
-          ).animate().fadeIn(duration: 220.ms).slideY(begin: .06),
-
-          if (_selectedTags.isNotEmpty) ...[
-            GPSGaps.h12,
-            Wrap(
-              spacing: 8,
-              runSpacing: 8,
-              children: _selectedTags.map((t) => TagChip(label: t)).toList(growable: false),
-            ).animate().fadeIn(duration: 220.ms).slideY(begin: .04),
-          ],
-
+          CategorySelectorProvider(onSelect: (_) {}),
           GPSGaps.h24,
 
           Row(
@@ -136,6 +100,27 @@ class _WishListCreateWidgetState extends State<WishListCreateWidget> {
             ],
           ),
         ],
+      ),
+    );
+  }
+
+  InputDecoration _inputDecoration(String hint) {
+    return InputDecoration(
+      hintText: hint,
+      filled: true,
+      fillColor: Colors.white,
+      contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(14),
+        borderSide: const BorderSide(color: GPSColors.cardBorder),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(14),
+        borderSide: const BorderSide(color: GPSColors.cardBorder),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(14),
+        borderSide: const BorderSide(color: GPSColors.primary, width: 1.6),
       ),
     );
   }

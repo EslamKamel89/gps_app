@@ -18,7 +18,7 @@ class MiniRestaurantChip extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Icon(Icons.storefront_rounded, size: 16, color: GPSColors.primary),
+          const Icon(Icons.category, size: 16, color: GPSColors.primary),
           GPSGaps.w8,
           Text(
             name,

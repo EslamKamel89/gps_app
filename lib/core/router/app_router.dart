@@ -149,16 +149,16 @@ class AppRouter {
       case AppRoutesNames.otpScreen:
         return CustomPageRoute(builder: (context) => OTPScreen(), settings: routeSettings);
       case AppRoutesNames.wishList:
-        return CustomPageRoute(builder: (context) => WishListScreen(), settings: routeSettings);
-      case AppRoutesNames.wishListCreate:
         return CustomPageRoute(
           builder:
               (context) => BlocProvider(
                 create: (context) => WishesCubit()..wishes(),
-                child: WishCreateScreen(),
+                child: WishListScreen(),
               ),
           settings: routeSettings,
         );
+      case AppRoutesNames.wishListCreate:
+        return CustomPageRoute(builder: (context) => WishCreateScreen(), settings: routeSettings);
       default:
         return null;
     }

@@ -2,18 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
-import 'package:gps_app/features/wishlist/models/acceptor_model.dart';
+import 'package:gps_app/features/user/categories/models/category_model/category_model.dart';
+import 'package:gps_app/features/user/categories/models/category_model/sub_category_model.dart';
 import 'package:gps_app/features/wishlist/presentation/widgets/mini_restaurant_chip.dart';
 
-class AcceptedPreviewRow extends StatelessWidget {
-  const AcceptedPreviewRow({super.key, required this.acceptors});
-  final List<AcceptorModel> acceptors;
-
+class CategoryPreviewRow extends StatelessWidget {
+  const CategoryPreviewRow({super.key, required this.category, required this.subCategory});
+  final CategoryModel category;
+  final SubCategoryModel subCategory;
   @override
   Widget build(BuildContext context) {
     final txt = Theme.of(context).textTheme;
-    final preview = acceptors.take(3).toList();
-    final remaining = acceptors.length - preview.length;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -22,8 +21,8 @@ class AcceptedPreviewRow extends StatelessWidget {
           spacing: 8,
           runSpacing: 8,
           children: [
-            for (final a in preview) MiniRestaurantChip(name: a.user?.userName ?? ''),
-            if (remaining > 0) MiniRestaurantChip(name: '+$remaining more'),
+            if (category.name != null) MiniRestaurantChip(name: category.name ?? ''),
+            if (subCategory.name != null) MiniRestaurantChip(name: subCategory.name ?? ''),
           ],
         ).animate().fadeIn(duration: 220.ms).slideY(begin: .04),
         GPSGaps.h8,

@@ -4,8 +4,8 @@ import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 import 'package:gps_app/features/wishlist/models/acceptor_model.dart';
 import 'package:gps_app/features/wishlist/models/wish_model.dart';
-import 'package:gps_app/features/wishlist/presentation/widgets/accepted_preview_row.dart';
 import 'package:gps_app/features/wishlist/presentation/widgets/acceptors_list.dart';
+import 'package:gps_app/features/wishlist/presentation/widgets/category_preview_row.dart';
 import 'package:gps_app/features/wishlist/presentation/widgets/leaf_badge.dart';
 import 'package:gps_app/features/wishlist/presentation/widgets/primary_action_row.dart';
 import 'package:gps_app/features/wishlist/presentation/widgets/status_bill.dart';
@@ -86,8 +86,8 @@ class WishCard extends StatelessWidget {
               ).animate().fadeIn(duration: 200.ms).slideY(begin: .04),
 
               GPSGaps.h12,
-
-              if (wish.status == 1) AcceptedPreviewRow(acceptors: wish.acceptors ?? []),
+              if (![wish.category, wish.subcategory].contains(null))
+                CategoryPreviewRow(category: wish.category!, subCategory: wish.subcategory!),
 
               if (wish.status == 0)
                 WaitingTip().animate().fadeIn(duration: 220.ms).slideY(begin: .06),
@@ -134,4 +134,82 @@ class WishCard extends StatelessWidget {
       ),
     );
   }
+}
+
+class WishCardSkeleton extends StatelessWidget {
+  const WishCardSkeleton({super.key});
+
+  static const _bg = Color(0xFFF6F6F6);
+  static const _border = Color(0xFFE6E6E6);
+  static const _pill = Color(0xFFECECEC);
+
+  @override
+  Widget build(BuildContext context) {
+    final radius = BorderRadius.circular(16);
+
+    return Container(
+          decoration: BoxDecoration(
+            color: _bg,
+            borderRadius: radius,
+            border: Border.all(color: _border),
+          ),
+          padding: const EdgeInsets.all(14),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _circle(32),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _bar(width: 60, height: 10),
+                        const SizedBox(height: 6),
+                        _bar(width: 180, height: 14),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  _pillBox(width: 110, height: 22, radius: 999),
+                ],
+              ),
+              const SizedBox(height: 12),
+
+              Wrap(spacing: 8, runSpacing: 8, children: [_chip(), _chip(), _chip(width: 72)]),
+              const SizedBox(height: 12),
+
+              _bar(width: 240, height: 12),
+              const SizedBox(height: 14),
+
+              _pillBox(width: 140, height: 40, radius: 10),
+            ],
+          ),
+        )
+        .animate(onPlay: (c) => c.repeat())
+        .shimmer(
+          duration: 1200.ms,
+
+          colors: [Colors.grey.shade300, Colors.grey.shade100, Colors.grey.shade300],
+        );
+  }
+
+  Widget _pillBox({required double width, required double height, double radius = 8}) => Container(
+    width: width,
+    height: height,
+    decoration: BoxDecoration(color: _pill, borderRadius: BorderRadius.circular(radius)),
+  );
+
+  Widget _bar({required double width, double height = 12}) =>
+      _pillBox(width: width, height: height, radius: 6);
+
+  Widget _circle(double size) => Container(
+    width: size,
+    height: size,
+    decoration: const BoxDecoration(color: _pill, shape: BoxShape.circle),
+  );
+
+  Widget _chip({double width = 64}) => _pillBox(width: width, height: 28, radius: 999);
 }
