@@ -1,12 +1,7 @@
-// ignore_for_file: unused_import
+ 
 
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
-import 'package:gps_app/core/router/app_routes_names.dart';
-import 'package:gps_app/features/design/screens/user/home_search/widgets/tag_chip.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
-import 'package:gps_app/features/design/utils/gps_gaps.dart';
-import 'package:gps_app/features/wishlist/presentation/widgets/leaf_badge.dart';
 
 class DietTagSelector extends StatelessWidget {
   const DietTagSelector({
