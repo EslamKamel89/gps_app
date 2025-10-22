@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
-import 'package:gps_app/features/wishlist/entities/acceptor_entity.dart';
-import 'package:gps_app/features/wishlist/entities/wish_entity.dart';
+import 'package:gps_app/features/wishlist/entities/acceptor_model.dart';
+import 'package:gps_app/features/wishlist/entities/wish_model.dart';
 import 'package:gps_app/features/wishlist/presentation/widgets/accepted_preview_row.dart';
 import 'package:gps_app/features/wishlist/presentation/widgets/acceptors_list.dart';
 import 'package:gps_app/features/wishlist/presentation/widgets/leaf_badge.dart';
@@ -11,7 +11,6 @@ import 'package:gps_app/features/wishlist/presentation/widgets/primary_action_ro
 import 'package:gps_app/features/wishlist/presentation/widgets/status_bill.dart';
 import 'package:gps_app/features/wishlist/presentation/widgets/waiting_suggestions.dart';
 import 'package:gps_app/features/wishlist/presentation/widgets/wating_tip.dart';
-import 'package:gps_app/features/wishlist/presentation/wishlist_screen.dart';
 
 class WishCard extends StatelessWidget {
   const WishCard({
@@ -22,10 +21,10 @@ class WishCard extends StatelessWidget {
     required this.onViewRestaurant,
   });
 
-  final WishEntity wish;
+  final WishModel wish;
   final bool expanded;
   final VoidCallback onToggleExpanded;
-  final void Function(AcceptorEntity acceptor) onViewRestaurant;
+  final void Function(AcceptorModel acceptor) onViewRestaurant;
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +71,7 @@ class WishCard extends StatelessWidget {
                         ),
                         GPSGaps.h4,
                         Text(
-                          '“${wish.text}”',
+                          '“${wish.description}”',
                           style: txt.titleMedium?.copyWith(
                             color: GPSColors.text,
                             fontWeight: FontWeight.w800,
@@ -88,15 +87,15 @@ class WishCard extends StatelessWidget {
 
               GPSGaps.h12,
 
-              if (wish.status == WishStatus.accepted) AcceptedPreviewRow(acceptors: wish.acceptors),
+              if (wish.status == 1) AcceptedPreviewRow(acceptors: wish.acceptors),
 
-              if (wish.status == WishStatus.waiting)
+              if (wish.status == 0)
                 WaitingTip().animate().fadeIn(duration: 220.ms).slideY(begin: .06),
 
               GPSGaps.h12,
               PrimaryActionRow(
                 expanded: expanded,
-                isAccepted: wish.status == WishStatus.accepted,
+                isAccepted: wish.status == 1,
                 onPressed: onToggleExpanded,
               ),
 
@@ -118,7 +117,7 @@ class WishCard extends StatelessWidget {
                           key: const ValueKey('expanded'),
                           children: [
                             GPSGaps.h12,
-                            if (wish.status == WishStatus.accepted)
+                            if (wish.status == 1)
                               AcceptorsList(
                                 acceptors: wish.acceptors,
                                 onViewRestaurant: onViewRestaurant,

@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
-import 'package:gps_app/features/wishlist/entities/acceptor_entity.dart';
+import 'package:gps_app/features/wishlist/entities/acceptor_model.dart';
 import 'package:gps_app/features/wishlist/presentation/widgets/mini_restaurant_chip.dart';
 
 class AcceptedPreviewRow extends StatelessWidget {
   const AcceptedPreviewRow({super.key, required this.acceptors});
-  final List<AcceptorEntity> acceptors;
+  final List<AcceptorModel> acceptors;
 
   @override
   Widget build(BuildContext context) {

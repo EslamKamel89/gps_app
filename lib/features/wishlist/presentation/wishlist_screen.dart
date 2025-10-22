@@ -3,9 +3,9 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 import 'package:gps_app/features/design/widgets/gps_bottom_nav.dart';
-import 'package:gps_app/features/wishlist/entities/acceptor_entity.dart';
-import 'package:gps_app/features/wishlist/entities/meal_entity.dart';
-import 'package:gps_app/features/wishlist/entities/wish_entity.dart';
+import 'package:gps_app/features/wishlist/entities/acceptor_model.dart';
+import 'package:gps_app/features/wishlist/entities/item_model.dart';
+import 'package:gps_app/features/wishlist/entities/wish_model.dart';
 import 'package:gps_app/features/wishlist/presentation/widgets/wish_card.dart';
 
 class WishListScreen extends StatefulWidget {
@@ -19,71 +19,67 @@ class _WishListScreenState extends State<WishListScreen> with TickerProviderStat
   final String _userName = 'Eslam';
   final String _userRank = 'Eco Explorer • Lv 3';
 
-  late final List<WishEntity> _wishes = [
-    WishEntity(
+  late final List<WishModel> _wishes = [
+    WishModel(
       id: 'w1',
-      text: 'I love vegan pizza',
-      status: WishStatus.accepted,
+      description: 'I love vegan pizza',
+      status: 1,
       acceptors: [
-        AcceptorEntity(
-          restaurantId: 'r1',
+        AcceptorModel(
+          id: 'r1',
           restaurantName: 'True Acre',
           rating: 4.6,
           distanceKm: 1.2,
-          meal: MealEntity(
+          item: ItemModel(
             name: 'Margherita Verde',
             description: 'Cashew mozzarella, fresh basil, heirloom tomatoes',
             price: 9.50,
-            dietTags: const ['vegan', 'organic'],
           ),
         ),
-        AcceptorEntity(
-          restaurantId: 'r2',
+        AcceptorModel(
+          id: 'r2',
           restaurantName: 'Green Bites',
           rating: 4.2,
           distanceKm: 2.4,
-          meal: MealEntity(
+          item: ItemModel(
             name: 'Forest Pesto Pizza',
             description: 'Kale pesto, artichoke hearts, olives',
             price: 10.90,
-            dietTags: const ['vegan', 'nut-free'],
           ),
         ),
-        AcceptorEntity(
-          restaurantId: 'r3',
+        AcceptorModel(
+          id: 'r3',
           restaurantName: 'Vegano+',
           rating: 4.8,
           distanceKm: 3.1,
-          meal: MealEntity(
+          item: ItemModel(
             name: 'Truffle Funghi Flatbread',
             description: 'Roasted mushrooms, rocket, truffle drizzle',
             price: 12.40,
-            dietTags: const ['vegan', 'specialty'],
           ),
         ),
       ],
     ),
-    WishEntity(
+    WishModel(
       id: 'w2',
-      text: 'Looking for gluten-free falafel wrap',
-      status: WishStatus.waiting,
+      description: 'Looking for gluten-free falafel wrap',
+      status: 0,
       acceptors: const [],
     ),
-    WishEntity(
+    WishModel(
       id: 'w3',
-      text: 'Cold-pressed green juice nearby',
-      status: WishStatus.accepted,
+      description: 'Cold-pressed green juice nearby',
+      status: 1,
       acceptors: [
-        AcceptorEntity(
-          restaurantId: 'r4',
+        AcceptorModel(
+          id: 'r4',
           restaurantName: 'Leaf & Loom',
           rating: 4.4,
           distanceKm: 0.8,
-          meal: MealEntity(
+          item: ItemModel(
             name: 'Morning Greens',
             description: 'Kale, spinach, cucumber, apple, ginger',
             price: 5.90,
-            dietTags: const ['vegan', 'gluten-free'],
           ),
         ),
       ],
@@ -189,5 +185,3 @@ class _WishListScreenState extends State<WishListScreen> with TickerProviderStat
     );
   }
 }
-
-enum WishStatus { waiting, accepted }

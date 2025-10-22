@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:gps_app/features/design/screens/user/home_search/widgets/tag_chip.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
-import 'package:gps_app/features/wishlist/entities/acceptor_entity.dart';
+import 'package:gps_app/features/wishlist/entities/acceptor_model.dart';
 import 'package:gps_app/features/wishlist/presentation/widgets/logo_box.dart';
-import 'package:gps_app/features/wishlist/presentation/widgets/price_tag.dart';
 import 'package:gps_app/features/wishlist/presentation/widgets/star_row.dart';
 
 class AcceptorRow extends StatelessWidget {
   const AcceptorRow({super.key, required this.acceptor, required this.onTap});
-  final AcceptorEntity acceptor;
+  final AcceptorModel acceptor;
   final VoidCallback onTap;
 
   @override
@@ -59,7 +57,7 @@ class AcceptorRow extends StatelessWidget {
                   GPSGaps.h8,
 
                   Text(
-                    acceptor.meal.name,
+                    acceptor.item.name,
                     style: txt.bodyMedium?.copyWith(
                       color: GPSColors.text,
                       fontWeight: FontWeight.w700,
@@ -67,20 +65,20 @@ class AcceptorRow extends StatelessWidget {
                   ),
                   GPSGaps.h6,
                   Text(
-                    acceptor.meal.description,
+                    acceptor.item.description,
                     style: txt.bodySmall?.copyWith(color: GPSColors.mutedText, height: 1.35),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  GPSGaps.h6,
-                  Wrap(
-                    spacing: 8,
-                    runSpacing: 8,
-                    children: [
-                      for (final t in acceptor.meal.dietTags) TagChip(label: t),
-                      PriceTag(price: acceptor.meal.price),
-                    ],
-                  ),
+                  // GPSGaps.h6,
+                  // Wrap(
+                  //   spacing: 8,
+                  //   runSpacing: 8,
+                  //   children: [
+                  //     for (final t in acceptor.item.dietTags) TagChip(label: t),
+                  //     PriceTag(price: acceptor.item.price),
+                  //   ],
+                  // ),
                 ],
               ),
             ),

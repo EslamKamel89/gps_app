@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
-import 'package:gps_app/features/wishlist/entities/acceptor_entity.dart';
+import 'package:gps_app/features/wishlist/entities/acceptor_model.dart';
 import 'package:gps_app/features/wishlist/presentation/widgets/acceptor_row.dart';
 
 class AcceptorsList extends StatelessWidget {
   const AcceptorsList({super.key, required this.acceptors, required this.onViewRestaurant});
 
-  final List<AcceptorEntity> acceptors;
-  final void Function(AcceptorEntity acceptor) onViewRestaurant;
+  final List<AcceptorModel> acceptors;
+  final void Function(AcceptorModel acceptor) onViewRestaurant;
 
   @override
   Widget build(BuildContext context) {
