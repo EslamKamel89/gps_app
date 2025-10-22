@@ -5,16 +5,9 @@ class WishEntity {
   final String id;
   final String text;
   final WishStatus status;
-  final DateTime createdAt;
   final List<AcceptorEntity> acceptors;
 
-  WishEntity({
-    required this.id,
-    required this.text,
-    required this.status,
-    required this.createdAt,
-    required this.acceptors,
-  });
+  WishEntity({required this.id, required this.text, required this.status, required this.acceptors});
 
   bool get hasMatches => acceptors.isNotEmpty;
 }

@@ -24,7 +24,6 @@ class _WishListScreenState extends State<WishListScreen> with TickerProviderStat
       id: 'w1',
       text: 'I love vegan pizza',
       status: WishStatus.accepted,
-      createdAt: DateTime.now().subtract(const Duration(hours: 6)),
       acceptors: [
         AcceptorEntity(
           restaurantId: 'r1',
@@ -68,14 +67,12 @@ class _WishListScreenState extends State<WishListScreen> with TickerProviderStat
       id: 'w2',
       text: 'Looking for gluten-free falafel wrap',
       status: WishStatus.waiting,
-      createdAt: DateTime.now().subtract(const Duration(days: 1, hours: 3)),
       acceptors: const [],
     ),
     WishEntity(
       id: 'w3',
       text: 'Cold-pressed green juice nearby',
       status: WishStatus.accepted,
-      createdAt: DateTime.now().subtract(const Duration(hours: 12)),
       acceptors: [
         AcceptorEntity(
           restaurantId: 'r4',

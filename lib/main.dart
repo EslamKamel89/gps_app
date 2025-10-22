@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gps_app/core/globals.dart';
+import 'package:gps_app/core/helpers/enable_android_photo_picker.dart';
 import 'package:gps_app/core/router/app_router.dart';
 import 'package:gps_app/core/router/app_routes_names.dart';
 import 'package:gps_app/core/service_locator/service_locator.dart';
@@ -12,6 +13,7 @@ import 'package:intl/intl_standalone.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  enableAndroidPhotoPicker();
   await initServiceLocator();
   await findSystemLocale();
   await EasyLocalization.ensureInitialized();
@@ -48,7 +50,7 @@ class MyApp extends StatelessWidget {
               theme: themeCubit.state,
               debugShowCheckedModeBanner: false,
               initialRoute: AppRoutesNames.gpsSplashScreen,
-              // initialRoute: AppRoutesNames.wishListCreate,
+              // initialRoute: AppRoutesNames.storeFarmOnboardingProductsScreen,
               locale: context.locale,
               supportedLocales: context.supportedLocales,
               localizationsDelegates: context.localizationDelegates,

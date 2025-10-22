@@ -81,13 +81,15 @@
     "menu and meal images upload their images to the common folder",
     "allow the user to edit his main information - but i have a problem the main data that the user entered is not visible in the response returned by the endpoint",
     "handle the verified state in the categories in the restaurant details",
-    "------------------------------------------------"
-  ],
-  "backend_done_todos": [
-    "create the endpoint to create the branches",
-    "------------------------------------------------"
-  ],
-  "backend_todos": [
+    "when the user is a store or a farm he can't go to the enter categories and products screen",
+    "+++++++++++++++++++++++++++++++++++++++++++++++++",
+    "create the add wish screen skeleton",
+    "finish the add wish flow",
+    "wire it to the floating action button in both the restaurant details screen and the wish list screen",
+    "work on accepting all the wishes from the backend and make the front end dynamic",
+    "make sure when the user add a wish the list of wishes updates",
+    "accept the items and meals => display the widget",
+    "work on the flow of accepting the wish",
     "------------------------------------------------"
   ]
 }
