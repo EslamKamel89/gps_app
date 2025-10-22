@@ -135,15 +135,6 @@ class _WishListScreenState extends State<WishListScreen> with TickerProviderStat
                       },
                     ),
           ),
-          // floatingActionButton: InkWell(
-          //   onTap: () {},
-          //   child: Container(
-          //     padding: EdgeInsets.all(5),
-          //     decoration: BoxDecoration(shape: BoxShape.circle, color: GPSColors.primary),
-
-          //     child: Icon(MdiIcons.plus, color: Colors.white, size: 30),
-          //   ),
-          // ),
           floatingActionButton: WishButton(),
           bottomNavigationBar: GPSBottomNav(
             currentIndex: _currentTab,

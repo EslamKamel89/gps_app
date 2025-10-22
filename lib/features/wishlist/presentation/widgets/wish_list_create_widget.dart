@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gps_app/core/helpers/validator.dart';
 import 'package:gps_app/core/router/app_routes_names.dart';
 import 'package:gps_app/features/auth/presentation/widgets/labeled_field.dart';
@@ -9,6 +10,7 @@ import 'package:gps_app/features/design/screens/user/home_search/widgets/tag_chi
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 import 'package:gps_app/features/user/categories/presentation/widgets/category_selector.dart';
+import 'package:gps_app/features/wishlist/cubits/wishes_cubit.dart';
 import 'package:gps_app/features/wishlist/presentation/widgets/diet_tag_selector.dart';
 import 'package:gps_app/features/wishlist/presentation/widgets/leaf_badge.dart';
 import 'package:gps_app/features/wishlist/presentation/widgets/wish_text_box.dart';
@@ -35,6 +37,7 @@ class _WishListCreateWidgetState extends State<WishListCreateWidget> {
   @override
   Widget build(BuildContext context) {
     final txt = Theme.of(context).textTheme;
+    context.read<WishesCubit>();
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
       child: Column(

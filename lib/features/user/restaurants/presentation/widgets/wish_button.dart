@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
@@ -7,10 +6,9 @@ import 'package:gps_app/features/wishlist/presentation/widgets/wish_list_create_
 import 'package:lottie/lottie.dart';
 
 class WishButton extends StatefulWidget {
-  const WishButton({super.key, this.label = 'Ask the Chef', this.isLoading = false});
+  const WishButton({super.key, this.label = 'Ask the Chef'});
 
   final String label;
-  final bool isLoading;
 
   @override
   State<WishButton> createState() => _WishButtonState();
@@ -20,8 +18,6 @@ class _WishButtonState extends State<WishButton> {
   bool _pressed = false;
 
   void _tap() {
-    if (widget.isLoading) return;
-    HapticFeedback.lightImpact();
     showModalBottomSheet(
       context: context,
       builder: (context) {

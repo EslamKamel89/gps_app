@@ -29,4 +29,32 @@ class WishListController {
       return pr(ApiResponseModel(errorMessage: errorMessage, response: ResponseEnum.failed), t);
     }
   }
+
+  Future<ApiResponseModel<bool>> addWish({
+    required int categoryId,
+    required int subCategoryId,
+    required String description,
+  }) async {
+    final t = prt('addWish - WishListController');
+    try {
+      final response = await api.post(
+        EndPoint.wishlist,
+        data: {
+          "description": description,
+          "category_id": categoryId,
+          "subcategory_id": subCategoryId,
+        },
+      );
+      pr(response, '$t - response');
+
+      return pr(ApiResponseModel(response: ResponseEnum.success, data: true), t);
+    } catch (e) {
+      String errorMessage = e.toString();
+      if (e is DioException) {
+        errorMessage = jsonEncode(e.response?.data ?? 'Unknown error occurred');
+      }
+      showSnackbar('Error', errorMessage, true);
+      return pr(ApiResponseModel(errorMessage: errorMessage, response: ResponseEnum.failed), t);
+    }
+  }
 }
