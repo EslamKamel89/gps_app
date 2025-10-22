@@ -9,7 +9,7 @@ import 'package:gps_app/features/design/utils/gps_gaps.dart';
 import 'package:gps_app/features/design/widgets/gps_bottom_nav.dart';
 import 'package:gps_app/features/user/restaurants/presentation/widgets/wish_button.dart';
 import 'package:gps_app/features/wishlist/cubits/wishes_cubit.dart';
-import 'package:gps_app/features/wishlist/models/wish_model.dart';
+import 'package:gps_app/features/wishlist/models/acceptor_model/wish_model.dart';
 import 'package:gps_app/features/wishlist/presentation/widgets/wish_card.dart';
 
 class WishListScreen extends StatefulWidget {
