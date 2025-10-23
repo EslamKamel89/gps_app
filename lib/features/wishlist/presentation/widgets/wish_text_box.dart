@@ -1,5 +1,3 @@
- 
-
 import 'package:flutter/material.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 

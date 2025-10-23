@@ -12,12 +12,17 @@ class WishesCubit extends Cubit<ApiResponseModel<List<WishModel>>> {
   Future wishes() async {
     final t = prt('wishes - WishesCubit');
     emit(state.copyWith(errorMessage: null, response: ResponseEnum.loading));
-    final ApiResponseModel<List<WishModel>> response = await controller.wishes();
+    final ApiResponseModel<List<WishModel>> response =
+        await controller.wishes();
     pr(response, t);
     emit(response);
   }
 
-  Future addWish({required String description, int? categoryId, int? subCategoryId}) async {
+  Future addWish({
+    required String description,
+    int? categoryId,
+    int? subCategoryId,
+  }) async {
     final t = prt('addWish - WishesCubit');
     final ApiResponseModel<bool> response = await controller.addWish(
       categoryId: categoryId,

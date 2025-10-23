@@ -7,7 +7,13 @@ class MealItemModel {
   String? price;
   ImageModel? images;
 
-  MealItemModel({this.id, this.name, this.description, this.price, this.images});
+  MealItemModel({
+    this.id,
+    this.name,
+    this.description,
+    this.price,
+    this.images,
+  });
 
   @override
   String toString() {
@@ -20,7 +26,9 @@ class MealItemModel {
     description: json['description'] as String?,
     price: json['price'] as String?,
     images:
-        json['images'] == null ? null : ImageModel.fromJson(json['images'] as Map<String, dynamic>),
+        json['images'] == null
+            ? null
+            : ImageModel.fromJson(json['images'] as Map<String, dynamic>),
   );
 
   Map<String, dynamic> toJson() => {

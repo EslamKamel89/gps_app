@@ -20,7 +20,10 @@ class SuggestionBullet extends StatelessWidget {
           Expanded(
             child: Text(
               text,
-              style: txt.bodySmall?.copyWith(color: GPSColors.mutedText, height: 1.35),
+              style: txt.bodySmall?.copyWith(
+                color: GPSColors.mutedText,
+                height: 1.35,
+              ),
             ),
           ),
         ],

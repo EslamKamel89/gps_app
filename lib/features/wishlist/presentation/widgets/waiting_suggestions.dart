@@ -26,7 +26,11 @@ class WaitingSuggestions extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Icon(Icons.lightbulb_outline_rounded, color: GPSColors.mutedText, size: 20),
+              const Icon(
+                Icons.lightbulb_outline_rounded,
+                color: GPSColors.mutedText,
+                size: 20,
+              ),
               GPSGaps.w12,
               Expanded(
                 child: Column(
@@ -42,7 +46,10 @@ class WaitingSuggestions extends StatelessWidget {
                     GPSGaps.h6,
                     Text(
                       'Try refining your wish so restaurants can match it faster.',
-                      style: txt.bodySmall?.copyWith(color: GPSColors.mutedText, height: 1.35),
+                      style: txt.bodySmall?.copyWith(
+                        color: GPSColors.mutedText,
+                        height: 1.35,
+                      ),
                     ),
                     GPSGaps.h10,
 
@@ -59,7 +66,8 @@ class WaitingSuggestions extends StatelessWidget {
                         ),
                         SuggestionBullet(
                           icon: Icons.sell_outlined,
-                          text: 'Add dietary tags (vegan, gluten-free, organic).',
+                          text:
+                              'Add dietary tags (vegan, gluten-free, organic).',
                         ),
                       ],
                     ),
@@ -76,9 +84,21 @@ class WaitingSuggestions extends StatelessWidget {
           spacing: 10,
           runSpacing: 10,
           children: [
-            SuggestionChip(icon: Icons.place_outlined, label: 'Add location', onTap: () {}),
-            SuggestionChip(icon: Icons.schedule_outlined, label: 'Add time', onTap: () {}),
-            SuggestionChip(icon: Icons.sell_outlined, label: 'Add tags', onTap: () {}),
+            SuggestionChip(
+              icon: Icons.place_outlined,
+              label: 'Add location',
+              onTap: () {},
+            ),
+            SuggestionChip(
+              icon: Icons.schedule_outlined,
+              label: 'Add time',
+              onTap: () {},
+            ),
+            SuggestionChip(
+              icon: Icons.sell_outlined,
+              label: 'Add tags',
+              onTap: () {},
+            ),
           ],
         ).animate().fadeIn(duration: 220.ms).slideY(begin: .04),
       ],

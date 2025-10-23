@@ -19,7 +19,11 @@ class CircleBack extends StatelessWidget {
             borderRadius: BorderRadius.circular(12),
             border: Border.all(color: Colors.white24),
           ),
-          child: const Icon(Icons.arrow_back_ios_new, color: Colors.white, size: 18),
+          child: const Icon(
+            Icons.arrow_back_ios_new,
+            color: Colors.white,
+            size: 18,
+          ),
         ).animate().fadeIn().scale(begin: const Offset(.95, .95)),
       ),
     );

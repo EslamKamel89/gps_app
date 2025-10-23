@@ -8,7 +8,13 @@ import 'package:url_launcher/url_launcher.dart';
 
 /// Compact ContactCard (uses GPSColors.primary & GPSColors.accent)
 class ContactCard extends StatelessWidget {
-  const ContactCard({super.key, this.email, this.mobile, this.website, this.title = 'Contact'});
+  const ContactCard({
+    super.key,
+    this.email,
+    this.mobile,
+    this.website,
+    this.title = 'Contact',
+  });
 
   final String? email;
   final String? mobile;
@@ -99,7 +105,10 @@ class ContactCard extends StatelessWidget {
                     children: [
                       // Compact header chip with brand gradient
                       Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 10,
+                              vertical: 6,
+                            ),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
                               gradient: LinearGradient(
@@ -182,9 +191,9 @@ class ContactCard extends StatelessWidget {
   }
 
   void _toast(BuildContext context, String msg) {
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(SnackBar(content: Text(msg), behavior: SnackBarBehavior.floating));
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(msg), behavior: SnackBarBehavior.floating),
+    );
   }
 }
 
@@ -263,7 +272,8 @@ class _ContactRow extends StatelessWidget {
               ),
             ),
 
-            if (onTap != null) Icon(Icons.chevron_right_rounded, color: chevronColor, size: 18),
+            if (onTap != null)
+              Icon(Icons.chevron_right_rounded, color: chevronColor, size: 18),
           ],
         ),
       ),

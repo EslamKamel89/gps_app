@@ -3,7 +3,12 @@ import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 
 class BadgeChip extends StatelessWidget {
-  const BadgeChip({super.key, required this.label, this.icon, this.iconColor = GPSColors.primary});
+  const BadgeChip({
+    super.key,
+    required this.label,
+    this.icon,
+    this.iconColor = GPSColors.primary,
+  });
 
   final String label;
   final IconData? icon;
@@ -26,7 +31,10 @@ class BadgeChip extends StatelessWidget {
           GPSGaps.w8,
           Text(
             label,
-            style: text.labelMedium?.copyWith(color: GPSColors.text, fontWeight: FontWeight.w700),
+            style: text.labelMedium?.copyWith(
+              color: GPSColors.text,
+              fontWeight: FontWeight.w700,
+            ),
           ),
         ],
       ),

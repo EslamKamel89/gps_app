@@ -1,10 +1,13 @@
- 
-
 import 'package:flutter/material.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 
 class SuggestionChip extends StatelessWidget {
-  const SuggestionChip({super.key, required this.icon, required this.label, required this.onTap});
+  const SuggestionChip({
+    super.key,
+    required this.icon,
+    required this.label,
+    required this.onTap,
+  });
   final IconData icon;
   final String label;
   final VoidCallback onTap;

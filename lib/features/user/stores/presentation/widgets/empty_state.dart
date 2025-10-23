@@ -17,10 +17,13 @@ class EmptyState extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Icon(
-              Icons.inventory_2_outlined,
-              size: 42,
-              color: GPSColors.mutedText,
-            ).animate().fadeIn(duration: 250.ms).scale(begin: const Offset(.9, .9)),
+                  Icons.inventory_2_outlined,
+                  size: 42,
+                  color: GPSColors.mutedText,
+                )
+                .animate()
+                .fadeIn(duration: 250.ms)
+                .scale(begin: const Offset(.9, .9)),
             GPSGaps.h12,
             Text(
               message,

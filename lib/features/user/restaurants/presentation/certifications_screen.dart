@@ -7,7 +7,11 @@ import 'package:gps_app/features/user/restaurants/models/restaurant_detailed_mod
 import 'package:url_launcher/url_launcher.dart';
 
 class CertificationsScreen extends StatelessWidget {
-  const CertificationsScreen({super.key, required this.items, this.title = 'Certifications'});
+  const CertificationsScreen({
+    super.key,
+    required this.items,
+    this.title = 'Certifications',
+  });
 
   final List<Certification> items;
   final String title;
@@ -17,10 +21,17 @@ class CertificationsScreen extends StatelessWidget {
     final theme = Theme.of(context);
 
     return Scaffold(
-      appBar: AppBar(elevation: 0, backgroundColor: GPSColors.primary, title: Text(title)),
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: GPSColors.primary,
+        title: Text(title),
+      ),
       body:
           items.isEmpty
-              ? const _EmptyState().animate().fadeIn(duration: 280.ms).slideY(begin: .08)
+              ? const _EmptyState()
+                  .animate()
+                  .fadeIn(duration: 280.ms)
+                  .slideY(begin: .08)
               : ListView.separated(
                 padding: const EdgeInsets.fromLTRB(16, 16, 16, 28),
                 itemCount: items.length,
@@ -33,7 +44,10 @@ class CertificationsScreen extends StatelessWidget {
                       .animate(delay: delay)
                       .fadeIn(duration: 260.ms, curve: Curves.easeOutCubic)
                       .slideY(begin: .08, curve: Curves.easeOutCubic)
-                      .scale(begin: const Offset(.98, .98), end: const Offset(1, 1));
+                      .scale(
+                        begin: const Offset(.98, .98),
+                        end: const Offset(1, 1),
+                      );
                 },
               ),
     );
@@ -101,7 +115,10 @@ class _CertificationCard extends StatelessWidget {
             if ((cert.description ?? '').trim().isNotEmpty)
               Text(
                 cert.description!.trim(),
-                style: txt.bodyMedium?.copyWith(color: GPSColors.mutedText, height: 1.35),
+                style: txt.bodyMedium?.copyWith(
+                  color: GPSColors.mutedText,
+                  height: 1.35,
+                ),
               ).animate().fadeIn(duration: 200.ms).slideY(begin: .05),
 
             GPSGaps.h12,
@@ -111,7 +128,8 @@ class _CertificationCard extends StatelessWidget {
               alignment: Alignment.centerRight,
               child: _OpenFileButton(
                 enabled: hasValidUrl,
-                onPressed: hasValidUrl ? () => _openUrl(context, firstUrl!) : null,
+                onPressed:
+                    hasValidUrl ? () => _openUrl(context, firstUrl!) : null,
               ),
             ),
           ],
@@ -173,41 +191,47 @@ class _OpenFileButtonState extends State<_OpenFileButton> {
     final fg = widget.enabled ? Colors.white : Colors.white70;
 
     final core = Container(
-      height: 42,
-      padding: const EdgeInsets.symmetric(horizontal: 14),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
-        gradient: bg,
-        boxShadow:
-            widget.enabled
-                ? const [
-                  BoxShadow(
-                    blurRadius: 16,
-                    spreadRadius: -6,
-                    offset: Offset(0, 10),
-                    color: Color(0x3300A86B),
-                  ),
-                ]
-                : null,
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(Icons.open_in_new_rounded, size: 18, color: fg)
-              .animate(target: widget.enabled ? 1 : 0, onPlay: (c) => c.repeat())
-              .rotate(duration: 2200.ms, curve: Curves.linear),
-          GPSGaps.w8,
-          Text(
-            'Open',
-            style: Theme.of(context).textTheme.labelLarge?.copyWith(
-              color: fg,
-              fontWeight: FontWeight.w800,
-              letterSpacing: .3,
-            ),
+          height: 42,
+          padding: const EdgeInsets.symmetric(horizontal: 14),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12),
+            gradient: bg,
+            boxShadow:
+                widget.enabled
+                    ? const [
+                      BoxShadow(
+                        blurRadius: 16,
+                        spreadRadius: -6,
+                        offset: Offset(0, 10),
+                        color: Color(0x3300A86B),
+                      ),
+                    ]
+                    : null,
           ),
-        ],
-      ),
-    ).animate().fadeIn(duration: 180.ms).slideY(begin: .06, curve: Curves.easeOutCubic);
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(Icons.open_in_new_rounded, size: 18, color: fg)
+                  .animate(
+                    target: widget.enabled ? 1 : 0,
+                    onPlay: (c) => c.repeat(),
+                  )
+                  .rotate(duration: 2200.ms, curve: Curves.linear),
+              GPSGaps.w8,
+              Text(
+                'Open',
+                style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                  color: fg,
+                  fontWeight: FontWeight.w800,
+                  letterSpacing: .3,
+                ),
+              ),
+            ],
+          ),
+        )
+        .animate()
+        .fadeIn(duration: 180.ms)
+        .slideY(begin: .06, curve: Curves.easeOutCubic);
 
     if (!widget.enabled) {
       return Tooltip(message: 'No file available', child: core);
@@ -222,9 +246,18 @@ class _OpenFileButtonState extends State<_OpenFileButton> {
         onTap: widget.onPressed,
         child: core
             .animate(target: _pressed ? 1 : 0)
-            .scale(begin: const Offset(1, 1), end: const Offset(.98, .98), duration: 120.ms)
+            .scale(
+              begin: const Offset(1, 1),
+              end: const Offset(.98, .98),
+              duration: 120.ms,
+            )
             .then()
-            .rotate(begin: 0, end: .12, duration: 140.ms, curve: Curves.easeOutCubic),
+            .rotate(
+              begin: 0,
+              end: .12,
+              duration: 140.ms,
+              curve: Curves.easeOutCubic,
+            ),
       ),
     );
   }

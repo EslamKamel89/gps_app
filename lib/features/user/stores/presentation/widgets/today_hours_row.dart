@@ -14,8 +14,15 @@ class TodayHoursRow extends StatelessWidget {
     final txt = Theme.of(context).textTheme;
     final now = DateTime.now();
     final key =
-        <int, String>{1: 'mon', 2: 'tue', 3: 'wed', 4: 'thu', 5: 'fri', 6: 'sat', 7: 'sun'}[now
-            .weekday]!;
+        <int, String>{
+          1: 'mon',
+          2: 'tue',
+          3: 'wed',
+          4: 'thu',
+          5: 'fri',
+          6: 'sat',
+          7: 'sun',
+        }[now.weekday]!;
 
     List<String>? slot;
     switch (key) {
@@ -43,7 +50,9 @@ class TodayHoursRow extends StatelessWidget {
     }
 
     final text =
-        (slot == null || slot.length < 2) ? 'Hours unavailable' : 'Today: ${slot[0]} – ${slot[1]}';
+        (slot == null || slot.length < 2)
+            ? 'Hours unavailable'
+            : 'Today: ${slot[0]} – ${slot[1]}';
 
     final bool available = !(slot == null || slot.length < 2);
 
@@ -79,12 +88,17 @@ class TodayHoursRow extends StatelessWidget {
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(10),
-                          border: Border.all(color: GPSColors.accent.withOpacity(.6)),
+                          border: Border.all(
+                            color: GPSColors.accent.withOpacity(.6),
+                          ),
                         ),
                         child: Icon(
                           Icons.access_time_filled_rounded,
                           size: 18,
-                          color: available ? GPSColors.primary : GPSColors.mutedText,
+                          color:
+                              available
+                                  ? GPSColors.primary
+                                  : GPSColors.mutedText,
                         ),
                       )
                       .animate()

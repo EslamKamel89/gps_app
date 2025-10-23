@@ -26,7 +26,10 @@ class AcceptorRow extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            LogoBox().animate().fadeIn(duration: 180.ms).scale(begin: const Offset(.96, .96)),
+            LogoBox()
+                .animate()
+                .fadeIn(duration: 180.ms)
+                .scale(begin: const Offset(.96, .96)),
             GPSGaps.w12,
             Expanded(
               child: Column(
@@ -66,7 +69,10 @@ class AcceptorRow extends StatelessWidget {
                   if (acceptor.item?.description != null)
                     Text(
                       (acceptor.item?.description)!,
-                      style: txt.bodySmall?.copyWith(color: GPSColors.mutedText, height: 1.35),
+                      style: txt.bodySmall?.copyWith(
+                        color: GPSColors.mutedText,
+                        height: 1.35,
+                      ),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),

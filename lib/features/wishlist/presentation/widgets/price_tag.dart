@@ -17,7 +17,10 @@ class PriceTag extends StatelessWidget {
       ),
       child: Text(
         '\$${price.toStringAsFixed(2)}',
-        style: txt.labelMedium?.copyWith(color: GPSColors.primary, fontWeight: FontWeight.w800),
+        style: txt.labelMedium?.copyWith(
+          color: GPSColors.primary,
+          fontWeight: FontWeight.w800,
+        ),
       ),
     );
   }

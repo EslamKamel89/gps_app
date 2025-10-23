@@ -47,7 +47,12 @@ class ItemCard extends StatelessWidget {
             ),
             child: Hero(
               tag: heroTag,
-              child: Image.network(_imageUrl(), width: 110, height: 110, fit: BoxFit.cover),
+              child: Image.network(
+                _imageUrl(),
+                width: 110,
+                height: 110,
+                fit: BoxFit.cover,
+              ),
             ),
           ),
 
@@ -73,7 +78,10 @@ class ItemCard extends StatelessWidget {
                       item.description!,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
-                      style: txt.bodyMedium?.copyWith(color: GPSColors.mutedText, height: 1.35),
+                      style: txt.bodyMedium?.copyWith(
+                        color: GPSColors.mutedText,
+                        height: 1.35,
+                      ),
                     ),
                   GPSGaps.h8,
                   if (price != null)

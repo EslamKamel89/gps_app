@@ -83,6 +83,10 @@ class _AcceptOfferButton extends StatelessWidget {
         .animate()
         .fadeIn(duration: 200.ms)
         .slideY(begin: .04, curve: Curves.easeOutCubic)
-        .scale(begin: const Offset(0.98, 0.98), end: const Offset(1, 1), duration: 180.ms);
+        .scale(
+          begin: const Offset(0.98, 0.98),
+          end: const Offset(1, 1),
+          duration: 180.ms,
+        );
   }
 }

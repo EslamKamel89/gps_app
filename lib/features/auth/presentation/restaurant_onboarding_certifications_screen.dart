@@ -28,10 +28,15 @@ class _RestaurantOnboardingCertificationsScreenState
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: GPSColors.background,
-      body: BlocConsumer<CreateRestaurantCertificatesCubit, CreateRestaurantCertificatesState>(
+      body: BlocConsumer<
+        CreateRestaurantCertificatesCubit,
+        CreateRestaurantCertificatesState
+      >(
         listener: (context, state) {
           if (state.certificatesResponse.response == ResponseEnum.success) {
-            Navigator.of(context).pushNamed(AppRoutesNames.categorySelectionScreen);
+            Navigator.of(
+              context,
+            ).pushNamed(AppRoutesNames.categorySelectionScreen);
           }
         },
         builder: (context, state) {
@@ -43,15 +48,17 @@ class _RestaurantOnboardingCertificationsScreenState
                 children: [
                   // Header
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 12,
+                    ),
                     child: Row(
                       children: [
                         const Spacer(),
                         Text(
                           'Step 3 of 3',
-                          style: Theme.of(
-                            context,
-                          ).textTheme.bodyMedium?.copyWith(color: GPSColors.mutedText),
+                          style: Theme.of(context).textTheme.bodyMedium
+                              ?.copyWith(color: GPSColors.mutedText),
                         ),
                       ],
                     ),
@@ -66,7 +73,9 @@ class _RestaurantOnboardingCertificationsScreenState
                           // Title
                           Text(
                             'Add Your Certifications & Proofs',
-                            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                            style: Theme.of(
+                              context,
+                            ).textTheme.titleLarge?.copyWith(
                               fontWeight: FontWeight.w800,
                               color: Colors.black,
                             ),
@@ -74,7 +83,9 @@ class _RestaurantOnboardingCertificationsScreenState
                           GPSGaps.h8,
                           Text(
                             'Upload licenses, permits, or certifications that verify your business or farm practices.',
-                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                            style: Theme.of(
+                              context,
+                            ).textTheme.bodyMedium?.copyWith(
                               color: GPSColors.mutedText,
                               height: 1.4,
                             ),
@@ -85,7 +96,10 @@ class _RestaurantOnboardingCertificationsScreenState
                           ...state.certificates.map((certificate) {
                             return CertificateCard(
                               certificate: certificate,
-                              onDelete: () => cubit.removeCertificate(param: certificate),
+                              onDelete:
+                                  () => cubit.removeCertificate(
+                                    param: certificate,
+                                  ),
                             );
                           }),
 
@@ -93,7 +107,10 @@ class _RestaurantOnboardingCertificationsScreenState
                           GPSGaps.h12,
                           AddButton(
                             label: 'Add Another Proof',
-                            onTap: () => cubit.addCertificate(param: CertificateParam()),
+                            onTap:
+                                () => cubit.addCertificate(
+                                  param: CertificateParam(),
+                                ),
                           ),
                           GPSGaps.h24,
                         ],
@@ -109,14 +126,18 @@ class _RestaurantOnboardingCertificationsScreenState
                         const Spacer(),
                         Builder(
                           builder: (context) {
-                            return cubit.state.certificatesResponse.response == ResponseEnum.loading
+                            return cubit.state.certificatesResponse.response ==
+                                    ResponseEnum.loading
                                 ? Container(
                                   margin: EdgeInsets.symmetric(horizontal: 30),
-                                  child: Center(child: CircularProgressIndicator()),
+                                  child: Center(
+                                    child: CircularProgressIndicator(),
+                                  ),
                                 )
                                 : ElevatedButton(
                                   onPressed: () async {
-                                    if (!_formKey.currentState!.validate()) return;
+                                    if (!_formKey.currentState!.validate())
+                                      return;
                                     cubit.createCertificate();
                                   },
                                   style: ElevatedButton.styleFrom(

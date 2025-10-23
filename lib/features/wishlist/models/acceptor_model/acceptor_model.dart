@@ -24,8 +24,14 @@ class AcceptorModel {
     id: json['id'] as int?,
     wishlistId: json['wishlist_id'] as int?,
     itemType: json['item_type'] as String?,
-    item: json['item'] == null ? null : ItemModel.fromJson(json['item'] as Map<String, dynamic>),
-    user: json['user'] == null ? null : UserModel.fromJson(json['user'] as Map<String, dynamic>),
+    item:
+        json['item'] == null
+            ? null
+            : ItemModel.fromJson(json['item'] as Map<String, dynamic>),
+    user:
+        json['user'] == null
+            ? null
+            : UserModel.fromJson(json['user'] as Map<String, dynamic>),
   );
 
   @override

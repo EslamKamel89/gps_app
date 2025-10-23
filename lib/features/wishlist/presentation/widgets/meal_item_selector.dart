@@ -9,7 +9,11 @@ import 'package:gps_app/features/wishlist/cubits/meal_items_cubit.dart';
 import 'package:gps_app/features/wishlist/models/meal_item_model.dart';
 
 class MealItemSelectorProvider extends StatelessWidget {
-  const MealItemSelectorProvider({super.key, required this.onSelect, this.isRequired = true});
+  const MealItemSelectorProvider({
+    super.key,
+    required this.onSelect,
+    this.isRequired = true,
+  });
   final Function(MealItemModel) onSelect;
   final bool isRequired;
   @override
@@ -22,7 +26,11 @@ class MealItemSelectorProvider extends StatelessWidget {
 }
 
 class MealItemSelectorWidget extends StatefulWidget {
-  const MealItemSelectorWidget(this.onSelect, {super.key, this.isRequired = true});
+  const MealItemSelectorWidget(
+    this.onSelect, {
+    super.key,
+    this.isRequired = true,
+  });
   final Function(MealItemModel) onSelect;
   final bool isRequired;
 
@@ -51,13 +59,18 @@ class _MealItemSelectorWidgetState extends State<MealItemSelectorWidget> {
                     .animate(onPlay: (c) => c.repeat())
                     .shimmer(
                       duration: 1200.ms,
-                      colors: [Colors.grey.shade300, Colors.grey.shade100, Colors.grey.shade300],
+                      colors: [
+                        Colors.grey.shade300,
+                        Colors.grey.shade100,
+                        Colors.grey.shade300,
+                      ],
                     )
                 : SearchableDropdownWidget(
                   label: 'Items',
                   hintText: 'Select Item',
                   isRequired: widget.isRequired,
-                  options: state.data?.map((item) => item.name ?? '').toList() ?? [],
+                  options:
+                      state.data?.map((item) => item.name ?? '').toList() ?? [],
                   handleSelectOption: (String option) {
                     final item = cubit.selectItem(option);
                     widget.onSelect(item!);

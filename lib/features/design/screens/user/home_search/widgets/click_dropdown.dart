@@ -18,7 +18,8 @@ class MenuActionItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final textStyle = Theme.of(context).textTheme.bodyMedium!;
     final color = danger ? const Color(0xFFB42318) : const Color(0xFF0F172A);
-    final iconColor = danger ? const Color(0xFFDC2626) : const Color(0xFF334155);
+    final iconColor =
+        danger ? const Color(0xFFDC2626) : const Color(0xFF334155);
 
     void handleTap() {
       onTap?.call();
@@ -38,7 +39,10 @@ class MenuActionItem extends StatelessWidget {
             Expanded(
               child: Text(
                 label,
-                style: textStyle.copyWith(color: color, fontWeight: FontWeight.w600),
+                style: textStyle.copyWith(
+                  color: color,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ),
           ],
@@ -61,7 +65,12 @@ class ClickDropdown extends StatefulWidget {
     this.alignment = Alignment.topLeft,
     this.borderRadius = const BorderRadius.all(Radius.circular(14)),
     this.shadow = const [
-      BoxShadow(color: Color(0x1A000000), blurRadius: 14, spreadRadius: -2, offset: Offset(0, 8)),
+      BoxShadow(
+        color: Color(0x1A000000),
+        blurRadius: 14,
+        spreadRadius: -2,
+        offset: Offset(0, 8),
+      ),
     ],
   });
 
@@ -224,7 +233,10 @@ class _DropdownCard extends StatelessWidget {
       builder: (context, t, _) {
         return Opacity(
           opacity: t,
-          child: Transform.translate(offset: Offset(0, (1 - t) * 8), child: card),
+          child: Transform.translate(
+            offset: Offset(0, (1 - t) * 8),
+            child: card,
+          ),
         );
       },
     );

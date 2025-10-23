@@ -12,7 +12,8 @@ class MealItemsCubit extends Cubit<ApiResponseModel<List<MealItemModel>>> {
   Future getMealItems() async {
     final t = prt('getMealItems - MealItemsCubit');
     emit(state.copyWith(errorMessage: null, response: ResponseEnum.loading));
-    final ApiResponseModel<List<MealItemModel>> response = await controller.getMealItems();
+    final ApiResponseModel<List<MealItemModel>> response =
+        await controller.getMealItems();
     pr(response, t);
     emit(response);
   }

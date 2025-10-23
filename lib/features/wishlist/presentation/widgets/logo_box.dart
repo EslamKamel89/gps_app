@@ -20,7 +20,11 @@ class LogoBox extends StatelessWidget {
             borderRadius: BorderRadius.circular(10),
             border: Border.all(color: GPSColors.cardBorder),
           ),
-          child: const Icon(Icons.storefront_rounded, color: GPSColors.primary, size: 22),
+          child: const Icon(
+            Icons.storefront_rounded,
+            color: GPSColors.primary,
+            size: 22,
+          ),
         ),
       ),
     );

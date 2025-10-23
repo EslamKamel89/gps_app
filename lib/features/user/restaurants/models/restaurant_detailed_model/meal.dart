@@ -8,7 +8,14 @@ class Meal {
   Category? categories;
   Category? subcategories;
 
-  Meal({this.name, this.description, this.price, this.images, this.categories, this.subcategories});
+  Meal({
+    this.name,
+    this.description,
+    this.price,
+    this.images,
+    this.categories,
+    this.subcategories,
+  });
 
   @override
   String toString() {

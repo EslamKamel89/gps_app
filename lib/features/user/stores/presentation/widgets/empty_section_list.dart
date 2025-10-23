@@ -6,7 +6,11 @@ import 'package:gps_app/features/user/stores/presentation/widgets/empty_state.da
 import 'package:gps_app/features/user/stores/presentation/widgets/item_card.dart';
 
 class EmptySectionList extends StatelessWidget {
-  const EmptySectionList({super.key, required this.items, required this.heroPrefix});
+  const EmptySectionList({
+    super.key,
+    required this.items,
+    required this.heroPrefix,
+  });
   final List<CatalogItemModel> items;
   final String heroPrefix;
 

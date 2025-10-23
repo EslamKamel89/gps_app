@@ -18,12 +18,19 @@ class WaitingTip extends StatelessWidget {
       ),
       child: Row(
         children: [
-          const Icon(Icons.info_outline_rounded, color: GPSColors.mutedText, size: 18),
+          const Icon(
+            Icons.info_outline_rounded,
+            color: GPSColors.mutedText,
+            size: 18,
+          ),
           GPSGaps.w8,
           Expanded(
             child: Text(
               'We’ll notify you when a restaurant accepts your wish.',
-              style: txt.bodySmall?.copyWith(color: GPSColors.mutedText, height: 1.35),
+              style: txt.bodySmall?.copyWith(
+                color: GPSColors.mutedText,
+                height: 1.35,
+              ),
             ),
           ),
         ],

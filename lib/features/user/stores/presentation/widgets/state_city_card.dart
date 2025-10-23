@@ -83,7 +83,10 @@ class StateCityCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 10,
+                              vertical: 6,
+                            ),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
                               gradient: LinearGradient(
@@ -93,7 +96,11 @@ class StateCityCard extends StatelessWidget {
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                const Icon(Icons.place_rounded, size: 16, color: Colors.white),
+                                const Icon(
+                                  Icons.place_rounded,
+                                  size: 16,
+                                  color: Colors.white,
+                                ),
                                 GPSGaps.w8,
                                 Text(
                                   title,
@@ -240,7 +247,12 @@ class _EmptyState extends StatelessWidget {
         children: [
           Icon(Icons.info_outline_rounded, color: GPSColors.accent, size: 18),
           GPSGaps.w8,
-          Expanded(child: Text(message, style: textStyle?.copyWith(color: GPSColors.mutedText))),
+          Expanded(
+            child: Text(
+              message,
+              style: textStyle?.copyWith(color: GPSColors.mutedText),
+            ),
+          ),
         ],
       ),
     ).animate().fadeIn(duration: 200.ms).slideY(begin: .05);

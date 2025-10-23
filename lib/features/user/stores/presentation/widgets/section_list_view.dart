@@ -6,7 +6,11 @@ import 'package:gps_app/features/user/stores/presentation/widgets/empty_state.da
 import 'package:gps_app/features/user/stores/presentation/widgets/item_card.dart';
 
 class SectionListView extends StatelessWidget {
-  const SectionListView({super.key, required this.section, required this.heroPrefix});
+  const SectionListView({
+    super.key,
+    required this.section,
+    required this.heroPrefix,
+  });
 
   final CatalogSectionModel section;
   final String heroPrefix;
@@ -14,7 +18,9 @@ class SectionListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final items =
-        (section.items ?? const []).where((i) => (i.status ?? true) == true).toList()
+        (section.items ?? const [])
+            .where((i) => (i.status ?? true) == true)
+            .toList()
           ..sort((a, b) => (a.position ?? 9999).compareTo(b.position ?? 9999));
 
     if (items.isEmpty) {

@@ -55,8 +55,15 @@ class StoreDetailsScreenState extends State<StoreDetailsScreen>
 
     final now = DateTime.now();
     final weekdayKey =
-        <int, String>{1: 'mon', 2: 'tue', 3: 'wed', 4: 'thu', 5: 'fri', 6: 'sat', 7: 'sun'}[now
-            .weekday]!;
+        <int, String>{
+          1: 'mon',
+          2: 'tue',
+          3: 'wed',
+          4: 'thu',
+          5: 'fri',
+          6: 'sat',
+          7: 'sun',
+        }[now.weekday]!;
 
     List<String>? slot;
     switch (weekdayKey) {
@@ -124,11 +131,16 @@ class StoreDetailsScreenState extends State<StoreDetailsScreen>
                   expandedHeight: 260,
                   pinned: true,
                   elevation: 0,
-                  leading: CircleBack(onTap: () => Navigator.of(context).maybePop()),
+                  leading: CircleBack(
+                    onTap: () => Navigator.of(context).maybePop(),
+                  ),
                   actions: [
                     IconButton(
                       tooltip: 'Share',
-                      icon: const Icon(Icons.share_rounded, color: Colors.white),
+                      icon: const Icon(
+                        Icons.share_rounded,
+                        color: Colors.white,
+                      ),
                       onPressed: () {},
                     ),
                   ],
@@ -139,7 +151,10 @@ class StoreDetailsScreenState extends State<StoreDetailsScreen>
                         Image.network(_imageUrl(), fit: BoxFit.cover)
                             .animate()
                             .fadeIn(duration: 400.ms)
-                            .scale(begin: const Offset(1.02, 1.02), end: const Offset(1, 1)),
+                            .scale(
+                              begin: const Offset(1.02, 1.02),
+                              end: const Offset(1, 1),
+                            ),
                         Container(
                           decoration: const BoxDecoration(
                             gradient: LinearGradient(
@@ -158,7 +173,9 @@ class StoreDetailsScreenState extends State<StoreDetailsScreen>
                   child: Container(
                     decoration: const BoxDecoration(
                       color: GPSColors.background,
-                      borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+                      borderRadius: BorderRadius.vertical(
+                        top: Radius.circular(24),
+                      ),
                     ),
                     child: Padding(
                       padding: const EdgeInsets.fromLTRB(16, 18, 16, 14),
@@ -166,81 +183,128 @@ class StoreDetailsScreenState extends State<StoreDetailsScreen>
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Expanded(
-                                child: Text(
-                                  _title,
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                                    color: GPSColors.text,
-                                    fontWeight: FontWeight.w800,
-                                  ),
-                                ),
-                              ),
-                              IconButton(
-                                tooltip: 'Open Map',
-                                icon: Icon(Icons.location_on),
-                                onPressed: () {
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder:
-                                          (_) => BranchMapScreen(
-                                            latitude: _store?.latitude?.toString() ?? '0',
-                                            longitude: _store?.longitude?.toString() ?? '0',
-                                            title: "$_title Location",
-                                          ),
-                                      fullscreenDialog: true,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      _title,
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: Theme.of(
+                                        context,
+                                      ).textTheme.headlineSmall?.copyWith(
+                                        color: GPSColors.text,
+                                        fontWeight: FontWeight.w800,
+                                      ),
                                     ),
-                                  );
-                                },
-                              ).animate(delay: 40.ms).fadeIn(duration: 150.ms),
+                                  ),
+                                  IconButton(
+                                        tooltip: 'Open Map',
+                                        icon: Icon(Icons.location_on),
+                                        onPressed: () {
+                                          Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                              builder:
+                                                  (_) => BranchMapScreen(
+                                                    latitude:
+                                                        _store?.latitude
+                                                            ?.toString() ??
+                                                        '0',
+                                                    longitude:
+                                                        _store?.longitude
+                                                            ?.toString() ??
+                                                        '0',
+                                                    title: "$_title Location",
+                                                  ),
+                                              fullscreenDialog: true,
+                                            ),
+                                          );
+                                        },
+                                      )
+                                      .animate(delay: 40.ms)
+                                      .fadeIn(duration: 150.ms),
 
-                              IconButton(
-                                tooltip: _isFav ? 'Remove from favorites' : 'Add to favorites',
-                                onPressed: () => setState(() => _isFav = !_isFav),
-                                icon: Icon(
-                                  _isFav ? Icons.favorite_rounded : Icons.favorite_outline,
-                                  color: _isFav ? Colors.redAccent : GPSColors.mutedText,
-                                ),
-                              ),
-                            ],
-                          ).animate().fadeIn(duration: 280.ms).slideY(begin: .1),
+                                  IconButton(
+                                    tooltip:
+                                        _isFav
+                                            ? 'Remove from favorites'
+                                            : 'Add to favorites',
+                                    onPressed:
+                                        () => setState(() => _isFav = !_isFav),
+                                    icon: Icon(
+                                      _isFav
+                                          ? Icons.favorite_rounded
+                                          : Icons.favorite_outline,
+                                      color:
+                                          _isFav
+                                              ? Colors.redAccent
+                                              : GPSColors.mutedText,
+                                    ),
+                                  ),
+                                ],
+                              )
+                              .animate()
+                              .fadeIn(duration: 280.ms)
+                              .slideY(begin: .1),
 
                           GPSGaps.h12,
 
                           Wrap(
-                            spacing: 10,
-                            runSpacing: 10,
-                            children: [
-                              if ((_vendor?.address ?? '').isNotEmpty)
-                                const BadgeChip(icon: Icons.place_rounded, label: 'Address'),
-                              BadgeChip(
-                                icon: _isOpenNow ? Icons.schedule_rounded : Icons.schedule_rounded,
-                                label: _isOpenNow ? 'Open now' : 'Closed',
-                                iconColor: _isOpenNow ? Colors.green : GPSColors.mutedText,
-                              ),
-                              if (widget.user.userType?.type == 'store')
-                                const BadgeChip(icon: Icons.storefront_rounded, label: 'Store'),
-                              if (widget.user.userType?.type == 'farm')
-                                BadgeChip(icon: MdiIcons.tree, label: 'Store'),
-                            ],
-                          ).animate(delay: 70.ms).fadeIn(duration: 250.ms).slideY(begin: .08),
+                                spacing: 10,
+                                runSpacing: 10,
+                                children: [
+                                  if ((_vendor?.address ?? '').isNotEmpty)
+                                    const BadgeChip(
+                                      icon: Icons.place_rounded,
+                                      label: 'Address',
+                                    ),
+                                  BadgeChip(
+                                    icon:
+                                        _isOpenNow
+                                            ? Icons.schedule_rounded
+                                            : Icons.schedule_rounded,
+                                    label: _isOpenNow ? 'Open now' : 'Closed',
+                                    iconColor:
+                                        _isOpenNow
+                                            ? Colors.green
+                                            : GPSColors.mutedText,
+                                  ),
+                                  if (widget.user.userType?.type == 'store')
+                                    const BadgeChip(
+                                      icon: Icons.storefront_rounded,
+                                      label: 'Store',
+                                    ),
+                                  if (widget.user.userType?.type == 'farm')
+                                    BadgeChip(
+                                      icon: MdiIcons.tree,
+                                      label: 'Store',
+                                    ),
+                                ],
+                              )
+                              .animate(delay: 70.ms)
+                              .fadeIn(duration: 250.ms)
+                              .slideY(begin: .08),
 
                           GPSGaps.h16,
 
                           if ((_vendor?.address ?? '').isNotEmpty)
                             Text(
-                              _vendor!.address!,
-                              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                color: GPSColors.mutedText,
-                                height: 1.4,
-                              ),
-                            ).animate().fadeIn(duration: 250.ms).slideY(begin: .06),
-                          if (widget.user.state != null && widget.user.district != null)
+                                  _vendor!.address!,
+                                  style: Theme.of(
+                                    context,
+                                  ).textTheme.bodyMedium?.copyWith(
+                                    color: GPSColors.mutedText,
+                                    height: 1.4,
+                                  ),
+                                )
+                                .animate()
+                                .fadeIn(duration: 250.ms)
+                                .slideY(begin: .06),
+                          if (widget.user.state != null &&
+                              widget.user.district != null)
                             GPSGaps.h16,
-                          if (widget.user.state != null && widget.user.district != null)
+                          if (widget.user.state != null &&
+                              widget.user.district != null)
                             StateCityCard(
                               state: widget.user.state!,
                               district: widget.user.district!,
@@ -253,9 +317,10 @@ class StoreDetailsScreenState extends State<StoreDetailsScreen>
                           ),
                           if (_vendor?.operatingHours != null) GPSGaps.h16,
                           if (_vendor?.operatingHours != null)
-                            TodayHoursRow(
-                              operating: _vendor!.operatingHours!,
-                            ).animate().fadeIn(duration: 240.ms).slideY(begin: .06),
+                            TodayHoursRow(operating: _vendor!.operatingHours!)
+                                .animate()
+                                .fadeIn(duration: 240.ms)
+                                .slideY(begin: .06),
                           // if (_vendor?.operatingHours != null) GPSGaps.h16,
                         ],
                       ),
@@ -280,15 +345,19 @@ class StoreDetailsScreenState extends State<StoreDetailsScreen>
                               indicatorColor: GPSColors.primary,
                               labelColor: GPSColors.text,
                               unselectedLabelColor: GPSColors.mutedText,
-                              labelStyle: Theme.of(
-                                context,
-                              ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w800),
+                              labelStyle: Theme.of(context).textTheme.titleSmall
+                                  ?.copyWith(fontWeight: FontWeight.w800),
                               tabs: [
                                 for (final t in tabs)
                                   Tab(
                                     child: Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 2.0),
-                                      child: Text(t, style: const TextStyle(fontSize: 16)),
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 2.0,
+                                      ),
+                                      child: Text(
+                                        t,
+                                        style: const TextStyle(fontSize: 16),
+                                      ),
                                     ),
                                   ),
                               ],
@@ -305,7 +374,10 @@ class StoreDetailsScreenState extends State<StoreDetailsScreen>
                   : TabBarView(
                     children: [
                       for (int ti = 0; ti < tabs.length; ti++)
-                        SectionListView(section: _sections[ti], heroPrefix: 'tab$ti'),
+                        SectionListView(
+                          section: _sections[ti],
+                          heroPrefix: 'tab$ti',
+                        ),
                     ],
                   ),
         ),

@@ -12,7 +12,10 @@ class BottomSheetFormController<T> {
 }
 
 typedef BottomSheetFormBuilder<T> =
-    Widget Function(BuildContext context, BottomSheetFormController<T> controller);
+    Widget Function(
+      BuildContext context,
+      BottomSheetFormController<T> controller,
+    );
 
 Future<T?> showFormBottomSheet<T>(
   BuildContext context, {
@@ -30,7 +33,9 @@ Future<T?> showFormBottomSheet<T>(
     elevation: elevation,
     shape:
         shape ??
-        const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(16))),
+        const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+        ),
     builder: (sheetCtx) {
       final controller = BottomSheetFormController<T>(sheetCtx);
 
@@ -52,7 +57,11 @@ Future<T?> showFormBottomSheet<T>(
 }
 
 class FormCancelButton extends StatelessWidget {
-  const FormCancelButton({super.key, required this.onPressed, this.label = 'Cancel'});
+  const FormCancelButton({
+    super.key,
+    required this.onPressed,
+    this.label = 'Cancel',
+  });
 
   final VoidCallback onPressed;
   final String label;
@@ -64,7 +73,11 @@ class FormCancelButton extends StatelessWidget {
 }
 
 class FormSubmitButton extends StatelessWidget {
-  const FormSubmitButton({super.key, required this.onPressed, this.label = 'Save'});
+  const FormSubmitButton({
+    super.key,
+    required this.onPressed,
+    this.label = 'Save',
+  });
 
   final VoidCallback onPressed;
   final String label;
@@ -93,9 +106,13 @@ class FormActionBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Expanded(child: FormCancelButton(onPressed: onCancel, label: cancelLabel)),
+        Expanded(
+          child: FormCancelButton(onPressed: onCancel, label: cancelLabel),
+        ),
         const SizedBox(width: 12),
-        Expanded(child: FormSubmitButton(onPressed: onSubmit, label: submitLabel)),
+        Expanded(
+          child: FormSubmitButton(onPressed: onSubmit, label: submitLabel),
+        ),
       ],
     );
   }

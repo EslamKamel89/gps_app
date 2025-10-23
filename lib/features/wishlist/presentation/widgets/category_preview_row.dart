@@ -7,7 +7,11 @@ import 'package:gps_app/features/user/categories/models/category_model/sub_categ
 import 'package:gps_app/features/wishlist/presentation/widgets/mini_restaurant_chip.dart';
 
 class CategoryPreviewRow extends StatelessWidget {
-  const CategoryPreviewRow({super.key, required this.category, required this.subCategory});
+  const CategoryPreviewRow({
+    super.key,
+    required this.category,
+    required this.subCategory,
+  });
   final CategoryModel category;
   final SubCategoryModel subCategory;
   @override
@@ -21,8 +25,10 @@ class CategoryPreviewRow extends StatelessWidget {
           spacing: 8,
           runSpacing: 8,
           children: [
-            if (category.name != null) MiniRestaurantChip(name: category.name ?? ''),
-            if (subCategory.name != null) MiniRestaurantChip(name: subCategory.name ?? ''),
+            if (category.name != null)
+              MiniRestaurantChip(name: category.name ?? ''),
+            if (subCategory.name != null)
+              MiniRestaurantChip(name: subCategory.name ?? ''),
           ],
         ).animate().fadeIn(duration: 220.ms).slideY(begin: .04),
         GPSGaps.h8,

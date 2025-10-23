@@ -43,8 +43,13 @@ class RestaurantDetailedModel {
       website: json['website'] as String?,
       verified: json['verified'] as int?,
       vendor:
-          json['vendor'] == null ? null : Vendor.fromJson(json['vendor'] as Map<String, dynamic>),
-      user: json['user'] == null ? null : User.fromJson(json['user'] as Map<String, dynamic>),
+          json['vendor'] == null
+              ? null
+              : Vendor.fromJson(json['vendor'] as Map<String, dynamic>),
+      user:
+          json['user'] == null
+              ? null
+              : User.fromJson(json['user'] as Map<String, dynamic>),
       branches:
           (json['branches'] as List<dynamic>?)
               ?.map((e) => Branch.fromJson(e as Map<String, dynamic>))

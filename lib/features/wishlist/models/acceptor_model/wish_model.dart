@@ -30,7 +30,10 @@ class WishModel {
     description: json['description'] as String?,
     status: json['status'] as int?,
     acceptorsCount: json['acceptors_count'] as int?,
-    user: json['user'] == null ? null : UserModel.fromJson(json['user'] as Map<String, dynamic>),
+    user:
+        json['user'] == null
+            ? null
+            : UserModel.fromJson(json['user'] as Map<String, dynamic>),
     category:
         json['category'] == null
             ? null
@@ -38,7 +41,9 @@ class WishModel {
     subcategory:
         json['subcategory'] == null
             ? null
-            : SubCategoryModel.fromJson(json['subcategory'] as Map<String, dynamic>),
+            : SubCategoryModel.fromJson(
+              json['subcategory'] as Map<String, dynamic>,
+            ),
     acceptors:
         (json['acceptors'] as List<dynamic>?)
             ?.map((e) => AcceptorModel.fromJson(e as Map<String, dynamic>))

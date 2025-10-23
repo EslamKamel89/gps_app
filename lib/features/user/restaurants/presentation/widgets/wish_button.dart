@@ -95,7 +95,12 @@ class _WishButtonState extends State<WishButton> {
                 .slideY(begin: .08, curve: Curves.easeOutCubic)
                 .shimmer(duration: 2200.ms, delay: 600.ms)
                 .then(delay: 2.seconds)
-                .scaleXY(begin: 1.0, end: 1.01, duration: 320.ms, curve: Curves.easeInOut)
+                .scaleXY(
+                  begin: 1.0,
+                  end: 1.01,
+                  duration: 320.ms,
+                  curve: Curves.easeInOut,
+                )
                 .then(delay: 4.seconds),
           ],
         ),

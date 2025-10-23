@@ -24,9 +24,10 @@ class MiniRestaurantChip extends StatelessWidget {
             name,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: Theme.of(
-              context,
-            ).textTheme.labelMedium?.copyWith(color: GPSColors.text, fontWeight: FontWeight.w700),
+            style: Theme.of(context).textTheme.labelMedium?.copyWith(
+              color: GPSColors.text,
+              fontWeight: FontWeight.w700,
+            ),
           ),
         ],
       ),

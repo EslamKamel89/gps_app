@@ -17,7 +17,9 @@ class RestaurantDetailProvider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<RestaurantCubit>(
-      create: (context) => RestaurantCubit()..restaurant(restaurantId: restaurantId),
+      create:
+          (context) =>
+              RestaurantCubit()..restaurant(restaurantId: restaurantId),
       child: RestaurantDetailsScreen(
         restaurantId: restaurantId,
         enableEdit: enableEdit,

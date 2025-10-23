@@ -1,5 +1,3 @@
- 
-
 import 'package:flutter/material.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 
@@ -29,17 +27,25 @@ class DietTagSelector extends StatelessWidget {
               onTap: () => onChanged(tag, !isOn),
               borderRadius: BorderRadius.circular(18),
               child: Ink(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 8,
+                ),
                 decoration: BoxDecoration(
-                  color: isOn ? GPSColors.primary.withOpacity(.10) : Colors.white,
+                  color:
+                      isOn ? GPSColors.primary.withOpacity(.10) : Colors.white,
                   borderRadius: BorderRadius.circular(18),
-                  border: Border.all(color: isOn ? GPSColors.primary : GPSColors.cardBorder),
+                  border: Border.all(
+                    color: isOn ? GPSColors.primary : GPSColors.cardBorder,
+                  ),
                 ),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Icon(
-                      isOn ? Icons.check_circle_rounded : Icons.radio_button_unchecked_rounded,
+                      isOn
+                          ? Icons.check_circle_rounded
+                          : Icons.radio_button_unchecked_rounded,
                       size: 16,
                       color: isOn ? GPSColors.primary : GPSColors.mutedText,
                     ),

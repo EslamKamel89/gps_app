@@ -41,8 +41,9 @@ class CategoryCard extends StatelessWidget {
               ),
             ),
         errorWidget:
-            (context, url, error) =>
-                const Center(child: Icon(Icons.broken_image, color: Colors.grey, size: 28)),
+            (context, url, error) => const Center(
+              child: Icon(Icons.broken_image, color: Colors.grey, size: 28),
+            ),
       ),
     );
 
@@ -67,7 +68,10 @@ class CategoryCard extends StatelessWidget {
               Text(
                 label,
                 textAlign: TextAlign.center,
-                style: TextStyle(color: GPSColors.text, fontWeight: FontWeight.w600),
+                style: TextStyle(
+                  color: GPSColors.text,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
               // GPSGaps.h8,
               // Text(

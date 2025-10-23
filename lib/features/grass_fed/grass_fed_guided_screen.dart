@@ -56,11 +56,14 @@ class _GrassFedGuideScreenState extends State<GrassFedGuideScreen> {
             children: [
               // HERO: Carousel with gradient overlay, dots & caption
               _HeroCarousel(
-                images: _heroImages,
-                controller: _pageCtrl,
-                onPageChanged: (i) => setState(() => _heroIndex = i),
-                caption: '100% Grass-Fed • Pasture',
-              ).animate().fadeIn(duration: 350.ms).scale(begin: const Offset(1.02, 1.02)),
+                    images: _heroImages,
+                    controller: _pageCtrl,
+                    onPageChanged: (i) => setState(() => _heroIndex = i),
+                    caption: '100% Grass-Fed • Pasture',
+                  )
+                  .animate()
+                  .fadeIn(duration: 350.ms)
+                  .scale(begin: const Offset(1.02, 1.02)),
 
               GPSGaps.h16,
 
@@ -68,17 +71,20 @@ class _GrassFedGuideScreenState extends State<GrassFedGuideScreen> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Wrap(
-                  spacing: 10,
-                  runSpacing: 10,
-                  children: const [
-                    _BadgeChip(label: '100% Grass-Fed'),
-                    _BadgeChip(label: 'Grass-Finished'),
-                    _BadgeChip(label: 'Pasture-Raised'),
-                    _BadgeChip(label: 'No Antibiotics'),
-                    _BadgeChip(label: 'Non-GMO Feed'),
-                    _BadgeChip(label: 'Local • Organic'),
-                  ],
-                ).animate().fadeIn(duration: 240.ms).scale(begin: const Offset(.96, .96)),
+                      spacing: 10,
+                      runSpacing: 10,
+                      children: const [
+                        _BadgeChip(label: '100% Grass-Fed'),
+                        _BadgeChip(label: 'Grass-Finished'),
+                        _BadgeChip(label: 'Pasture-Raised'),
+                        _BadgeChip(label: 'No Antibiotics'),
+                        _BadgeChip(label: 'Non-GMO Feed'),
+                        _BadgeChip(label: 'Local • Organic'),
+                      ],
+                    )
+                    .animate()
+                    .fadeIn(duration: 240.ms)
+                    .scale(begin: const Offset(.96, .96)),
               ),
 
               GPSGaps.h20,
@@ -156,7 +162,9 @@ class _HeroCarousel extends StatelessWidget {
                   style: Theme.of(context).textTheme.labelLarge?.copyWith(
                     color: Colors.white,
                     fontWeight: FontWeight.w800,
-                    shadows: const [Shadow(blurRadius: 6, color: Colors.black54)],
+                    shadows: const [
+                      Shadow(blurRadius: 6, color: Colors.black54),
+                    ],
                   ),
                 ).animate().fadeIn(duration: 220.ms).slideY(begin: .2),
                 GPSGaps.h8,
@@ -189,7 +197,12 @@ class _PageDotsState extends State<_PageDots> {
   }
 
   void _onScroll() {
-    setState(() => _page = widget.controller.page ?? widget.controller.initialPage.toDouble());
+    setState(
+      () =>
+          _page =
+              widget.controller.page ??
+              widget.controller.initialPage.toDouble(),
+    );
   }
 
   @override
@@ -228,7 +241,13 @@ class _SectionTabs extends StatefulWidget {
 }
 
 class _SectionTabsState extends State<_SectionTabs> {
-  final tabs = const ['Overview', 'Kinds', 'Categories', 'Benefits', 'More Info'];
+  final tabs = const [
+    'Overview',
+    'Kinds',
+    'Categories',
+    'Benefits',
+    'More Info',
+  ];
   int _current = 0;
 
   @override
@@ -260,19 +279,29 @@ class _SectionTabsState extends State<_SectionTabs> {
                       onTap: () => setState(() => _current = i),
                       child: AnimatedContainer(
                         duration: 200.ms,
-                        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 14,
+                          vertical: 10,
+                        ),
                         decoration: BoxDecoration(
-                          color: selected ? GPSColors.primary.withOpacity(.10) : Colors.transparent,
+                          color:
+                              selected
+                                  ? GPSColors.primary.withOpacity(.10)
+                                  : Colors.transparent,
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(
-                            color: selected ? GPSColors.primary : GPSColors.cardBorder,
+                            color:
+                                selected
+                                    ? GPSColors.primary
+                                    : GPSColors.cardBorder,
                           ),
                         ),
                         child: Text(
                           tabs[i],
                           style: txt.labelLarge?.copyWith(
                             fontWeight: FontWeight.w800,
-                            color: selected ? GPSColors.primary : GPSColors.text,
+                            color:
+                                selected ? GPSColors.primary : GPSColors.text,
                           ),
                         ),
                       ),
@@ -329,18 +358,27 @@ class _OverviewSection extends StatelessWidget {
       children: [
         Text(
           'What “Grass-Fed” Means',
-          style: txt.titleMedium?.copyWith(color: GPSColors.text, fontWeight: FontWeight.w800),
+          style: txt.titleMedium?.copyWith(
+            color: GPSColors.text,
+            fontWeight: FontWeight.w800,
+          ),
         ),
         GPSGaps.h8,
         Text(
           'Grass-fed animals derive the majority of their diet from pasture and forage rather than grain. '
           'This typically produces meat and dairy with a healthier fat profile, richer micronutrients, and flavors shaped by the local landscape.',
-          style: txt.bodyMedium?.copyWith(color: GPSColors.mutedText, height: 1.45),
+          style: txt.bodyMedium?.copyWith(
+            color: GPSColors.mutedText,
+            height: 1.45,
+          ),
         ),
         GPSGaps.h16,
         Text(
           'Key Nutrients',
-          style: txt.titleSmall?.copyWith(color: GPSColors.text, fontWeight: FontWeight.w800),
+          style: txt.titleSmall?.copyWith(
+            color: GPSColors.text,
+            fontWeight: FontWeight.w800,
+          ),
         ),
         GPSGaps.h12,
         Column(
@@ -352,17 +390,20 @@ class _OverviewSection extends StatelessWidget {
             _NutrientCard(
               title: 'Omega-3',
               delta: '▲ higher',
-              blurb: 'Supports heart & brain health through anti-inflammatory pathways.',
+              blurb:
+                  'Supports heart & brain health through anti-inflammatory pathways.',
             ),
             _NutrientCard(
               title: 'CLA',
               delta: '▲ higher',
-              blurb: 'Conjugated linoleic acid linked with improved body composition.',
+              blurb:
+                  'Conjugated linoleic acid linked with improved body composition.',
             ),
             _NutrientCard(
               title: 'Vitamins A/K2',
               delta: 'rich',
-              blurb: 'Fat-soluble vitamins vital for immunity, bones, and vision.',
+              blurb:
+                  'Fat-soluble vitamins vital for immunity, bones, and vision.',
             ),
           ],
         ).animate().fadeIn(duration: 260.ms).slideY(begin: .06),
@@ -372,7 +413,11 @@ class _OverviewSection extends StatelessWidget {
 }
 
 class _NutrientCard extends StatelessWidget {
-  const _NutrientCard({required this.title, required this.delta, required this.blurb});
+  const _NutrientCard({
+    required this.title,
+    required this.delta,
+    required this.blurb,
+  });
   final String title;
   final String delta;
   final String blurb;
@@ -402,7 +447,10 @@ class _NutrientCard extends StatelessWidget {
         children: [
           Text(
             title,
-            style: txt.titleSmall?.copyWith(color: GPSColors.text, fontWeight: FontWeight.w800),
+            style: txt.titleSmall?.copyWith(
+              color: GPSColors.text,
+              fontWeight: FontWeight.w800,
+            ),
           ),
           GPSGaps.h6,
           Container(
@@ -421,7 +469,13 @@ class _NutrientCard extends StatelessWidget {
             ),
           ),
           GPSGaps.h8,
-          Text(blurb, style: txt.bodySmall?.copyWith(color: GPSColors.mutedText, height: 1.4)),
+          Text(
+            blurb,
+            style: txt.bodySmall?.copyWith(
+              color: GPSColors.mutedText,
+              height: 1.4,
+            ),
+          ),
         ],
       ),
     );
@@ -483,17 +537,19 @@ class _KindsSection extends StatelessWidget {
       children: [
         Text(
           'Kinds',
-          style: txt.titleMedium?.copyWith(color: GPSColors.text, fontWeight: FontWeight.w800),
+          style: txt.titleMedium?.copyWith(
+            color: GPSColors.text,
+            fontWeight: FontWeight.w800,
+          ),
         ),
         GPSGaps.h12,
         Column(
           children:
               _kinds.map((k) {
-                return _ImageInfoCard(
-                  title: k.$1,
-                  blurb: k.$2,
-                  imageUrl: k.$3,
-                ).animate().fadeIn(duration: 260.ms).scale(begin: const Offset(.98, .98));
+                return _ImageInfoCard(title: k.$1, blurb: k.$2, imageUrl: k.$3)
+                    .animate()
+                    .fadeIn(duration: 260.ms)
+                    .scale(begin: const Offset(.98, .98));
               }).toList(),
         ),
       ],
@@ -505,7 +561,13 @@ class _KindsSection extends StatelessWidget {
 class _CategoriesSection extends StatelessWidget {
   const _CategoriesSection({super.key});
 
-  static const _filters = ['Fresh Cuts', 'Ground', 'Organs', 'Bones/Broth', 'Dairy'];
+  static const _filters = [
+    'Fresh Cuts',
+    'Ground',
+    'Organs',
+    'Bones/Broth',
+    'Dairy',
+  ];
 
   static final _items = [
     (
@@ -543,7 +605,10 @@ class _CategoriesSection extends StatelessWidget {
       children: [
         Text(
           'Categories',
-          style: txt.titleMedium?.copyWith(color: GPSColors.text, fontWeight: FontWeight.w800),
+          style: txt.titleMedium?.copyWith(
+            color: GPSColors.text,
+            fontWeight: FontWeight.w800,
+          ),
         ),
         GPSGaps.h12,
         // Visual filters (non-interactive as requested static content)
@@ -567,7 +632,12 @@ class _CategoriesSection extends StatelessWidget {
         Column(
           children:
               _items.map((it) {
-                return _HorizontalCard(title: it.$1, blurb: it.$2, tags: it.$3, imageUrl: it.$4)
+                return _HorizontalCard(
+                      title: it.$1,
+                      blurb: it.$2,
+                      tags: it.$3,
+                      imageUrl: it.$4,
+                    )
                     .animate()
                     .fadeIn(duration: 260.ms, curve: Curves.easeOutCubic)
                     .slideY(begin: .06, curve: Curves.easeOutCubic);
@@ -618,7 +688,10 @@ class _BenefitsSection extends StatelessWidget {
       children: [
         Text(
           'Benefits',
-          style: txt.titleMedium?.copyWith(color: GPSColors.text, fontWeight: FontWeight.w800),
+          style: txt.titleMedium?.copyWith(
+            color: GPSColors.text,
+            fontWeight: FontWeight.w800,
+          ),
         ),
         GPSGaps.h12,
         Wrap(
@@ -627,11 +700,12 @@ class _BenefitsSection extends StatelessWidget {
           children:
               _benefits
                   .map(
-                    (b) => _IconBenefitCard(icon: b.$1, title: b.$2, blurb: b.$3)
-                        .animate()
-                        .fadeIn(duration: 240.ms)
-                        .slideY(begin: .06)
-                        .scale(begin: const Offset(.98, .98)),
+                    (b) =>
+                        _IconBenefitCard(icon: b.$1, title: b.$2, blurb: b.$3)
+                            .animate()
+                            .fadeIn(duration: 240.ms)
+                            .slideY(begin: .06)
+                            .scale(begin: const Offset(.98, .98)),
                   )
                   .toList(),
         ),
@@ -659,37 +733,56 @@ class _MoreInfoSection extends StatelessWidget {
       children: [
         Text(
           'Label Guide',
-          style: txt.titleMedium?.copyWith(color: GPSColors.text, fontWeight: FontWeight.w800),
+          style: txt.titleMedium?.copyWith(
+            color: GPSColors.text,
+            fontWeight: FontWeight.w800,
+          ),
         ),
         GPSGaps.h8,
         const _BulletLine(
-          text: 'Grass-Fed vs Grass-Finished: grass-finished indicates forage to the end of life.',
+          text:
+              'Grass-Fed vs Grass-Finished: grass-finished indicates forage to the end of life.',
         ),
         const _BulletLine(
-          text: 'Pasture-Raised: time on pasture; feed may vary; check producer details.',
+          text:
+              'Pasture-Raised: time on pasture; feed may vary; check producer details.',
         ),
         const _BulletLine(
-          text: 'Certifications: look for reputable third-party audits for transparency.',
+          text:
+              'Certifications: look for reputable third-party audits for transparency.',
         ),
 
         GPSGaps.h16,
 
         Text(
           'Buying & Storage Tips',
-          style: txt.titleMedium?.copyWith(color: GPSColors.text, fontWeight: FontWeight.w800),
+          style: txt.titleMedium?.copyWith(
+            color: GPSColors.text,
+            fontWeight: FontWeight.w800,
+          ),
         ),
         GPSGaps.h8,
         const _BulletLine(
-          text: 'Prefer bright color and clean aroma; avoid excessive purge in packaging.',
+          text:
+              'Prefer bright color and clean aroma; avoid excessive purge in packaging.',
         ),
-        const _BulletLine(text: 'Cook lean cuts slightly gentler; rest adequately for juiciness.'),
-        const _BulletLine(text: 'Freeze airtight; thaw in the fridge; label dates for rotation.'),
+        const _BulletLine(
+          text:
+              'Cook lean cuts slightly gentler; rest adequately for juiciness.',
+        ),
+        const _BulletLine(
+          text:
+              'Freeze airtight; thaw in the fridge; label dates for rotation.',
+        ),
 
         GPSGaps.h16,
 
         Text(
           'Sustainable Farms',
-          style: txt.titleMedium?.copyWith(color: GPSColors.text, fontWeight: FontWeight.w800),
+          style: txt.titleMedium?.copyWith(
+            color: GPSColors.text,
+            fontWeight: FontWeight.w800,
+          ),
         ),
         GPSGaps.h8,
         SizedBox(
@@ -699,17 +792,21 @@ class _MoreInfoSection extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 2),
             itemBuilder:
                 (_, i) => ClipRRect(
-                  borderRadius: BorderRadius.circular(12),
-                  child: AspectRatio(
-                    aspectRatio: 16 / 9,
-                    child: CachedNetworkImage(
-                      imageUrl: _strip[i],
-                      fit: BoxFit.cover,
-                      placeholder: (ctx, _) => _ShimmerBox.rounded(radius: 12),
-                      errorWidget: (ctx, _, __) => const _ImageError(),
-                    ),
-                  ),
-                ).animate().fadeIn(duration: 220.ms).scale(begin: const Offset(.98, .98)),
+                      borderRadius: BorderRadius.circular(12),
+                      child: AspectRatio(
+                        aspectRatio: 16 / 9,
+                        child: CachedNetworkImage(
+                          imageUrl: _strip[i],
+                          fit: BoxFit.cover,
+                          placeholder:
+                              (ctx, _) => _ShimmerBox.rounded(radius: 12),
+                          errorWidget: (ctx, _, __) => const _ImageError(),
+                        ),
+                      ),
+                    )
+                    .animate()
+                    .fadeIn(duration: 220.ms)
+                    .scale(begin: const Offset(.98, .98)),
             separatorBuilder: (_, __) => GPSGaps.w10,
             itemCount: _strip.length,
           ),
@@ -742,7 +839,10 @@ class _BadgeChip extends StatelessWidget {
           GPSGaps.w8,
           Text(
             label,
-            style: txt.labelMedium?.copyWith(color: GPSColors.text, fontWeight: FontWeight.w800),
+            style: txt.labelMedium?.copyWith(
+              color: GPSColors.text,
+              fontWeight: FontWeight.w800,
+            ),
           ),
         ],
       ),
@@ -766,14 +866,21 @@ class _FilterChipStatic extends StatelessWidget {
       ),
       child: Text(
         label,
-        style: txt.labelLarge?.copyWith(color: GPSColors.text, fontWeight: FontWeight.w800),
+        style: txt.labelLarge?.copyWith(
+          color: GPSColors.text,
+          fontWeight: FontWeight.w800,
+        ),
       ),
     );
   }
 }
 
 class _ImageInfoCard extends StatelessWidget {
-  const _ImageInfoCard({required this.title, required this.blurb, required this.imageUrl});
+  const _ImageInfoCard({
+    required this.title,
+    required this.blurb,
+    required this.imageUrl,
+  });
   final String title;
   final String blurb;
   final String imageUrl;
@@ -803,7 +910,9 @@ class _ImageInfoCard extends StatelessWidget {
           children: [
             // Image
             ClipRRect(
-              borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+              borderRadius: const BorderRadius.vertical(
+                top: Radius.circular(16),
+              ),
               child: AspectRatio(
                 aspectRatio: 16 / 9,
                 child: CachedNetworkImage(
@@ -829,7 +938,10 @@ class _ImageInfoCard extends StatelessWidget {
                   GPSGaps.h6,
                   Text(
                     blurb,
-                    style: txt.bodySmall?.copyWith(color: GPSColors.mutedText, height: 1.4),
+                    style: txt.bodySmall?.copyWith(
+                      color: GPSColors.mutedText,
+                      height: 1.4,
+                    ),
                   ),
                 ],
               ),
@@ -866,7 +978,9 @@ class _HorizontalCard extends StatelessWidget {
       child: Row(
         children: [
           ClipRRect(
-            borderRadius: const BorderRadius.horizontal(left: Radius.circular(16)),
+            borderRadius: const BorderRadius.horizontal(
+              left: Radius.circular(16),
+            ),
             child: SizedBox(
               width: 110,
               height: 96,
@@ -894,7 +1008,10 @@ class _HorizontalCard extends StatelessWidget {
                   GPSGaps.h4,
                   Text(
                     blurb,
-                    style: txt.bodySmall?.copyWith(color: GPSColors.mutedText, height: 1.35),
+                    style: txt.bodySmall?.copyWith(
+                      color: GPSColors.mutedText,
+                      height: 1.35,
+                    ),
                   ),
                   GPSGaps.h6,
                   Wrap(
@@ -904,11 +1021,16 @@ class _HorizontalCard extends StatelessWidget {
                         tags
                             .map(
                               (t) => Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 8,
+                                  vertical: 6,
+                                ),
                                 decoration: BoxDecoration(
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(10),
-                                  border: Border.all(color: GPSColors.cardBorder),
+                                  border: Border.all(
+                                    color: GPSColors.cardBorder,
+                                  ),
                                 ),
                                 child: Text(
                                   t,
@@ -932,7 +1054,11 @@ class _HorizontalCard extends StatelessWidget {
 }
 
 class _IconBenefitCard extends StatelessWidget {
-  const _IconBenefitCard({required this.icon, required this.title, required this.blurb});
+  const _IconBenefitCard({
+    required this.icon,
+    required this.title,
+    required this.blurb,
+  });
   final IconData icon;
   final String title;
   final String blurb;
@@ -985,7 +1111,10 @@ class _IconBenefitCard extends StatelessWidget {
                   GPSGaps.h6,
                   Text(
                     blurb,
-                    style: txt.bodySmall?.copyWith(color: GPSColors.mutedText, height: 1.4),
+                    style: txt.bodySmall?.copyWith(
+                      color: GPSColors.mutedText,
+                      height: 1.4,
+                    ),
                   ),
                 ],
               ),
@@ -1013,7 +1142,10 @@ class _BulletLine extends StatelessWidget {
           Expanded(
             child: Text(
               text,
-              style: txt.bodySmall?.copyWith(color: GPSColors.mutedText, height: 1.4),
+              style: txt.bodySmall?.copyWith(
+                color: GPSColors.mutedText,
+                height: 1.4,
+              ),
             ),
           ),
         ],
@@ -1034,9 +1166,16 @@ class _ImageError extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Icon(Icons.image_not_supported_outlined, size: 34, color: GPSColors.mutedText),
+          const Icon(
+            Icons.image_not_supported_outlined,
+            size: 34,
+            color: GPSColors.mutedText,
+          ),
           GPSGaps.h6,
-          Text('Image unavailable', style: txt.bodySmall?.copyWith(color: GPSColors.mutedText)),
+          Text(
+            'Image unavailable',
+            style: txt.bodySmall?.copyWith(color: GPSColors.mutedText),
+          ),
         ],
       ),
     );
@@ -1054,7 +1193,10 @@ class _ShimmerBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-          decoration: BoxDecoration(color: const Color(0xFFEFEFF1), borderRadius: borderRadius),
+          decoration: BoxDecoration(
+            color: const Color(0xFFEFEFF1),
+            borderRadius: borderRadius,
+          ),
         )
         .animate(onPlay: (c) => c.repeat())
         .shimmer(duration: 1200.ms, color: Colors.white)

@@ -26,7 +26,8 @@ class UserProfileTile extends StatelessWidget {
     if (n.isNotEmpty) {
       final parts = n.split(' ');
       if (parts.length >= 2) {
-        return (parts[0].isNotEmpty ? parts[0][0] : '') + (parts[1].isNotEmpty ? parts[1][0] : '');
+        return (parts[0].isNotEmpty ? parts[0][0] : '') +
+            (parts[1].isNotEmpty ? parts[1][0] : '');
       }
 
       return n.substring(0, n.length >= 2 ? 2 : 1);
@@ -87,7 +88,9 @@ class UserProfileTile extends StatelessWidget {
                               height: 18,
                               child: CircularProgressIndicator(
                                 strokeWidth: 2,
-                                valueColor: AlwaysStoppedAnimation(theme.colorScheme.primary),
+                                valueColor: AlwaysStoppedAnimation(
+                                  theme.colorScheme.primary,
+                                ),
                               ),
                             ),
                           ),
@@ -138,7 +141,11 @@ class UserProfileTile extends StatelessWidget {
               ),
               if (onTap != null) ...[
                 const SizedBox(width: 8),
-                const Icon(Icons.chevron_right, size: 20, color: Color(0xFF334155)),
+                const Icon(
+                  Icons.chevron_right,
+                  size: 20,
+                  color: Color(0xFF334155),
+                ),
               ],
             ],
           ),

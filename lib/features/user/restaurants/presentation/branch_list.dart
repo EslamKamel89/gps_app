@@ -32,13 +32,22 @@ class BranchList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (branches.isEmpty) {
-      return _EmptyState().animate().fadeIn(duration: 280.ms).slideY(begin: .08);
+      return _EmptyState()
+          .animate()
+          .fadeIn(duration: 280.ms)
+          .slideY(begin: .08);
     }
 
-    final pad = compact ? const EdgeInsets.all(12) : const EdgeInsets.fromLTRB(16, 16, 16, 28);
+    final pad =
+        compact
+            ? const EdgeInsets.all(12)
+            : const EdgeInsets.fromLTRB(16, 16, 16, 28);
 
     return Scaffold(
-      appBar: AppBar(title: Text('Branches'), backgroundColor: GPSColors.primary),
+      appBar: AppBar(
+        title: Text('Branches'),
+        backgroundColor: GPSColors.primary,
+      ),
       body: ListView.separated(
         physics: const ClampingScrollPhysics(),
         padding: pad,
@@ -55,7 +64,10 @@ class BranchList extends StatelessWidget {
                 },
                 onOpenWebsite: onOpenWebsite,
                 onCall: onCall,
-                heroTag: heroPrefix != null && b.id != null ? '$heroPrefix-${b.id}' : null,
+                heroTag:
+                    heroPrefix != null && b.id != null
+                        ? '$heroPrefix-${b.id}'
+                        : null,
               )
               .animate(delay: delay)
               .fadeIn(duration: 260.ms, curve: Curves.easeOutCubic)
@@ -83,7 +95,9 @@ class _BranchCard extends StatelessWidget {
   final String? heroTag;
 
   RestaurantImage? get _firstImg =>
-      (branch.images != null && branch.images!.isNotEmpty) ? branch.images!.first : null;
+      (branch.images != null && branch.images!.isNotEmpty)
+          ? branch.images!.first
+          : null;
 
   @override
   Widget build(BuildContext context) {
@@ -144,7 +158,8 @@ class _BranchCard extends StatelessWidget {
                         _IconAction(
                           tooltip: 'Open website',
                           icon: Icons.language_rounded,
-                          onTap: () => onOpenWebsite?.call(branch.website!.trim()),
+                          onTap:
+                              () => onOpenWebsite?.call(branch.website!.trim()),
                         ).animate(delay: 40.ms).fadeIn(duration: 150.ms),
                       if ((branch.latitude ?? '').isNotEmpty) GPSGaps.w8,
                       if ((branch.latitude ?? '').isNotEmpty)
@@ -158,7 +173,9 @@ class _BranchCard extends StatelessWidget {
                                     (_) => BranchMapScreen(
                                       latitude: branch.latitude ?? '0',
                                       longitude: branch.longitude ?? '0',
-                                      title: branch.branchName ?? 'Branch Location',
+                                      title:
+                                          branch.branchName ??
+                                          'Branch Location',
                                     ),
                                 fullscreenDialog: true,
                               ),
@@ -185,7 +202,8 @@ class _BranchCard extends StatelessWidget {
                         _MetaChip(
                           icon: Icons.link_rounded,
                           label: _domainOnly(branch.website!),
-                          onTap: () => onOpenWebsite?.call(branch.website!.trim()),
+                          onTap:
+                              () => onOpenWebsite?.call(branch.website!.trim()),
                         ),
                     ],
                   ).animate().fadeIn(duration: 200.ms).slideY(begin: .05),
@@ -227,13 +245,20 @@ class _BranchImageHeader extends StatelessWidget {
       height: 160,
       fadeInDuration: const Duration(milliseconds: 200),
       placeholder:
-          (context, _) => _ShimmerBox(width: double.infinity, height: 160, borderRadius: radius),
+          (context, _) => _ShimmerBox(
+            width: double.infinity,
+            height: 160,
+            borderRadius: radius,
+          ),
       errorWidget: (context, _, __) => _ErrorImageStub(borderRadius: radius),
     );
 
     final child = ClipRRect(
       borderRadius: radius,
-      child: url.isNotEmpty ? imgWidget : _PlaceholderMonogram(borderRadius: radius),
+      child:
+          url.isNotEmpty
+              ? imgWidget
+              : _PlaceholderMonogram(borderRadius: radius),
     );
 
     return heroTag == null ? child : Hero(tag: heroTag!, child: child);
@@ -241,7 +266,11 @@ class _BranchImageHeader extends StatelessWidget {
 }
 
 class _IconAction extends StatelessWidget {
-  const _IconAction({required this.icon, required this.onTap, required this.tooltip});
+  const _IconAction({
+    required this.icon,
+    required this.onTap,
+    required this.tooltip,
+  });
   final IconData icon;
   final VoidCallback onTap;
   final String tooltip;
@@ -294,7 +323,10 @@ class _MetaChip extends StatelessWidget {
             label,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: txt.labelMedium?.copyWith(color: GPSColors.text, fontWeight: FontWeight.w700),
+            style: txt.labelMedium?.copyWith(
+              color: GPSColors.text,
+              fontWeight: FontWeight.w700,
+            ),
           ),
         ],
       ),
@@ -305,7 +337,11 @@ class _MetaChip extends StatelessWidget {
 }
 
 class _ShimmerBox extends StatelessWidget {
-  const _ShimmerBox({required this.width, required this.height, required this.borderRadius});
+  const _ShimmerBox({
+    required this.width,
+    required this.height,
+    required this.borderRadius,
+  });
 
   final double width;
   final double height;
@@ -318,7 +354,11 @@ class _ShimmerBox extends StatelessWidget {
       effects: [
         ShimmerEffect(
           duration: 1200.ms,
-          colors: const [Color(0xFFEFEFEF), Color(0xFFF7F7F7), Color(0xFFEFEFEF)],
+          colors: const [
+            Color(0xFFEFEFEF),
+            Color(0xFFF7F7F7),
+            Color(0xFFEFEFEF),
+          ],
         ),
       ],
       child: Container(
@@ -348,7 +388,9 @@ class _ErrorImageStub extends StatelessWidget {
         borderRadius: borderRadius,
         border: Border.all(color: GPSColors.cardBorder),
       ),
-      child: const Center(child: Icon(Icons.broken_image_rounded, color: GPSColors.mutedText)),
+      child: const Center(
+        child: Icon(Icons.broken_image_rounded, color: GPSColors.mutedText),
+      ),
     );
   }
 }
@@ -371,7 +413,9 @@ class _PlaceholderMonogram extends StatelessWidget {
         ),
         borderRadius: borderRadius,
       ),
-      child: const Center(child: Icon(Icons.store_rounded, color: Colors.white70, size: 36)),
+      child: const Center(
+        child: Icon(Icons.store_rounded, color: Colors.white70, size: 36),
+      ),
     );
   }
 }

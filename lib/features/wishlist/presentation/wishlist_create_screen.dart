@@ -12,7 +12,8 @@ class WishCreateScreen extends StatefulWidget {
   State<WishCreateScreen> createState() => _WishCreateScreenState();
 }
 
-class _WishCreateScreenState extends State<WishCreateScreen> with TickerProviderStateMixin {
+class _WishCreateScreenState extends State<WishCreateScreen>
+    with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     final txt = Theme.of(context).textTheme;
@@ -33,7 +34,10 @@ class _WishCreateScreenState extends State<WishCreateScreen> with TickerProvider
             GPSGaps.w12,
             Text(
               'New Wish',
-              style: txt.titleMedium?.copyWith(color: GPSColors.text, fontWeight: FontWeight.w800),
+              style: txt.titleMedium?.copyWith(
+                color: GPSColors.text,
+                fontWeight: FontWeight.w800,
+              ),
             ),
           ],
         ),

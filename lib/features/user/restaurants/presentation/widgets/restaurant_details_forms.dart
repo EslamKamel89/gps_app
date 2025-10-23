@@ -31,7 +31,8 @@ class _ProfileTextFormState extends State<ProfileTextForm> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisSize: MainAxisSize.min, // wrap content, lets sheet size to content
+      mainAxisSize:
+          MainAxisSize.min, // wrap content, lets sheet size to content
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text('Enter your name', style: Theme.of(context).textTheme.titleMedium),
@@ -41,8 +42,15 @@ class _ProfileTextFormState extends State<ProfileTextForm> {
           child: TextFormField(
             controller: _nameCtrl,
             autofocus: true,
-            decoration: const InputDecoration(labelText: 'Name', border: OutlineInputBorder()),
-            validator: (v) => (v == null || v.trim().isEmpty) ? 'Please enter a name' : null,
+            decoration: const InputDecoration(
+              labelText: 'Name',
+              border: OutlineInputBorder(),
+            ),
+            validator:
+                (v) =>
+                    (v == null || v.trim().isEmpty)
+                        ? 'Please enter a name'
+                        : null,
             onFieldSubmitted: (_) => _submit(),
           ),
         ),
@@ -63,10 +71,12 @@ class ProfileCategorySelectionForm extends StatefulWidget {
   final BottomSheetFormController<CategorySelector> controller;
 
   @override
-  State<ProfileCategorySelectionForm> createState() => _ProfileCategorySelectionFormState();
+  State<ProfileCategorySelectionForm> createState() =>
+      _ProfileCategorySelectionFormState();
 }
 
-class _ProfileCategorySelectionFormState extends State<ProfileCategorySelectionForm> {
+class _ProfileCategorySelectionFormState
+    extends State<ProfileCategorySelectionForm> {
   final _formKey = GlobalKey<FormState>();
   final _nameCtrl = TextEditingController();
 
@@ -87,7 +97,8 @@ class _ProfileCategorySelectionFormState extends State<ProfileCategorySelectionF
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisSize: MainAxisSize.min, // wrap content, lets sheet size to content
+      mainAxisSize:
+          MainAxisSize.min, // wrap content, lets sheet size to content
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text('Pick Category', style: Theme.of(context).textTheme.titleMedium),

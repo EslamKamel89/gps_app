@@ -34,8 +34,14 @@ class RestaurantModel {
       userId: json['user_id'] as int?,
       vendorId: json['vendor_id'] as int?,
       website: json['website'] as dynamic,
-      createdAt: json['created_at'] == null ? null : DateTime.parse(json['created_at'] as String),
-      updatedAt: json['updated_at'] == null ? null : DateTime.parse(json['updated_at'] as String),
+      createdAt:
+          json['created_at'] == null
+              ? null
+              : DateTime.parse(json['created_at'] as String),
+      updatedAt:
+          json['updated_at'] == null
+              ? null
+              : DateTime.parse(json['updated_at'] as String),
       branches:
           (json['branches'] as List<dynamic>?)
               ?.map((e) => BranchModel.fromJson(e as Map<String, dynamic>))

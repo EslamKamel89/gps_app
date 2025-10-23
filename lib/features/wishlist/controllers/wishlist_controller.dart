@@ -21,14 +21,23 @@ class WishListController {
       pr(response, '$t - response');
       final List<WishModel> models =
           (response as List).map((json) => WishModel.fromJson(json)).toList();
-      return pr(ApiResponseModel(response: ResponseEnum.success, data: models), t);
+      return pr(
+        ApiResponseModel(response: ResponseEnum.success, data: models),
+        t,
+      );
     } catch (e) {
       String errorMessage = e.toString();
       if (e is DioException) {
         errorMessage = jsonEncode(e.response?.data ?? 'Unknown error occurred');
       }
       showSnackbar('Error', errorMessage, true);
-      return pr(ApiResponseModel(errorMessage: errorMessage, response: ResponseEnum.failed), t);
+      return pr(
+        ApiResponseModel(
+          errorMessage: errorMessage,
+          response: ResponseEnum.failed,
+        ),
+        t,
+      );
     }
   }
 
@@ -49,14 +58,23 @@ class WishListController {
       );
       pr(response, '$t - response');
 
-      return pr(ApiResponseModel(response: ResponseEnum.success, data: true), t);
+      return pr(
+        ApiResponseModel(response: ResponseEnum.success, data: true),
+        t,
+      );
     } catch (e) {
       String errorMessage = e.toString();
       if (e is DioException) {
         errorMessage = jsonEncode(e.response?.data ?? 'Unknown error occurred');
       }
       showSnackbar('Error', errorMessage, true);
-      return pr(ApiResponseModel(errorMessage: errorMessage, response: ResponseEnum.failed), t);
+      return pr(
+        ApiResponseModel(
+          errorMessage: errorMessage,
+          response: ResponseEnum.failed,
+        ),
+        t,
+      );
     }
   }
 
@@ -66,19 +84,33 @@ class WishListController {
       final response = await api.get(EndPoint.mealItems);
       pr(response, '$t - response');
       final List<MealItemModel> models =
-          (response as List).map((json) => MealItemModel.fromJson(json)).toList();
-      return pr(ApiResponseModel(response: ResponseEnum.success, data: models), t);
+          (response as List)
+              .map((json) => MealItemModel.fromJson(json))
+              .toList();
+      return pr(
+        ApiResponseModel(response: ResponseEnum.success, data: models),
+        t,
+      );
     } catch (e) {
       String errorMessage = e.toString();
       if (e is DioException) {
         errorMessage = jsonEncode(e.response?.data ?? 'Unknown error occurred');
       }
       showSnackbar('Error', errorMessage, true);
-      return pr(ApiResponseModel(errorMessage: errorMessage, response: ResponseEnum.failed), t);
+      return pr(
+        ApiResponseModel(
+          errorMessage: errorMessage,
+          response: ResponseEnum.failed,
+        ),
+        t,
+      );
     }
   }
 
-  Future<ApiResponseModel<bool>> acceptWish({required int wishListId, required int itemId}) async {
+  Future<ApiResponseModel<bool>> acceptWish({
+    required int wishListId,
+    required int itemId,
+  }) async {
     final t = prt('addWish - WishListController');
 
     try {
@@ -86,20 +118,30 @@ class WishListController {
         EndPoint.acceptWishList,
         data: {
           "wishlist_id": wishListId,
-          "item_type": user()?.userType?.type == 'restaurant' ? 'meal' : 'catalogItem',
+          "item_type":
+              user()?.userType?.type == 'restaurant' ? 'meal' : 'catalogItem',
           "item_id": itemId,
         },
       );
       pr(response, '$t - response');
 
-      return pr(ApiResponseModel(response: ResponseEnum.success, data: true), t);
+      return pr(
+        ApiResponseModel(response: ResponseEnum.success, data: true),
+        t,
+      );
     } catch (e) {
       String errorMessage = e.toString();
       if (e is DioException) {
         errorMessage = jsonEncode(e.response?.data ?? 'Unknown error occurred');
       }
       showSnackbar('Error', errorMessage, true);
-      return pr(ApiResponseModel(errorMessage: errorMessage, response: ResponseEnum.failed), t);
+      return pr(
+        ApiResponseModel(
+          errorMessage: errorMessage,
+          response: ResponseEnum.failed,
+        ),
+        t,
+      );
     }
   }
 }

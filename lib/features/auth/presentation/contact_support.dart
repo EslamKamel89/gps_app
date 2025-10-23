@@ -59,19 +59,30 @@ class AccountBlockedScreen extends StatelessWidget {
                         Align(
                           alignment: Alignment.topRight,
                           child: Container(
-                            margin: const EdgeInsets.only(top: 24, right: 16),
-                            width: 120,
-                            height: 120,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(24),
-                              border: Border.all(color: GPSColors.cardBorder),
-                              color: Colors.white.withOpacity(.35),
-                            ),
-                            child: BackdropFilter(
-                              filter: ImageFilter.blur(sigmaX: 14, sigmaY: 14),
-                              child: const SizedBox(),
-                            ),
-                          ).animate().fadeIn(duration: 300.ms).slideX(begin: .08),
+                                margin: const EdgeInsets.only(
+                                  top: 24,
+                                  right: 16,
+                                ),
+                                width: 120,
+                                height: 120,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(24),
+                                  border: Border.all(
+                                    color: GPSColors.cardBorder,
+                                  ),
+                                  color: Colors.white.withOpacity(.35),
+                                ),
+                                child: BackdropFilter(
+                                  filter: ImageFilter.blur(
+                                    sigmaX: 14,
+                                    sigmaY: 14,
+                                  ),
+                                  child: const SizedBox(),
+                                ),
+                              )
+                              .animate()
+                              .fadeIn(duration: 300.ms)
+                              .slideX(begin: .08),
                         ),
                         // Pulsing warning icon halo
                         Center(
@@ -121,56 +132,74 @@ class AccountBlockedScreen extends StatelessWidget {
                     GPSGaps.h12,
 
                     Text(
-                      "Your account has been blocked by the administration.",
-                      style: txt.bodyLarge?.copyWith(
-                        color: GPSColors.text,
-                        height: 1.35,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ).animate(delay: 60.ms).fadeIn(duration: 240.ms).slideY(begin: .08),
+                          "Your account has been blocked by the administration.",
+                          style: txt.bodyLarge?.copyWith(
+                            color: GPSColors.text,
+                            height: 1.35,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        )
+                        .animate(delay: 60.ms)
+                        .fadeIn(duration: 240.ms)
+                        .slideY(begin: .08),
 
                     GPSGaps.h8,
 
                     Text(
-                      "If you believe this is a mistake, please contact our support team. We'll review your case and get back to you as soon as possible.",
-                      style: txt.bodyMedium?.copyWith(color: GPSColors.mutedText, height: 1.45),
-                    ).animate(delay: 90.ms).fadeIn(duration: 240.ms).slideY(begin: .06),
+                          "If you believe this is a mistake, please contact our support team. We'll review your case and get back to you as soon as possible.",
+                          style: txt.bodyMedium?.copyWith(
+                            color: GPSColors.mutedText,
+                            height: 1.45,
+                          ),
+                        )
+                        .animate(delay: 90.ms)
+                        .fadeIn(duration: 240.ms)
+                        .slideY(begin: .06),
 
                     if (ticketId != null) ...[
                       GPSGaps.h12,
                       _InfoCard(
-                        icon: Icons.confirmation_number_rounded,
-                        title: 'Reference ID',
-                        subtitle: ticketId!,
-                      ).animate(delay: 120.ms).fadeIn(duration: 260.ms).slideY(begin: .08),
+                            icon: Icons.confirmation_number_rounded,
+                            title: 'Reference ID',
+                            subtitle: ticketId!,
+                          )
+                          .animate(delay: 120.ms)
+                          .fadeIn(duration: 260.ms)
+                          .slideY(begin: .08),
                     ],
 
                     GPSGaps.h16,
 
                     _StepsCard(
-                      steps: const [
-                        'Review the latest email/notification from the app.',
-                        'Prepare any details that can help verify your identity.',
-                        'Contact support to request a manual review.',
-                      ],
-                    ).animate(delay: 140.ms).fadeIn(duration: 260.ms).slideY(begin: .08),
+                          steps: const [
+                            'Review the latest email/notification from the app.',
+                            'Prepare any details that can help verify your identity.',
+                            'Contact support to request a manual review.',
+                          ],
+                        )
+                        .animate(delay: 140.ms)
+                        .fadeIn(duration: 260.ms)
+                        .slideY(begin: .08),
 
                     GPSGaps.h20,
 
                     // CTA buttons
                     _PrimaryButton(
-                      label: 'Contact Support',
-                      onPressed: () {},
-                      leading: Icons.support_agent_rounded,
-                      bg: danger,
-                    ).animate(delay: 160.ms).fadeIn(duration: 240.ms).slideY(begin: .06),
+                          label: 'Contact Support',
+                          onPressed: () {},
+                          leading: Icons.support_agent_rounded,
+                          bg: danger,
+                        )
+                        .animate(delay: 160.ms)
+                        .fadeIn(duration: 240.ms)
+                        .slideY(begin: .06),
 
                     GPSGaps.h12,
 
-                    _SecondaryButton(
-                      label: secondaryLabel,
-                      onPressed: () {},
-                    ).animate(delay: 180.ms).fadeIn(duration: 220.ms).slideY(begin: .06),
+                    _SecondaryButton(label: secondaryLabel, onPressed: () {})
+                        .animate(delay: 180.ms)
+                        .fadeIn(duration: 220.ms)
+                        .slideY(begin: .06),
                   ],
                 ),
               ),
@@ -223,7 +252,10 @@ class _WarningHalo extends StatelessWidget {
         Container(
               width: size * 1.45,
               height: size * 1.45,
-              decoration: BoxDecoration(shape: BoxShape.circle, color: ringColor),
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: ringColor,
+              ),
             )
             .animate(onPlay: (c) => c.repeat(period: 1600.ms))
             .scale(begin: const Offset(.85, .85), end: const Offset(1, 1))
@@ -233,14 +265,20 @@ class _WarningHalo extends StatelessWidget {
         Container(
               width: size * 1.2,
               height: size * 1.2,
-              decoration: BoxDecoration(shape: BoxShape.circle, color: ringColor),
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: ringColor,
+              ),
             )
             .animate(onPlay: (c) => c.repeat(period: 1600.ms))
             .scale(begin: const Offset(.85, .85), end: const Offset(1, 1))
             .fade(begin: 0.30, end: 0.0),
 
         // Icon disc
-        ring.animate().fadeIn(duration: 350.ms).scale(begin: const Offset(.96, .96)),
+        ring
+            .animate()
+            .fadeIn(duration: 350.ms)
+            .scale(begin: const Offset(.96, .96)),
       ],
     );
   }
@@ -273,7 +311,11 @@ class _StatusChip extends StatelessWidget {
 }
 
 class _InfoCard extends StatelessWidget {
-  const _InfoCard({required this.icon, required this.title, required this.subtitle});
+  const _InfoCard({
+    required this.icon,
+    required this.title,
+    required this.subtitle,
+  });
   final IconData icon;
   final String title;
   final String subtitle;
@@ -298,7 +340,10 @@ class _InfoCard extends StatelessWidget {
                 color: const Color(0xFFFFF4E5),
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: const Icon(Icons.confirmation_number_rounded, color: Color(0xFFB45309)),
+              child: const Icon(
+                Icons.confirmation_number_rounded,
+                color: Color(0xFFB45309),
+              ),
             ),
             GPSGaps.w12,
             Expanded(
@@ -351,7 +396,10 @@ class _StepsCard extends StatelessWidget {
           children: [
             Text(
               'What you can do',
-              style: txt.titleMedium?.copyWith(color: GPSColors.text, fontWeight: FontWeight.w800),
+              style: txt.titleMedium?.copyWith(
+                color: GPSColors.text,
+                fontWeight: FontWeight.w800,
+              ),
             ),
             GPSGaps.h8,
             ...List.generate(steps.length, (i) {
@@ -360,12 +408,19 @@ class _StepsCard extends StatelessWidget {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Icon(Icons.chevron_right_rounded, color: GPSColors.mutedText, size: 20),
+                    const Icon(
+                      Icons.chevron_right_rounded,
+                      color: GPSColors.mutedText,
+                      size: 20,
+                    ),
                     GPSGaps.w8,
                     Expanded(
                       child: Text(
                         steps[i],
-                        style: txt.bodyMedium?.copyWith(color: GPSColors.mutedText, height: 1.4),
+                        style: txt.bodyMedium?.copyWith(
+                          color: GPSColors.mutedText,
+                          height: 1.4,
+                        ),
                       ),
                     ),
                   ],
@@ -380,7 +435,12 @@ class _StepsCard extends StatelessWidget {
 }
 
 class _PrimaryButton extends StatelessWidget {
-  const _PrimaryButton({required this.label, required this.onPressed, this.leading, this.bg});
+  const _PrimaryButton({
+    required this.label,
+    required this.onPressed,
+    this.leading,
+    this.bg,
+  });
 
   final String label;
   final VoidCallback? onPressed;
@@ -398,7 +458,9 @@ class _PrimaryButton extends StatelessWidget {
           backgroundColor: bg ?? const Color(0xFFDC2626),
           foregroundColor: Colors.white,
           shadowColor: const Color(0x33000000),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(14),
+          ),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -406,7 +468,10 @@ class _PrimaryButton extends StatelessWidget {
             if (leading != null) ...[Icon(leading, size: 20), GPSGaps.w8],
             Text(
               label,
-              style: txt.titleMedium?.copyWith(color: Colors.white, fontWeight: FontWeight.w800),
+              style: txt.titleMedium?.copyWith(
+                color: Colors.white,
+                fontWeight: FontWeight.w800,
+              ),
             ),
           ],
         ),
@@ -430,12 +495,17 @@ class _SecondaryButton extends StatelessWidget {
         style: OutlinedButton.styleFrom(
           foregroundColor: GPSColors.text,
           side: const BorderSide(color: GPSColors.cardBorder),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(14),
+          ),
           backgroundColor: Colors.white,
         ),
         child: Text(
           label,
-          style: txt.titleMedium?.copyWith(color: GPSColors.text, fontWeight: FontWeight.w800),
+          style: txt.titleMedium?.copyWith(
+            color: GPSColors.text,
+            fontWeight: FontWeight.w800,
+          ),
         ),
       ),
     );
