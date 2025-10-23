@@ -20,8 +20,15 @@ class WishListScreen extends StatefulWidget {
 }
 
 class _WishListScreenState extends State<WishListScreen> with TickerProviderStateMixin {
-  final Set<int> _expanded = {};
+  late final WishesCubit cubit;
   int _currentTab = 3;
+  @override
+  void initState() {
+    cubit = context.read<WishesCubit>();
+    cubit.wishes();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final txt = Theme.of(context).textTheme;
@@ -34,56 +41,7 @@ class _WishListScreenState extends State<WishListScreen> with TickerProviderStat
         final wishes = state.data ?? [];
         return Scaffold(
           backgroundColor: GPSColors.background,
-          appBar: AppBar(
-            backgroundColor: GPSColors.background,
-            elevation: 0,
-            centerTitle: false,
-            titleSpacing: 12,
-            title: Row(
-              children: [
-                Container(
-                  width: 38,
-                  height: 38,
-                  decoration: BoxDecoration(
-                    color: GPSColors.primary.withOpacity(.12),
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: GPSColors.cardBorder),
-                  ),
-                  child: const Icon(
-                    Icons.local_florist_rounded,
-                    color: GPSColors.primary,
-                    size: 22,
-                  ),
-                ).animate().fadeIn(duration: 280.ms).scale(begin: const Offset(.9, .9)),
-                GPSGaps.w12,
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      user()?.userName ?? '',
-                      style: txt.titleMedium?.copyWith(
-                        color: GPSColors.text,
-                        fontWeight: FontWeight.w800,
-                      ),
-                    ),
-                    // Text(
-                    //   _userRank,
-                    //   style: txt.labelMedium?.copyWith(color: GPSColors.mutedText, height: 1.2),
-                    // ),
-                  ],
-                ),
-              ],
-            ),
-            actions: [
-              IconButton(
-                tooltip: 'Notifications',
-                onPressed: () {},
-                icon: const Icon(Icons.notifications_outlined, color: GPSColors.text),
-              ).animate().fadeIn(),
-              GPSGaps.w8,
-            ],
-          ),
-
+          appBar: _appBar(),
           body: SafeArea(
             child:
                 state.response == ResponseEnum.success
@@ -93,29 +51,7 @@ class _WishListScreenState extends State<WishListScreen> with TickerProviderStat
                       separatorBuilder: (_, __) => GPSGaps.h12,
                       itemBuilder: (context, index) {
                         final wish = wishes[index];
-                        final isExpanded = _expanded.contains(wish.id);
-                        return WishCard(
-                              wish: wish,
-                              expanded: isExpanded,
-                              onToggleExpanded: () {
-                                if (wish.id == null) return;
-                                setState(() {
-                                  if (isExpanded) {
-                                    _expanded.remove(wish.id);
-                                  } else {
-                                    _expanded.add(wish.id!);
-                                  }
-                                });
-                              },
-                              onViewRestaurant: (acceptor) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text('Open ${acceptor.user?.userName} details'),
-                                    behavior: SnackBarBehavior.floating,
-                                  ),
-                                );
-                              },
-                            )
+                        return WishCard(wish: wish)
                             .animate(delay: (60 * index).ms)
                             .fadeIn(duration: 280.ms, curve: Curves.easeOutCubic)
                             .slideY(begin: .08, curve: Curves.easeOutCubic)
@@ -144,6 +80,51 @@ class _WishListScreenState extends State<WishListScreen> with TickerProviderStat
           ),
         );
       },
+    );
+  }
+
+  _appBar() {
+    return AppBar(
+      backgroundColor: GPSColors.background,
+      elevation: 0,
+      centerTitle: false,
+      titleSpacing: 12,
+      title: Row(
+        children: [
+          Container(
+            width: 38,
+            height: 38,
+            decoration: BoxDecoration(
+              color: GPSColors.primary.withOpacity(.12),
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: GPSColors.cardBorder),
+            ),
+            child: const Icon(Icons.local_florist_rounded, color: GPSColors.primary, size: 22),
+          ).animate().fadeIn(duration: 280.ms).scale(begin: const Offset(.9, .9)),
+          GPSGaps.w12,
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                user()?.userName ?? '',
+                style: TextStyle(color: GPSColors.text, fontWeight: FontWeight.w800),
+              ),
+              // Text(
+              //   _userRank,
+              //   style: txt.labelMedium?.copyWith(color: GPSColors.mutedText, height: 1.2),
+              // ),
+            ],
+          ),
+        ],
+      ),
+      actions: [
+        IconButton(
+          tooltip: 'Notifications',
+          onPressed: () {},
+          icon: const Icon(Icons.notifications_outlined, color: GPSColors.text),
+        ).animate().fadeIn(),
+        GPSGaps.w8,
+      ],
     );
   }
 }

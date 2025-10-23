@@ -4,7 +4,6 @@ import 'package:gps_app/core/helpers/user.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 import 'package:gps_app/features/user/restaurants/presentation/widgets/wish_accept_button.dart';
-import 'package:gps_app/features/wishlist/models/acceptor_model/acceptor_model.dart';
 import 'package:gps_app/features/wishlist/models/acceptor_model/wish_model.dart';
 import 'package:gps_app/features/wishlist/presentation/widgets/acceptors_list.dart';
 import 'package:gps_app/features/wishlist/presentation/widgets/category_preview_row.dart';
@@ -16,22 +15,17 @@ class WishCard extends StatelessWidget {
   const WishCard({
     super.key,
     required this.wish,
-    required this.expanded,
-    required this.onToggleExpanded,
-    required this.onViewRestaurant,
+ 
   });
 
   final WishModel wish;
-  final bool expanded;
-  final VoidCallback onToggleExpanded;
-  final void Function(AcceptorModel acceptor) onViewRestaurant;
+
 
   @override
   Widget build(BuildContext context) {
     final txt = Theme.of(context).textTheme;
 
     return InkWell(
-      onTap: onToggleExpanded,
       borderRadius: BorderRadius.circular(16),
       child: Ink(
         decoration: BoxDecoration(
@@ -100,9 +94,7 @@ class WishCard extends StatelessWidget {
               GPSGaps.h12,
               if (wish.acceptors?.isNotEmpty == true)
                 PrimaryActionRow(
-                  expanded: expanded,
                   isAccepted: wish.status == 1,
-                  onPressed: onToggleExpanded,
                 ),
 
               AnimatedSwitcher(
@@ -118,21 +110,19 @@ class WishCard extends StatelessWidget {
                       ),
                     ),
                 child:
-                    expanded
-                        ? Column(
+                    Column(
                           key: const ValueKey('expanded'),
                           children: [
                             GPSGaps.h12,
                             if (wish.status == 1)
                               AcceptorsList(
                                 acceptors: wish.acceptors ?? [],
-                                onViewRestaurant: onViewRestaurant,
                               )
                             else
                               SizedBox(),
                           ],
                         )
-                        : const SizedBox.shrink(key: ValueKey('collapsed')),
+                       ,
               ),
             ],
           ),

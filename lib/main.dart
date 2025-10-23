@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
         providers: [
           BlocProvider(create: (_) => ThemeCubit()),
           BlocProvider(create: (_) => CategoryOnboardingCubit()),
-          BlocProvider(create: (context) => WishesCubit()..wishes()),
+          BlocProvider(create: (context) => WishesCubit()),
         ],
         child: Builder(
           builder: (context) {

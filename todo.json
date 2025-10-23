@@ -75,6 +75,13 @@
     "check the address , open now , store badges",
     "handle the farm or store label in the ui ",
     "create the widget to go to a location in the map",
+    "create the add wish screen skeleton",
+    "finish the add wish flow",
+    "wire it to the floating action button in both the restaurant details screen and the wish list screen",
+    "work on accepting all the wishes from the backend and make the front end dynamic",
+    "make sure when the user add a wish the list of wishes updates",
+    "accept the items and meals => display the widget",
+    "work on the flow of accepting the wish",
     "------------------------------------------------"
   ],
   "todos": [
@@ -83,13 +90,8 @@
     "handle the verified state in the categories in the restaurant details",
     "when the user is a store or a farm he can't go to the enter categories and products screen",
     "+++++++++++++++++++++++++++++++++++++++++++++++++",
-    "create the add wish screen skeleton",
-    "finish the add wish flow",
-    "wire it to the floating action button in both the restaurant details screen and the wish list screen",
-    "work on accepting all the wishes from the backend and make the front end dynamic",
-    "make sure when the user add a wish the list of wishes updates",
-    "accept the items and meals => display the widget",
-    "work on the flow of accepting the wish",
+    "test the accepting wish for both a store and restaurant",
+    "analyze the data that  is needed when pressing on a meal",
     "------------------------------------------------"
   ]
 }

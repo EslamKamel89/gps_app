@@ -4,30 +4,18 @@ import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 
 class PrimaryActionRow extends StatelessWidget {
-  const PrimaryActionRow({
-    super.key,
-    required this.expanded,
-    required this.isAccepted,
-    required this.onPressed,
-  });
+  const PrimaryActionRow({super.key, required this.isAccepted});
 
-  final bool expanded;
   final bool isAccepted;
-  final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
-    final label =
-        expanded
-            ? 'Collapse'
-            : isAccepted
-            ? 'View matches'
-            : 'More details';
+    final label = 'View matches';
 
     return Row(
       children: [
         ElevatedButton.icon(
-          onPressed: onPressed,
+          onPressed: () {},
           style: ElevatedButton.styleFrom(
             elevation: 0,
             backgroundColor: GPSColors.primary,
@@ -35,13 +23,13 @@ class PrimaryActionRow extends StatelessWidget {
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
           ),
-          icon: Icon(expanded ? Icons.expand_less_rounded : Icons.expand_more_rounded, size: 18),
+          icon: Icon(true ? Icons.expand_less_rounded : Icons.expand_more_rounded, size: 18),
           label: Text(label, style: const TextStyle(fontWeight: FontWeight.w800)),
         ).animate().fadeIn(duration: 200.ms).scale(begin: const Offset(.98, .98)),
         GPSGaps.w12,
         if (!isAccepted)
           OutlinedButton.icon(
-            onPressed: onPressed,
+            onPressed: () {},
             style: OutlinedButton.styleFrom(
               foregroundColor: GPSColors.text,
               side: const BorderSide(color: GPSColors.cardBorder),
