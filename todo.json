@@ -82,6 +82,8 @@
     "make sure when the user add a wish the list of wishes updates",
     "accept the items and meals => display the widget",
     "work on the flow of accepting the wish",
+    "test the accepting wish for both a store and restaurant",
+    "analyze the data that is needed when pressing on a meal",
     "------------------------------------------------"
   ],
   "todos": [
@@ -90,8 +92,10 @@
     "handle the verified state in the categories in the restaurant details",
     "when the user is a store or a farm he can't go to the enter categories and products screen",
     "+++++++++++++++++++++++++++++++++++++++++++++++++",
-    "test the accepting wish for both a store and restaurant",
-    "analyze the data that  is needed when pressing on a meal",
+    "create the controller to fetch the data",
+    "create the cubit that will handle the ui",
+    "create the page scaffold that will show both the meal and item",
+    "use chatgpt to make a beautiful ui for the meal or item details",
     "------------------------------------------------"
   ]
 }

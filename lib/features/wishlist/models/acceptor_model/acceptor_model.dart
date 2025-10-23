@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:gps_app/features/auth/models/user_model.dart';
 import 'package:gps_app/features/wishlist/models/acceptor_model/item_model.dart';
 
@@ -26,4 +27,9 @@ class AcceptorModel {
     item: json['item'] == null ? null : ItemModel.fromJson(json['item'] as Map<String, dynamic>),
     user: json['user'] == null ? null : UserModel.fromJson(json['user'] as Map<String, dynamic>),
   );
+
+  @override
+  String toString() {
+    return 'AcceptorModel(id: $id, wishlistId: $wishlistId, rating: $rating, distanceKm: $distanceKm, itemType: $itemType, user: $user, item: $item)';
+  }
 }

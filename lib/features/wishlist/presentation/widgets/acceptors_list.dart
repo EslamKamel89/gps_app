@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:gps_app/core/helpers/print_helper.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 import 'package:gps_app/features/wishlist/models/acceptor_model/acceptor_model.dart';
 import 'package:gps_app/features/wishlist/presentation/widgets/acceptor_row.dart';
@@ -18,7 +19,12 @@ class AcceptorsList extends StatelessWidget {
       separatorBuilder: (_, __) => GPSGaps.h8,
       itemBuilder: (context, i) {
         final a = acceptors[i];
-        return AcceptorRow(acceptor: a, onTap: () {})
+        return AcceptorRow(
+              acceptor: a,
+              onTap: () {
+                pr(a, 'acceptor');
+              },
+            )
             .animate(delay: (60 * i).ms)
             .fadeIn(duration: 240.ms, curve: Curves.easeOutCubic)
             .slideY(begin: .06, curve: Curves.easeOutCubic)

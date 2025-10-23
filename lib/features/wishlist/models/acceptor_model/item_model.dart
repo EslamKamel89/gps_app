@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 class ItemModel {
   final int? id;
   final int? userId;
@@ -31,4 +32,9 @@ class ItemModel {
     price: json['price'] as String?,
     description: json['description'] as String?,
   );
+
+  @override
+  String toString() {
+    return 'ItemModel(id: $id, userId: $userId, vendorId: $vendorId, farmId: $farmId, storeId: $storeId, catalogSectionId: $catalogSectionId, name: $name, description: $description, price: $price)';
+  }
 }

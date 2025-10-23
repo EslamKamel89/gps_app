@@ -11,16 +11,17 @@ import 'package:gps_app/features/wishlist/presentation/widgets/leaf_badge.dart';
 import 'package:gps_app/features/wishlist/presentation/widgets/primary_action_row.dart';
 import 'package:gps_app/features/wishlist/presentation/widgets/status_bill.dart';
 
-class WishCard extends StatelessWidget {
-  const WishCard({
-    super.key,
-    required this.wish,
- 
-  });
+class WishCard extends StatefulWidget {
+  const WishCard({super.key, required this.wish});
 
   final WishModel wish;
 
+  @override
+  State<WishCard> createState() => _WishCardState();
+}
 
+class _WishCardState extends State<WishCard> {
+  bool showAcceptors = false;
   @override
   Widget build(BuildContext context) {
     final txt = Theme.of(context).textTheme;
@@ -65,7 +66,7 @@ class WishCard extends StatelessWidget {
                         ),
                         GPSGaps.h4,
                         Text(
-                          '“${wish.description}”',
+                          '“${widget.wish.description}”',
                           style: txt.titleMedium?.copyWith(
                             color: GPSColors.text,
                             fontWeight: FontWeight.w800,
@@ -75,55 +76,65 @@ class WishCard extends StatelessWidget {
                     ),
                   ),
                   GPSGaps.w8,
-                  StatusPill(status: wish.status ?? 0, count: wish.acceptors?.length ?? 0),
+                  StatusPill(
+                    status: widget.wish.status ?? 0,
+                    count: widget.wish.acceptors?.length ?? 0,
+                  ),
                 ],
               ).animate().fadeIn(duration: 200.ms).slideY(begin: .04),
 
-              if (wish.id != null &&
+              if (widget.wish.id != null &&
                   user()?.userType?.type != null &&
                   user()?.userType?.type != 'user')
                 GPSGaps.h12,
-              if (wish.id != null &&
+              if (widget.wish.id != null &&
                   user()?.userType?.type != null &&
                   user()?.userType?.type != 'user')
-                WishAcceptButton(wishListId: wish.id!),
+                WishAcceptButton(wishListId: widget.wish.id!),
               GPSGaps.h12,
-              if (![wish.category, wish.subcategory].contains(null))
-                CategoryPreviewRow(category: wish.category!, subCategory: wish.subcategory!),
-
-              GPSGaps.h12,
-              if (wish.acceptors?.isNotEmpty == true)
-                PrimaryActionRow(
-                  isAccepted: wish.status == 1,
+              if (![widget.wish.category, widget.wish.subcategory].contains(null))
+                CategoryPreviewRow(
+                  category: widget.wish.category!,
+                  subCategory: widget.wish.subcategory!,
                 ),
 
-              AnimatedSwitcher(
-                duration: 260.ms,
-                switchInCurve: Curves.easeOutCubic,
-                switchOutCurve: Curves.easeInCubic,
-                transitionBuilder:
-                    (child, anim) => FadeTransition(
-                      opacity: anim,
-                      child: SlideTransition(
-                        position: anim.drive(Tween(begin: const Offset(0, .06), end: Offset.zero)),
-                        child: child,
+              GPSGaps.h12,
+              if (widget.wish.acceptors?.isNotEmpty == true)
+                PrimaryActionRow(
+                  isAccepted: widget.wish.status == 1,
+                  onTap: () {
+                    setState(() {
+                      showAcceptors = !showAcceptors;
+                    });
+                  },
+                ),
+
+              if (widget.wish.acceptors?.isNotEmpty == true)
+                AnimatedSwitcher(
+                  duration: 260.ms,
+                  switchInCurve: Curves.easeOutCubic,
+                  switchOutCurve: Curves.easeInCubic,
+                  transitionBuilder:
+                      (child, anim) => FadeTransition(
+                        opacity: anim,
+                        child: SlideTransition(
+                          position: anim.drive(
+                            Tween(begin: const Offset(0, .06), end: Offset.zero),
+                          ),
+                          child: child,
+                        ),
                       ),
-                    ),
-                child:
-                    Column(
-                          key: const ValueKey('expanded'),
-                          children: [
-                            GPSGaps.h12,
-                            if (wish.status == 1)
-                              AcceptorsList(
-                                acceptors: wish.acceptors ?? [],
-                              )
-                            else
-                              SizedBox(),
-                          ],
-                        )
-                       ,
-              ),
+                  child: Column(
+                    key: const ValueKey('expanded'),
+                    children: [
+                      GPSGaps.h12,
+                      if (showAcceptors)
+                        AcceptorsList(acceptors: widget.wish.acceptors ?? [])
+                      else
+                        SizedBox(),
+                    ],
+                  ),
+                ),
             ],
           ),
         ),
