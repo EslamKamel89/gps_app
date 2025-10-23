@@ -1,12 +1,13 @@
-import 'images.dart';
-import 'section.dart';
-import 'store.dart';
+import 'package:gps_app/features/auth/models/catalog_section_model.dart';
+import 'package:gps_app/features/auth/models/image_model.dart';
+
+import 'store_or_farm_model.dart';
 
 class ItemModel {
   int? id;
   int? userId;
   int? vendorId;
-  dynamic farmId;
+  int? farmId;
   int? storeId;
   int? catalogSectionId;
   String? name;
@@ -14,10 +15,10 @@ class ItemModel {
   String? description;
   bool? status;
   int? position;
-  Store? store;
-  dynamic farm;
-  Section? section;
-  Images? images;
+  StoreOrFarmModel? store;
+  StoreOrFarmModel? farm;
+  CatalogSectionModel? section;
+  ImageModel? images;
 
   ItemModel({
     this.id,
@@ -57,16 +58,17 @@ class ItemModel {
     store:
         json['store'] == null
             ? null
-            : Store.fromJson(json['store'] as Map<String, dynamic>),
-    farm: json['farm'] as dynamic,
+            : StoreOrFarmModel.fromJson(json['store'] as Map<String, dynamic>),
+    farm:
+        json['farm'] == null
+            ? null
+            : StoreOrFarmModel.fromJson(json['farm'] as Map<String, dynamic>),
     section:
         json['section'] == null
             ? null
-            : Section.fromJson(json['section'] as Map<String, dynamic>),
+            : CatalogSectionModel.fromJson(json['section'] as Map<String, dynamic>),
     images:
-        json['images'] == null
-            ? null
-            : Images.fromJson(json['images'] as Map<String, dynamic>),
+        json['images'] == null ? null : ImageModel.fromJson(json['images'] as Map<String, dynamic>),
   );
 
   Map<String, dynamic> toJson() => {
@@ -82,7 +84,7 @@ class ItemModel {
     'status': status,
     'position': position,
     'store': store?.toJson(),
-    'farm': farm,
+    'farm': farm?.toJson(),
     'section': section?.toJson(),
     'images': images?.toJson(),
   };
@@ -91,7 +93,7 @@ class ItemModel {
     int? id,
     int? userId,
     int? vendorId,
-    dynamic farmId,
+    int? farmId,
     int? storeId,
     int? catalogSectionId,
     String? name,
@@ -99,10 +101,10 @@ class ItemModel {
     String? description,
     bool? status,
     int? position,
-    Store? store,
-    dynamic farm,
-    Section? section,
-    Images? images,
+    StoreOrFarmModel? store,
+    StoreOrFarmModel? farm,
+    CatalogSectionModel? section,
+    ImageModel? images,
   }) {
     return ItemModel(
       id: id ?? this.id,
@@ -123,3 +125,42 @@ class ItemModel {
     );
   }
 }
+
+final _resposne = {
+  "id": 1,
+  "user_id": 37,
+  "vendor_id": 11,
+  "farm_id": null,
+  "store_id": 2,
+  "catalog_section_id": 1,
+  "name": "product one",
+  "price": "300.00",
+  "description": "product description",
+  "status": true,
+  "position": 1,
+  "store": {
+    "id": 2,
+    "user_id": 37,
+    "vendor_id": 11,
+    "longitude": "-122.08414704",
+    "latitude": "37.41973939",
+    "website": "store.com",
+  },
+  "farm": null,
+  "section": {
+    "id": 1,
+    "user_id": 37,
+    "vendor_id": 11,
+    "farm_id": null,
+    "store_id": 2,
+    "name": "category one",
+    "status": true,
+    "position": 1,
+  },
+  "images": {
+    "id": 62,
+    "path": "storage/images/item/bb7e8081-0eef-4f1a-9f97-0679a71f92bd.jpg",
+    "imageable_type": "App\\Models\\CatalogItem",
+    "imageable_id": 1,
+  },
+};

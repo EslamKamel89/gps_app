@@ -1,7 +1,8 @@
-import 'category.dart';
-import 'image.dart';
+import 'package:gps_app/features/auth/models/image_model.dart';
+import 'package:gps_app/features/user/categories/models/category_model/category_model.dart';
+import 'package:gps_app/features/user/categories/models/category_model/sub_category_model.dart';
+
 import 'restaurant_menu.dart';
-import 'subcategory.dart';
 
 class MealModel {
   int? id;
@@ -12,9 +13,9 @@ class MealModel {
   int? imageId;
   int? categoryId;
   int? subCategoryId;
-  Category? category;
-  Subcategory? subcategory;
-  List<Image>? image;
+  CategoryModel? category;
+  SubCategoryModel? subcategory;
+  List<ImageModel>? image;
   RestaurantMenu? restaurantMenu;
 
   MealModel({
@@ -49,21 +50,19 @@ class MealModel {
     category:
         json['category'] == null
             ? null
-            : Category.fromJson(json['category'] as Map<String, dynamic>),
+            : CategoryModel.fromJson(json['category'] as Map<String, dynamic>),
     subcategory:
         json['subcategory'] == null
             ? null
-            : Subcategory.fromJson(json['subcategory'] as Map<String, dynamic>),
+            : SubCategoryModel.fromJson(json['subcategory'] as Map<String, dynamic>),
     image:
         (json['image'] as List<dynamic>?)
-            ?.map((e) => Image.fromJson(e as Map<String, dynamic>))
+            ?.map((e) => ImageModel.fromJson(e as Map<String, dynamic>))
             .toList(),
     restaurantMenu:
         json['restaurant_menu'] == null
             ? null
-            : RestaurantMenu.fromJson(
-              json['restaurant_menu'] as Map<String, dynamic>,
-            ),
+            : RestaurantMenu.fromJson(json['restaurant_menu'] as Map<String, dynamic>),
   );
 
   Map<String, dynamic> toJson() => {
@@ -90,9 +89,9 @@ class MealModel {
     int? imageId,
     int? categoryId,
     int? subCategoryId,
-    Category? category,
-    Subcategory? subcategory,
-    List<Image>? image,
+    CategoryModel? category,
+    SubCategoryModel? subcategory,
+    List<ImageModel>? image,
     RestaurantMenu? restaurantMenu,
   }) {
     return MealModel(
@@ -111,3 +110,32 @@ class MealModel {
     );
   }
 }
+
+final _response = {
+  "id": 3,
+  "name": "meal name",
+  "description": "meal description",
+  "price": "1234.00",
+  "restaurant_menu_id": 28,
+  "image_id": 3,
+  "category_id": 1,
+  "sub_category_id": 1,
+  "category": {"id": 1, "name": "Meat", "description": "Meat"},
+  "subcategory": {"id": 1, "category_id": 1, "name": "Sheep Meat", "description": "Sheep Meat"},
+  "image": [
+    {
+      "id": 3,
+      "path": "storage/images/user/0fbadd14-bb68-40d6-98ce-345628332820.jpg",
+      "imageable_type": "App\\Models\\Meal",
+      "imageable_id": 3,
+    },
+  ],
+  "restaurant_menu": {
+    "id": 28,
+    "restaurant_id": 6,
+    "name": "menu name",
+    "description": "menu description",
+    "image_id": 1,
+    "restaurant": {"id": 6, "user_id": 26, "vendor_id": 7, "website": null, "verified": 0},
+  },
+};

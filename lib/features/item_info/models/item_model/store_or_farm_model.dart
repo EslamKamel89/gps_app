@@ -1,4 +1,4 @@
-class Store {
+class StoreOrFarmModel {
   int? id;
   int? userId;
   int? vendorId;
@@ -6,7 +6,7 @@ class Store {
   String? latitude;
   String? website;
 
-  Store({
+  StoreOrFarmModel({
     this.id,
     this.userId,
     this.vendorId,
@@ -20,7 +20,7 @@ class Store {
     return 'Store(id: $id, userId: $userId, vendorId: $vendorId, longitude: $longitude, latitude: $latitude, website: $website)';
   }
 
-  factory Store.fromJson(Map<String, dynamic> json) => Store(
+  factory StoreOrFarmModel.fromJson(Map<String, dynamic> json) => StoreOrFarmModel(
     id: json['id'] as int?,
     userId: json['user_id'] as int?,
     vendorId: json['vendor_id'] as int?,
@@ -38,7 +38,7 @@ class Store {
     'website': website,
   };
 
-  Store copyWith({
+  StoreOrFarmModel copyWith({
     int? id,
     int? userId,
     int? vendorId,
@@ -46,7 +46,7 @@ class Store {
     String? latitude,
     String? website,
   }) {
-    return Store(
+    return StoreOrFarmModel(
       id: id ?? this.id,
       userId: userId ?? this.userId,
       vendorId: vendorId ?? this.vendorId,
