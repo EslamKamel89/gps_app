@@ -24,7 +24,7 @@ class _ItemInfoScreenState extends State<ItemInfoScreen> {
   @override
   void initState() {
     cubit = context.read<ItemInfoCubit>();
-    cubit.getItem(acceptorId: widget.acceptorId, itemId: widget.acceptorId);
+    cubit.getItem(acceptorId: widget.acceptorId, itemId: widget.itemId);
     super.initState();
   }
 
