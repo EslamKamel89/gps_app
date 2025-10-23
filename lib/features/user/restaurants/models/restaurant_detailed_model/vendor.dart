@@ -1,6 +1,7 @@
 import 'operating_hours.dart';
 
 class Vendor {
+  int? id;
   String? vendorName;
   dynamic priceRange;
   String? address;
@@ -8,6 +9,7 @@ class Vendor {
   OperatingHours? operatingHours;
 
   Vendor({
+    this.id,
     this.vendorName,
     this.priceRange,
     this.address,
@@ -17,24 +19,24 @@ class Vendor {
 
   @override
   String toString() {
-    return 'Vendor(vendorName: $vendorName, priceRange: $priceRange, address: $address, seatingCapacity: $seatingCapacity, operatingHours: $operatingHours)';
+    return 'Vendor(id: $id, vendorName: $vendorName, priceRange: $priceRange, address: $address, seatingCapacity: $seatingCapacity, operatingHours: $operatingHours)';
   }
 
   factory Vendor.fromJson(Map<String, dynamic> json) => Vendor(
     vendorName: json['vendor_name'] as String?,
+    id: json['id'] as int?,
     priceRange: json['price_range'] as dynamic,
     address: json['address'] as String?,
     seatingCapacity: json['seating_capacity'] as int?,
     operatingHours:
         json['operating_hours'] == null
             ? null
-            : OperatingHours.fromJson(
-              json['operating_hours'] as Map<String, dynamic>,
-            ),
+            : OperatingHours.fromJson(json['operating_hours'] as Map<String, dynamic>),
   );
 
   Map<String, dynamic> toJson() => {
     'vendor_name': vendorName,
+    'id': id,
     'price_range': priceRange,
     'address': address,
     'seating_capacity': seatingCapacity,

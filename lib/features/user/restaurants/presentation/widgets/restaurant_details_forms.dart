@@ -9,10 +9,12 @@ class ProfileTextForm extends StatefulWidget {
     required this.controller,
     this.label = 'Name',
     this.isRequired = true,
+    this.initialValue,
   });
   final BottomSheetFormController<String> controller;
   final String label;
   final bool isRequired;
+  final String? initialValue;
   @override
   State<ProfileTextForm> createState() => _ProfileTextFormState();
 }
@@ -20,6 +22,11 @@ class ProfileTextForm extends StatefulWidget {
 class _ProfileTextFormState extends State<ProfileTextForm> {
   final _formKey = GlobalKey<FormState>();
   final _nameCtrl = TextEditingController();
+  @override
+  void initState() {
+    _nameCtrl.text = widget.initialValue ?? '';
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -48,7 +55,7 @@ class _ProfileTextFormState extends State<ProfileTextForm> {
           child: TextFormField(
             controller: _nameCtrl,
             autofocus: true,
-            decoration: InputDecoration(labelText: widget.label, border: OutlineInputBorder()),
+            decoration: InputDecoration(border: OutlineInputBorder()),
             validator:
                 (v) => validator(input: v, label: widget.label, isRequired: widget.isRequired),
             onFieldSubmitted: (_) => _submit(),

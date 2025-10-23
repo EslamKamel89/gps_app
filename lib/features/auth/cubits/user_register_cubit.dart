@@ -18,7 +18,7 @@ class UserRegisterCubit extends Cubit<ApiResponseModel<UserModel>> {
     emit(state.copyWith(response: ResponseEnum.loading));
     final res = await _controller.userRegister(param: param);
     if (res.response == ResponseEnum.success && res.data != null) {
-      await _storage.login(res.data);
+      await _storage.cacheUser(res.data);
     }
     emit(res);
   }

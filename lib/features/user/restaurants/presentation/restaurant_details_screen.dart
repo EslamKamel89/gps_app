@@ -2,9 +2,13 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gps_app/core/cache/local_storage.dart';
 import 'package:gps_app/core/enums/response_type.dart';
+import 'package:gps_app/core/helpers/update_controller.dart';
+import 'package:gps_app/core/helpers/user.dart';
 import 'package:gps_app/core/models/api_response_model.dart';
 import 'package:gps_app/core/router/app_routes_names.dart';
+import 'package:gps_app/core/service_locator/service_locator.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 import 'package:gps_app/features/user/restaurants/cubits/restaurant_cubit.dart';
@@ -61,6 +65,12 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen>
       rating: 5.0,
     ),
   ];
+  late final RestaurantCubit cubit;
+  @override
+  void initState() {
+    cubit = context.read<RestaurantCubit>();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -74,9 +84,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen>
 
           case ResponseEnum.failed:
             return ErrorScaffold(
-              onRetry:
-                  () =>
-                      context.read<RestaurantCubit>().restaurant(restaurantId: widget.restaurantId),
+              onRetry: () => cubit.restaurant(restaurantId: widget.restaurantId),
             );
 
           case ResponseEnum.success:
@@ -164,7 +172,8 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen>
                                         child: CustomStack(
                                           enableEdit: widget.enableEdit,
                                           actionWidget: EditButton(
-                                            onPressed: _updateRestaurantName,
+                                            onPressed:
+                                                () => _updateRestaurantName(restaurant: state.data),
                                           ),
                                           child: Text(
                                             restaurantTitle,
@@ -399,10 +408,27 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen>
     );
   }
 
-  Future _updateRestaurantName() async {
-    final String? name = await showFormBottomSheet<String>(
+  Future _updateRestaurantName({required RestaurantDetailedModel? restaurant}) async {
+    final storage = serviceLocator<LocalStorage>();
+    final currentUser = user();
+    final String? newVal = await showFormBottomSheet<String>(
       context,
-      builder: (ctx, ctl) => ProfileTextForm(controller: ctl, label: 'Update your name'),
+      builder:
+          (ctx, ctl) => ProfileTextForm(
+            initialValue: currentUser?.vendor?.vendorName,
+            controller: ctl,
+            label: 'Update your name',
+          ),
     );
+    final res = await UpdateController.update(
+      path: 'vendor/${restaurant?.vendor?.id}',
+      data: {'vendor_name': newVal},
+    );
+    int? restaurantId = currentUser?.restaurant?.id;
+    if (res.response == ResponseEnum.success && restaurantId != null) {
+      await cubit.restaurant(restaurantId: restaurantId);
+      currentUser?.vendor?.vendorName = newVal;
+      storage.cacheUser(currentUser);
+    }
   }
 }

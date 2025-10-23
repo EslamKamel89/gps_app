@@ -3,7 +3,6 @@ import 'package:get_it/get_it.dart';
 import 'package:gps_app/core/api_service/api_consumer.dart';
 import 'package:gps_app/core/api_service/dio_consumer.dart';
 import 'package:gps_app/core/cache/local_storage.dart';
-import 'package:gps_app/core/helpers/update_controller.dart';
 import 'package:gps_app/core/router/app_router.dart';
 import 'package:gps_app/core/router/middleware.dart';
 import 'package:gps_app/features/auth/controllers/auth_controller.dart';
@@ -33,7 +32,6 @@ Future initServiceLocator() async {
   serviceLocator.registerLazySingleton<RestaurantsController>(() => RestaurantsController());
   serviceLocator.registerLazySingleton<WishListController>(() => WishListController());
   serviceLocator.registerLazySingleton<ItemInfoController>(() => ItemInfoController());
-  serviceLocator.registerLazySingleton<UpdateController>(() => UpdateController());
 
   // serviceLocator.registerLazySingleton<HomeRepo>(() => HomeRepoImp(homeRemoteDataSource: serviceLocator()));
 }

@@ -9,8 +9,7 @@ class LocalStorage {
   LocalStorage(this._prefs);
   final SharedPreferences _prefs;
 
-  Future<bool> setString(String key, String value) =>
-      _prefs.setString(key, value);
+  Future<bool> setString(String key, String value) => _prefs.setString(key, value);
 
   String? getString(String key) => _prefs.getString(key);
 
@@ -26,7 +25,7 @@ class LocalStorage {
     }
   }
 
-  Future login(UserModel? user) async {
+  Future cacheUser(UserModel? user) async {
     if (user == null) {
       await logout();
       return;
@@ -74,9 +73,7 @@ class LocalStorage {
   }
 
   bool get isFarmProfileComplete {
-    return isFarm &&
-        cachedUser?.farm != null &&
-        cachedUser?.farm?.sections?.isNotEmpty == true;
+    return isFarm && cachedUser?.farm != null && cachedUser?.farm?.sections?.isNotEmpty == true;
   }
 
   bool get isStore {
@@ -87,9 +84,7 @@ class LocalStorage {
     pr(cachedUser?.store, 'store ');
     pr(cachedUser?.store?.sections, 'sections');
     return pr(
-      isStore &&
-          cachedUser?.store != null &&
-          cachedUser?.store?.sections?.isNotEmpty == true,
+      isStore && cachedUser?.store != null && cachedUser?.store?.sections?.isNotEmpty == true,
       'test',
     );
   }
