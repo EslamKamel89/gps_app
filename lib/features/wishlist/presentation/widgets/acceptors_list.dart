@@ -32,7 +32,7 @@ class AcceptorsList extends StatelessWidget {
                 Navigator.pushNamed(
                   context,
                   AppRoutesNames.itemInfoScreen,
-                  arguments: pr({'acceptorId': a.userId, 'itemId': a.item?.id}, 'debug'),
+                  arguments: {'acceptorId': a.userId, 'itemId': a.item?.id},
                 );
               },
             )

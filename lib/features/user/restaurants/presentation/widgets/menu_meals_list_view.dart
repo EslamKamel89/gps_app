@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-// Keep your existing MenuItemCard import
-import 'package:gps_app/features/design/screens/user/resturant_details/widgets/menu_item_card.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 import 'package:gps_app/features/user/restaurants/models/restaurant_detailed_model/export.dart';
+// Keep your existing MenuItemCard import
+import 'package:gps_app/features/user/restaurants/presentation/widgets/menu_item_card.dart';
 
 class MenuMealsListView extends StatelessWidget {
   const MenuMealsListView({

@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:gps_app/features/design/screens/user/resturant_details/widgets/category_chip.dart';
-import 'package:gps_app/features/design/screens/user/resturant_details/widgets/custom_stack.dart';
-import 'package:gps_app/features/design/screens/user/resturant_details/widgets/icon_action.dart';
-import 'package:gps_app/features/design/screens/user/resturant_details/widgets/price_badge.dart';
-import 'package:gps_app/features/design/screens/user/resturant_details/widgets/thumb.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 import 'package:gps_app/features/user/categories/presentation/widgets/category_selector.dart';
 import 'package:gps_app/features/user/restaurants/models/restaurant_detailed_model/export.dart';
+import 'package:gps_app/features/user/restaurants/presentation/widgets/category_chip.dart';
+import 'package:gps_app/features/user/restaurants/presentation/widgets/custom_stack.dart';
 import 'package:gps_app/features/user/restaurants/presentation/widgets/form_bottom_sheet.dart';
+import 'package:gps_app/features/user/restaurants/presentation/widgets/icon_action.dart';
+import 'package:gps_app/features/user/restaurants/presentation/widgets/price_badge.dart';
 import 'package:gps_app/features/user/restaurants/presentation/widgets/restaurant_details_forms.dart';
+import 'package:gps_app/features/user/restaurants/presentation/widgets/thumb.dart';
 
 class MenuItemCard extends StatefulWidget {
   const MenuItemCard({super.key, required this.meal, required this.enableEdit});
@@ -63,19 +63,14 @@ class _MenuItemCardState extends State<MenuItemCard> {
                     widget.enableEdit
                         ? EditButton(
                           onPressed: () async {
-                            final String? name =
-                                await showFormBottomSheet<String>(
-                                  context,
-                                  builder:
-                                      (ctx, ctl) =>
-                                          ProfileTextForm(controller: ctl),
-                                );
+                            final String? name = await showFormBottomSheet<String>(
+                              context,
+                              builder: (ctx, ctl) => ProfileTextForm(controller: ctl),
+                            );
                           },
                         )
                         : SizedBox(),
-                child: ThumbWidget(
-                  meal: widget.meal,
-                ).animate().fadeIn(duration: 200.ms),
+                child: ThumbWidget(meal: widget.meal).animate().fadeIn(duration: 200.ms),
               ),
               GPSGaps.w12,
               Expanded(
@@ -92,14 +87,10 @@ class _MenuItemCardState extends State<MenuItemCard> {
                                 widget.enableEdit
                                     ? EditButton(
                                       onPressed: () async {
-                                        final String? name =
-                                            await showFormBottomSheet<String>(
-                                              context,
-                                              builder:
-                                                  (ctx, ctl) => ProfileTextForm(
-                                                    controller: ctl,
-                                                  ),
-                                            );
+                                        final String? name = await showFormBottomSheet<String>(
+                                          context,
+                                          builder: (ctx, ctl) => ProfileTextForm(controller: ctl),
+                                        );
                                       },
                                     )
                                     : SizedBox(),
@@ -118,20 +109,14 @@ class _MenuItemCardState extends State<MenuItemCard> {
                               widget.enableEdit
                                   ? EditButton(
                                     onPressed: () async {
-                                      final String? name =
-                                          await showFormBottomSheet<String>(
-                                            context,
-                                            builder:
-                                                (ctx, ctl) => ProfileTextForm(
-                                                  controller: ctl,
-                                                ),
-                                          );
+                                      final String? name = await showFormBottomSheet<String>(
+                                        context,
+                                        builder: (ctx, ctl) => ProfileTextForm(controller: ctl),
+                                      );
                                     },
                                   )
                                   : SizedBox(),
-                          child: PriceBadge(
-                            price: double.parse(widget.meal.price ?? '0'),
-                          ),
+                          child: PriceBadge(price: double.parse(widget.meal.price ?? '0')),
                         ),
                       ],
                     ),
@@ -144,15 +129,11 @@ class _MenuItemCardState extends State<MenuItemCard> {
                               ? EditButton(
                                 onPressed: () async {
                                   final CategorySelector? categorySelector =
-                                      await showFormBottomSheet<
-                                        CategorySelector
-                                      >(
+                                      await showFormBottomSheet<CategorySelector>(
                                         context,
                                         builder:
                                             (ctx, ctl) =>
-                                                ProfileCategorySelectionForm(
-                                                  controller: ctl,
-                                                ),
+                                                ProfileCategorySelectionForm(controller: ctl),
                                       );
                                 },
                               )
@@ -176,17 +157,12 @@ class _MenuItemCardState extends State<MenuItemCard> {
                                 widget.enableEdit
                                     ? EditButton(
                                       onPressed: () async {
-                                        final CategorySelector?
-                                        categorySelector =
-                                            await showFormBottomSheet<
-                                              CategorySelector
-                                            >(
+                                        final CategorySelector? categorySelector =
+                                            await showFormBottomSheet<CategorySelector>(
                                               context,
                                               builder:
                                                   (ctx, ctl) =>
-                                                      ProfileCategorySelectionForm(
-                                                        controller: ctl,
-                                                      ),
+                                                      ProfileCategorySelectionForm(controller: ctl),
                                             );
                                       },
                                     )
@@ -194,14 +170,9 @@ class _MenuItemCardState extends State<MenuItemCard> {
                             child: Wrap(
                               children: [
                                 if (widget.meal.categories?.name != null)
-                                  CategoryChip(
-                                    title: widget.meal.categories?.name ?? '',
-                                  ),
+                                  CategoryChip(title: widget.meal.categories?.name ?? ''),
                                 if (widget.meal.subcategories?.name != null)
-                                  CategoryChip(
-                                    title:
-                                        widget.meal.subcategories?.name ?? '',
-                                  ),
+                                  CategoryChip(title: widget.meal.subcategories?.name ?? ''),
                               ],
                             ),
                           ),
@@ -209,10 +180,7 @@ class _MenuItemCardState extends State<MenuItemCard> {
 
                         // Spacer(),
                         // GPSGaps.w12,
-                        IconAction(
-                          icon: Icons.favorite_border_rounded,
-                          onTap: () {},
-                        ),
+                        IconAction(icon: Icons.favorite_border_rounded, onTap: () {}),
                       ],
                     ),
                   ],
