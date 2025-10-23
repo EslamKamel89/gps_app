@@ -10,8 +10,7 @@ class EndPoint {
   static const String vendorRegister = "$baseUrl/api/vendor-register";
   static const String login = "$baseUrl/api/login";
   static const String uploadImages = "$baseUrl/api/uploads/images";
-  static const String vendorCatalogSection =
-      "$baseUrl/api/vendors/catalog/bulk";
+  static const String vendorCatalogSection = "$baseUrl/api/vendors/catalog/bulk";
   static const String otpVerify = "$baseUrl/api/email/otp/verify";
   static const String otpRequest = "$baseUrl/api/email/otp";
   static const String restaurantBranches = "$baseUrl/api/vendors/branch/bulk";
@@ -21,4 +20,5 @@ class EndPoint {
   static const String wishlist = "$baseUrl/api/wishlists";
   static const String acceptWishList = "$baseUrl/api/accept-wishlists";
   static const String mealItems = "$baseUrl/api/wishlists/get-items";
+  static const String itemDetails = "$baseUrl/api/wishlists/get-item-details";
 }
