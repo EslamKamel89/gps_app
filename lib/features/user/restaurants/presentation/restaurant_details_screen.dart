@@ -47,7 +47,7 @@ class RestaurantDetailsScreen extends StatefulWidget {
 class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen>
     with SingleTickerProviderStateMixin {
   bool _isFav = false;
-
+  bool _editMenusEnabled = false;
   late final List<Review> _reviews = const [
     Review(
       reviewerName: 'Amina H.',
@@ -354,35 +354,45 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen>
                           SliverPersistentHeader(
                             pinned: true,
 
-                            // ====== THE ONLY CHANGED PART (robust PreferredSize + Material wrapper) ======
                             delegate: TabBarDelegate(
+                              // forcedHeight: 80,
                               PreferredSize(
                                 preferredSize: const Size.fromHeight(kTextTabBarHeight),
+                                // preferredSize: const Size.fromHeight(70),
                                 child: Material(
                                   color: Theme.of(context).scaffoldBackgroundColor,
-                                  child: TabBar(
-                                    isScrollable: true,
-                                    indicatorWeight: 3,
-                                    indicatorColor: Colors.green,
-                                    labelColor: Colors.black,
-                                    unselectedLabelColor: Colors.grey,
-                                    labelStyle: Theme.of(
-                                      context,
-                                    ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w800),
-                                    tabs: [
-                                      for (final t in tabs)
-                                        Tab(
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(1.0),
-                                            child: Text(t, style: const TextStyle(fontSize: 16)),
+                                  child: CustomStack(
+                                    enableEdit: widget.enableEdit,
+                                    actionWidget: EditButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          _editMenusEnabled = !_editMenusEnabled;
+                                        });
+                                      },
+                                    ),
+                                    child: TabBar(
+                                      isScrollable: true,
+                                      indicatorWeight: 3,
+                                      indicatorColor: Colors.green,
+                                      labelColor: Colors.black,
+                                      unselectedLabelColor: Colors.grey,
+                                      labelStyle: Theme.of(
+                                        context,
+                                      ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w800),
+                                      tabs: [
+                                        for (final t in tabs)
+                                          Tab(
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(1.0),
+                                              child: Text(t, style: const TextStyle(fontSize: 16)),
+                                            ),
                                           ),
-                                        ),
-                                    ],
-                                  ).animate().fadeIn(duration: 220.ms).slideY(begin: .08),
+                                      ],
+                                    ).animate().fadeIn(duration: 220.ms).slideY(begin: .08),
+                                  ),
                                 ),
                               ),
                             ),
-                            // ====== END OF CHANGED PART ======
                           ),
                       ],
                   body:
