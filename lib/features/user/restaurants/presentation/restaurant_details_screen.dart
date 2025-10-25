@@ -19,6 +19,7 @@ import 'package:gps_app/features/user/restaurants/presentation/widgets/branch_na
 import 'package:gps_app/features/user/restaurants/presentation/widgets/custom_stack.dart';
 import 'package:gps_app/features/user/restaurants/presentation/widgets/form_bottom_sheet.dart';
 import 'package:gps_app/features/user/restaurants/presentation/widgets/restaurant_details_forms.dart';
+import 'package:gps_app/features/user/restaurants/presentation/widgets/show_action_sheet.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import 'widgets/badges.dart';
@@ -47,7 +48,6 @@ class RestaurantDetailsScreen extends StatefulWidget {
 class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen>
     with SingleTickerProviderStateMixin {
   bool _isFav = false;
-  bool _editMenusEnabled = false;
   late final List<Review> _reviews = const [
     Review(
       reviewerName: 'Amina H.',
@@ -365,9 +365,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen>
                                     enableEdit: widget.enableEdit,
                                     actionWidget: EditButton(
                                       onPressed: () {
-                                        setState(() {
-                                          _editMenusEnabled = !_editMenusEnabled;
-                                        });
+                                        _updateMenusNames(restaurant: state.data);
                                       },
                                     ),
                                     child: TabBar(
@@ -439,6 +437,35 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen>
       await cubit.restaurant(restaurantId: restaurantId);
       currentUser?.vendor?.vendorName = newVal;
       storage.cacheUser(currentUser);
+    }
+  }
+
+  Future _updateMenusNames({required RestaurantDetailedModel? restaurant}) async {
+    final idx = await showActionSheet(
+      context,
+      title: 'Choose which menu name to edit',
+      children:
+          restaurant?.menus?.map((m) {
+            return Row(children: [Icon(MdiIcons.pen), GPSGaps.w10, Text(m.name ?? '')]);
+          }).toList() ??
+          [],
+    );
+    if (idx == null) return;
+    final String? newVal = await showFormBottomSheet<String>(
+      context,
+      builder:
+          (ctx, ctl) => ProfileTextForm(
+            initialValue: restaurant?.menus?[idx].name ?? '',
+            controller: ctl,
+            label: 'Update menu name',
+          ),
+    );
+    final res = await UpdateController.update(
+      path: 'restaurant-menus/${restaurant?.menus?[idx].id}',
+      data: {'name': newVal},
+    );
+    if (res.response == ResponseEnum.success && restaurant?.id != null) {
+      await cubit.restaurant(restaurantId: (restaurant?.id)!);
     }
   }
 }
