@@ -293,6 +293,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen>
                                                   builder:
                                                       (_) => CertificationsScreen(
                                                         items: state.data?.certifications ?? [],
+                                                        enableEdit: widget.enableEdit,
                                                       ),
                                                 ),
                                               );

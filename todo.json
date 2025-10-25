@@ -93,6 +93,12 @@
     "edit the meal description",
     "edit the meal price",
     "edit the meal image",
+    "edit the meal category and subcategory",
+    "branches table update name",
+    "branches table update mobile",
+    "branches table update website",
+    "certification name",
+    "certification description",
     "------------------------------------------------"
   ],
   "todos": [
@@ -100,14 +106,7 @@
     "allow the user to edit his main information - but i have a problem the main data that the user entered is not visible in the response returned by the endpoint",
     "handle the verified state in the categories in the restaurant details",
     "when the user is a store or a farm he can't go to the enter categories and products screen",
-    "edit the meal category and subcategory",
     "+++++++++++++++++++++++++++++++++++++++++++++++++",
-    "branches table edit name",
-    "branches table edit mobile",
-    "branches table edit website",
-    "branches table edit image",
-    "certification name",
-    "certification description",
     "------------------------------------------------"
   ]
 }

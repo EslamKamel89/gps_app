@@ -1,7 +1,6 @@
 // branch_list.dart
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -61,10 +60,10 @@ class BranchList extends StatelessWidget {
           final delay = (70 * i).ms;
           return _BranchCard(
                 branch: b,
-                onTap: () {
-                  HapticFeedback.selectionClick();
-                  onTapBranch?.call(b);
-                },
+                // onTap: () {
+                //   HapticFeedback.selectionClick();
+                //   onTapBranch?.call(b);
+                // },
                 onOpenWebsite: onOpenWebsite,
                 onCall: onCall,
                 enableEdit: enableEdit,
@@ -84,14 +83,12 @@ class _BranchCard extends StatefulWidget {
   const _BranchCard({
     required this.branch,
     required this.enableEdit,
-    this.onTap,
     this.onOpenWebsite,
     this.onCall,
     this.heroTag,
   });
   final bool enableEdit;
   final Branch branch;
-  final VoidCallback? onTap;
   final void Function(String url)? onOpenWebsite;
   final void Function(String phoneNumber)? onCall;
   final String? heroTag;
@@ -115,14 +112,20 @@ class _BranchCardState extends State<_BranchCard> {
       (widget.branch.images != null && widget.branch.images!.isNotEmpty)
           ? widget.branch.images!.first
           : null;
-
+  bool showEdit = false;
   @override
   Widget build(BuildContext context) {
     final txt = Theme.of(context).textTheme;
     context.watch<RestaurantCubit>();
-    return InkWell(
-      borderRadius: BorderRadius.circular(16),
-      onTap: widget.onTap,
+    return CustomStack(
+      enableEdit: widget.enableEdit,
+      actionWidget: EditButton(
+        onPressed: () {
+          setState(() {
+            showEdit = !showEdit;
+          });
+        },
+      ),
       child: Ink(
         decoration: BoxDecoration(
           color: Colors.white,
@@ -152,7 +155,7 @@ class _BranchCardState extends State<_BranchCard> {
                     children: [
                       Expanded(
                         child: CustomStack(
-                          enableEdit: widget.enableEdit,
+                          enableEdit: widget.enableEdit && showEdit,
                           actionWidget: EditButton(
                             onPressed: () => _updateBranchName(branch: widget.branch),
                           ),
@@ -186,7 +189,7 @@ class _BranchCardState extends State<_BranchCard> {
                       if ((widget.branch.latitude ?? '').isNotEmpty) GPSGaps.w8,
                       if ((widget.branch.latitude ?? '').isNotEmpty)
                         CustomStack(
-                          enableEdit: widget.enableEdit,
+                          enableEdit: widget.enableEdit && showEdit,
                           actionWidget: EditButton(
                             onPressed: () => _updateBranchLocation(branch: widget.branch),
                           ),
@@ -220,7 +223,7 @@ class _BranchCardState extends State<_BranchCard> {
                     children: [
                       if ((widget.branch.phoneNumber ?? '').isNotEmpty)
                         CustomStack(
-                          enableEdit: widget.enableEdit,
+                          enableEdit: widget.enableEdit && showEdit,
                           actionWidget: EditButton(
                             onPressed: () => _updateBranchPhoneNumber(branch: widget.branch),
                           ),
@@ -232,7 +235,7 @@ class _BranchCardState extends State<_BranchCard> {
                         ),
                       if ((widget.branch.website ?? '').isNotEmpty)
                         CustomStack(
-                          enableEdit: widget.enableEdit,
+                          enableEdit: widget.enableEdit && showEdit,
                           actionWidget: EditButton(
                             onPressed: () => _updateBranchWebsite(branch: widget.branch),
                           ),
