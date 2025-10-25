@@ -10,11 +10,13 @@ class ProfileTextForm extends StatefulWidget {
     this.label = 'Name',
     this.isRequired = true,
     this.initialValue,
+    this.isNumeric = false,
   });
   final BottomSheetFormController<String> controller;
   final String label;
   final bool isRequired;
   final String? initialValue;
+  final bool isNumeric;
   @override
   State<ProfileTextForm> createState() => _ProfileTextFormState();
 }
@@ -55,6 +57,7 @@ class _ProfileTextFormState extends State<ProfileTextForm> {
           child: TextFormField(
             controller: _nameCtrl,
             autofocus: true,
+            keyboardType: widget.isNumeric ? TextInputType.number : null,
             decoration: InputDecoration(border: OutlineInputBorder()),
             validator:
                 (v) => validator(input: v, label: widget.label, isRequired: widget.isRequired),

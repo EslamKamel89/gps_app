@@ -1,6 +1,7 @@
 import 'package:gps_app/features/user/restaurants/models/restaurant_detailed_model/export.dart';
 
 class Meal {
+  int? id;
   String? name;
   String? description;
   String? price;
@@ -9,6 +10,7 @@ class Meal {
   Category? subcategories;
 
   Meal({
+    this.id,
     this.name,
     this.description,
     this.price,
@@ -19,10 +21,11 @@ class Meal {
 
   @override
   String toString() {
-    return 'Meal(name: $name, description: $description, price: $price , image: $images , categories: $categories , subcategories: $subcategories)';
+    return 'Meal(id: $id ,name: $name, description: $description, price: $price , image: $images , categories: $categories , subcategories: $subcategories)';
   }
 
   factory Meal.fromJson(Map<String, dynamic> json) => Meal(
+    id: json['id'] as int?,
     name: json['name'] as String?,
     description: json['description'] as String?,
     price: json['price'] as String?,
@@ -41,6 +44,7 @@ class Meal {
   );
 
   Map<String, dynamic> toJson() => {
+    'id': id,
     'name': name,
     'description': description,
     'price': price,
@@ -50,6 +54,7 @@ class Meal {
   };
 
   Meal copyWith({
+    int? id,
     String? name,
     String? description,
     String? price,
@@ -58,6 +63,7 @@ class Meal {
     Category? subcategories,
   }) {
     return Meal(
+      id: id ?? this.id,
       name: name ?? this.name,
       description: description ?? this.description,
       price: price ?? this.price,

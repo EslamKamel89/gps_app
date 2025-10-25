@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:gps_app/core/cache/local_storage.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gps_app/core/enums/response_type.dart';
+import 'package:gps_app/core/helpers/update_controller.dart';
 import 'package:gps_app/core/helpers/user.dart';
-import 'package:gps_app/core/service_locator/service_locator.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 import 'package:gps_app/features/user/categories/presentation/widgets/category_selector.dart';
+import 'package:gps_app/features/user/restaurants/cubits/restaurant_cubit.dart';
 import 'package:gps_app/features/user/restaurants/models/restaurant_detailed_model/export.dart';
 import 'package:gps_app/features/user/restaurants/presentation/widgets/category_chip.dart';
 import 'package:gps_app/features/user/restaurants/presentation/widgets/custom_stack.dart';
@@ -98,10 +100,7 @@ class _MenuItemCardState extends State<MenuItemCard> {
                           enableEdit: showEdit && widget.enableEdit,
                           actionWidget: EditButton(
                             onPressed: () async {
-                              final String? name = await showFormBottomSheet<String>(
-                                context,
-                                builder: (ctx, ctl) => ProfileTextForm(controller: ctl),
-                              );
+                              _updateMealPrice(widget.meal);
                             },
                           ),
                           child: PriceBadge(price: double.parse(widget.meal.price ?? '0')),
@@ -114,12 +113,7 @@ class _MenuItemCardState extends State<MenuItemCard> {
 
                       actionWidget: EditButton(
                         onPressed: () async {
-                          final CategorySelector? categorySelector =
-                              await showFormBottomSheet<CategorySelector>(
-                                context,
-                                builder:
-                                    (ctx, ctl) => ProfileCategorySelectionForm(controller: ctl),
-                              );
+                          _updateMealDescription(widget.meal);
                         },
                       ),
                       child: Text(
@@ -175,26 +169,63 @@ class _MenuItemCardState extends State<MenuItemCard> {
   }
 
   Future _updateMealName(Meal meal) async {
-    final storage = serviceLocator<LocalStorage>();
+    final cubit = context.read<RestaurantCubit>();
+    final currentUser = user();
+    final String? newVal = await showFormBottomSheet<String>(
+      context,
+      builder:
+          (ctx, ctl) =>
+              ProfileTextForm(initialValue: meal.name, controller: ctl, label: 'Update Meal Name'),
+    );
+    if (newVal == null) return;
+    final res = await UpdateController.update(path: 'meals/${meal.id}', data: {'name': newVal});
+    int? restaurantId = currentUser?.restaurant?.id;
+    if (res.response == ResponseEnum.success && restaurantId != null) {
+      await cubit.restaurant(restaurantId: restaurantId);
+    }
+  }
+
+  Future _updateMealDescription(Meal meal) async {
+    final cubit = context.read<RestaurantCubit>();
     final currentUser = user();
     final String? newVal = await showFormBottomSheet<String>(
       context,
       builder:
           (ctx, ctl) => ProfileTextForm(
-            initialValue: currentUser?.vendor?.vendorName,
+            initialValue: meal.description,
             controller: ctl,
-            label: 'Update Meal Name',
+            label: 'Update Meal Description',
           ),
     );
-    // final res = await UpdateController.update(
-    //   path: 'meals/${meal.id}',
-    //   data: {'vendor_name': newVal},
-    // );
-    // int? restaurantId = currentUser?.restaurant?.id;
-    // if (res.response == ResponseEnum.success && restaurantId != null) {
-    //   await cubit.restaurant(restaurantId: restaurantId);
-    //   currentUser?.vendor?.vendorName = newVal;
-    //   storage.cacheUser(currentUser);
-    // }
+    if (newVal == null) return;
+    final res = await UpdateController.update(
+      path: 'meals/${meal.id}',
+      data: {'description': newVal},
+    );
+    int? restaurantId = currentUser?.restaurant?.id;
+    if (res.response == ResponseEnum.success && restaurantId != null) {
+      await cubit.restaurant(restaurantId: restaurantId);
+    }
+  }
+
+  Future _updateMealPrice(Meal meal) async {
+    final cubit = context.read<RestaurantCubit>();
+    final currentUser = user();
+    final String? newVal = await showFormBottomSheet<String>(
+      context,
+      builder:
+          (ctx, ctl) => ProfileTextForm(
+            initialValue: meal.price,
+            controller: ctl,
+            label: 'Update Meal Price',
+            isNumeric: true,
+          ),
+    );
+    if (newVal == null) return;
+    final res = await UpdateController.update(path: 'meals/${meal.id}', data: {'price': newVal});
+    int? restaurantId = currentUser?.restaurant?.id;
+    if (res.response == ResponseEnum.success && restaurantId != null) {
+      await cubit.restaurant(restaurantId: restaurantId);
+    }
   }
 }
