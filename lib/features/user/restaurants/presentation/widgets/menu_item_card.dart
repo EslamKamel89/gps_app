@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:gps_app/core/cache/local_storage.dart';
+import 'package:gps_app/core/helpers/user.dart';
+import 'package:gps_app/core/service_locator/service_locator.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 import 'package:gps_app/features/user/categories/presentation/widgets/category_selector.dart';
@@ -28,16 +31,13 @@ class _MenuItemCardState extends State<MenuItemCard> {
     final textTheme = Theme.of(context).textTheme;
     return CustomStack(
       enableEdit: widget.enableEdit,
-      actionWidget:
-          widget.enableEdit
-              ? EditButton(
-                onPressed: () async {
-                  setState(() {
-                    showEdit = !showEdit;
-                  });
-                },
-              )
-              : SizedBox(),
+      actionWidget: EditButton(
+        onPressed: () async {
+          setState(() {
+            showEdit = !showEdit;
+          });
+        },
+      ),
       child: Ink(
         decoration: BoxDecoration(
           color: Colors.white,
@@ -58,18 +58,15 @@ class _MenuItemCardState extends State<MenuItemCard> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CustomStack(
-                enableEdit: showEdit,
-                actionWidget:
-                    widget.enableEdit
-                        ? EditButton(
-                          onPressed: () async {
-                            final String? name = await showFormBottomSheet<String>(
-                              context,
-                              builder: (ctx, ctl) => ProfileTextForm(controller: ctl),
-                            );
-                          },
-                        )
-                        : SizedBox(),
+                enableEdit: showEdit && widget.enableEdit,
+                actionWidget: EditButton(
+                  onPressed: () async {
+                    final String? name = await showFormBottomSheet<String>(
+                      context,
+                      builder: (ctx, ctl) => ProfileTextForm(controller: ctl),
+                    );
+                  },
+                ),
                 child: ThumbWidget(meal: widget.meal).animate().fadeIn(duration: 200.ms),
               ),
               GPSGaps.w12,
@@ -82,18 +79,12 @@ class _MenuItemCardState extends State<MenuItemCard> {
                       children: [
                         Expanded(
                           child: CustomStack(
-                            enableEdit: showEdit,
-                            actionWidget:
-                                widget.enableEdit
-                                    ? EditButton(
-                                      onPressed: () async {
-                                        final String? name = await showFormBottomSheet<String>(
-                                          context,
-                                          builder: (ctx, ctl) => ProfileTextForm(controller: ctl),
-                                        );
-                                      },
-                                    )
-                                    : SizedBox(),
+                            enableEdit: showEdit && widget.enableEdit,
+                            actionWidget: EditButton(
+                              onPressed: () async {
+                                _updateMealName(widget.meal);
+                              },
+                            ),
                             child: Text(
                               widget.meal.name ?? '',
                               style: textTheme.titleMedium?.copyWith(
@@ -104,40 +95,33 @@ class _MenuItemCardState extends State<MenuItemCard> {
                           ),
                         ),
                         CustomStack(
-                          enableEdit: showEdit,
-                          actionWidget:
-                              widget.enableEdit
-                                  ? EditButton(
-                                    onPressed: () async {
-                                      final String? name = await showFormBottomSheet<String>(
-                                        context,
-                                        builder: (ctx, ctl) => ProfileTextForm(controller: ctl),
-                                      );
-                                    },
-                                  )
-                                  : SizedBox(),
+                          enableEdit: showEdit && widget.enableEdit,
+                          actionWidget: EditButton(
+                            onPressed: () async {
+                              final String? name = await showFormBottomSheet<String>(
+                                context,
+                                builder: (ctx, ctl) => ProfileTextForm(controller: ctl),
+                              );
+                            },
+                          ),
                           child: PriceBadge(price: double.parse(widget.meal.price ?? '0')),
                         ),
                       ],
                     ),
                     !widget.enableEdit ? GPSGaps.h8 : SizedBox(),
                     CustomStack(
-                      enableEdit: showEdit,
+                      enableEdit: showEdit && widget.enableEdit,
 
-                      actionWidget:
-                          widget.enableEdit
-                              ? EditButton(
-                                onPressed: () async {
-                                  final CategorySelector? categorySelector =
-                                      await showFormBottomSheet<CategorySelector>(
-                                        context,
-                                        builder:
-                                            (ctx, ctl) =>
-                                                ProfileCategorySelectionForm(controller: ctl),
-                                      );
-                                },
-                              )
-                              : SizedBox(),
+                      actionWidget: EditButton(
+                        onPressed: () async {
+                          final CategorySelector? categorySelector =
+                              await showFormBottomSheet<CategorySelector>(
+                                context,
+                                builder:
+                                    (ctx, ctl) => ProfileCategorySelectionForm(controller: ctl),
+                              );
+                        },
+                      ),
                       child: Text(
                         widget.meal.description ?? '',
                         style: textTheme.bodyMedium?.copyWith(
@@ -151,22 +135,19 @@ class _MenuItemCardState extends State<MenuItemCard> {
                       children: [
                         Expanded(
                           child: CustomStack(
-                            enableEdit: showEdit,
+                            enableEdit: showEdit && widget.enableEdit,
                             right: 5,
-                            actionWidget:
-                                widget.enableEdit
-                                    ? EditButton(
-                                      onPressed: () async {
-                                        final CategorySelector? categorySelector =
-                                            await showFormBottomSheet<CategorySelector>(
-                                              context,
-                                              builder:
-                                                  (ctx, ctl) =>
-                                                      ProfileCategorySelectionForm(controller: ctl),
-                                            );
-                                      },
-                                    )
-                                    : SizedBox(),
+                            actionWidget: EditButton(
+                              onPressed: () async {
+                                final CategorySelector? categorySelector =
+                                    await showFormBottomSheet<CategorySelector>(
+                                      context,
+                                      builder:
+                                          (ctx, ctl) =>
+                                              ProfileCategorySelectionForm(controller: ctl),
+                                    );
+                              },
+                            ),
                             child: Wrap(
                               children: [
                                 if (widget.meal.categories?.name != null)
@@ -191,5 +172,29 @@ class _MenuItemCardState extends State<MenuItemCard> {
         ),
       ),
     );
+  }
+
+  Future _updateMealName(Meal meal) async {
+    final storage = serviceLocator<LocalStorage>();
+    final currentUser = user();
+    final String? newVal = await showFormBottomSheet<String>(
+      context,
+      builder:
+          (ctx, ctl) => ProfileTextForm(
+            initialValue: currentUser?.vendor?.vendorName,
+            controller: ctl,
+            label: 'Update Meal Name',
+          ),
+    );
+    // final res = await UpdateController.update(
+    //   path: 'meals/${meal.id}',
+    //   data: {'vendor_name': newVal},
+    // );
+    // int? restaurantId = currentUser?.restaurant?.id;
+    // if (res.response == ResponseEnum.success && restaurantId != null) {
+    //   await cubit.restaurant(restaurantId: restaurantId);
+    //   currentUser?.vendor?.vendorName = newVal;
+    //   storage.cacheUser(currentUser);
+    // }
   }
 }

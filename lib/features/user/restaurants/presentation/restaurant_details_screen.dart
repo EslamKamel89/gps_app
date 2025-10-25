@@ -428,6 +428,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen>
             label: 'Update your name',
           ),
     );
+    if (newVal == null) return;
     final res = await UpdateController.update(
       path: 'vendor/${restaurant?.vendor?.id}',
       data: {'vendor_name': newVal},
