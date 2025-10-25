@@ -5,7 +5,7 @@ class Meal {
   String? name;
   String? description;
   String? price;
-  List<RestaurantImage>? images;
+  RestaurantImage? images;
   Category? categories;
   Category? subcategories;
 
@@ -29,10 +29,14 @@ class Meal {
     name: json['name'] as String?,
     description: json['description'] as String?,
     price: json['price'] as String?,
+    // images:
+    //     (json['images'] as List<dynamic>?)
+    //         ?.map((e) => RestaurantImage.fromJson(e as Map<String, dynamic>))
+    //         .toList(),
     images:
-        (json['images'] as List<dynamic>?)
-            ?.map((e) => RestaurantImage.fromJson(e as Map<String, dynamic>))
-            .toList(),
+        json['images'] == null
+            ? null
+            : RestaurantImage.fromJson(json['images'] as Map<String, dynamic>),
     categories:
         json['categories'] == null
             ? null
@@ -48,7 +52,8 @@ class Meal {
     'name': name,
     'description': description,
     'price': price,
-    'images': images?.map((e) => e.toJson()).toList(),
+    // 'images': images?.map((e) => e.toJson()).toList(),
+    'images': images?.toJson(),
     'categories': categories?.toJson(),
     'subcategories': subcategories?.toJson(),
   };
@@ -58,7 +63,7 @@ class Meal {
     String? name,
     String? description,
     String? price,
-    List<RestaurantImage>? images,
+    RestaurantImage? images,
     Category? categories,
     Category? subcategories,
   }) {

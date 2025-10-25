@@ -6,10 +6,11 @@ class ThumbWidget extends StatelessWidget {
   const ThumbWidget({super.key, required this.meal});
   final Meal meal;
   String? imagePath() {
-    if (meal.images?.isNotEmpty == true) {
-      return meal.images![0].path;
-    }
-    return null;
+    // if (meal.images?.isNotEmpty == true) {
+    //   return meal.images![0].path;
+    // }
+    // return null;
+    return meal.images?.path;
   }
 
   @override
@@ -27,10 +28,7 @@ class ThumbWidget extends StatelessWidget {
               height: 86,
               color: GPSColors.cardBorder,
               alignment: Alignment.center,
-              child: const Icon(
-                Icons.image_not_supported_outlined,
-                color: GPSColors.mutedText,
-              ),
+              child: const Icon(Icons.image_not_supported_outlined, color: GPSColors.mutedText),
             ),
       ),
     );
