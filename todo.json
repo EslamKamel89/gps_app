@@ -89,6 +89,9 @@
     "create the page scaffold that will show both the meal and item",
     "use chatgpt to make a beautiful ui for the meal or item details",
     "work on the menu names ",
+    "edit the meal name",
+    "edit the meal description",
+    "edit the meal price",
     "------------------------------------------------"
   ],
   "todos": [
@@ -96,13 +99,9 @@
     "allow the user to edit his main information - but i have a problem the main data that the user entered is not visible in the response returned by the endpoint",
     "handle the verified state in the categories in the restaurant details",
     "when the user is a store or a farm he can't go to the enter categories and products screen",
-    "+++++++++++++++++++++++++++++++++++++++++++++++++",
-    "edit the meal name",
-    "edit the meal description",
-    "edit the meal price",
     "edit the meal category and subcategory",
+    "+++++++++++++++++++++++++++++++++++++++++++++++++",
     "edit the meal image",
-    "work on the category and subcategory update",
     "------------------------------------------------"
   ]
 }

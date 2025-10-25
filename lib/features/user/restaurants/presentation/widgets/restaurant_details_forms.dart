@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gps_app/core/helpers/validator.dart';
+import 'package:gps_app/core/widgets/uploads/image_upload_field.dart';
+import 'package:gps_app/core/widgets/uploads/uploaded_image.dart';
 import 'package:gps_app/features/user/categories/presentation/widgets/category_selector.dart';
 import 'package:gps_app/features/user/restaurants/presentation/widgets/form_bottom_sheet.dart';
 
@@ -86,18 +88,16 @@ class ProfileCategorySelectionForm extends StatefulWidget {
 
 class _ProfileCategorySelectionFormState extends State<ProfileCategorySelectionForm> {
   final _formKey = GlobalKey<FormState>();
-  final _nameCtrl = TextEditingController();
-
+  CategorySelector selectedValue = CategorySelector();
   @override
   void dispose() {
-    _nameCtrl.dispose();
     super.dispose();
   }
 
   void _submit() {
-    // if (_formKey.currentState?.validate() ?? false) {
-    //   widget.controller.submit(_nameCtrl.text.trim());
-    // }
+    if (_formKey.currentState?.validate() ?? false) {
+      widget.controller.submit(selectedValue);
+    }
   }
 
   void _cancel() => widget.controller.cancel();
@@ -110,7 +110,107 @@ class _ProfileCategorySelectionFormState extends State<ProfileCategorySelectionF
       children: [
         Text('Pick Category', style: Theme.of(context).textTheme.titleMedium),
         const SizedBox(height: 12),
-        Form(key: _formKey, child: CategorySelectorProvider(onSelect: (_) {})),
+        Form(
+          key: _formKey,
+          child: CategorySelectorProvider(
+            onSelect: (s) {
+              selectedValue = s;
+            },
+            isRequired: true,
+          ),
+        ),
+        const SizedBox(height: 16),
+        FormActionBar(
+          onCancel: _cancel,
+          onSubmit: _submit,
+          cancelLabel: 'Cancel',
+          submitLabel: 'Save',
+        ),
+      ],
+    );
+  }
+}
+
+class ProfileImageForm extends StatefulWidget {
+  const ProfileImageForm({
+    super.key,
+    required this.controller,
+    this.label = 'Name',
+    this.isRequired = true,
+  });
+  final BottomSheetFormController<UploadedImage> controller;
+  final String label;
+  final bool isRequired;
+  @override
+  State<ProfileImageForm> createState() => _ProfileImageFormState();
+}
+
+class _ProfileImageFormState extends State<ProfileImageForm> {
+  final _formKey = GlobalKey<FormState>();
+  UploadedImage? _image;
+  String? _errorMessage;
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  void _submit() {
+    if (_formKey.currentState?.validate() ?? false) {
+      setState(() {
+        _errorMessage = null;
+      });
+      if (_image != null) {
+        widget.controller.submit(_image!);
+      } else {
+        setState(() {
+          _errorMessage = 'You have to upload an image';
+        });
+      }
+    }
+  }
+
+  void _cancel() => widget.controller.cancel();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min, // wrap content, lets sheet size to content
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(widget.label, style: Theme.of(context).textTheme.titleMedium),
+        const SizedBox(height: 12),
+        Form(
+          key: _formKey,
+          child: ImageUploadField(
+            multiple: false,
+            // maxCount: 6,
+            resource: UploadResource.common,
+            initial: const [],
+            onChanged: (images) {
+              if (images.isEmpty) return;
+              _image = images[0];
+            },
+            child: Container(
+              height: 56,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: Colors.grey.shade400),
+              ),
+              child: Text(widget.label),
+            ),
+          ),
+        ),
+        if (_errorMessage != null)
+          Padding(
+            padding: const EdgeInsets.only(top: 10.0),
+            child: Text(_errorMessage!, style: TextStyle(color: Colors.red)),
+          ),
         const SizedBox(height: 16),
         FormActionBar(
           onCancel: _cancel,

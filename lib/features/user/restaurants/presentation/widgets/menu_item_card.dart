@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gps_app/core/enums/response_type.dart';
 import 'package:gps_app/core/helpers/update_controller.dart';
 import 'package:gps_app/core/helpers/user.dart';
+import 'package:gps_app/core/widgets/uploads/uploaded_image.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 import 'package:gps_app/features/user/categories/presentation/widgets/category_selector.dart';
@@ -63,10 +64,7 @@ class _MenuItemCardState extends State<MenuItemCard> {
                 enableEdit: showEdit && widget.enableEdit,
                 actionWidget: EditButton(
                   onPressed: () async {
-                    final String? name = await showFormBottomSheet<String>(
-                      context,
-                      builder: (ctx, ctl) => ProfileTextForm(controller: ctl),
-                    );
+                    _updateMealImage(widget.meal);
                   },
                 ),
                 child: ThumbWidget(meal: widget.meal).animate().fadeIn(duration: 200.ms),
@@ -133,13 +131,7 @@ class _MenuItemCardState extends State<MenuItemCard> {
                             right: 5,
                             actionWidget: EditButton(
                               onPressed: () async {
-                                final CategorySelector? categorySelector =
-                                    await showFormBottomSheet<CategorySelector>(
-                                      context,
-                                      builder:
-                                          (ctx, ctl) =>
-                                              ProfileCategorySelectionForm(controller: ctl),
-                                    );
+                                _updateMealCategory(widget.meal);
                               },
                             ),
                             child: Wrap(
@@ -223,6 +215,47 @@ class _MenuItemCardState extends State<MenuItemCard> {
     );
     if (newVal == null) return;
     final res = await UpdateController.update(path: 'meals/${meal.id}', data: {'price': newVal});
+    int? restaurantId = currentUser?.restaurant?.id;
+    if (res.response == ResponseEnum.success && restaurantId != null) {
+      await cubit.restaurant(restaurantId: restaurantId);
+    }
+  }
+
+  Future _updateMealCategory(Meal meal) async {
+    final cubit = context.read<RestaurantCubit>();
+    final currentUser = user();
+    final CategorySelector? newVal = await showFormBottomSheet<CategorySelector>(
+      context,
+      builder: (ctx, ctl) => ProfileCategorySelectionForm(controller: ctl),
+    );
+    if (newVal == null || newVal.selectedCategory == null || newVal.selectedSubCategory == null) {
+      return;
+    }
+    final res = await UpdateController.update(
+      path: 'meals/${meal.id}',
+      data: {
+        'category_id': newVal.selectedCategory?.id,
+        'sub_category_id': newVal.selectedSubCategory?.id,
+      },
+    );
+    int? restaurantId = currentUser?.restaurant?.id;
+    if (res.response == ResponseEnum.success && restaurantId != null) {
+      await cubit.restaurant(restaurantId: restaurantId);
+    }
+  }
+
+  Future _updateMealImage(Meal meal) async {
+    final cubit = context.read<RestaurantCubit>();
+    final currentUser = user();
+    final UploadedImage? newVal = await showFormBottomSheet<UploadedImage>(
+      context,
+      builder: (ctx, ctl) => ProfileImageForm(controller: ctl, label: 'Update Meal image'),
+    );
+    if (newVal == null) return;
+    final res = await UpdateController.update(
+      path: 'meals/${meal.id}',
+      data: {'image_id': newVal.id},
+    );
     int? restaurantId = currentUser?.restaurant?.id;
     if (res.response == ResponseEnum.success && restaurantId != null) {
       await cubit.restaurant(restaurantId: restaurantId);
