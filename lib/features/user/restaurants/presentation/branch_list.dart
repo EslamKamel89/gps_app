@@ -3,15 +3,26 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gps_app/core/cache/local_storage.dart';
+import 'package:gps_app/core/enums/response_type.dart';
+import 'package:gps_app/core/helpers/update_controller.dart';
+import 'package:gps_app/core/helpers/user.dart';
+import 'package:gps_app/core/service_locator/service_locator.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
+import 'package:gps_app/features/user/restaurants/cubits/restaurant_cubit.dart';
 import 'package:gps_app/features/user/restaurants/models/restaurant_detailed_model/export.dart';
 import 'package:gps_app/features/user/restaurants/presentation/widgets/branch_map_screen.dart';
+import 'package:gps_app/features/user/restaurants/presentation/widgets/custom_stack.dart';
+import 'package:gps_app/features/user/restaurants/presentation/widgets/form_bottom_sheet.dart';
+import 'package:gps_app/features/user/restaurants/presentation/widgets/restaurant_details_forms.dart';
 
 class BranchList extends StatelessWidget {
   const BranchList({
     super.key,
     required this.branches,
+    required this.enableEdit,
     this.onTapBranch,
     this.onOpenWebsite,
     this.onCall,
@@ -20,7 +31,7 @@ class BranchList extends StatelessWidget {
   });
 
   final List<Branch> branches;
-
+  final bool enableEdit;
   final void Function(Branch branch)? onTapBranch;
   final void Function(String url)? onOpenWebsite;
   final void Function(String phoneNumber)? onCall;
@@ -32,22 +43,13 @@ class BranchList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (branches.isEmpty) {
-      return _EmptyState()
-          .animate()
-          .fadeIn(duration: 280.ms)
-          .slideY(begin: .08);
+      return _EmptyState().animate().fadeIn(duration: 280.ms).slideY(begin: .08);
     }
 
-    final pad =
-        compact
-            ? const EdgeInsets.all(12)
-            : const EdgeInsets.fromLTRB(16, 16, 16, 28);
+    final pad = compact ? const EdgeInsets.all(12) : const EdgeInsets.fromLTRB(16, 16, 16, 28);
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Branches'),
-        backgroundColor: GPSColors.primary,
-      ),
+      appBar: AppBar(title: Text('Branches'), backgroundColor: GPSColors.primary),
       body: ListView.separated(
         physics: const ClampingScrollPhysics(),
         padding: pad,
@@ -64,10 +66,8 @@ class BranchList extends StatelessWidget {
                 },
                 onOpenWebsite: onOpenWebsite,
                 onCall: onCall,
-                heroTag:
-                    heroPrefix != null && b.id != null
-                        ? '$heroPrefix-${b.id}'
-                        : null,
+                enableEdit: enableEdit,
+                heroTag: heroPrefix != null && b.id != null ? '$heroPrefix-${b.id}' : null,
               )
               .animate(delay: delay)
               .fadeIn(duration: 260.ms, curve: Curves.easeOutCubic)
@@ -79,24 +79,40 @@ class BranchList extends StatelessWidget {
   }
 }
 
-class _BranchCard extends StatelessWidget {
+class _BranchCard extends StatefulWidget {
   const _BranchCard({
     required this.branch,
+    required this.enableEdit,
     this.onTap,
     this.onOpenWebsite,
     this.onCall,
     this.heroTag,
   });
-
+  final bool enableEdit;
   final Branch branch;
   final VoidCallback? onTap;
   final void Function(String url)? onOpenWebsite;
   final void Function(String phoneNumber)? onCall;
   final String? heroTag;
 
+  @override
+  State<_BranchCard> createState() => _BranchCardState();
+
+  static String _domainOnly(String url) {
+    final u = url.trim();
+    try {
+      final uri = Uri.parse(u.contains('://') ? u : 'https://$u');
+      return uri.host.isNotEmpty ? uri.host.replaceFirst('www.', '') : u;
+    } catch (_) {
+      return u;
+    }
+  }
+}
+
+class _BranchCardState extends State<_BranchCard> {
   RestaurantImage? get _firstImg =>
-      (branch.images != null && branch.images!.isNotEmpty)
-          ? branch.images!.first
+      (widget.branch.images != null && widget.branch.images!.isNotEmpty)
+          ? widget.branch.images!.first
           : null;
 
   @override
@@ -105,7 +121,7 @@ class _BranchCard extends StatelessWidget {
 
     return InkWell(
       borderRadius: BorderRadius.circular(16),
-      onTap: onTap,
+      onTap: widget.onTap,
       child: Ink(
         decoration: BoxDecoration(
           color: Colors.white,
@@ -123,7 +139,7 @@ class _BranchCard extends StatelessWidget {
         child: Column(
           children: [
             // Image header
-            _BranchImageHeader(image: _firstImg, heroTag: heroTag),
+            _BranchImageHeader(image: _firstImg, heroTag: widget.heroTag),
             // Content
             Padding(
               padding: const EdgeInsets.fromLTRB(14, 12, 14, 12),
@@ -134,16 +150,22 @@ class _BranchCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Expanded(
-                        child: Text(
-                          branch.branchName?.trim().isNotEmpty == true
-                              ? branch.branchName!.trim()
-                              : 'Branch',
-                          style: txt.titleMedium?.copyWith(
-                            color: GPSColors.text,
-                            fontWeight: FontWeight.w800,
+                        child: CustomStack(
+                          enableEdit: widget.enableEdit,
+                          actionWidget: EditButton(
+                            onPressed: () => _updateBranchName(branch: widget.branch),
                           ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
+                          child: Text(
+                            widget.branch.branchName?.trim().isNotEmpty == true
+                                ? widget.branch.branchName!.trim()
+                                : 'Branch',
+                            style: txt.titleMedium?.copyWith(
+                              color: GPSColors.text,
+                              fontWeight: FontWeight.w800,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ),
                       ),
                       // Actions (call / website)
@@ -153,16 +175,15 @@ class _BranchCard extends StatelessWidget {
                       //     icon: Icons.call_rounded,
                       //     onTap: () => onCall?.call(branch.phoneNumber!.trim()),
                       //   ).animate().fadeIn(duration: 150.ms),
-                      if ((branch.website ?? '').isNotEmpty) GPSGaps.w8,
-                      if ((branch.website ?? '').isNotEmpty)
+                      if ((widget.branch.website ?? '').isNotEmpty) GPSGaps.w8,
+                      if ((widget.branch.website ?? '').isNotEmpty)
                         _IconAction(
                           tooltip: 'Open website',
                           icon: Icons.language_rounded,
-                          onTap:
-                              () => onOpenWebsite?.call(branch.website!.trim()),
+                          onTap: () => widget.onOpenWebsite?.call(widget.branch.website!.trim()),
                         ).animate(delay: 40.ms).fadeIn(duration: 150.ms),
-                      if ((branch.latitude ?? '').isNotEmpty) GPSGaps.w8,
-                      if ((branch.latitude ?? '').isNotEmpty)
+                      if ((widget.branch.latitude ?? '').isNotEmpty) GPSGaps.w8,
+                      if ((widget.branch.latitude ?? '').isNotEmpty)
                         _IconAction(
                           tooltip: 'Open Map',
                           icon: Icons.location_on,
@@ -171,11 +192,9 @@ class _BranchCard extends StatelessWidget {
                               MaterialPageRoute(
                                 builder:
                                     (_) => BranchMapScreen(
-                                      latitude: branch.latitude ?? '0',
-                                      longitude: branch.longitude ?? '0',
-                                      title:
-                                          branch.branchName ??
-                                          'Branch Location',
+                                      latitude: widget.branch.latitude ?? '0',
+                                      longitude: widget.branch.longitude ?? '0',
+                                      title: widget.branch.branchName ?? 'Branch Location',
                                     ),
                                 fullscreenDialog: true,
                               ),
@@ -192,18 +211,17 @@ class _BranchCard extends StatelessWidget {
                     spacing: 8,
                     runSpacing: 8,
                     children: [
-                      if ((branch.phoneNumber ?? '').isNotEmpty)
+                      if ((widget.branch.phoneNumber ?? '').isNotEmpty)
                         _MetaChip(
                           icon: Icons.phone_rounded,
-                          label: branch.phoneNumber!,
-                          onTap: () => onCall?.call(branch.phoneNumber!.trim()),
+                          label: widget.branch.phoneNumber!,
+                          onTap: () => widget.onCall?.call(widget.branch.phoneNumber!.trim()),
                         ),
-                      if ((branch.website ?? '').isNotEmpty)
+                      if ((widget.branch.website ?? '').isNotEmpty)
                         _MetaChip(
                           icon: Icons.link_rounded,
-                          label: _domainOnly(branch.website!),
-                          onTap:
-                              () => onOpenWebsite?.call(branch.website!.trim()),
+                          label: _BranchCard._domainOnly(widget.branch.website!),
+                          onTap: () => widget.onOpenWebsite?.call(widget.branch.website!.trim()),
                         ),
                     ],
                   ).animate().fadeIn(duration: 200.ms).slideY(begin: .05),
@@ -216,13 +234,27 @@ class _BranchCard extends StatelessWidget {
     );
   }
 
-  static String _domainOnly(String url) {
-    final u = url.trim();
-    try {
-      final uri = Uri.parse(u.contains('://') ? u : 'https://$u');
-      return uri.host.isNotEmpty ? uri.host.replaceFirst('www.', '') : u;
-    } catch (_) {
-      return u;
+  Future _updateBranchName({required Branch? branch}) async {
+    final storage = serviceLocator<LocalStorage>();
+    final cubit = context.read<RestaurantCubit>();
+    final currentUser = user();
+    final String? newVal = await showFormBottomSheet<String>(
+      context,
+      builder:
+          (ctx, ctl) => ProfileTextForm(
+            initialValue: branch?.branchName,
+            controller: ctl,
+            label: 'Update branch name',
+          ),
+    );
+    if (newVal == null) return;
+    final res = await UpdateController.update(
+      path: 'branches/${branch?.id}',
+      data: {'branch_name': newVal},
+    );
+    int? restaurantId = currentUser?.restaurant?.id;
+    if (res.response == ResponseEnum.success && restaurantId != null) {
+      await cubit.restaurant(restaurantId: restaurantId);
     }
   }
 }
@@ -245,20 +277,13 @@ class _BranchImageHeader extends StatelessWidget {
       height: 160,
       fadeInDuration: const Duration(milliseconds: 200),
       placeholder:
-          (context, _) => _ShimmerBox(
-            width: double.infinity,
-            height: 160,
-            borderRadius: radius,
-          ),
+          (context, _) => _ShimmerBox(width: double.infinity, height: 160, borderRadius: radius),
       errorWidget: (context, _, __) => _ErrorImageStub(borderRadius: radius),
     );
 
     final child = ClipRRect(
       borderRadius: radius,
-      child:
-          url.isNotEmpty
-              ? imgWidget
-              : _PlaceholderMonogram(borderRadius: radius),
+      child: url.isNotEmpty ? imgWidget : _PlaceholderMonogram(borderRadius: radius),
     );
 
     return heroTag == null ? child : Hero(tag: heroTag!, child: child);
@@ -266,11 +291,7 @@ class _BranchImageHeader extends StatelessWidget {
 }
 
 class _IconAction extends StatelessWidget {
-  const _IconAction({
-    required this.icon,
-    required this.onTap,
-    required this.tooltip,
-  });
+  const _IconAction({required this.icon, required this.onTap, required this.tooltip});
   final IconData icon;
   final VoidCallback onTap;
   final String tooltip;
@@ -323,10 +344,7 @@ class _MetaChip extends StatelessWidget {
             label,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: txt.labelMedium?.copyWith(
-              color: GPSColors.text,
-              fontWeight: FontWeight.w700,
-            ),
+            style: txt.labelMedium?.copyWith(color: GPSColors.text, fontWeight: FontWeight.w700),
           ),
         ],
       ),
@@ -337,11 +355,7 @@ class _MetaChip extends StatelessWidget {
 }
 
 class _ShimmerBox extends StatelessWidget {
-  const _ShimmerBox({
-    required this.width,
-    required this.height,
-    required this.borderRadius,
-  });
+  const _ShimmerBox({required this.width, required this.height, required this.borderRadius});
 
   final double width;
   final double height;
@@ -354,11 +368,7 @@ class _ShimmerBox extends StatelessWidget {
       effects: [
         ShimmerEffect(
           duration: 1200.ms,
-          colors: const [
-            Color(0xFFEFEFEF),
-            Color(0xFFF7F7F7),
-            Color(0xFFEFEFEF),
-          ],
+          colors: const [Color(0xFFEFEFEF), Color(0xFFF7F7F7), Color(0xFFEFEFEF)],
         ),
       ],
       child: Container(
@@ -388,9 +398,7 @@ class _ErrorImageStub extends StatelessWidget {
         borderRadius: borderRadius,
         border: Border.all(color: GPSColors.cardBorder),
       ),
-      child: const Center(
-        child: Icon(Icons.broken_image_rounded, color: GPSColors.mutedText),
-      ),
+      child: const Center(child: Icon(Icons.broken_image_rounded, color: GPSColors.mutedText)),
     );
   }
 }
@@ -413,9 +421,7 @@ class _PlaceholderMonogram extends StatelessWidget {
         ),
         borderRadius: borderRadius,
       ),
-      child: const Center(
-        child: Icon(Icons.store_rounded, color: Colors.white70, size: 36),
-      ),
+      child: const Center(child: Icon(Icons.store_rounded, color: Colors.white70, size: 36)),
     );
   }
 }

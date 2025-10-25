@@ -92,6 +92,7 @@
     "edit the meal name",
     "edit the meal description",
     "edit the meal price",
+    "edit the meal image",
     "------------------------------------------------"
   ],
   "todos": [
@@ -101,7 +102,12 @@
     "when the user is a store or a farm he can't go to the enter categories and products screen",
     "edit the meal category and subcategory",
     "+++++++++++++++++++++++++++++++++++++++++++++++++",
-    "edit the meal image",
+    "branches table edit name",
+    "branches table edit mobile",
+    "branches table edit website",
+    "branches table edit image",
+    "certification name",
+    "certification description",
     "------------------------------------------------"
   ]
 }

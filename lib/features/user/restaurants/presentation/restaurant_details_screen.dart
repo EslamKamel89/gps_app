@@ -69,6 +69,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen>
   @override
   void initState() {
     cubit = context.read<RestaurantCubit>();
+    cubit.restaurant(restaurantId: widget.restaurantId);
     super.initState();
   }
 
@@ -245,6 +246,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen>
                                                   builder:
                                                       (_) => BranchList(
                                                         branches: state.data?.branches ?? [],
+                                                        enableEdit: widget.enableEdit,
                                                       ),
                                                 ),
                                               );

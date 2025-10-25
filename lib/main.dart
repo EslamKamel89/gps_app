@@ -9,6 +9,7 @@ import 'package:gps_app/core/router/app_routes_names.dart';
 import 'package:gps_app/core/service_locator/service_locator.dart';
 import 'package:gps_app/core/themes/theme_cubit.dart';
 import 'package:gps_app/features/user/categories/cubits/category_onboarding_cubit/category_onboarding_cubit.dart';
+import 'package:gps_app/features/user/restaurants/cubits/restaurant_cubit.dart';
 import 'package:gps_app/features/wishlist/cubits/wishes_cubit.dart';
 import 'package:intl/intl_standalone.dart';
 
@@ -43,6 +44,7 @@ class MyApp extends StatelessWidget {
           BlocProvider(create: (_) => ThemeCubit()),
           BlocProvider(create: (_) => CategoryOnboardingCubit()),
           BlocProvider(create: (context) => WishesCubit()),
+          BlocProvider(create: (context) => RestaurantCubit()),
         ],
         child: Builder(
           builder: (context) {
