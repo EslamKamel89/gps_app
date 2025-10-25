@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:gps_app/core/cache/local_storage.dart';
 import 'package:gps_app/core/enums/response_type.dart';
 import 'package:gps_app/core/helpers/update_controller.dart';
@@ -118,7 +119,7 @@ class _BranchCardState extends State<_BranchCard> {
   @override
   Widget build(BuildContext context) {
     final txt = Theme.of(context).textTheme;
-
+    context.watch<RestaurantCubit>();
     return InkWell(
       borderRadius: BorderRadius.circular(16),
       onTap: widget.onTap,
@@ -175,32 +176,38 @@ class _BranchCardState extends State<_BranchCard> {
                       //     icon: Icons.call_rounded,
                       //     onTap: () => onCall?.call(branch.phoneNumber!.trim()),
                       //   ).animate().fadeIn(duration: 150.ms),
-                      if ((widget.branch.website ?? '').isNotEmpty) GPSGaps.w8,
-                      if ((widget.branch.website ?? '').isNotEmpty)
-                        _IconAction(
-                          tooltip: 'Open website',
-                          icon: Icons.language_rounded,
-                          onTap: () => widget.onOpenWebsite?.call(widget.branch.website!.trim()),
-                        ).animate(delay: 40.ms).fadeIn(duration: 150.ms),
+                      // if ((widget.branch.website ?? '').isNotEmpty) GPSGaps.w8,
+                      // if ((widget.branch.website ?? '').isNotEmpty)
+                      //   _IconAction(
+                      //     tooltip: 'Open website',
+                      //     icon: Icons.language_rounded,
+                      //     onTap: () => widget.onOpenWebsite?.call(widget.branch.website!.trim()),
+                      // ).animate(delay: 40.ms).fadeIn(duration: 150.ms),
                       if ((widget.branch.latitude ?? '').isNotEmpty) GPSGaps.w8,
                       if ((widget.branch.latitude ?? '').isNotEmpty)
-                        _IconAction(
-                          tooltip: 'Open Map',
-                          icon: Icons.location_on,
-                          onTap: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder:
-                                    (_) => BranchMapScreen(
-                                      latitude: widget.branch.latitude ?? '0',
-                                      longitude: widget.branch.longitude ?? '0',
-                                      title: widget.branch.branchName ?? 'Branch Location',
-                                    ),
-                                fullscreenDialog: true,
-                              ),
-                            );
-                          },
-                        ).animate(delay: 40.ms).fadeIn(duration: 150.ms),
+                        CustomStack(
+                          enableEdit: widget.enableEdit,
+                          actionWidget: EditButton(
+                            onPressed: () => _updateBranchLocation(branch: widget.branch),
+                          ),
+                          child: _IconAction(
+                            tooltip: 'Open Map',
+                            icon: Icons.location_on,
+                            onTap: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder:
+                                      (_) => BranchMapScreen(
+                                        latitude: widget.branch.latitude ?? '0',
+                                        longitude: widget.branch.longitude ?? '0',
+                                        title: widget.branch.branchName ?? 'Branch Location',
+                                      ),
+                                  fullscreenDialog: true,
+                                ),
+                              );
+                            },
+                          ).animate(delay: 40.ms).fadeIn(duration: 150.ms),
+                        ),
                     ],
                   ),
 
@@ -212,16 +219,28 @@ class _BranchCardState extends State<_BranchCard> {
                     runSpacing: 8,
                     children: [
                       if ((widget.branch.phoneNumber ?? '').isNotEmpty)
-                        _MetaChip(
-                          icon: Icons.phone_rounded,
-                          label: widget.branch.phoneNumber!,
-                          onTap: () => widget.onCall?.call(widget.branch.phoneNumber!.trim()),
+                        CustomStack(
+                          enableEdit: widget.enableEdit,
+                          actionWidget: EditButton(
+                            onPressed: () => _updateBranchPhoneNumber(branch: widget.branch),
+                          ),
+                          child: _MetaChip(
+                            icon: Icons.phone_rounded,
+                            label: widget.branch.phoneNumber!,
+                            onTap: () => widget.onCall?.call(widget.branch.phoneNumber!.trim()),
+                          ),
                         ),
                       if ((widget.branch.website ?? '').isNotEmpty)
-                        _MetaChip(
-                          icon: Icons.link_rounded,
-                          label: _BranchCard._domainOnly(widget.branch.website!),
-                          onTap: () => widget.onOpenWebsite?.call(widget.branch.website!.trim()),
+                        CustomStack(
+                          enableEdit: widget.enableEdit,
+                          actionWidget: EditButton(
+                            onPressed: () => _updateBranchWebsite(branch: widget.branch),
+                          ),
+                          child: _MetaChip(
+                            icon: Icons.link_rounded,
+                            label: _BranchCard._domainOnly(widget.branch.website!),
+                            onTap: () => widget.onOpenWebsite?.call(widget.branch.website!.trim()),
+                          ),
                         ),
                     ],
                   ).animate().fadeIn(duration: 200.ms).slideY(begin: .05),
@@ -254,6 +273,76 @@ class _BranchCardState extends State<_BranchCard> {
     );
     int? restaurantId = currentUser?.restaurant?.id;
     if (res.response == ResponseEnum.success && restaurantId != null) {
+      branch?.branchName = newVal;
+      await cubit.restaurant(restaurantId: restaurantId);
+    }
+  }
+
+  Future _updateBranchPhoneNumber({required Branch? branch}) async {
+    final cubit = context.read<RestaurantCubit>();
+    final currentUser = user();
+    final String? newVal = await showFormBottomSheet<String>(
+      context,
+      builder:
+          (ctx, ctl) => ProfileTextForm(
+            initialValue: branch?.phoneNumber,
+            controller: ctl,
+            label: 'Update branch phone number',
+            isNumeric: true,
+          ),
+    );
+    if (newVal == null) return;
+    final res = await UpdateController.update(
+      path: 'branches/${branch?.id}',
+      data: {'branch_name': newVal},
+    );
+    int? restaurantId = currentUser?.restaurant?.id;
+    if (res.response == ResponseEnum.success && restaurantId != null) {
+      branch?.phoneNumber = newVal;
+      await cubit.restaurant(restaurantId: restaurantId);
+    }
+  }
+
+  Future _updateBranchWebsite({required Branch? branch}) async {
+    final cubit = context.read<RestaurantCubit>();
+    final currentUser = user();
+    final String? newVal = await showFormBottomSheet<String>(
+      context,
+      builder:
+          (ctx, ctl) => ProfileTextForm(
+            initialValue: branch?.website,
+            controller: ctl,
+            label: 'Update branch website',
+          ),
+    );
+    if (newVal == null) return;
+    final res = await UpdateController.update(
+      path: 'branches/${branch?.id}',
+      data: {'website': newVal},
+    );
+    int? restaurantId = currentUser?.restaurant?.id;
+    if (res.response == ResponseEnum.success && restaurantId != null) {
+      branch?.website = newVal;
+      await cubit.restaurant(restaurantId: restaurantId);
+    }
+  }
+
+  Future _updateBranchLocation({required Branch? branch}) async {
+    final cubit = context.read<RestaurantCubit>();
+    final currentUser = user();
+    final LatLng? newVal = await showFormBottomSheet<LatLng>(
+      context,
+      builder: (ctx, ctl) => ProfileLocationForm(controller: ctl, label: 'Update branch location'),
+    );
+    if (newVal == null) return;
+    final res = await UpdateController.update(
+      path: 'branches/${branch?.id}',
+      data: {'latitude': newVal.latitude, 'longitude': newVal.longitude},
+    );
+    int? restaurantId = currentUser?.restaurant?.id;
+    if (res.response == ResponseEnum.success && restaurantId != null) {
+      branch?.latitude = newVal.latitude.toString();
+      branch?.longitude = newVal.longitude.toString();
       await cubit.restaurant(restaurantId: restaurantId);
     }
   }

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:gps_app/core/helpers/validator.dart';
 import 'package:gps_app/core/widgets/uploads/image_upload_field.dart';
 import 'package:gps_app/core/widgets/uploads/uploaded_image.dart';
+import 'package:gps_app/features/auth/presentation/widgets/select_location_on_the_map.dart';
 import 'package:gps_app/features/user/categories/presentation/widgets/category_selector.dart';
 import 'package:gps_app/features/user/restaurants/presentation/widgets/form_bottom_sheet.dart';
 
@@ -204,6 +206,84 @@ class _ProfileImageFormState extends State<ProfileImageForm> {
               ),
               child: Text(widget.label),
             ),
+          ),
+        ),
+        if (_errorMessage != null)
+          Padding(
+            padding: const EdgeInsets.only(top: 10.0),
+            child: Text(_errorMessage!, style: TextStyle(color: Colors.red)),
+          ),
+        const SizedBox(height: 16),
+        FormActionBar(
+          onCancel: _cancel,
+          onSubmit: _submit,
+          cancelLabel: 'Cancel',
+          submitLabel: 'Save',
+        ),
+      ],
+    );
+  }
+}
+
+class ProfileLocationForm extends StatefulWidget {
+  const ProfileLocationForm({
+    super.key,
+    required this.controller,
+    required this.label,
+    this.isRequired = true,
+  });
+  final BottomSheetFormController<LatLng> controller;
+  final String label;
+  final bool isRequired;
+  @override
+  State<ProfileLocationForm> createState() => _ProfileLocationFormState();
+}
+
+class _ProfileLocationFormState extends State<ProfileLocationForm> {
+  final _formKey = GlobalKey<FormState>();
+  LatLng? _selectedLocation;
+  String? _errorMessage;
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  void _submit() {
+    if (_formKey.currentState?.validate() ?? false) {
+      setState(() {
+        _errorMessage = null;
+      });
+      if (_selectedLocation != null) {
+        widget.controller.submit(_selectedLocation!);
+      } else {
+        setState(() {
+          _errorMessage = 'You have to pick location';
+        });
+      }
+    }
+  }
+
+  void _cancel() => widget.controller.cancel();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min, // wrap content, lets sheet size to content
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(widget.label, style: Theme.of(context).textTheme.titleMedium),
+        const SizedBox(height: 12),
+        Form(
+          key: _formKey,
+          child: SelectableLocationMap(
+            onLocationSelected: (v) {
+              _selectedLocation = v;
+            },
           ),
         ),
         if (_errorMessage != null)
