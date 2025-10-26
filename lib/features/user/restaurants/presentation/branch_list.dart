@@ -4,11 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:gps_app/core/cache/local_storage.dart';
-import 'package:gps_app/core/enums/response_type.dart';
 import 'package:gps_app/core/helpers/update_controller.dart';
-import 'package:gps_app/core/helpers/user.dart';
-import 'package:gps_app/core/service_locator/service_locator.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 import 'package:gps_app/features/user/restaurants/cubits/restaurant_cubit.dart';
@@ -257,9 +253,7 @@ class _BranchCardState extends State<_BranchCard> {
   }
 
   Future _updateBranchName({required Branch? branch}) async {
-    final storage = serviceLocator<LocalStorage>();
     final cubit = context.read<RestaurantCubit>();
-    final currentUser = user();
     final String? newVal = await showFormBottomSheet<String>(
       context,
       builder:
@@ -270,20 +264,16 @@ class _BranchCardState extends State<_BranchCard> {
           ),
     );
     if (newVal == null) return;
+    branch?.branchName = newVal;
+    cubit.update(cubit.state.data!);
     final res = await UpdateController.update(
       path: 'branches/${branch?.id}',
       data: {'branch_name': newVal},
     );
-    int? restaurantId = currentUser?.restaurant?.id;
-    if (res.response == ResponseEnum.success && restaurantId != null) {
-      branch?.branchName = newVal;
-      await cubit.restaurant(restaurantId: restaurantId);
-    }
   }
 
   Future _updateBranchPhoneNumber({required Branch? branch}) async {
     final cubit = context.read<RestaurantCubit>();
-    final currentUser = user();
     final String? newVal = await showFormBottomSheet<String>(
       context,
       builder:
@@ -295,20 +285,16 @@ class _BranchCardState extends State<_BranchCard> {
           ),
     );
     if (newVal == null) return;
+    branch?.phoneNumber = newVal;
+    cubit.update(cubit.state.data!);
     final res = await UpdateController.update(
       path: 'branches/${branch?.id}',
-      data: {'branch_name': newVal},
+      data: {'phone_number': newVal},
     );
-    int? restaurantId = currentUser?.restaurant?.id;
-    if (res.response == ResponseEnum.success && restaurantId != null) {
-      branch?.phoneNumber = newVal;
-      await cubit.restaurant(restaurantId: restaurantId);
-    }
   }
 
   Future _updateBranchWebsite({required Branch? branch}) async {
     final cubit = context.read<RestaurantCubit>();
-    final currentUser = user();
     final String? newVal = await showFormBottomSheet<String>(
       context,
       builder:
@@ -319,35 +305,28 @@ class _BranchCardState extends State<_BranchCard> {
           ),
     );
     if (newVal == null) return;
+    branch?.website = newVal;
+    cubit.update(cubit.state.data!);
     final res = await UpdateController.update(
       path: 'branches/${branch?.id}',
       data: {'website': newVal},
     );
-    int? restaurantId = currentUser?.restaurant?.id;
-    if (res.response == ResponseEnum.success && restaurantId != null) {
-      branch?.website = newVal;
-      await cubit.restaurant(restaurantId: restaurantId);
-    }
   }
 
   Future _updateBranchLocation({required Branch? branch}) async {
     final cubit = context.read<RestaurantCubit>();
-    final currentUser = user();
     final LatLng? newVal = await showFormBottomSheet<LatLng>(
       context,
       builder: (ctx, ctl) => ProfileLocationForm(controller: ctl, label: 'Update branch location'),
     );
     if (newVal == null) return;
+    branch?.latitude = newVal.latitude.toString();
+    branch?.longitude = newVal.longitude.toString();
+    cubit.update(cubit.state.data!);
     final res = await UpdateController.update(
       path: 'branches/${branch?.id}',
       data: {'latitude': newVal.latitude, 'longitude': newVal.longitude},
     );
-    int? restaurantId = currentUser?.restaurant?.id;
-    if (res.response == ResponseEnum.success && restaurantId != null) {
-      branch?.latitude = newVal.latitude.toString();
-      branch?.longitude = newVal.longitude.toString();
-      await cubit.restaurant(restaurantId: restaurantId);
-    }
   }
 }
 
