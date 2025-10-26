@@ -274,7 +274,6 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen>
                                             });
                                           },
                                           icon: MdiIcons.foodForkDrink,
-                                          tooltip: 'Go to branch details',
                                           expand: true,
                                         ),
                                       ],
@@ -300,7 +299,6 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen>
                                             });
                                           },
                                           icon: MdiIcons.certificate,
-                                          tooltip: 'Go to branch details',
                                           expand: true,
                                         ),
                                       ],

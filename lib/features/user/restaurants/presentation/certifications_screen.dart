@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gps_app/core/enums/response_type.dart';
 import 'package:gps_app/core/helpers/update_controller.dart';
-import 'package:gps_app/core/helpers/user.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 import 'package:gps_app/features/user/restaurants/cubits/restaurant_cubit.dart';
@@ -185,7 +183,6 @@ class _CertificationCardState extends State<_CertificationCard> {
 
   Future _updateCertificationTitle({required Certification? cert}) async {
     final cubit = context.read<RestaurantCubit>();
-    final currentUser = user();
     final String? newVal = await showFormBottomSheet<String>(
       context,
       builder:
@@ -196,20 +193,16 @@ class _CertificationCardState extends State<_CertificationCard> {
           ),
     );
     if (newVal == null) return;
+    cert?.title = newVal;
+    cubit.update(cubit.state.data!);
     final res = await UpdateController.update(
       path: 'certificates/${cert?.id}',
       data: {'title': newVal},
     );
-    int? restaurantId = currentUser?.restaurant?.id;
-    if (res.response == ResponseEnum.success && restaurantId != null) {
-      cert?.title = newVal;
-      await cubit.restaurant(restaurantId: restaurantId);
-    }
   }
 
   Future _updateCertificationDescription({required Certification? cert}) async {
     final cubit = context.read<RestaurantCubit>();
-    final currentUser = user();
     final String? newVal = await showFormBottomSheet<String>(
       context,
       builder:
@@ -220,15 +213,12 @@ class _CertificationCardState extends State<_CertificationCard> {
           ),
     );
     if (newVal == null) return;
+    cert?.description = newVal;
+    cubit.update(cubit.state.data!);
     final res = await UpdateController.update(
       path: 'certificates/${cert?.id}',
       data: {'description': newVal},
     );
-    int? restaurantId = currentUser?.restaurant?.id;
-    if (res.response == ResponseEnum.success && restaurantId != null) {
-      cert?.description = newVal;
-      await cubit.restaurant(restaurantId: restaurantId);
-    }
   }
 }
 
