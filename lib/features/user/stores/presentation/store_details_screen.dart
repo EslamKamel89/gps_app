@@ -42,7 +42,7 @@ class StoreDetailsScreenState extends State<StoreDetailsScreen>
   StoreModel? get _store => widget.user.store;
   VendorModel? get _vendor => widget.user.vendor;
 
-  List<CatalogSectionModel> get _sections => _store?.sections ?? [];
+  List<CatalogSectionModel> get _sections => widget.user.sections();
 
   String get _title =>
       _vendor?.vendorName?.trim().isNotEmpty == true

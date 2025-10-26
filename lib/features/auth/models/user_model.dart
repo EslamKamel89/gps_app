@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:gps_app/core/helpers/print_helper.dart';
 import 'package:gps_app/features/auth/models/catalog_section_model.dart';
 import 'package:gps_app/features/auth/models/district_model.dart';
 import 'package:gps_app/features/auth/models/farm_model.dart';
@@ -108,7 +109,7 @@ class UserModel {
   }
 
   List<CatalogSectionModel> sections() {
-    return [...(farm?.sections ?? []), ...(store?.sections ?? [])];
+    return pr([...(farm?.sections ?? []), ...(store?.sections ?? [])], 'sections');
   }
 }
 
