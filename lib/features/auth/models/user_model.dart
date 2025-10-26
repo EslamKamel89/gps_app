@@ -1,7 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:gps_app/features/auth/models/catalog_section_model.dart';
 import 'package:gps_app/features/auth/models/district_model.dart';
-import 'package:gps_app/features/auth/models/farm_model.dart';
 import 'package:gps_app/features/auth/models/image_model.dart';
 import 'package:gps_app/features/auth/models/restaurant_model.dart';
 import 'package:gps_app/features/auth/models/state_model.dart';
@@ -11,28 +10,28 @@ import 'package:gps_app/features/auth/models/vendor_model/vendor_model.dart';
 import 'user_type_model.dart';
 
 class UserModel {
-  final int? id;
-  final String? fullName;
-  final String? userName;
-  final String? email;
-  final String? emailVerifiedAt;
-  final String? mobile;
-  final String? createdAt;
-  final String? updatedAt;
-  final int? userTypeId;
-  final int? districtId;
-  final int? stateId;
-  final String? token;
-  final UserTypeModel? userType;
-  final VendorModel? vendor;
-  final FarmModel? farm;
-  final StoreModel? store;
-  final RestaurantModel? restaurant;
-  final ImageModel? image;
-  final StateModel? state;
-  final DistrictModel? district;
+  int? id;
+  String? fullName;
+  String? userName;
+  String? email;
+  String? emailVerifiedAt;
+  String? mobile;
+  String? createdAt;
+  String? updatedAt;
+  int? userTypeId;
+  int? districtId;
+  int? stateId;
+  String? token;
+  UserTypeModel? userType;
+  VendorModel? vendor;
+  StoreModel? farm;
+  StoreModel? store;
+  RestaurantModel? restaurant;
+  ImageModel? image;
+  StateModel? state;
+  DistrictModel? district;
 
-  const UserModel({
+  UserModel({
     this.id,
     this.fullName,
     this.userName,
@@ -71,7 +70,7 @@ class UserModel {
     image: j['image'] == null ? null : ImageModel.fromJson(j['image']),
     userType: j['user_type'] == null ? null : UserTypeModel.fromJson(j['user_type']),
     vendor: j['vendor'] == null ? null : VendorModel.fromJson(j['vendor']),
-    farm: j['farm'] == null ? null : FarmModel.fromJson(j['farm']),
+    farm: j['farm'] == null ? null : StoreModel.fromJson(j['farm']),
     store: j['store'] == null ? null : StoreModel.fromJson(j['store']),
     restaurant: j['restaurant'] == null ? null : RestaurantModel.fromJson(j['restaurant']),
     state: j['state'] == null ? null : StateModel.fromJson(j['state']),
@@ -109,6 +108,10 @@ class UserModel {
 
   List<CatalogSectionModel> sections() {
     return [...(farm?.sections ?? []), ...(store?.sections ?? [])];
+  }
+
+  StoreModel? storeOrFarm() {
+    return store ?? farm;
   }
 }
 

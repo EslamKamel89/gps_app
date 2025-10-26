@@ -4,6 +4,7 @@ import 'package:gps_app/core/helpers/validator.dart';
 import 'package:gps_app/core/widgets/uploads/image_upload_field.dart';
 import 'package:gps_app/core/widgets/uploads/uploaded_image.dart';
 import 'package:gps_app/features/auth/presentation/widgets/select_location_on_the_map.dart';
+import 'package:gps_app/features/auth/presentation/widgets/state_district_selector.dart';
 import 'package:gps_app/features/user/categories/presentation/widgets/category_selector.dart';
 import 'package:gps_app/features/user/restaurants/presentation/widgets/form_bottom_sheet.dart';
 
@@ -291,6 +292,58 @@ class _ProfileLocationFormState extends State<ProfileLocationForm> {
             padding: const EdgeInsets.only(top: 10.0),
             child: Text(_errorMessage!, style: TextStyle(color: Colors.red)),
           ),
+        const SizedBox(height: 16),
+        FormActionBar(
+          onCancel: _cancel,
+          onSubmit: _submit,
+          cancelLabel: 'Cancel',
+          submitLabel: 'Save',
+        ),
+      ],
+    );
+  }
+}
+
+class ProfileStateSelectionForm extends StatefulWidget {
+  const ProfileStateSelectionForm({super.key, required this.controller});
+  final BottomSheetFormController<SelectedStateAndDistrict> controller;
+
+  @override
+  State<ProfileStateSelectionForm> createState() => _ProfileStateSelectionFormState();
+}
+
+class _ProfileStateSelectionFormState extends State<ProfileStateSelectionForm> {
+  final _formKey = GlobalKey<FormState>();
+  SelectedStateAndDistrict selectedValue = SelectedStateAndDistrict();
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  void _submit() {
+    if (_formKey.currentState?.validate() ?? false) {
+      widget.controller.submit(selectedValue);
+    }
+  }
+
+  void _cancel() => widget.controller.cancel();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min, // wrap content, lets sheet size to content
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('Pick state and city', style: Theme.of(context).textTheme.titleMedium),
+        const SizedBox(height: 12),
+        Form(
+          key: _formKey,
+          child: StateDistrictProvider(
+            onSelect: (s) {
+              selectedValue = s;
+            },
+          ),
+        ),
         const SizedBox(height: 16),
         FormActionBar(
           onCancel: _cancel,
