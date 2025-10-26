@@ -441,7 +441,11 @@ class StoreDetailsScreenState extends State<StoreDetailsScreen>
                       body: TabBarView(
                         children: [
                           for (int ti = 0; ti < tabs.length; ti++)
-                            SectionListView(section: sections[ti], heroPrefix: 'tab$ti'),
+                            SectionListView(
+                              section: sections[ti],
+                              heroPrefix: 'tab$ti',
+                              enableEdit: widget.enableEdit,
+                            ),
                         ],
                       ),
                     ),

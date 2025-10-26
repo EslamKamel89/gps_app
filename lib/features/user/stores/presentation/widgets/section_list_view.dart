@@ -10,17 +10,17 @@ class SectionListView extends StatelessWidget {
     super.key,
     required this.section,
     required this.heroPrefix,
+    required this.enableEdit,
   });
 
   final CatalogSectionModel section;
   final String heroPrefix;
+  final bool enableEdit;
 
   @override
   Widget build(BuildContext context) {
     final items =
-        (section.items ?? const [])
-            .where((i) => (i.status ?? true) == true)
-            .toList()
+        (section.items ?? const []).where((i) => (i.status ?? true) == true).toList()
           ..sort((a, b) => (a.position ?? 9999).compareTo(b.position ?? 9999));
 
     if (items.isEmpty) {
@@ -34,7 +34,7 @@ class SectionListView extends StatelessWidget {
       separatorBuilder: (_, __) => GPSGaps.h12,
       itemBuilder: (context, index) {
         final delay = (70 * index).ms;
-        return ItemCard(item: items[index], heroTag: '$heroPrefix-$index')
+        return ItemCard(item: items[index], heroTag: '$heroPrefix-$index', enableEdit: enableEdit)
             .animate(delay: delay)
             .fadeIn(duration: 260.ms, curve: Curves.easeOutCubic)
             .slideY(begin: .08, curve: Curves.easeOutCubic)
