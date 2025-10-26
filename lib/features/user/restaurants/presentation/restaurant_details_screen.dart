@@ -432,13 +432,15 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen>
           ),
     );
     if (newVal == null) return;
+    final newState = cubit.state.data?.copyWith();
+    newState?.vendor?.vendorName = newVal;
+    cubit.update(newState!);
     final res = await UpdateController.update(
       path: 'vendor/${restaurant?.vendor?.id}',
       data: {'vendor_name': newVal},
     );
     int? restaurantId = currentUser?.restaurant?.id;
     if (res.response == ResponseEnum.success && restaurantId != null) {
-      await cubit.restaurant(restaurantId: restaurantId);
       currentUser?.vendor?.vendorName = newVal;
       storage.cacheUser(currentUser);
     }
@@ -464,12 +466,13 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen>
             label: 'Update menu name',
           ),
     );
+    if (newVal == null) return;
+    final newState = cubit.state.data?.copyWith();
+    newState?.menus?[idx].name = newVal;
+    cubit.update(newState!);
     final res = await UpdateController.update(
       path: 'restaurant-menus/${restaurant?.menus?[idx].id}',
       data: {'name': newVal},
     );
-    if (res.response == ResponseEnum.success && restaurant?.id != null) {
-      await cubit.restaurant(restaurantId: (restaurant?.id)!);
-    }
   }
 }

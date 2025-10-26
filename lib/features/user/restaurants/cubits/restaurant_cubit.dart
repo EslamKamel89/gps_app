@@ -8,14 +8,18 @@ import 'package:gps_app/features/user/restaurants/models/restaurant_detailed_mod
 
 class RestaurantCubit extends Cubit<ApiResponseModel<RestaurantDetailedModel>> {
   RestaurantCubit() : super(ApiResponseModel());
-  final RestaurantsController controller =
-      serviceLocator<RestaurantsController>();
+  final RestaurantsController controller = serviceLocator<RestaurantsController>();
   Future restaurant({required int restaurantId}) async {
     final t = prt('restaurantsIndex - RestaurantsCubit');
     emit(state.copyWith(errorMessage: null, response: ResponseEnum.loading));
-    final ApiResponseModel<RestaurantDetailedModel> response = await controller
-        .restaurant(restaurantId: restaurantId);
+    final ApiResponseModel<RestaurantDetailedModel> response = await controller.restaurant(
+      restaurantId: restaurantId,
+    );
     pr(response, t);
     emit(response);
+  }
+
+  void update(final RestaurantDetailedModel newState) async {
+    emit(state.copyWith(data: newState));
   }
 }

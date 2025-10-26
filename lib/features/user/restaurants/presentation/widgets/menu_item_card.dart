@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gps_app/core/enums/response_type.dart';
+import 'package:gps_app/core/api_service/end_points.dart';
 import 'package:gps_app/core/helpers/update_controller.dart';
-import 'package:gps_app/core/helpers/user.dart';
 import 'package:gps_app/core/widgets/uploads/uploaded_image.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
@@ -162,7 +161,6 @@ class _MenuItemCardState extends State<MenuItemCard> {
 
   Future _updateMealName(Meal meal) async {
     final cubit = context.read<RestaurantCubit>();
-    final currentUser = user();
     final String? newVal = await showFormBottomSheet<String>(
       context,
       builder:
@@ -170,16 +168,13 @@ class _MenuItemCardState extends State<MenuItemCard> {
               ProfileTextForm(initialValue: meal.name, controller: ctl, label: 'Update Meal Name'),
     );
     if (newVal == null) return;
+    meal.name = newVal;
+    cubit.update(cubit.state.data!);
     final res = await UpdateController.update(path: 'meals/${meal.id}', data: {'name': newVal});
-    int? restaurantId = currentUser?.restaurant?.id;
-    if (res.response == ResponseEnum.success && restaurantId != null) {
-      await cubit.restaurant(restaurantId: restaurantId);
-    }
   }
 
   Future _updateMealDescription(Meal meal) async {
     final cubit = context.read<RestaurantCubit>();
-    final currentUser = user();
     final String? newVal = await showFormBottomSheet<String>(
       context,
       builder:
@@ -190,19 +185,16 @@ class _MenuItemCardState extends State<MenuItemCard> {
           ),
     );
     if (newVal == null) return;
+    meal.description = newVal;
+    cubit.update(cubit.state.data!);
     final res = await UpdateController.update(
       path: 'meals/${meal.id}',
       data: {'description': newVal},
     );
-    int? restaurantId = currentUser?.restaurant?.id;
-    if (res.response == ResponseEnum.success && restaurantId != null) {
-      await cubit.restaurant(restaurantId: restaurantId);
-    }
   }
 
   Future _updateMealPrice(Meal meal) async {
     final cubit = context.read<RestaurantCubit>();
-    final currentUser = user();
     final String? newVal = await showFormBottomSheet<String>(
       context,
       builder:
@@ -214,16 +206,13 @@ class _MenuItemCardState extends State<MenuItemCard> {
           ),
     );
     if (newVal == null) return;
+    meal.price = newVal;
+    cubit.update(cubit.state.data!);
     final res = await UpdateController.update(path: 'meals/${meal.id}', data: {'price': newVal});
-    int? restaurantId = currentUser?.restaurant?.id;
-    if (res.response == ResponseEnum.success && restaurantId != null) {
-      await cubit.restaurant(restaurantId: restaurantId);
-    }
   }
 
   Future _updateMealCategory(Meal meal) async {
     final cubit = context.read<RestaurantCubit>();
-    final currentUser = user();
     final CategorySelector? newVal = await showFormBottomSheet<CategorySelector>(
       context,
       builder: (ctx, ctl) => ProfileCategorySelectionForm(controller: ctl),
@@ -231,6 +220,9 @@ class _MenuItemCardState extends State<MenuItemCard> {
     if (newVal == null || newVal.selectedCategory == null || newVal.selectedSubCategory == null) {
       return;
     }
+    meal.categories?.name = newVal.selectedCategory?.name;
+    meal.subcategories?.name = newVal.selectedSubCategory?.name;
+    cubit.update(cubit.state.data!);
     final res = await UpdateController.update(
       path: 'meals/${meal.id}',
       data: {
@@ -238,27 +230,20 @@ class _MenuItemCardState extends State<MenuItemCard> {
         'sub_category_id': newVal.selectedSubCategory?.id,
       },
     );
-    int? restaurantId = currentUser?.restaurant?.id;
-    if (res.response == ResponseEnum.success && restaurantId != null) {
-      await cubit.restaurant(restaurantId: restaurantId);
-    }
   }
 
   Future _updateMealImage(Meal meal) async {
     final cubit = context.read<RestaurantCubit>();
-    final currentUser = user();
     final UploadedImage? newVal = await showFormBottomSheet<UploadedImage>(
       context,
       builder: (ctx, ctl) => ProfileImageForm(controller: ctl, label: 'Update Meal image'),
     );
     if (newVal == null) return;
+    meal.images?.path = "${EndPoint.baseUrl}/${newVal.path}";
+    cubit.update(cubit.state.data!);
     final res = await UpdateController.update(
       path: 'meals/${meal.id}',
       data: {'image_id': newVal.id},
     );
-    int? restaurantId = currentUser?.restaurant?.id;
-    if (res.response == ResponseEnum.success && restaurantId != null) {
-      await cubit.restaurant(restaurantId: restaurantId);
-    }
   }
 }

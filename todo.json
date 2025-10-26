@@ -107,6 +107,7 @@
     "handle the verified state in the categories in the restaurant details",
     "when the user is a store or a farm he can't go to the enter categories and products screen",
     "+++++++++++++++++++++++++++++++++++++++++++++++++",
+    "work on the optimistic ui in the restaurant details screen",
     "------------------------------------------------"
   ]
 }
