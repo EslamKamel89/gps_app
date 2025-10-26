@@ -100,6 +100,7 @@
     "certification name",
     "certification description",
     "work on the optimistic ui in the restaurant details screen",
+    "when the user is a store or a farm he can't go to the enter categories and products screen",
     "------------------------------------------------"
   ],
   "todos": [
@@ -108,7 +109,6 @@
     "handle the verified state in the categories in the restaurant details",
     "holidays are not handled in the ui of the profile page",
     "+++++++++++++++++++++++++++++++++++++++++++++++++",
-    "when the user is a store or a farm he can't go to the enter categories and products screen",
     "------------------------------------------------"
   ]
 }

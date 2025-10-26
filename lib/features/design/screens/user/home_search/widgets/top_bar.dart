@@ -98,11 +98,8 @@ class _TopBarState extends State<TopBar> {
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder:
-                            (_) => StoreDetailsScreen(
-                              user: user()!,
-                              enableEdit: false,
-                              enableCompleteProfile: true,
-                            ),
+                            (_) =>
+                                StoreDetailsScreen(enableEdit: false, enableCompleteProfile: true),
                       ),
                     );
                   } else {
@@ -134,11 +131,8 @@ class _TopBarState extends State<TopBar> {
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder:
-                            (_) => StoreDetailsScreen(
-                              user: user()!,
-                              enableEdit: true,
-                              enableCompleteProfile: true,
-                            ),
+                            (_) =>
+                                StoreDetailsScreen(enableEdit: true, enableCompleteProfile: true),
                       ),
                     );
                   } else {
