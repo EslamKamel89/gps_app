@@ -99,15 +99,16 @@
     "branches table update website",
     "certification name",
     "certification description",
+    "work on the optimistic ui in the restaurant details screen",
     "------------------------------------------------"
   ],
   "todos": [
     "menu and meal images upload their images to the common folder",
     "allow the user to edit his main information - but i have a problem the main data that the user entered is not visible in the response returned by the endpoint",
     "handle the verified state in the categories in the restaurant details",
-    "when the user is a store or a farm he can't go to the enter categories and products screen",
+    "holidays are not handled in the ui of the profile page",
     "+++++++++++++++++++++++++++++++++++++++++++++++++",
-    "work on the optimistic ui in the restaurant details screen",
+    "when the user is a store or a farm he can't go to the enter categories and products screen",
     "------------------------------------------------"
   ]
 }

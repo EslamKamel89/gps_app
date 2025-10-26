@@ -94,10 +94,17 @@ class _TopBarState extends State<TopBar> {
                             ),
                       ),
                     );
-                  } else if (type == 'store') {
-                    Navigator.of(
-                      context,
-                    ).push(MaterialPageRoute(builder: (_) => StoreDetailsScreen(user: user()!)));
+                  } else if (type == 'store' || type == 'farm') {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder:
+                            (_) => StoreDetailsScreen(
+                              user: user()!,
+                              enableEdit: false,
+                              enableCompleteProfile: false,
+                            ),
+                      ),
+                    );
                   } else {
                     showSnackbar(
                       'Sorry',
@@ -118,6 +125,17 @@ class _TopBarState extends State<TopBar> {
                         builder:
                             (_) => RestaurantDetailProvider(
                               restaurantId: user()?.restaurant?.id ?? 1,
+                              enableEdit: true,
+                              enableCompleteProfile: true,
+                            ),
+                      ),
+                    );
+                  } else if (type == 'farm' || type == 'store') {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder:
+                            (_) => StoreDetailsScreen(
+                              user: user()!,
                               enableEdit: true,
                               enableCompleteProfile: true,
                             ),
