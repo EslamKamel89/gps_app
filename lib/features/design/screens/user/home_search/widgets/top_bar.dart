@@ -101,7 +101,7 @@ class _TopBarState extends State<TopBar> {
                             (_) => StoreDetailsScreen(
                               user: user()!,
                               enableEdit: false,
-                              enableCompleteProfile: false,
+                              enableCompleteProfile: true,
                             ),
                       ),
                     );

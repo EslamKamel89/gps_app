@@ -15,9 +15,9 @@ import 'package:gps_app/features/user/restaurants/cubits/restaurant_cubit.dart';
 import 'package:gps_app/features/user/restaurants/models/restaurant_detailed_model/export.dart';
 import 'package:gps_app/features/user/restaurants/presentation/branch_list.dart';
 import 'package:gps_app/features/user/restaurants/presentation/certifications_screen.dart';
-import 'package:gps_app/features/user/restaurants/presentation/widgets/branch_nav_button.dart';
 import 'package:gps_app/features/user/restaurants/presentation/widgets/custom_stack.dart';
 import 'package:gps_app/features/user/restaurants/presentation/widgets/form_bottom_sheet.dart';
+import 'package:gps_app/features/user/restaurants/presentation/widgets/profile_nav_button.dart';
 import 'package:gps_app/features/user/restaurants/presentation/widgets/restaurant_details_forms.dart';
 import 'package:gps_app/features/user/restaurants/presentation/widgets/show_action_sheet.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -237,7 +237,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen>
                                     Column(
                                       children: [
                                         GPSGaps.h16,
-                                        BranchCTAButton(
+                                        ProfileCTAButton(
                                           label: 'View Branches',
                                           onPressed: () {
                                             Future.delayed(100.ms, () {
@@ -264,7 +264,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen>
                                     Column(
                                       children: [
                                         GPSGaps.h16,
-                                        BranchCTAButton(
+                                        ProfileCTAButton(
                                           label: 'Add Branches',
                                           onPressed: () {
                                             Future.delayed(100.ms, () {
@@ -283,7 +283,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen>
                                     Column(
                                       children: [
                                         GPSGaps.h8,
-                                        BranchCTAButton(
+                                        ProfileCTAButton(
                                           label: 'View Certifications',
                                           onPressed: () {
                                             Future.delayed(100.ms, () {
@@ -309,7 +309,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen>
                                     Column(
                                       children: [
                                         GPSGaps.h8,
-                                        BranchCTAButton(
+                                        ProfileCTAButton(
                                           label: 'Add Certifications',
                                           onPressed: () {
                                             Future.delayed(100.ms, () {
@@ -330,7 +330,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen>
                                     Column(
                                       children: [
                                         GPSGaps.h8,
-                                        BranchCTAButton(
+                                        ProfileCTAButton(
                                           label: 'Add Menus',
                                           onPressed: () {
                                             Future.delayed(100.ms, () {

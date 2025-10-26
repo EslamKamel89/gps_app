@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:gps_app/core/api_service/end_points.dart';
+import 'package:gps_app/core/router/app_routes_names.dart';
 import 'package:gps_app/features/auth/models/catalog_item_model.dart';
 import 'package:gps_app/features/auth/models/catalog_section_model.dart';
 import 'package:gps_app/features/auth/models/store_model.dart';
@@ -10,6 +11,7 @@ import 'package:gps_app/features/design/screens/user/resturant_details/widgets/t
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 import 'package:gps_app/features/user/restaurants/presentation/widgets/branch_map_screen.dart';
+import 'package:gps_app/features/user/restaurants/presentation/widgets/profile_nav_button.dart';
 import 'package:gps_app/features/user/stores/presentation/widgets/badge_chip.dart';
 import 'package:gps_app/features/user/stores/presentation/widgets/circle_back.dart';
 import 'package:gps_app/features/user/stores/presentation/widgets/contact_card.dart';
@@ -235,7 +237,6 @@ class StoreDetailsScreenState extends State<StoreDetailsScreen>
                           ).animate(delay: 70.ms).fadeIn(duration: 250.ms).slideY(begin: .08),
 
                           GPSGaps.h16,
-
                           if ((_vendor?.address ?? '').isNotEmpty)
                             Text(
                               _vendor!.address!,
@@ -263,6 +264,25 @@ class StoreDetailsScreenState extends State<StoreDetailsScreen>
                               operating: _vendor!.operatingHours!,
                             ).animate().fadeIn(duration: 240.ms).slideY(begin: .06),
                           // if (_vendor?.operatingHours != null) GPSGaps.h16,
+                          GPSGaps.h10,
+                          if (widget.user.sections().isEmpty && widget.enableCompleteProfile)
+                            Column(
+                              children: [
+                                GPSGaps.h16,
+                                ProfileCTAButton(
+                                  label: 'Add Category',
+                                  onPressed: () {
+                                    Future.delayed(100.ms, () {
+                                      Navigator.of(
+                                        context,
+                                      ).pushNamed(AppRoutesNames.storeFarmOnboardingProductsScreen);
+                                    });
+                                  },
+                                  icon: MdiIcons.foodForkDrink,
+                                  expand: true,
+                                ),
+                              ],
+                            ),
                         ],
                       ),
                     ),
