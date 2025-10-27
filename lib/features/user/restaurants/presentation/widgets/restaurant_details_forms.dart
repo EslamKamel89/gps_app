@@ -3,6 +3,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:gps_app/core/helpers/validator.dart';
 import 'package:gps_app/core/widgets/uploads/image_upload_field.dart';
 import 'package:gps_app/core/widgets/uploads/uploaded_image.dart';
+import 'package:gps_app/features/auth/models/operating_time_model.dart';
+import 'package:gps_app/features/auth/presentation/widgets/operating_hours_picker/operating_hour_picker.dart';
 import 'package:gps_app/features/auth/presentation/widgets/select_location_on_the_map.dart';
 import 'package:gps_app/features/auth/presentation/widgets/state_district_selector.dart';
 import 'package:gps_app/features/user/categories/presentation/widgets/category_selector.dart';
@@ -344,6 +346,89 @@ class _ProfileStateSelectionFormState extends State<ProfileStateSelectionForm> {
             },
           ),
         ),
+        const SizedBox(height: 16),
+        FormActionBar(
+          onCancel: _cancel,
+          onSubmit: _submit,
+          cancelLabel: 'Cancel',
+          submitLabel: 'Save',
+        ),
+      ],
+    );
+  }
+}
+
+class ProfileOperatingHoursForm extends StatefulWidget {
+  const ProfileOperatingHoursForm({
+    super.key,
+    required this.controller,
+    this.label = 'Operating time',
+    this.isRequired = true,
+    this.initialValue,
+  });
+  final BottomSheetFormController<OperatingTimeModel> controller;
+  final String label;
+  final bool isRequired;
+  final OperatingTimeModel? initialValue;
+  @override
+  State<ProfileOperatingHoursForm> createState() => _ProfileOperatingHoursFormState();
+}
+
+class _ProfileOperatingHoursFormState extends State<ProfileOperatingHoursForm> {
+  final _formKey = GlobalKey<FormState>();
+  OperatingTimeModel? _operatingTimeModel;
+  String? _errorMessage;
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  void _submit() {
+    if (_formKey.currentState?.validate() ?? false) {
+      setState(() {
+        _errorMessage = null;
+      });
+      if (_operatingTimeModel != null) {
+        widget.controller.submit(_operatingTimeModel!);
+      } else {
+        setState(() {
+          _errorMessage = 'You have to pick operating hours';
+        });
+      }
+    }
+  }
+
+  void _cancel() => widget.controller.cancel();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min, // wrap content, lets sheet size to content
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(widget.label, style: Theme.of(context).textTheme.titleMedium),
+        const SizedBox(height: 12),
+        Form(
+          key: _formKey,
+          child: OperatingHoursPicker(
+            initialValue: widget.initialValue,
+            onChanged: (val) {
+              _operatingTimeModel = val;
+            },
+            buttonText: 'Pick Operating Time',
+            icon: Icons.storefront,
+          ),
+        ),
+        if (_errorMessage != null)
+          Padding(
+            padding: const EdgeInsets.only(top: 10.0),
+            child: Text(_errorMessage!, style: TextStyle(color: Colors.red)),
+          ),
         const SizedBox(height: 16),
         FormActionBar(
           onCancel: _cancel,

@@ -11,6 +11,7 @@ import 'package:gps_app/core/router/app_routes_names.dart';
 import 'package:gps_app/core/service_locator/service_locator.dart';
 import 'package:gps_app/core/widgets/uploads/uploaded_image.dart';
 import 'package:gps_app/features/auth/models/catalog_section_model.dart';
+import 'package:gps_app/features/auth/models/operating_time_model.dart';
 import 'package:gps_app/features/auth/models/store_model.dart';
 import 'package:gps_app/features/auth/models/user_model.dart';
 import 'package:gps_app/features/auth/models/vendor_model/vendor_model.dart';
@@ -360,9 +361,17 @@ class StoreDetailsScreenState extends State<StoreDetailsScreen>
                                         ContactCard(user: user, enableEdit: widget.enableEdit),
                                         if (vendor?.operatingHours != null) GPSGaps.h16,
                                         if (vendor?.operatingHours != null)
-                                          TodayHoursRow(
-                                            operating: vendor!.operatingHours!,
-                                          ).animate().fadeIn(duration: 240.ms).slideY(begin: .06),
+                                          CustomStack(
+                                            enableEdit: widget.enableEdit,
+                                            actionWidget: EditButton(
+                                              onPressed: () async {
+                                                _updateVendorOperatingHours(user);
+                                              },
+                                            ),
+                                            child: TodayHoursRow(
+                                              operating: vendor!.operatingHours!,
+                                            ).animate().fadeIn(duration: 240.ms).slideY(begin: .06),
+                                          ),
                                         // if (_vendor?.operatingHours != null) GPSGaps.h16,
                                         GPSGaps.h10,
                                         if ((user?.sections() ?? []).isEmpty &&
@@ -606,5 +615,21 @@ class StoreDetailsScreenState extends State<StoreDetailsScreen>
     if (res.response == ResponseEnum.success) {
       storage.cacheUser(cubit.state.data);
     }
+  }
+
+  Future _updateVendorOperatingHours(UserModel? user) async {
+    final OperatingTimeModel? newVal = await showFormBottomSheet<OperatingTimeModel>(
+      context,
+      builder: (ctx, ctl) => ProfileOperatingHoursForm(controller: ctl),
+    );
+    if (newVal == null) {
+      return;
+    }
+    user?.vendor?.operatingHours = newVal;
+    cubit.update(cubit.state.data!);
+    final res = await UpdateController.update(
+      path: 'vendor/${user?.vendor?.id}',
+      data: {'operating_hours': newVal},
+    );
   }
 }
