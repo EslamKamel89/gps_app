@@ -11,8 +11,8 @@ import 'package:gps_app/features/design/screens/user/home_search/widgets/round_i
 import 'package:gps_app/features/design/screens/user/home_search/widgets/user_profile_tile.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
-import 'package:gps_app/features/user/restaurants/presentation/restaurant_detail_provider.dart';
-import 'package:gps_app/features/user/stores/presentation/store_details_screen.dart';
+import 'package:gps_app/features/user/restaurant_details/presentation/restaurant_detail_provider.dart';
+import 'package:gps_app/features/user/store_details/presentation/store_details_screen.dart';
 import 'package:gps_app/utils/assets/assets.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 

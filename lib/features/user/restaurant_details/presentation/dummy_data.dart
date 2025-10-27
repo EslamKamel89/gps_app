@@ -1,4 +1,4 @@
-import 'package:gps_app/features/user/restaurants/models/restaurant_detailed_model/export.dart';
+import 'package:gps_app/features/user/restaurant_details/models/restaurant_detailed_model/export.dart';
 
 final RestaurantDetailedModel demoModel = RestaurantDetailedModel(
   id: 1,
@@ -54,12 +54,7 @@ final RestaurantDetailedModel demoModel = RestaurantDetailedModel(
       website: 'www.gpsOrganic.com/arlington',
       longitude: '-77.090980',
       latitude: '38.881620',
-      images: [
-        RestaurantImage(
-          id: 10,
-          path: 'storage/images/user/branch_arlington_1.jpg',
-        ),
-      ],
+      images: [RestaurantImage(id: 10, path: 'storage/images/user/branch_arlington_1.jpg')],
     ),
     Branch(
       id: 3,
@@ -69,14 +64,8 @@ final RestaurantDetailedModel demoModel = RestaurantDetailedModel(
       longitude: '-77.223050',
       latitude: '38.917970',
       images: [
-        RestaurantImage(
-          id: 11,
-          path: 'storage/images/user/branch_tysons_1.jpg',
-        ),
-        RestaurantImage(
-          id: 12,
-          path: 'storage/images/user/branch_tysons_2.jpg',
-        ),
+        RestaurantImage(id: 11, path: 'storage/images/user/branch_tysons_1.jpg'),
+        RestaurantImage(id: 12, path: 'storage/images/user/branch_tysons_2.jpg'),
       ],
     ),
     Branch(
@@ -86,12 +75,7 @@ final RestaurantDetailedModel demoModel = RestaurantDetailedModel(
       website: 'www.gpsOrganic.com/fairfax',
       longitude: '-77.305480',
       latitude: '38.846220',
-      images: [
-        RestaurantImage(
-          id: 13,
-          path: 'storage/images/user/branch_fairfax_1.jpg',
-        ),
-      ],
+      images: [RestaurantImage(id: 13, path: 'storage/images/user/branch_fairfax_1.jpg')],
     ),
     Branch(
       id: 5,
@@ -101,14 +85,8 @@ final RestaurantDetailedModel demoModel = RestaurantDetailedModel(
       longitude: '-77.046920',
       latitude: '38.804840',
       images: [
-        RestaurantImage(
-          id: 14,
-          path: 'storage/images/user/branch_alexandria_1.jpg',
-        ),
-        RestaurantImage(
-          id: 15,
-          path: 'storage/images/user/branch_alexandria_2.jpg',
-        ),
+        RestaurantImage(id: 14, path: 'storage/images/user/branch_alexandria_1.jpg'),
+        RestaurantImage(id: 15, path: 'storage/images/user/branch_alexandria_2.jpg'),
       ],
     ),
   ],
@@ -126,21 +104,9 @@ final RestaurantDetailedModel demoModel = RestaurantDetailedModel(
         ),
       ],
       meals: [
-        Meal(
-          name: 'Grass-Fed Beef Burger',
-          description: '200g patty, raw cheddar',
-          price: '12.95',
-        ),
-        Meal(
-          name: 'Wood-Smoked Short Ribs',
-          description: '24h brine, slow smoked',
-          price: '19.50',
-        ),
-        Meal(
-          name: 'Harissa Lamb Skewers',
-          description: 'Citrus yogurt, mint',
-          price: '15.75',
-        ),
+        Meal(name: 'Grass-Fed Beef Burger', description: '200g patty, raw cheddar', price: '12.95'),
+        Meal(name: 'Wood-Smoked Short Ribs', description: '24h brine, slow smoked', price: '19.50'),
+        Meal(name: 'Harissa Lamb Skewers', description: 'Citrus yogurt, mint', price: '15.75'),
       ],
     ),
     Menu(
@@ -150,21 +116,9 @@ final RestaurantDetailedModel demoModel = RestaurantDetailedModel(
       description: 'Raw & local cheeses',
       imageId: 5,
       meals: [
-        Meal(
-          name: 'Raw Milk Cheese Board',
-          description: 'Farm selection',
-          price: '14.20',
-        ),
-        Meal(
-          name: 'Baked Brie & Honey',
-          description: 'Wildflower honey',
-          price: '10.90',
-        ),
-        Meal(
-          name: 'Halloumi Herb Fries',
-          description: 'Olive oil & thyme',
-          price: '9.60',
-        ),
+        Meal(name: 'Raw Milk Cheese Board', description: 'Farm selection', price: '14.20'),
+        Meal(name: 'Baked Brie & Honey', description: 'Wildflower honey', price: '10.90'),
+        Meal(name: 'Halloumi Herb Fries', description: 'Olive oil & thyme', price: '9.60'),
       ],
     ),
     Menu(
@@ -174,21 +128,13 @@ final RestaurantDetailedModel demoModel = RestaurantDetailedModel(
       description: 'Seasonal picks',
       imageId: 6,
       meals: [
-        Meal(
-          name: 'Wild Salmon Bowl',
-          description: 'Quinoa, dill dressing',
-          price: '17.40',
-        ),
+        Meal(name: 'Wild Salmon Bowl', description: 'Quinoa, dill dressing', price: '17.40'),
         Meal(
           name: 'Truffle Mushroom Tagliatelle',
           description: 'Porcini & truffle',
           price: '16.30',
         ),
-        Meal(
-          name: 'Spicy Kimchi Chicken',
-          description: 'Fermented glaze',
-          price: '13.80',
-        ),
+        Meal(name: 'Spicy Kimchi Chicken', description: 'Fermented glaze', price: '13.80'),
       ],
     ),
   ],

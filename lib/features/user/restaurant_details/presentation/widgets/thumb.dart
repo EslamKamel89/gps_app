@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
-import 'package:gps_app/features/user/restaurants/models/restaurant_detailed_model/export.dart';
+import 'package:gps_app/features/user/restaurant_details/models/restaurant_detailed_model/export.dart';
 
 class ThumbWidget extends StatelessWidget {
   const ThumbWidget({super.key, required this.meal});

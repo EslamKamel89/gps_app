@@ -1,4 +1,4 @@
-import 'package:gps_app/features/user/restaurants/models/restaurant_detailed_model/export.dart';
+import 'package:gps_app/features/user/restaurant_details/models/restaurant_detailed_model/export.dart';
 
 class Meal {
   int? id;

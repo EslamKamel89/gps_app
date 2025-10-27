@@ -1,40 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:gps_app/features/auth/models/catalog_section_model.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
-import 'package:gps_app/features/user/stores/presentation/widgets/empty_state.dart';
-import 'package:gps_app/features/user/stores/presentation/widgets/item_card.dart';
+import 'package:gps_app/features/user/restaurant_details/models/restaurant_detailed_model/export.dart';
+// Keep your existing MenuItemCard import
+import 'package:gps_app/features/user/restaurant_details/presentation/widgets/menu_item_card.dart';
 
-class SectionListView extends StatelessWidget {
-  const SectionListView({
+class MenuMealsListView extends StatelessWidget {
+  const MenuMealsListView({
     super.key,
-    required this.section,
+    required this.meals,
     required this.heroPrefix,
     required this.enableEdit,
   });
 
-  final CatalogSectionModel section;
+  final List<Meal> meals;
   final String heroPrefix;
   final bool enableEdit;
-
   @override
   Widget build(BuildContext context) {
-    final items =
-        (section.items ?? const []).where((i) => (i.status ?? true) == true).toList()
-          ..sort((a, b) => (a.position ?? 9999).compareTo(b.position ?? 9999));
-
-    if (items.isEmpty) {
-      return const EmptyState(message: 'No items in this section.');
-    }
-
     return ListView.separated(
       physics: const ClampingScrollPhysics(),
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 28),
-      itemCount: items.length,
+      itemCount: meals.length,
       separatorBuilder: (_, __) => GPSGaps.h12,
       itemBuilder: (context, index) {
+        final meal = meals[index];
         final delay = (70 * index).ms;
-        return ItemCard(item: items[index], heroTag: '$heroPrefix-$index', enableEdit: enableEdit)
+        return MenuItemCard(meal: meal, enableEdit: enableEdit)
             .animate(delay: delay)
             .fadeIn(duration: 260.ms, curve: Curves.easeOutCubic)
             .slideY(begin: .08, curve: Curves.easeOutCubic)

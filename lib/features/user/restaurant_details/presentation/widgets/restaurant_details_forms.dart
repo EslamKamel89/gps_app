@@ -8,7 +8,7 @@ import 'package:gps_app/features/auth/presentation/widgets/operating_hours_picke
 import 'package:gps_app/features/auth/presentation/widgets/select_location_on_the_map.dart';
 import 'package:gps_app/features/auth/presentation/widgets/state_district_selector.dart';
 import 'package:gps_app/features/user/categories/presentation/widgets/category_selector.dart';
-import 'package:gps_app/features/user/restaurants/presentation/widgets/form_bottom_sheet.dart';
+import 'package:gps_app/features/user/restaurant_details/presentation/widgets/form_bottom_sheet.dart';
 
 class ProfileTextForm extends StatefulWidget {
   const ProfileTextForm({

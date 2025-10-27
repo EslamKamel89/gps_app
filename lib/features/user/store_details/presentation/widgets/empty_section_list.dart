@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:gps_app/features/auth/models/catalog_item_model.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
-import 'package:gps_app/features/user/stores/presentation/widgets/empty_state.dart';
-import 'package:gps_app/features/user/stores/presentation/widgets/item_card.dart';
+import 'package:gps_app/features/user/store_details/presentation/widgets/empty_state.dart';
+import 'package:gps_app/features/user/store_details/presentation/widgets/item_card.dart';
 
 class EmptySectionList extends StatelessWidget {
   const EmptySectionList({

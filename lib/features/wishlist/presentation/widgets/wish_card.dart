@@ -3,7 +3,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:gps_app/core/helpers/user.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
-import 'package:gps_app/features/user/restaurants/presentation/widgets/wish_accept_button.dart';
+import 'package:gps_app/features/user/restaurant_details/presentation/widgets/wish_accept_button.dart';
 import 'package:gps_app/features/wishlist/models/acceptor_model/wish_model.dart';
 import 'package:gps_app/features/wishlist/presentation/widgets/acceptors_list.dart';
 import 'package:gps_app/features/wishlist/presentation/widgets/category_preview_row.dart';
@@ -92,10 +92,7 @@ class _WishCardState extends State<WishCard> {
                   user()?.userType?.type != 'user')
                 WishAcceptButton(wishListId: widget.wish.id!),
               GPSGaps.h12,
-              if (![
-                widget.wish.category,
-                widget.wish.subcategory,
-              ].contains(null))
+              if (![widget.wish.category, widget.wish.subcategory].contains(null))
                 CategoryPreviewRow(
                   category: widget.wish.category!,
                   subCategory: widget.wish.subcategory!,
@@ -122,10 +119,7 @@ class _WishCardState extends State<WishCard> {
                         opacity: anim,
                         child: SlideTransition(
                           position: anim.drive(
-                            Tween(
-                              begin: const Offset(0, .06),
-                              end: Offset.zero,
-                            ),
+                            Tween(begin: const Offset(0, .06), end: Offset.zero),
                           ),
                           child: child,
                         ),
@@ -191,11 +185,7 @@ class WishCardSkeleton extends StatelessWidget {
               ),
               const SizedBox(height: 12),
 
-              Wrap(
-                spacing: 8,
-                runSpacing: 8,
-                children: [_chip(), _chip(), _chip(width: 72)],
-              ),
+              Wrap(spacing: 8, runSpacing: 8, children: [_chip(), _chip(), _chip(width: 72)]),
               const SizedBox(height: 12),
 
               _bar(width: 240, height: 12),
@@ -209,25 +199,14 @@ class WishCardSkeleton extends StatelessWidget {
         .shimmer(
           duration: 1200.ms,
 
-          colors: [
-            Colors.grey.shade300,
-            Colors.grey.shade100,
-            Colors.grey.shade300,
-          ],
+          colors: [Colors.grey.shade300, Colors.grey.shade100, Colors.grey.shade300],
         );
   }
 
-  Widget _pillBox({
-    required double width,
-    required double height,
-    double radius = 8,
-  }) => Container(
+  Widget _pillBox({required double width, required double height, double radius = 8}) => Container(
     width: width,
     height: height,
-    decoration: BoxDecoration(
-      color: _pill,
-      borderRadius: BorderRadius.circular(radius),
-    ),
+    decoration: BoxDecoration(color: _pill, borderRadius: BorderRadius.circular(radius)),
   );
 
   Widget _bar({required double width, double height = 12}) =>
@@ -239,6 +218,5 @@ class WishCardSkeleton extends StatelessWidget {
     decoration: const BoxDecoration(color: _pill, shape: BoxShape.circle),
   );
 
-  Widget _chip({double width = 64}) =>
-      _pillBox(width: width, height: 28, radius: 999);
+  Widget _chip({double width = 64}) => _pillBox(width: width, height: 28, radius: 999);
 }

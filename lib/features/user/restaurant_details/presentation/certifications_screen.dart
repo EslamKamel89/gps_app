@@ -5,11 +5,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gps_app/core/helpers/update_controller.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
-import 'package:gps_app/features/user/restaurants/cubits/restaurant_cubit.dart';
-import 'package:gps_app/features/user/restaurants/models/restaurant_detailed_model/export.dart';
-import 'package:gps_app/features/user/restaurants/presentation/widgets/custom_stack.dart';
-import 'package:gps_app/features/user/restaurants/presentation/widgets/form_bottom_sheet.dart';
-import 'package:gps_app/features/user/restaurants/presentation/widgets/restaurant_details_forms.dart';
+import 'package:gps_app/features/user/restaurant_details/cubits/restaurant_cubit.dart';
+import 'package:gps_app/features/user/restaurant_details/models/restaurant_detailed_model/export.dart';
+import 'package:gps_app/features/user/restaurant_details/presentation/widgets/custom_stack.dart';
+import 'package:gps_app/features/user/restaurant_details/presentation/widgets/form_bottom_sheet.dart';
+import 'package:gps_app/features/user/restaurant_details/presentation/widgets/restaurant_details_forms.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class CertificationsScreen extends StatelessWidget {

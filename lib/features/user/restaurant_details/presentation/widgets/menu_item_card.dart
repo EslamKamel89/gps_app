@@ -7,15 +7,15 @@ import 'package:gps_app/core/widgets/uploads/uploaded_image.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 import 'package:gps_app/features/user/categories/presentation/widgets/category_selector.dart';
-import 'package:gps_app/features/user/restaurants/cubits/restaurant_cubit.dart';
-import 'package:gps_app/features/user/restaurants/models/restaurant_detailed_model/export.dart';
-import 'package:gps_app/features/user/restaurants/presentation/widgets/category_chip.dart';
-import 'package:gps_app/features/user/restaurants/presentation/widgets/custom_stack.dart';
-import 'package:gps_app/features/user/restaurants/presentation/widgets/form_bottom_sheet.dart';
-import 'package:gps_app/features/user/restaurants/presentation/widgets/icon_action.dart';
-import 'package:gps_app/features/user/restaurants/presentation/widgets/price_badge.dart';
-import 'package:gps_app/features/user/restaurants/presentation/widgets/restaurant_details_forms.dart';
-import 'package:gps_app/features/user/restaurants/presentation/widgets/thumb.dart';
+import 'package:gps_app/features/user/restaurant_details/cubits/restaurant_cubit.dart';
+import 'package:gps_app/features/user/restaurant_details/models/restaurant_detailed_model/export.dart';
+import 'package:gps_app/features/user/restaurant_details/presentation/widgets/category_chip.dart';
+import 'package:gps_app/features/user/restaurant_details/presentation/widgets/custom_stack.dart';
+import 'package:gps_app/features/user/restaurant_details/presentation/widgets/form_bottom_sheet.dart';
+import 'package:gps_app/features/user/restaurant_details/presentation/widgets/icon_action.dart';
+import 'package:gps_app/features/user/restaurant_details/presentation/widgets/price_badge.dart';
+import 'package:gps_app/features/user/restaurant_details/presentation/widgets/restaurant_details_forms.dart';
+import 'package:gps_app/features/user/restaurant_details/presentation/widgets/thumb.dart';
 
 class MenuItemCard extends StatefulWidget {
   const MenuItemCard({super.key, required this.meal, required this.enableEdit});

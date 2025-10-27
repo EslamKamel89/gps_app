@@ -30,7 +30,7 @@ import 'package:gps_app/features/item_info/cubits/item_info_cubit.dart';
 import 'package:gps_app/features/item_info/presentation/item_info_screen.dart';
 import 'package:gps_app/features/user/categories/presentation/category_selection_screen.dart';
 import 'package:gps_app/features/user/categories/presentation/subcategory_selection_screen.dart';
-import 'package:gps_app/features/user/restaurants/presentation/restaurant_detail_provider.dart';
+import 'package:gps_app/features/user/restaurant_details/presentation/restaurant_detail_provider.dart';
 import 'package:gps_app/features/wishlist/presentation/wishlist_create_screen.dart';
 import 'package:gps_app/features/wishlist/presentation/wishlist_screen.dart';
 

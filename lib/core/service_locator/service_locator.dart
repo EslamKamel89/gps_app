@@ -8,7 +8,7 @@ import 'package:gps_app/core/router/middleware.dart';
 import 'package:gps_app/features/auth/controllers/auth_controller.dart';
 import 'package:gps_app/features/item_info/controllers/item_info_controller.dart';
 import 'package:gps_app/features/user/categories/controllers/category_controller.dart';
-import 'package:gps_app/features/user/restaurants/controllers/restaurants_controller.dart';
+import 'package:gps_app/features/user/restaurant_details/controllers/restaurants_controller.dart';
 import 'package:gps_app/features/wishlist/controllers/wishlist_controller.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';

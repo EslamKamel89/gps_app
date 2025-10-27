@@ -8,8 +8,8 @@ import 'package:gps_app/core/helpers/print_helper.dart';
 import 'package:gps_app/core/helpers/snackbar.dart';
 import 'package:gps_app/core/models/api_response_model.dart';
 import 'package:gps_app/core/service_locator/service_locator.dart';
-import 'package:gps_app/features/user/restaurants/models/restaurant_detailed_model/export.dart';
-import 'package:gps_app/features/user/restaurants/models/restaurant_main_data.dart';
+import 'package:gps_app/features/user/restaurant_details/models/restaurant_detailed_model/export.dart';
+import 'package:gps_app/features/user/restaurant_details/models/restaurant_main_data.dart';
 
 class RestaurantsController {
   final _api = serviceLocator<ApiConsumer>();
