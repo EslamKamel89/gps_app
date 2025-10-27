@@ -4,7 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:gps_app/core/api_service/end_points.dart';
+import 'package:gps_app/core/helpers/print_helper.dart';
 import 'package:gps_app/core/helpers/update_controller.dart';
+import 'package:gps_app/core/widgets/uploads/uploaded_image.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 import 'package:gps_app/features/user/restaurants/cubits/restaurant_cubit.dart';
@@ -139,7 +142,14 @@ class _BranchCardState extends State<_BranchCard> {
         child: Column(
           children: [
             // Image header
-            _BranchImageHeader(image: _firstImg, heroTag: widget.heroTag),
+            CustomStack(
+              enableEdit: widget.enableEdit && showEdit,
+              actionWidget: EditButton(onPressed: () => _updateBranchImage(branch: widget.branch)),
+              child: _BranchImageHeader(
+                image: pr(_firstImg, 'image error'),
+                heroTag: widget.heroTag,
+              ),
+            ),
             // Content
             Padding(
               padding: const EdgeInsets.fromLTRB(14, 12, 14, 12),
@@ -326,6 +336,22 @@ class _BranchCardState extends State<_BranchCard> {
     final res = await UpdateController.update(
       path: 'branches/${branch?.id}',
       data: {'latitude': newVal.latitude, 'longitude': newVal.longitude},
+    );
+  }
+
+  Future _updateBranchImage({required Branch? branch}) async {
+    final cubit = context.read<RestaurantCubit>();
+
+    final UploadedImage? newVal = await showFormBottomSheet<UploadedImage>(
+      context,
+      builder: (ctx, ctl) => ProfileImageForm(controller: ctl, label: 'Update Branch Image'),
+    );
+    if (newVal == null) return;
+    branch?.images = [RestaurantImage(path: "${EndPoint.baseUrl}/${newVal.path}")];
+    cubit.update(cubit.state.data!);
+    final res = await UpdateController.update(
+      path: 'branches/${branch?.id}',
+      data: {'image_id': newVal.id},
     );
   }
 }

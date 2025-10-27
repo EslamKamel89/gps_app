@@ -232,7 +232,7 @@ class _ItemCardState extends State<ItemCard> {
       builder: (ctx, ctl) => ProfileImageForm(controller: ctl, label: 'Update Item image'),
     );
     if (newVal == null) return;
-    item.image?.path = "${EndPoint.baseUrl}/${newVal.path}";
+    item.image?.path = newVal.path;
     cubit.update(cubit.state.data!);
     final res = await UpdateController.update(
       path: 'catalog-items/${item.id}',

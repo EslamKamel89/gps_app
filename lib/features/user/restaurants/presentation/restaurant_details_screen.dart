@@ -9,6 +9,8 @@ import 'package:gps_app/core/helpers/user.dart';
 import 'package:gps_app/core/models/api_response_model.dart';
 import 'package:gps_app/core/router/app_routes_names.dart';
 import 'package:gps_app/core/service_locator/service_locator.dart';
+import 'package:gps_app/core/widgets/uploads/uploaded_image.dart';
+import 'package:gps_app/features/auth/models/image_model.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 import 'package:gps_app/features/user/restaurants/cubits/restaurant_cubit.dart';
@@ -104,309 +106,315 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen>
                     ? state.data!.vendor!.vendorName!
                     : 'Restaurant';
 
-            return DefaultTabController(
-              length: tabs.length,
-              child: Scaffold(
-                backgroundColor: GPSColors.background,
-                body: NestedScrollView(
-                  headerSliverBuilder:
-                      (context, inner) => [
-                        SliverAppBar(
-                          backgroundColor: GPSColors.background,
-                          expandedHeight: 260,
-                          pinned: true,
-                          elevation: 0,
-                          leading: CircleBack(onTap: () => Navigator.of(context).maybePop()),
-                          actions: [
-                            IconButton(
-                              tooltip: 'Share',
-                              icon: const Icon(Icons.share_rounded, color: Colors.black),
-                              onPressed: () {},
-                            ),
-                          ],
-                          flexibleSpace: FlexibleSpaceBar(
-                            background: Stack(
-                              fit: StackFit.expand,
-                              children: [
-                                CachedNetworkImage(
-                                      imageUrl: coverUrl,
-                                      fit: BoxFit.cover,
-                                      placeholder: (_, __) => const CoverPlaceholder(),
-                                      errorWidget: (_, __, ___) => const CoverError(),
-                                    )
-                                    .animate()
-                                    .fadeIn(duration: 400.ms)
-                                    .scale(
-                                      begin: const Offset(1.02, 1.02),
-                                      end: const Offset(1, 1),
-                                    ),
-                                Container(
-                                  decoration: const BoxDecoration(
-                                    gradient: LinearGradient(
-                                      begin: Alignment.topCenter,
-                                      end: Alignment.bottomCenter,
-                                      colors: [Colors.transparent, Color(0x55000000)],
-                                    ),
-                                  ),
-                                ),
-                                // Positioned(bottom: 5, right: 5, child: WishButton()),
-                              ],
-                            ),
-                          ),
-                        ),
-
-                        SliverToBoxAdapter(
-                          child: Container(
-                            decoration: const BoxDecoration(
-                              color: GPSColors.background,
-                              borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.fromLTRB(16, 18, 16, 14),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+            return SafeArea(
+              child: DefaultTabController(
+                length: tabs.length,
+                child: Scaffold(
+                  backgroundColor: GPSColors.background,
+                  body: NestedScrollView(
+                    headerSliverBuilder:
+                        (context, inner) => [
+                          SliverAppBar(
+                            backgroundColor: GPSColors.background,
+                            expandedHeight: 260,
+                            pinned: true,
+                            elevation: 0,
+                            leading: CircleBack(onTap: () => Navigator.of(context).maybePop()),
+                            actions: [
+                              // IconButton(
+                              //   tooltip: 'Share',
+                              //   icon: const Icon(Icons.share_rounded, color: Colors.black),
+                              //   onPressed: () {},
+                              // ),
+                            ],
+                            flexibleSpace: FlexibleSpaceBar(
+                              background: Stack(
+                                fit: StackFit.expand,
                                 children: [
-                                  Row(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Expanded(
-                                        child: CustomStack(
-                                          enableEdit: widget.enableEdit,
-                                          actionWidget: EditButton(
-                                            onPressed:
-                                                () => _updateRestaurantName(restaurant: state.data),
-                                          ),
-                                          child: Text(
-                                            restaurantTitle,
-                                            style: Theme.of(
-                                              context,
-                                            ).textTheme.headlineSmall?.copyWith(
-                                              color: GPSColors.text,
-                                              fontWeight: FontWeight.w800,
-                                            ),
-                                          ),
+                                  CustomStack(
+                                    enableEdit: widget.enableEdit,
+                                    actionWidget: EditButton(
+                                      onPressed: () => _updateUserImage(restaurant: state.data),
+                                    ),
+                                    child: CachedNetworkImage(
+                                          width: double.infinity,
+                                          imageUrl: coverUrl,
+                                          fit: BoxFit.cover,
+                                          placeholder: (_, __) => const CoverPlaceholder(),
+                                          errorWidget: (_, __, ___) => const CoverError(),
+                                        )
+                                        .animate()
+                                        .fadeIn(duration: 400.ms)
+                                        .scale(
+                                          begin: const Offset(1.02, 1.02),
+                                          end: const Offset(1, 1),
                                         ),
-                                      ),
-                                      IconButton(
-                                        tooltip:
-                                            _isFav ? 'Remove from favorites' : 'Add to favorites',
-                                        onPressed: () => setState(() => _isFav = !_isFav),
-                                        icon: Icon(
-                                          _isFav ? Icons.favorite_rounded : Icons.favorite_outline,
-                                          color: _isFav ? Colors.redAccent : GPSColors.mutedText,
-                                        ),
-                                      ),
-                                    ],
-                                  ).animate().fadeIn(duration: 280.ms).slideY(begin: .1),
-
-                                  // if (state.data?.mainCategories?.isNotEmpty == true)
-                                  Column(
-                                    children: [
-                                      GPSGaps.h12,
-                                      Wrap(
-                                            spacing: 10,
-                                            runSpacing: 10,
-                                            children: [
-                                              ...(state.data?.mainCategories ?? []).map(
-                                                (c) => BadgeChip(label: c.name ?? ''),
-                                              ),
-                                              ...(state.data?.subCategories ?? []).map(
-                                                (c) => BadgeChip(label: c.name ?? ''),
-                                              ),
-                                            ],
-                                          )
-                                          .animate(delay: 70.ms)
-                                          .fadeIn(duration: 250.ms)
-                                          .slideY(begin: .08),
-                                    ],
                                   ),
 
-                                  GPSGaps.h16,
-
-                                  // GPSGaps.h8,
-                                  // Text(
-                                  //   'Neighborhood kitchen serving grass-fed meats, raw cheeses, and seasonal produce from nearby farms.',
-                                  //   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                  //     color: GPSColors.mutedText,
-                                  //     height: 1.4,
-                                  //   ),
-                                  // ).animate().fadeIn(duration: 250.ms).slideY(begin: .06),
-                                  // const SectionHeader(title: 'Reviews'),
-                                  // ReviewsSection(reviews: _reviews),
-                                  if (state.data?.branches?.isNotEmpty == true)
-                                    Column(
-                                      children: [
-                                        GPSGaps.h16,
-                                        ProfileCTAButton(
-                                          label: 'View Branches',
-                                          onPressed: () {
-                                            Future.delayed(100.ms, () {
-                                              Navigator.of(context).push(
-                                                MaterialPageRoute(
-                                                  builder:
-                                                      (_) => BranchList(
-                                                        branches: state.data?.branches ?? [],
-                                                        enableEdit: widget.enableEdit,
-                                                      ),
-                                                ),
-                                              );
-                                            });
-                                          },
-                                          icon: MdiIcons.foodForkDrink,
-                                          tooltip: 'Go to branch details',
-                                          expand: true,
-                                        ),
-                                      ],
-                                    ),
-
-                                  if (state.data?.branches?.isNotEmpty == false &&
-                                      widget.enableCompleteProfile)
-                                    Column(
-                                      children: [
-                                        GPSGaps.h16,
-                                        ProfileCTAButton(
-                                          label: 'Add Branches',
-                                          onPressed: () {
-                                            Future.delayed(100.ms, () {
-                                              Navigator.of(context).pushNamed(
-                                                AppRoutesNames.restaurantOnboardingBranchesScreen,
-                                              );
-                                            });
-                                          },
-                                          icon: MdiIcons.foodForkDrink,
-                                          expand: true,
-                                        ),
-                                      ],
-                                    ),
-
-                                  if (state.data?.certifications?.isNotEmpty == true)
-                                    Column(
-                                      children: [
-                                        GPSGaps.h8,
-                                        ProfileCTAButton(
-                                          label: 'View Certifications',
-                                          onPressed: () {
-                                            Future.delayed(100.ms, () {
-                                              Navigator.of(context).push(
-                                                MaterialPageRoute(
-                                                  builder:
-                                                      (_) => CertificationsScreen(
-                                                        items: state.data?.certifications ?? [],
-                                                        enableEdit: widget.enableEdit,
-                                                      ),
-                                                ),
-                                              );
-                                            });
-                                          },
-                                          icon: MdiIcons.certificate,
-                                          expand: true,
-                                        ),
-                                      ],
-                                    ),
-
-                                  if (state.data?.certifications?.isNotEmpty == false &&
-                                      widget.enableCompleteProfile)
-                                    Column(
-                                      children: [
-                                        GPSGaps.h8,
-                                        ProfileCTAButton(
-                                          label: 'Add Certifications',
-                                          onPressed: () {
-                                            Future.delayed(100.ms, () {
-                                              Navigator.of(context).pushNamed(
-                                                AppRoutesNames
-                                                    .restaurantOnboardingCertificationsScreen,
-                                              );
-                                            });
-                                          },
-                                          icon: MdiIcons.certificate,
-                                          tooltip: 'Go to certification details',
-                                          expand: true,
-                                        ),
-                                      ],
-                                    ),
-                                  if (state.data?.menus?.isNotEmpty == false &&
-                                      widget.enableCompleteProfile)
-                                    Column(
-                                      children: [
-                                        GPSGaps.h8,
-                                        ProfileCTAButton(
-                                          label: 'Add Menus',
-                                          onPressed: () {
-                                            Future.delayed(100.ms, () {
-                                              Navigator.of(context).pushNamed(
-                                                AppRoutesNames.restaurantOnboardingMenuScreen,
-                                              );
-                                            });
-                                          },
-                                          icon: MdiIcons.paperRoll,
-                                          tooltip: 'Go to menus details',
-                                          expand: true,
-                                        ),
-                                      ],
-                                    ),
-                                  GPSGaps.h8,
+                                  // Positioned(bottom: 5, right: 5, child: WishButton()),
                                 ],
                               ),
                             ),
                           ),
-                        ),
-                        if (state.data?.menus?.isNotEmpty == true)
-                          SliverPersistentHeader(
-                            pinned: true,
 
-                            delegate: TabBarDelegate(
-                              // forcedHeight: 80,
-                              PreferredSize(
-                                preferredSize: const Size.fromHeight(kTextTabBarHeight),
-                                // preferredSize: const Size.fromHeight(70),
-                                child: Material(
-                                  color: Theme.of(context).scaffoldBackgroundColor,
-                                  child: CustomStack(
-                                    enableEdit: widget.enableEdit,
-                                    actionWidget: EditButton(
-                                      onPressed: () {
-                                        _updateMenusNames(restaurant: state.data);
-                                      },
-                                    ),
-                                    child: TabBar(
-                                      isScrollable: true,
-                                      indicatorWeight: 3,
-                                      indicatorColor: Colors.green,
-                                      labelColor: Colors.black,
-                                      unselectedLabelColor: Colors.grey,
-                                      labelStyle: Theme.of(
-                                        context,
-                                      ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w800),
-                                      tabs: [
-                                        for (final t in tabs)
-                                          Tab(
-                                            child: Padding(
-                                              padding: const EdgeInsets.all(1.0),
-                                              child: Text(t, style: const TextStyle(fontSize: 16)),
+                          SliverToBoxAdapter(
+                            child: Container(
+                              decoration: const BoxDecoration(
+                                color: GPSColors.background,
+                                borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.fromLTRB(16, 18, 16, 14),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Expanded(
+                                          child: CustomStack(
+                                            enableEdit: widget.enableEdit,
+                                            actionWidget: EditButton(
+                                              onPressed:
+                                                  () =>
+                                                      _updateRestaurantName(restaurant: state.data),
+                                            ),
+                                            child: Text(
+                                              restaurantTitle,
+                                              style: Theme.of(
+                                                context,
+                                              ).textTheme.headlineSmall?.copyWith(
+                                                color: GPSColors.text,
+                                                fontWeight: FontWeight.w800,
+                                              ),
                                             ),
                                           ),
+                                        ),
+                                        IconButton(
+                                          tooltip:
+                                              _isFav ? 'Remove from favorites' : 'Add to favorites',
+                                          onPressed: () => setState(() => _isFav = !_isFav),
+                                          icon: Icon(
+                                            _isFav
+                                                ? Icons.favorite_rounded
+                                                : Icons.favorite_outline,
+                                            color: _isFav ? Colors.redAccent : GPSColors.mutedText,
+                                          ),
+                                        ),
                                       ],
-                                    ).animate().fadeIn(duration: 220.ms).slideY(begin: .08),
-                                  ),
+                                    ).animate().fadeIn(duration: 280.ms).slideY(begin: .1),
+
+                                    // if (state.data?.mainCategories?.isNotEmpty == true)
+                                    Column(
+                                      children: [
+                                        GPSGaps.h12,
+                                        Wrap(
+                                              spacing: 10,
+                                              runSpacing: 10,
+                                              children: [
+                                                ...(state.data?.mainCategories ?? []).map(
+                                                  (c) => BadgeChip(label: c.name ?? ''),
+                                                ),
+                                                ...(state.data?.subCategories ?? []).map(
+                                                  (c) => BadgeChip(label: c.name ?? ''),
+                                                ),
+                                              ],
+                                            )
+                                            .animate(delay: 70.ms)
+                                            .fadeIn(duration: 250.ms)
+                                            .slideY(begin: .08),
+                                      ],
+                                    ),
+
+                                    GPSGaps.h16,
+
+                                    // GPSGaps.h8,
+                                    // Text(
+                                    //   'Neighborhood kitchen serving grass-fed meats, raw cheeses, and seasonal produce from nearby farms.',
+                                    //   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                    //     color: GPSColors.mutedText,
+                                    //     height: 1.4,
+                                    //   ),
+                                    // ).animate().fadeIn(duration: 250.ms).slideY(begin: .06),
+                                    // const SectionHeader(title: 'Reviews'),
+                                    // ReviewsSection(reviews: _reviews),
+                                    if (state.data?.branches?.isNotEmpty == true)
+                                      Column(
+                                        children: [
+                                          GPSGaps.h16,
+                                          ProfileCTAButton(
+                                            label: 'View Branches',
+                                            onPressed: () {
+                                              Future.delayed(100.ms, () {
+                                                Navigator.of(context).push(
+                                                  MaterialPageRoute(
+                                                    builder:
+                                                        (_) => BranchList(
+                                                          branches: state.data?.branches ?? [],
+                                                          enableEdit: widget.enableEdit,
+                                                        ),
+                                                  ),
+                                                );
+                                              });
+                                            },
+                                            icon: MdiIcons.foodForkDrink,
+                                            tooltip: 'Go to branch details',
+                                            expand: true,
+                                          ),
+                                        ],
+                                      ),
+
+                                    if (state.data?.branches?.isNotEmpty == false &&
+                                        widget.enableCompleteProfile)
+                                      Column(
+                                        children: [
+                                          GPSGaps.h16,
+                                          ProfileCTAButton(
+                                            label: 'Add Branches',
+                                            onPressed: () {
+                                              Future.delayed(100.ms, () {
+                                                Navigator.of(context).pushNamed(
+                                                  AppRoutesNames.restaurantOnboardingBranchesScreen,
+                                                );
+                                              });
+                                            },
+                                            icon: MdiIcons.foodForkDrink,
+                                            expand: true,
+                                          ),
+                                        ],
+                                      ),
+
+                                    if (state.data?.certifications?.isNotEmpty == true)
+                                      Column(
+                                        children: [
+                                          GPSGaps.h8,
+                                          ProfileCTAButton(
+                                            label: 'View Certifications',
+                                            onPressed: () {
+                                              Future.delayed(100.ms, () {
+                                                Navigator.of(context).push(
+                                                  MaterialPageRoute(
+                                                    builder:
+                                                        (_) => CertificationsScreen(
+                                                          items: state.data?.certifications ?? [],
+                                                          enableEdit: widget.enableEdit,
+                                                        ),
+                                                  ),
+                                                );
+                                              });
+                                            },
+                                            icon: MdiIcons.certificate,
+                                            expand: true,
+                                          ),
+                                        ],
+                                      ),
+
+                                    if (state.data?.certifications?.isNotEmpty == false &&
+                                        widget.enableCompleteProfile)
+                                      Column(
+                                        children: [
+                                          GPSGaps.h8,
+                                          ProfileCTAButton(
+                                            label: 'Add Certifications',
+                                            onPressed: () {
+                                              Future.delayed(100.ms, () {
+                                                Navigator.of(context).pushNamed(
+                                                  AppRoutesNames
+                                                      .restaurantOnboardingCertificationsScreen,
+                                                );
+                                              });
+                                            },
+                                            icon: MdiIcons.certificate,
+                                            tooltip: 'Go to certification details',
+                                            expand: true,
+                                          ),
+                                        ],
+                                      ),
+                                    if (state.data?.menus?.isNotEmpty == false &&
+                                        widget.enableCompleteProfile)
+                                      Column(
+                                        children: [
+                                          GPSGaps.h8,
+                                          ProfileCTAButton(
+                                            label: 'Add Menus',
+                                            onPressed: () {
+                                              Future.delayed(100.ms, () {
+                                                Navigator.of(context).pushNamed(
+                                                  AppRoutesNames.restaurantOnboardingMenuScreen,
+                                                );
+                                              });
+                                            },
+                                            icon: MdiIcons.paperRoll,
+                                            tooltip: 'Go to menus details',
+                                            expand: true,
+                                          ),
+                                        ],
+                                      ),
+                                    GPSGaps.h8,
+                                  ],
                                 ),
                               ),
                             ),
                           ),
-                      ],
-                  body:
-                      state.data?.menus?.isNotEmpty == true
-                          ? TabBarView(
-                            children: [
-                              for (int ti = 0; ti < tabs.length; ti++)
-                                MenuMealsListView(
-                                  heroPrefix: 'tab$ti',
-                                  meals: menus[ti].meals ?? const <Meal>[],
-                                  enableEdit: widget.enableEdit,
+                          if (state.data?.menus?.isNotEmpty == true)
+                            SliverPersistentHeader(
+                              pinned: true,
+
+                              delegate: TabBarDelegate(
+                                // forcedHeight: 80,
+                                PreferredSize(
+                                  preferredSize: const Size.fromHeight(kTextTabBarHeight),
+                                  // preferredSize: const Size.fromHeight(70),
+                                  child: Material(
+                                    color: Theme.of(context).scaffoldBackgroundColor,
+                                    child: CustomStack(
+                                      enableEdit: widget.enableEdit,
+                                      actionWidget: EditButton(
+                                        onPressed: () {
+                                          _updateMenusNames(restaurant: state.data);
+                                        },
+                                      ),
+                                      child: TabBar(
+                                        isScrollable: true,
+                                        indicatorWeight: 3,
+                                        indicatorColor: Colors.green,
+                                        labelColor: Colors.black,
+                                        unselectedLabelColor: Colors.grey,
+                                        labelStyle: Theme.of(context).textTheme.titleSmall
+                                            ?.copyWith(fontWeight: FontWeight.w800),
+                                        tabs: [
+                                          for (final t in tabs)
+                                            Tab(
+                                              child: Padding(
+                                                padding: const EdgeInsets.all(1.0),
+                                                child: Text(
+                                                  t,
+                                                  style: const TextStyle(fontSize: 16),
+                                                ),
+                                              ),
+                                            ),
+                                        ],
+                                      ).animate().fadeIn(duration: 220.ms).slideY(begin: .08),
+                                    ),
+                                  ),
                                 ),
-                            ],
-                          )
-                          : const SizedBox(),
+                              ),
+                            ),
+                        ],
+                    body:
+                        state.data?.menus?.isNotEmpty == true
+                            ? TabBarView(
+                              children: [
+                                for (int ti = 0; ti < tabs.length; ti++)
+                                  MenuMealsListView(
+                                    heroPrefix: 'tab$ti',
+                                    meals: menus[ti].meals ?? const <Meal>[],
+                                    enableEdit: widget.enableEdit,
+                                  ),
+                              ],
+                            )
+                            : const SizedBox(),
+                  ),
                 ),
               ),
             );
@@ -472,5 +480,25 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen>
       path: 'restaurant-menus/${restaurant?.menus?[idx].id}',
       data: {'name': newVal},
     );
+  }
+
+  Future _updateUserImage({required RestaurantDetailedModel? restaurant}) async {
+    final storage = serviceLocator<LocalStorage>();
+    final currentUser = user();
+    final UploadedImage? newVal = await showFormBottomSheet<UploadedImage>(
+      context,
+      builder: (ctx, ctl) => ProfileImageForm(controller: ctl, label: 'Update Your Image'),
+    );
+    if (newVal == null) return;
+    restaurant?.user?.images = [RestaurantImage(path: newVal.path)];
+    cubit.update(cubit.state.data!);
+    final res = await UpdateController.update(
+      path: 'user/${currentUser?.id}',
+      data: {'image_id': newVal.id},
+    );
+    if (res.response == ResponseEnum.success) {
+      currentUser?.image = ImageModel(id: newVal.id, path: newVal.path);
+      storage.cacheUser(currentUser);
+    }
   }
 }

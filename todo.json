@@ -109,6 +109,9 @@
     "handle the verified state in the categories in the restaurant details",
     "holidays are not handled in the ui of the profile page",
     "+++++++++++++++++++++++++++++++++++++++++++++++++",
+    "create the page for user profile",
+    "work on updating image in the users , meal , branch , items table",
+    "update the file in the certificates",
     "------------------------------------------------"
   ]
 }
