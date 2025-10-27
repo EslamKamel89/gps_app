@@ -348,7 +348,7 @@ class StoreDetailsScreenState extends State<StoreDetailsScreen>
                                             enableEdit: widget.enableEdit,
                                             actionWidget: EditButton(
                                               onPressed: () async {
-                                                _updateVendorStateDistrict(user);
+                                                _updateUserStateDistrict(user);
                                               },
                                             ),
                                             child: StateCityCard(
@@ -357,11 +357,7 @@ class StoreDetailsScreenState extends State<StoreDetailsScreen>
                                             ),
                                           ),
                                         if ((vendor?.address ?? '').isNotEmpty) GPSGaps.h16,
-                                        ContactCard(
-                                          email: user?.email,
-                                          mobile: user?.mobile,
-                                          website: storeOrFarm?.website,
-                                        ),
+                                        ContactCard(user: user, enableEdit: widget.enableEdit),
                                         if (vendor?.operatingHours != null) GPSGaps.h16,
                                         if (vendor?.operatingHours != null)
                                           TodayHoursRow(
@@ -539,7 +535,7 @@ class StoreDetailsScreenState extends State<StoreDetailsScreen>
     }
   }
 
-  Future _updateVendorStateDistrict(UserModel? user) async {
+  Future _updateUserStateDistrict(UserModel? user) async {
     final storage = serviceLocator<LocalStorage>();
     final SelectedStateAndDistrict? newVal = await showFormBottomSheet<SelectedStateAndDistrict>(
       context,

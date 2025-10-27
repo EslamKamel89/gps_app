@@ -101,6 +101,7 @@
     "certification description",
     "work on the optimistic ui in the restaurant details screen",
     "when the user is a store or a farm he can't go to the enter categories and products screen",
+    "work on updating image in the users , meal , branch , items table",
     "------------------------------------------------"
   ],
   "todos": [
@@ -110,7 +111,6 @@
     "holidays are not handled in the ui of the profile page",
     "+++++++++++++++++++++++++++++++++++++++++++++++++",
     "create the page for user profile",
-    "work on updating image in the users , meal , branch , items table",
     "update the file in the certificates",
     "------------------------------------------------"
   ]
