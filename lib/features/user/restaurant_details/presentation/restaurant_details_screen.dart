@@ -109,7 +109,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen>
 
             return SafeArea(
               child: DefaultTabController(
-                length: tabs.length,
+                length: tabs.length + (widget.enableEdit ? 1 : 0),
                 child: Scaffold(
                   backgroundColor: GPSColors.background,
                   body: NestedScrollView(
@@ -390,6 +390,16 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen>
                                         labelStyle: Theme.of(context).textTheme.titleSmall
                                             ?.copyWith(fontWeight: FontWeight.w800),
                                         tabs: [
+                                          if (widget.enableEdit)
+                                            Tab(
+                                              child: Padding(
+                                                padding: const EdgeInsets.all(1.0),
+                                                child: Text(
+                                                  "Add Menu",
+                                                  style: const TextStyle(fontSize: 16),
+                                                ),
+                                              ),
+                                            ),
                                           for (final t in tabs)
                                             Tab(
                                               child: Padding(
@@ -412,6 +422,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen>
                         state.data?.menus?.isNotEmpty == true
                             ? TabBarView(
                               children: [
+                                if (widget.enableEdit) SizedBox(),
                                 for (int ti = 0; ti < tabs.length; ti++)
                                   MenuMealsListView(
                                     heroPrefix: 'tab$ti',
