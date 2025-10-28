@@ -28,6 +28,7 @@ class UserModel {
   StoreModel? store;
   RestaurantModel? restaurant;
   ImageModel? image;
+  List<ImageModel>? images;
   StateModel? state;
   DistrictModel? district;
 
@@ -47,6 +48,7 @@ class UserModel {
     this.userType,
     this.vendor,
     this.image,
+    this.images,
     this.farm,
     this.store,
     this.restaurant,
@@ -75,6 +77,10 @@ class UserModel {
     restaurant: j['restaurant'] == null ? null : RestaurantModel.fromJson(j['restaurant']),
     state: j['state'] == null ? null : StateModel.fromJson(j['state']),
     district: j['district'] == null ? null : DistrictModel.fromJson(j['district']),
+    images:
+        (j['images'] as List<dynamic>?)
+            ?.map((e) => ImageModel.fromJson(e as Map<String, dynamic>))
+            .toList(),
   );
 
   Map<String, dynamic> toJson() => {
@@ -112,6 +118,54 @@ class UserModel {
 
   StoreModel? storeOrFarm() {
     return store ?? farm;
+  }
+
+  UserModel copyWith({
+    int? id,
+    String? fullName,
+    String? userName,
+    String? email,
+    String? emailVerifiedAt,
+    String? mobile,
+    String? createdAt,
+    String? updatedAt,
+    int? userTypeId,
+    int? districtId,
+    int? stateId,
+    String? token,
+    UserTypeModel? userType,
+    VendorModel? vendor,
+    StoreModel? farm,
+    StoreModel? store,
+    RestaurantModel? restaurant,
+    ImageModel? image,
+    List<ImageModel>? images,
+    StateModel? state,
+    DistrictModel? district,
+  }) {
+    return UserModel(
+      id: id ?? this.id,
+      fullName: fullName ?? this.fullName,
+      userName: userName ?? this.userName,
+      email: email ?? this.email,
+      emailVerifiedAt: emailVerifiedAt ?? this.emailVerifiedAt,
+      mobile: mobile ?? this.mobile,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      userTypeId: userTypeId ?? this.userTypeId,
+      districtId: districtId ?? this.districtId,
+      stateId: stateId ?? this.stateId,
+      token: token ?? this.token,
+      userType: userType ?? this.userType,
+      vendor: vendor ?? this.vendor,
+      farm: farm ?? this.farm,
+      store: store ?? this.store,
+      restaurant: restaurant ?? this.restaurant,
+      image: image ?? this.image,
+      images: images ?? this.images,
+      state: state ?? this.state,
+      district: district ?? this.district,
+    );
   }
 }
 

@@ -11,6 +11,7 @@ import 'package:gps_app/core/themes/theme_cubit.dart';
 import 'package:gps_app/features/user/categories/cubits/category_onboarding_cubit/category_onboarding_cubit.dart';
 import 'package:gps_app/features/user/restaurant_details/cubits/restaurant_cubit.dart';
 import 'package:gps_app/features/user/store_details/cubits/store_cubit.dart';
+import 'package:gps_app/features/user/user_details/cubits/user_cubit.dart';
 import 'package:gps_app/features/wishlist/cubits/wishes_cubit.dart';
 import 'package:intl/intl_standalone.dart';
 
@@ -47,6 +48,7 @@ class MyApp extends StatelessWidget {
           BlocProvider(create: (context) => WishesCubit()),
           BlocProvider(create: (context) => RestaurantCubit()),
           BlocProvider(create: (context) => StoreCubit()),
+          BlocProvider(create: (context) => UserCubit()),
         ],
         child: Builder(
           builder: (context) {

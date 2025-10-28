@@ -357,7 +357,7 @@ class StoreDetailsScreenState extends State<StoreDetailsScreen>
                                               district: (user?.district)!,
                                             ),
                                           ),
-                                        if ((vendor?.address ?? '').isNotEmpty) GPSGaps.h16,
+                                        GPSGaps.h16,
                                         ContactCard(user: user, enableEdit: widget.enableEdit),
                                         if (vendor?.operatingHours != null) GPSGaps.h16,
                                         if (vendor?.operatingHours != null)

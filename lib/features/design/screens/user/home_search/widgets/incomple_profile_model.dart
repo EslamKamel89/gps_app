@@ -90,7 +90,7 @@ class _IncompleteProfileDialog extends StatelessWidget {
               MaterialPageRoute(
                 builder:
                     (_) => RestaurantDetailProvider(
-                      restaurantId: user()?.restaurant?.id ?? 1,
+                      restaurantId: userInMemory()?.restaurant?.id ?? 1,
                       enableEdit: false,
                       enableCompleteProfile: true,
                     ),

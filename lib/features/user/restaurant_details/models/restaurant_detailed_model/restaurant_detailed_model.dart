@@ -1,10 +1,10 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:gps_app/features/auth/models/user_model.dart';
 import 'package:gps_app/features/user/restaurant_details/models/restaurant_detailed_model/category.dart';
 
 import 'branch.dart';
 import 'certification.dart';
 import 'menu.dart';
-import 'user.dart';
 import 'vendor.dart';
 
 class RestaurantDetailedModel {
@@ -12,7 +12,7 @@ class RestaurantDetailedModel {
   String? website;
   int? verified;
   Vendor? vendor;
-  User? user;
+  UserModel? user;
   List<Branch>? branches;
   List<Menu>? menus;
   List<Certification>? certifications;
@@ -44,7 +44,7 @@ class RestaurantDetailedModel {
       verified: json['verified'] as int?,
       vendor:
           json['vendor'] == null ? null : Vendor.fromJson(json['vendor'] as Map<String, dynamic>),
-      user: json['user'] == null ? null : User.fromJson(json['user'] as Map<String, dynamic>),
+      user: json['user'] == null ? null : UserModel.fromJson(json['user'] as Map<String, dynamic>),
       branches:
           (json['branches'] as List<dynamic>?)
               ?.map((e) => Branch.fromJson(e as Map<String, dynamic>))
@@ -86,7 +86,7 @@ class RestaurantDetailedModel {
     String? website,
     int? verified,
     Vendor? vendor,
-    User? user,
+    UserModel? user,
     List<Branch>? branches,
     List<Menu>? menus,
     List<Certification>? certifications,

@@ -6,14 +6,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gps_app/core/cache/local_storage.dart';
 import 'package:gps_app/core/enums/response_type.dart';
 import 'package:gps_app/core/helpers/update_controller.dart';
+import 'package:gps_app/core/helpers/user.dart';
 import 'package:gps_app/core/service_locator/service_locator.dart';
 import 'package:gps_app/features/auth/models/user_model.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
+import 'package:gps_app/features/user/restaurant_details/cubits/restaurant_cubit.dart';
 import 'package:gps_app/features/user/restaurant_details/presentation/widgets/custom_stack.dart';
 import 'package:gps_app/features/user/restaurant_details/presentation/widgets/form_bottom_sheet.dart';
 import 'package:gps_app/features/user/restaurant_details/presentation/widgets/restaurant_details_forms.dart';
 import 'package:gps_app/features/user/store_details/cubits/store_cubit.dart';
+import 'package:gps_app/features/user/user_details/cubits/user_cubit.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ContactCard extends StatefulWidget {
@@ -241,8 +244,8 @@ class _ContactCardState extends State<ContactCard> {
   }
 
   Future _updateUserEmail({required UserModel? user}) async {
-    final cubit = context.read<StoreCubit>();
     final storage = serviceLocator<LocalStorage>();
+    final currentUser = userInMemory();
     final String? newVal = await showFormBottomSheet<String>(
       context,
       builder:
@@ -254,16 +257,25 @@ class _ContactCardState extends State<ContactCard> {
     );
     if (newVal == null) return;
     user?.email = newVal;
-    cubit.update(user!);
-    final res = await UpdateController.update(path: 'user/${user.id}', data: {'email': newVal});
+    if (currentUser?.userType?.type == 'user') {
+      context.read<UserCubit>().update(user!);
+    } else if (currentUser?.userType?.type == 'restaurant') {
+      final cubit = context.read<RestaurantCubit>();
+      cubit.state.data?.user = user;
+      cubit.update(cubit.state.data!);
+    } else {
+      context.read<StoreCubit>().update(user!);
+    }
+    final res = await UpdateController.update(path: 'user/${userId()}', data: {'email': newVal});
     if (res.response == ResponseEnum.success) {
-      storage.cacheUser(user);
+      currentUser?.email = newVal;
+      storage.cacheUser(currentUser);
     }
   }
 
   Future _updateUserMobile({required UserModel? user}) async {
-    final cubit = context.read<StoreCubit>();
     final storage = serviceLocator<LocalStorage>();
+    final currentUser = userInMemory();
     final String? newVal = await showFormBottomSheet<String>(
       context,
       builder:
@@ -276,10 +288,19 @@ class _ContactCardState extends State<ContactCard> {
     );
     if (newVal == null) return;
     user?.mobile = newVal;
-    cubit.update(user!);
-    final res = await UpdateController.update(path: 'user/${user.id}', data: {'mobile': newVal});
+    if (currentUser?.userType?.type == 'user') {
+      context.read<UserCubit>().update(user!);
+    } else if (currentUser?.userType?.type == 'restaurant') {
+      final cubit = context.read<RestaurantCubit>();
+      cubit.state.data?.user = user;
+      cubit.update(cubit.state.data!);
+    } else {
+      context.read<StoreCubit>().update(user!);
+    }
+    final res = await UpdateController.update(path: 'user/${userId()}', data: {'mobile': newVal});
     if (res.response == ResponseEnum.success) {
-      storage.cacheUser(user);
+      currentUser?.mobile = newVal;
+      storage.cacheUser(currentUser);
     }
   }
 }

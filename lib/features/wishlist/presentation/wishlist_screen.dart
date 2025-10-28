@@ -106,7 +106,7 @@ class _WishListScreenState extends State<WishListScreen> with TickerProviderStat
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                user()?.userName ?? '',
+                userInMemory()?.userName ?? '',
                 style: TextStyle(color: GPSColors.text, fontWeight: FontWeight.w800),
               ),
               // Text(

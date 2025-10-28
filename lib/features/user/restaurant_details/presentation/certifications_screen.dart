@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gps_app/core/helpers/update_controller.dart';
+import 'package:gps_app/core/widgets/uploads/single_file_upload_field.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 import 'package:gps_app/features/user/restaurant_details/cubits/restaurant_cubit.dart';
@@ -144,12 +145,17 @@ class _CertificationCardState extends State<_CertificationCard> {
 
               GPSGaps.h12,
 
-              // Open button (first file only)
               Align(
                 alignment: Alignment.centerRight,
-                child: _OpenFileButton(
-                  enabled: hasValidUrl,
-                  onPressed: hasValidUrl ? () => _openUrl(context, firstUrl!) : null,
+                child: CustomStack(
+                  enableEdit: widget.enableEdit && showEdit,
+                  actionWidget: EditButton(
+                    onPressed: () => _updateCertificationFile(cert: widget.cert),
+                  ),
+                  child: _OpenFileButton(
+                    enabled: hasValidUrl,
+                    onPressed: hasValidUrl ? () => _openUrl(context, firstUrl!) : null,
+                  ),
                 ),
               ),
             ],
@@ -162,15 +168,15 @@ class _CertificationCardState extends State<_CertificationCard> {
   Future<void> _openUrl(BuildContext context, String url) async {
     HapticFeedback.selectionClick();
     final uri = Uri.parse(url);
-    final ok = await canLaunchUrl(uri);
-    if (!ok) {
-      _showSnack(context, 'Could not open the file.');
-      return;
-    }
+    // final ok = await canLaunchUrl(uri);
+    // if (!ok) {
+    //   _showSnack(context, 'Could not open the file.');
+    //   return;
+    // }
     final launched = await launchUrl(
       uri,
       mode: LaunchMode.externalApplication,
-      webViewConfiguration: const WebViewConfiguration(enableJavaScript: true),
+      // webViewConfiguration: const WebViewConfiguration(enableJavaScript: true),
     );
     if (!launched) {
       _showSnack(context, 'Could not open the file.');
@@ -218,6 +224,21 @@ class _CertificationCardState extends State<_CertificationCard> {
     final res = await UpdateController.update(
       path: 'certificates/${cert?.id}',
       data: {'description': newVal},
+    );
+  }
+
+  Future _updateCertificationFile({required Certification? cert}) async {
+    final cubit = context.read<RestaurantCubit>();
+    final UploadedFile? newVal = await showFormBottomSheet<UploadedFile>(
+      context,
+      builder: (ctx, ctl) => ProfileFileForm(controller: ctl, label: 'Update certification file'),
+    );
+    if (newVal == null) return;
+    cert?.file = [RestaurantFile(path: newVal.path)];
+    cubit.update(cubit.state.data!);
+    final res = await UpdateController.update(
+      path: 'certificates/${cert?.id}',
+      data: {'file_id': newVal.id},
     );
   }
 }

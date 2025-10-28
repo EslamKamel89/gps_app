@@ -22,6 +22,7 @@ import 'package:gps_app/features/user/restaurant_details/presentation/widgets/fo
 import 'package:gps_app/features/user/restaurant_details/presentation/widgets/profile_nav_button.dart';
 import 'package:gps_app/features/user/restaurant_details/presentation/widgets/restaurant_details_forms.dart';
 import 'package:gps_app/features/user/restaurant_details/presentation/widgets/show_action_sheet.dart';
+import 'package:gps_app/features/user/store_details/presentation/widgets/contact_card.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import 'widgets/badges.dart';
@@ -238,6 +239,12 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen>
                                     // ).animate().fadeIn(duration: 250.ms).slideY(begin: .06),
                                     // const SectionHeader(title: 'Reviews'),
                                     // ReviewsSection(reviews: _reviews),
+                                    GPSGaps.h16,
+                                    ContactCard(
+                                      user: state.data?.user,
+                                      enableEdit: widget.enableEdit,
+                                    ),
+                                    GPSGaps.h16,
                                     if (state.data?.branches?.isNotEmpty == true)
                                       Column(
                                         children: [
@@ -427,7 +434,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen>
 
   Future _updateRestaurantName({required RestaurantDetailedModel? restaurant}) async {
     final storage = serviceLocator<LocalStorage>();
-    final currentUser = user();
+    final currentUser = userInMemory();
     final String? newVal = await showFormBottomSheet<String>(
       context,
       builder:
@@ -484,13 +491,13 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen>
 
   Future _updateUserImage({required RestaurantDetailedModel? restaurant}) async {
     final storage = serviceLocator<LocalStorage>();
-    final currentUser = user();
+    final currentUser = userInMemory();
     final UploadedImage? newVal = await showFormBottomSheet<UploadedImage>(
       context,
       builder: (ctx, ctl) => ProfileImageForm(controller: ctl, label: 'Update Your Image'),
     );
     if (newVal == null) return;
-    restaurant?.user?.images = [RestaurantImage(path: newVal.path)];
+    restaurant?.user?.images = [ImageModel(path: newVal.path)];
     cubit.update(cubit.state.data!);
     final res = await UpdateController.update(
       path: 'user/${currentUser?.id}',

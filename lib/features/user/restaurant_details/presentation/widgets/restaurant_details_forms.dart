@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:gps_app/core/api_service/end_points.dart';
 import 'package:gps_app/core/helpers/validator.dart';
 import 'package:gps_app/core/widgets/uploads/image_upload_field.dart';
+import 'package:gps_app/core/widgets/uploads/single_file_upload_field.dart';
 import 'package:gps_app/core/widgets/uploads/uploaded_image.dart';
 import 'package:gps_app/features/auth/models/operating_time_model.dart';
 import 'package:gps_app/features/auth/presentation/widgets/operating_hours_picker/operating_hour_picker.dart';
@@ -422,6 +424,87 @@ class _ProfileOperatingHoursFormState extends State<ProfileOperatingHoursForm> {
             },
             buttonText: 'Pick Operating Time',
             icon: Icons.storefront,
+          ),
+        ),
+        if (_errorMessage != null)
+          Padding(
+            padding: const EdgeInsets.only(top: 10.0),
+            child: Text(_errorMessage!, style: TextStyle(color: Colors.red)),
+          ),
+        const SizedBox(height: 16),
+        FormActionBar(
+          onCancel: _cancel,
+          onSubmit: _submit,
+          cancelLabel: 'Cancel',
+          submitLabel: 'Save',
+        ),
+      ],
+    );
+  }
+}
+
+class ProfileFileForm extends StatefulWidget {
+  const ProfileFileForm({
+    super.key,
+    required this.controller,
+    this.label = 'File',
+    this.isRequired = true,
+  });
+  final BottomSheetFormController<UploadedFile> controller;
+  final String label;
+  final bool isRequired;
+  @override
+  State<ProfileFileForm> createState() => _ProfileFileFormState();
+}
+
+class _ProfileFileFormState extends State<ProfileFileForm> {
+  final _formKey = GlobalKey<FormState>();
+  UploadedFile? _file;
+  String? _errorMessage;
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  void _submit() {
+    if (_formKey.currentState?.validate() ?? false) {
+      setState(() {
+        _errorMessage = null;
+      });
+      if (_file != null) {
+        widget.controller.submit(_file!);
+      } else {
+        setState(() {
+          _errorMessage = 'You have to upload a file';
+        });
+      }
+    }
+  }
+
+  void _cancel() => widget.controller.cancel();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min, // wrap content, lets sheet size to content
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(widget.label, style: Theme.of(context).textTheme.titleMedium),
+        const SizedBox(height: 12),
+        Form(
+          key: _formKey,
+          child: SingleFileUploadField(
+            baseUrl: EndPoint.baseUrl,
+            dir: 'certificate',
+            initialText: 'No file selected',
+            onUploaded: (file) {
+              _file = file;
+            },
           ),
         ),
         if (_errorMessage != null)

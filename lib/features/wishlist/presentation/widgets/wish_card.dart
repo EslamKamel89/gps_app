@@ -84,12 +84,12 @@ class _WishCardState extends State<WishCard> {
               ).animate().fadeIn(duration: 200.ms).slideY(begin: .04),
 
               if (widget.wish.id != null &&
-                  user()?.userType?.type != null &&
-                  user()?.userType?.type != 'user')
+                  userInMemory()?.userType?.type != null &&
+                  userInMemory()?.userType?.type != 'user')
                 GPSGaps.h12,
               if (widget.wish.id != null &&
-                  user()?.userType?.type != null &&
-                  user()?.userType?.type != 'user')
+                  userInMemory()?.userType?.type != null &&
+                  userInMemory()?.userType?.type != 'user')
                 WishAcceptButton(wishListId: widget.wish.id!),
               GPSGaps.h12,
               if (![widget.wish.category, widget.wish.subcategory].contains(null))

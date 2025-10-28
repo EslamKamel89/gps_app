@@ -5,7 +5,6 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:gps_app/core/api_service/end_points.dart';
-import 'package:gps_app/core/helpers/print_helper.dart';
 import 'package:gps_app/core/helpers/update_controller.dart';
 import 'package:gps_app/core/widgets/uploads/uploaded_image.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
@@ -145,10 +144,7 @@ class _BranchCardState extends State<_BranchCard> {
             CustomStack(
               enableEdit: widget.enableEdit && showEdit,
               actionWidget: EditButton(onPressed: () => _updateBranchImage(branch: widget.branch)),
-              child: _BranchImageHeader(
-                image: pr(_firstImg, 'image error'),
-                heroTag: widget.heroTag,
-              ),
+              child: _BranchImageHeader(image: _firstImg, heroTag: widget.heroTag),
             ),
             // Content
             Padding(

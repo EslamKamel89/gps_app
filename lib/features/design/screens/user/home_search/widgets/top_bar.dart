@@ -13,6 +13,7 @@ import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 import 'package:gps_app/features/user/restaurant_details/presentation/restaurant_detail_provider.dart';
 import 'package:gps_app/features/user/store_details/presentation/store_details_screen.dart';
+import 'package:gps_app/features/user/user_details/presentation/user_details_screen.dart';
 import 'package:gps_app/utils/assets/assets.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
@@ -64,9 +65,9 @@ class _TopBarState extends State<TopBar> {
             offset: Offset(-200, 0),
             children: [
               UserProfileTile(
-                name: user()?.userName ?? '',
-                email: user()?.email ?? '',
-                avatarUrl: "${EndPoint.baseUrl}/${user()?.image?.path}",
+                name: userInMemory()?.userName ?? '',
+                email: userInMemory()?.email ?? '',
+                avatarUrl: "${EndPoint.baseUrl}/${userInMemory()?.image?.path}",
               ),
               MenuActionItem(
                 icon: MdiIcons.food,
@@ -82,13 +83,13 @@ class _TopBarState extends State<TopBar> {
                 icon: Icons.person_rounded,
                 label: 'View Profile',
                 onTap: () {
-                  String? type = user()?.userType?.type;
+                  String? type = userInMemory()?.userType?.type;
                   if (type == 'restaurant') {
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder:
                             (_) => RestaurantDetailProvider(
-                              restaurantId: user()?.restaurant?.id ?? 1,
+                              restaurantId: userInMemory()?.restaurant?.id ?? 1,
                               enableEdit: false,
                               enableCompleteProfile: true,
                             ),
@@ -100,6 +101,14 @@ class _TopBarState extends State<TopBar> {
                         builder:
                             (_) =>
                                 StoreDetailsScreen(enableEdit: false, enableCompleteProfile: true),
+                      ),
+                    );
+                  } else if (type == 'user') {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder:
+                            (_) =>
+                                UserDetailsScreen(enableEdit: false, enableCompleteProfile: true),
                       ),
                     );
                   } else {
@@ -115,13 +124,13 @@ class _TopBarState extends State<TopBar> {
                 icon: MdiIcons.pen,
                 label: 'Edit Profile',
                 onTap: () {
-                  String? type = user()?.userType?.type;
+                  String? type = userInMemory()?.userType?.type;
                   if (type == 'restaurant') {
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder:
                             (_) => RestaurantDetailProvider(
-                              restaurantId: user()?.restaurant?.id ?? 1,
+                              restaurantId: userInMemory()?.restaurant?.id ?? 1,
                               enableEdit: true,
                               enableCompleteProfile: true,
                             ),
@@ -133,6 +142,13 @@ class _TopBarState extends State<TopBar> {
                         builder:
                             (_) =>
                                 StoreDetailsScreen(enableEdit: true, enableCompleteProfile: true),
+                      ),
+                    );
+                  } else if (type == 'user') {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder:
+                            (_) => UserDetailsScreen(enableEdit: true, enableCompleteProfile: true),
                       ),
                     );
                   } else {
