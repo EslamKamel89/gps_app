@@ -384,26 +384,23 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen>
                                         context,
                                       ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w800),
                                       tabs: [
-                                        if (widget.enableEdit)
-                                          for (final t in tabs)
-                                            Tab(
-                                              child: Padding(
-                                                padding: const EdgeInsets.all(1.0),
-                                                child: Text(
-                                                  t,
-                                                  style: const TextStyle(fontSize: 16),
-                                                ),
-                                              ),
-                                            ),
-                                        Tab(
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(1.0),
-                                            child: Text(
-                                              'Add Menu',
-                                              style: const TextStyle(fontSize: 16),
+                                        for (final t in tabs)
+                                          Tab(
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(1.0),
+                                              child: Text(t, style: const TextStyle(fontSize: 16)),
                                             ),
                                           ),
-                                        ),
+                                        if (widget.enableEdit)
+                                          Tab(
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(1.0),
+                                              child: Text(
+                                                'Add Menu',
+                                                style: const TextStyle(fontSize: 16),
+                                              ),
+                                            ),
+                                          ),
                                       ],
                                     ).animate().fadeIn(duration: 220.ms).slideY(begin: .08),
                                   ),
@@ -419,7 +416,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen>
                               for (int ti = 0; ti < tabs.length; ti++)
                                 MenuMealsListView(
                                   heroPrefix: 'tab$ti',
-                                  meals: menus[ti].meals ?? const <Meal>[],
+                                  menu: menus[ti],
                                   enableEdit: widget.enableEdit,
                                 ),
                               if (widget.enableEdit) AddMenuCard(restaurant: state.data),
@@ -551,3 +548,5 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen>
     }
   }
 }
+
+final testTab = 'testTab';

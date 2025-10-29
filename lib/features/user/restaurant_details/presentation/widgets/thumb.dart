@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:gps_app/core/api_service/end_points.dart';
+import 'package:gps_app/core/helpers/print_helper.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/user/restaurant_details/models/restaurant_detailed_model/export.dart';
 
@@ -6,11 +8,12 @@ class ThumbWidget extends StatelessWidget {
   const ThumbWidget({super.key, required this.meal});
   final Meal meal;
   String? imagePath() {
-    // if (meal.images?.isNotEmpty == true) {
-    //   return meal.images![0].path;
-    // }
-    // return null;
-    return meal.images?.path;
+    pr(meal.images, 'image')?.path;
+    final path =
+        meal.images?.path?.contains('http') == true
+            ? meal.images?.path
+            : "${EndPoint.baseUrl}/meal.images?.path";
+    return pr(meal.images, 'image')?.path;
   }
 
   @override

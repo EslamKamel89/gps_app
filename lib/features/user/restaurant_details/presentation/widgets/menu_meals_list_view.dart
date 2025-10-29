@@ -9,12 +9,11 @@ import 'package:gps_app/features/user/restaurant_details/presentation/widgets/me
 class MenuMealsListView extends StatefulWidget {
   const MenuMealsListView({
     super.key,
-    required this.meals,
+    required this.menu,
     required this.heroPrefix,
     required this.enableEdit,
   });
-
-  final List<Meal> meals;
+  final Menu menu;
   final String heroPrefix;
   final bool enableEdit;
 
@@ -28,14 +27,14 @@ class _MenuMealsListViewState extends State<MenuMealsListView> {
     return ListView.separated(
       physics: const ClampingScrollPhysics(),
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 28),
-      itemCount: widget.meals.length + (widget.enableEdit ? 1 : 0),
+      itemCount: widget.menu.meals!.length + (widget.enableEdit ? 1 : 0),
       separatorBuilder: (_, __) => GPSGaps.h12,
       itemBuilder: (context, index) {
         if (index == 0) {
-          return AddMealCard();
+          return AddMealCard(menu: widget.menu);
         }
         index--;
-        final meal = widget.meals[index];
+        final meal = widget.menu.meals![index];
         final delay = (70 * index).ms;
         return MenuItemCard(meal: meal, enableEdit: widget.enableEdit)
             .animate(delay: delay)

@@ -85,4 +85,31 @@ class RestaurantsController {
       return pr(ApiResponseModel(errorMessage: errorMessage, response: ResponseEnum.failed), t);
     }
   }
+
+  Future<ApiResponseModel<bool>> addMeal({required Menu menu, required Meal meal}) async {
+    final t = prt('addMeal - RestaurantsController');
+    try {
+      final response = await _api.post(
+        "${EndPoint.addMeal}/",
+        data: {
+          "restaurant_menu_id": menu.id,
+          "name": meal.name,
+          "description": meal.description,
+          "price": meal.price,
+          "image_id": meal.images?.id,
+          "category_id": meal.categories?.id,
+          "sub_category_id": meal.subcategories?.id,
+        },
+      );
+      pr(response, '$t - response');
+      return pr(ApiResponseModel(response: ResponseEnum.success, data: true), t);
+    } catch (e) {
+      String errorMessage = e.toString();
+      if (e is DioException) {
+        errorMessage = jsonEncode(e.response?.data ?? 'Unknown error occurred');
+      }
+      showSnackbar('Error', errorMessage, true);
+      return pr(ApiResponseModel(errorMessage: errorMessage, response: ResponseEnum.failed), t);
+    }
+  }
 }

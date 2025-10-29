@@ -22,4 +22,5 @@ class EndPoint {
   static const String acceptWishList = "$baseUrl/api/accept-wishlists";
   static const String mealItems = "$baseUrl/api/wishlists/get-items";
   static const String itemDetails = "$baseUrl/api/wishlists/get-item-details";
+  static const String addMeal = "$baseUrl/api/meals";
 }
