@@ -14,6 +14,7 @@ import 'package:gps_app/features/user/restaurant_details/cubits/restaurant_cubit
 import 'package:gps_app/features/user/restaurant_details/models/restaurant_detailed_model/export.dart';
 import 'package:gps_app/features/user/restaurant_details/presentation/widgets/category_chip.dart';
 import 'package:gps_app/features/user/restaurant_details/presentation/widgets/custom_stack.dart';
+import 'package:gps_app/features/user/restaurant_details/presentation/widgets/delete_button.dart';
 import 'package:gps_app/features/user/restaurant_details/presentation/widgets/form_bottom_sheet.dart';
 import 'package:gps_app/features/user/restaurant_details/presentation/widgets/icon_action.dart';
 import 'package:gps_app/features/user/restaurant_details/presentation/widgets/price_badge.dart';
@@ -168,20 +169,10 @@ class _MenuItemCardState extends State<MenuItemCard> {
             Positioned(
               top: 0,
               left: 0,
-              child: InkWell(
+              child: DeleteButton(
                 onTap: () {
                   _deleteMeal(menu: widget.menu, meal: widget.meal);
                 },
-                borderRadius: BorderRadius.circular(10),
-                child: Container(
-                  padding: const EdgeInsets.all(6),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFFFF2F2),
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(color: const Color(0xFFFFE1E1)),
-                  ),
-                  child: Icon(MdiIcons.trashCan, color: Colors.red.shade600, size: 30),
-                ),
               ),
             ),
         ],

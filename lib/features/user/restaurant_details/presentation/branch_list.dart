@@ -6,15 +6,21 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:gps_app/core/api_service/end_points.dart';
 import 'package:gps_app/core/helpers/update_controller.dart';
+import 'package:gps_app/core/helpers/user.dart';
+import 'package:gps_app/core/service_locator/service_locator.dart';
 import 'package:gps_app/core/widgets/uploads/uploaded_image.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
+import 'package:gps_app/features/user/restaurant_details/controllers/restaurants_controller.dart';
 import 'package:gps_app/features/user/restaurant_details/cubits/restaurant_cubit.dart';
 import 'package:gps_app/features/user/restaurant_details/models/restaurant_detailed_model/export.dart';
 import 'package:gps_app/features/user/restaurant_details/presentation/widgets/branch_map_screen.dart';
 import 'package:gps_app/features/user/restaurant_details/presentation/widgets/custom_stack.dart';
+import 'package:gps_app/features/user/restaurant_details/presentation/widgets/delete_button.dart';
 import 'package:gps_app/features/user/restaurant_details/presentation/widgets/form_bottom_sheet.dart';
 import 'package:gps_app/features/user/restaurant_details/presentation/widgets/restaurant_details_forms.dart';
+import 'package:gps_app/features/user/restaurant_details/presentation/widgets/show_action_sheet.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class BranchList extends StatelessWidget {
   const BranchList({
@@ -40,39 +46,39 @@ class BranchList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (branches.isEmpty) {
-      return _EmptyState().animate().fadeIn(duration: 280.ms).slideY(begin: .08);
-    }
-
     final pad = compact ? const EdgeInsets.all(12) : const EdgeInsets.fromLTRB(16, 16, 16, 28);
-
+    context.watch<RestaurantCubit>();
     return Scaffold(
       appBar: AppBar(title: Text('Branches'), backgroundColor: GPSColors.primary),
-      body: ListView.separated(
-        physics: const ClampingScrollPhysics(),
-        padding: pad,
-        itemCount: branches.length,
-        separatorBuilder: (_, __) => GPSGaps.h12,
-        itemBuilder: (context, i) {
-          final b = branches[i];
-          final delay = (70 * i).ms;
-          return _BranchCard(
-                branch: b,
-                // onTap: () {
-                //   HapticFeedback.selectionClick();
-                //   onTapBranch?.call(b);
-                // },
-                onOpenWebsite: onOpenWebsite,
-                onCall: onCall,
-                enableEdit: enableEdit,
-                heroTag: heroPrefix != null && b.id != null ? '$heroPrefix-${b.id}' : null,
-              )
-              .animate(delay: delay)
-              .fadeIn(duration: 260.ms, curve: Curves.easeOutCubic)
-              .slideY(begin: .08, curve: Curves.easeOutCubic)
-              .scale(begin: const Offset(.98, .98), end: const Offset(1, 1));
-        },
-      ),
+      body:
+          branches.isEmpty
+              ? _EmptyState().animate().fadeIn(duration: 280.ms).slideY(begin: .08)
+              : ListView.separated(
+                physics: const ClampingScrollPhysics(),
+                padding: pad,
+                itemCount: branches.length,
+                separatorBuilder: (_, __) => GPSGaps.h12,
+                itemBuilder: (context, i) {
+                  final b = branches[i];
+                  final delay = (70 * i).ms;
+                  return _BranchCard(
+                        branch: b,
+                        // onTap: () {
+                        //   HapticFeedback.selectionClick();
+                        //   onTapBranch?.call(b);
+                        // },
+                        onOpenWebsite: onOpenWebsite,
+                        onCall: onCall,
+                        enableEdit: enableEdit,
+                        heroTag: heroPrefix != null && b.id != null ? '$heroPrefix-${b.id}' : null,
+                      )
+                      .animate(delay: delay)
+                      .fadeIn(duration: 260.ms, curve: Curves.easeOutCubic)
+                      .slideY(begin: .08, curve: Curves.easeOutCubic)
+                      .scale(begin: const Offset(.98, .98), end: const Offset(1, 1));
+                },
+              ),
+      floatingActionButton: FloatingActionButton(onPressed: () {}, child: Icon(Icons.add)),
     );
   }
 }
@@ -124,136 +130,153 @@ class _BranchCardState extends State<_BranchCard> {
           });
         },
       ),
-      child: Ink(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: GPSColors.cardBorder),
-          boxShadow: const [
-            BoxShadow(
-              blurRadius: 14,
-              spreadRadius: -4,
-              offset: Offset(0, 6),
-              color: Color(0x1A000000),
+      child: Stack(
+        children: [
+          Ink(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: GPSColors.cardBorder),
+              boxShadow: const [
+                BoxShadow(
+                  blurRadius: 14,
+                  spreadRadius: -4,
+                  offset: Offset(0, 6),
+                  color: Color(0x1A000000),
+                ),
+              ],
             ),
-          ],
-        ),
-        child: Column(
-          children: [
-            // Image header
-            CustomStack(
-              enableEdit: widget.enableEdit && showEdit,
-              actionWidget: EditButton(onPressed: () => _updateBranchImage(branch: widget.branch)),
-              child: _BranchImageHeader(image: _firstImg, heroTag: widget.heroTag),
-            ),
-            // Content
-            Padding(
-              padding: const EdgeInsets.fromLTRB(14, 12, 14, 12),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
+            child: Column(
+              children: [
+                // Image header
+                CustomStack(
+                  enableEdit: widget.enableEdit && showEdit,
+                  actionWidget: EditButton(
+                    onPressed: () => _updateBranchImage(branch: widget.branch),
+                  ),
+                  child: _BranchImageHeader(image: _firstImg, heroTag: widget.heroTag),
+                ),
+                // Content
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(14, 12, 14, 12),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Expanded(
-                        child: CustomStack(
-                          enableEdit: widget.enableEdit && showEdit,
-                          actionWidget: EditButton(
-                            onPressed: () => _updateBranchName(branch: widget.branch),
-                          ),
-                          child: Text(
-                            widget.branch.branchName?.trim().isNotEmpty == true
-                                ? widget.branch.branchName!.trim()
-                                : 'Branch',
-                            style: txt.titleMedium?.copyWith(
-                              color: GPSColors.text,
-                              fontWeight: FontWeight.w800,
-                            ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                      ),
-                      // Actions (call / website)
-                      // if ((branch.phoneNumber ?? '').isNotEmpty)
-                      //   _IconAction(
-                      //     tooltip: 'Call',
-                      //     icon: Icons.call_rounded,
-                      //     onTap: () => onCall?.call(branch.phoneNumber!.trim()),
-                      //   ).animate().fadeIn(duration: 150.ms),
-                      // if ((widget.branch.website ?? '').isNotEmpty) GPSGaps.w8,
-                      // if ((widget.branch.website ?? '').isNotEmpty)
-                      //   _IconAction(
-                      //     tooltip: 'Open website',
-                      //     icon: Icons.language_rounded,
-                      //     onTap: () => widget.onOpenWebsite?.call(widget.branch.website!.trim()),
-                      // ).animate(delay: 40.ms).fadeIn(duration: 150.ms),
-                      if ((widget.branch.latitude ?? '').isNotEmpty) GPSGaps.w8,
-                      if ((widget.branch.latitude ?? '').isNotEmpty)
-                        CustomStack(
-                          enableEdit: widget.enableEdit && showEdit,
-                          actionWidget: EditButton(
-                            onPressed: () => _updateBranchLocation(branch: widget.branch),
-                          ),
-                          child: _IconAction(
-                            tooltip: 'Open Map',
-                            icon: Icons.location_on,
-                            onTap: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder:
-                                      (_) => BranchMapScreen(
-                                        latitude: widget.branch.latitude ?? '0',
-                                        longitude: widget.branch.longitude ?? '0',
-                                        title: widget.branch.branchName ?? 'Branch Location',
-                                      ),
-                                  fullscreenDialog: true,
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            child: CustomStack(
+                              enableEdit: widget.enableEdit && showEdit,
+                              actionWidget: EditButton(
+                                onPressed: () => _updateBranchName(branch: widget.branch),
+                              ),
+                              child: Text(
+                                widget.branch.branchName?.trim().isNotEmpty == true
+                                    ? widget.branch.branchName!.trim()
+                                    : 'Branch',
+                                style: txt.titleMedium?.copyWith(
+                                  color: GPSColors.text,
+                                  fontWeight: FontWeight.w800,
                                 ),
-                              );
-                            },
-                          ).animate(delay: 40.ms).fadeIn(duration: 150.ms),
-                        ),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ),
+                          // Actions (call / website)
+                          // if ((branch.phoneNumber ?? '').isNotEmpty)
+                          //   _IconAction(
+                          //     tooltip: 'Call',
+                          //     icon: Icons.call_rounded,
+                          //     onTap: () => onCall?.call(branch.phoneNumber!.trim()),
+                          //   ).animate().fadeIn(duration: 150.ms),
+                          // if ((widget.branch.website ?? '').isNotEmpty) GPSGaps.w8,
+                          // if ((widget.branch.website ?? '').isNotEmpty)
+                          //   _IconAction(
+                          //     tooltip: 'Open website',
+                          //     icon: Icons.language_rounded,
+                          //     onTap: () => widget.onOpenWebsite?.call(widget.branch.website!.trim()),
+                          // ).animate(delay: 40.ms).fadeIn(duration: 150.ms),
+                          if ((widget.branch.latitude ?? '').isNotEmpty) GPSGaps.w8,
+                          if ((widget.branch.latitude ?? '').isNotEmpty)
+                            CustomStack(
+                              enableEdit: widget.enableEdit && showEdit,
+                              actionWidget: EditButton(
+                                onPressed: () => _updateBranchLocation(branch: widget.branch),
+                              ),
+                              child: _IconAction(
+                                tooltip: 'Open Map',
+                                icon: Icons.location_on,
+                                onTap: () {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder:
+                                          (_) => BranchMapScreen(
+                                            latitude: widget.branch.latitude ?? '0',
+                                            longitude: widget.branch.longitude ?? '0',
+                                            title: widget.branch.branchName ?? 'Branch Location',
+                                          ),
+                                      fullscreenDialog: true,
+                                    ),
+                                  );
+                                },
+                              ).animate(delay: 40.ms).fadeIn(duration: 150.ms),
+                            ),
+                        ],
+                      ),
+
+                      GPSGaps.h8,
+
+                      // Meta row: phone + website as chips
+                      Wrap(
+                        spacing: 8,
+                        runSpacing: 8,
+                        children: [
+                          if ((widget.branch.phoneNumber ?? '').isNotEmpty)
+                            CustomStack(
+                              enableEdit: widget.enableEdit && showEdit,
+                              actionWidget: EditButton(
+                                onPressed: () => _updateBranchPhoneNumber(branch: widget.branch),
+                              ),
+                              child: _MetaChip(
+                                icon: Icons.phone_rounded,
+                                label: widget.branch.phoneNumber!,
+                                onTap: () => widget.onCall?.call(widget.branch.phoneNumber!.trim()),
+                              ),
+                            ),
+                          if ((widget.branch.website ?? '').isNotEmpty)
+                            CustomStack(
+                              enableEdit: widget.enableEdit && showEdit,
+                              actionWidget: EditButton(
+                                onPressed: () => _updateBranchWebsite(branch: widget.branch),
+                              ),
+                              child: _MetaChip(
+                                icon: Icons.link_rounded,
+                                label: _BranchCard._domainOnly(widget.branch.website!),
+                                onTap:
+                                    () => widget.onOpenWebsite?.call(widget.branch.website!.trim()),
+                              ),
+                            ),
+                        ],
+                      ).animate().fadeIn(duration: 200.ms).slideY(begin: .05),
                     ],
                   ),
-
-                  GPSGaps.h8,
-
-                  // Meta row: phone + website as chips
-                  Wrap(
-                    spacing: 8,
-                    runSpacing: 8,
-                    children: [
-                      if ((widget.branch.phoneNumber ?? '').isNotEmpty)
-                        CustomStack(
-                          enableEdit: widget.enableEdit && showEdit,
-                          actionWidget: EditButton(
-                            onPressed: () => _updateBranchPhoneNumber(branch: widget.branch),
-                          ),
-                          child: _MetaChip(
-                            icon: Icons.phone_rounded,
-                            label: widget.branch.phoneNumber!,
-                            onTap: () => widget.onCall?.call(widget.branch.phoneNumber!.trim()),
-                          ),
-                        ),
-                      if ((widget.branch.website ?? '').isNotEmpty)
-                        CustomStack(
-                          enableEdit: widget.enableEdit && showEdit,
-                          actionWidget: EditButton(
-                            onPressed: () => _updateBranchWebsite(branch: widget.branch),
-                          ),
-                          child: _MetaChip(
-                            icon: Icons.link_rounded,
-                            label: _BranchCard._domainOnly(widget.branch.website!),
-                            onTap: () => widget.onOpenWebsite?.call(widget.branch.website!.trim()),
-                          ),
-                        ),
-                    ],
-                  ).animate().fadeIn(duration: 200.ms).slideY(begin: .05),
-                ],
+                ),
+              ],
+            ),
+          ),
+          if (showEdit && widget.enableEdit)
+            Positioned(
+              top: 0,
+              left: 0,
+              child: DeleteButton(
+                onTap: () {
+                  _deleteBranch(branch: widget.branch);
+                },
               ),
             ),
-          ],
-        ),
+        ],
       ),
     );
   }
@@ -349,6 +372,24 @@ class _BranchCardState extends State<_BranchCard> {
       path: 'branches/${branch?.id}',
       data: {'image_id': newVal.id},
     );
+  }
+
+  Future _deleteBranch({required Branch? branch}) async {
+    final areYouSure = await showActionSheet(
+      context,
+      title: 'Are you sure you want to delete this branch?',
+      children: [
+        Row(children: [Icon(MdiIcons.check), GPSGaps.w10, Text('Yes')]),
+        Row(children: [Icon(MdiIcons.cancel), GPSGaps.w10, Text('No')]),
+      ],
+    );
+    if (areYouSure != 0) return;
+    final cubit = context.read<RestaurantCubit>();
+    cubit.state.data?.branches?.remove(branch);
+    cubit.update(cubit.state.data!);
+    final controller = serviceLocator<RestaurantsController>();
+    final res = await controller.deleteBranch(branch: branch);
+    cubit.restaurant(restaurantId: (userInMemory()?.restaurant?.id)!);
   }
 }
 
