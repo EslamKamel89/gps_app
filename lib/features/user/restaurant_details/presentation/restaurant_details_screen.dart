@@ -296,7 +296,6 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen>
                                                 MaterialPageRoute(
                                                   builder:
                                                       (_) => CertificationsScreen(
-                                                        items: state.data?.certifications ?? [],
                                                         enableEdit: widget.enableEdit,
                                                       ),
                                                 ),

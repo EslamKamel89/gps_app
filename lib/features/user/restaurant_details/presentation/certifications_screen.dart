@@ -3,46 +3,51 @@ import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gps_app/core/helpers/update_controller.dart';
+import 'package:gps_app/core/helpers/user.dart';
+import 'package:gps_app/core/service_locator/service_locator.dart';
 import 'package:gps_app/core/widgets/uploads/single_file_upload_field.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
+import 'package:gps_app/features/user/restaurant_details/controllers/restaurants_controller.dart';
 import 'package:gps_app/features/user/restaurant_details/cubits/restaurant_cubit.dart';
 import 'package:gps_app/features/user/restaurant_details/models/restaurant_detailed_model/export.dart';
 import 'package:gps_app/features/user/restaurant_details/presentation/widgets/custom_stack.dart';
+import 'package:gps_app/features/user/restaurant_details/presentation/widgets/delete_button.dart';
 import 'package:gps_app/features/user/restaurant_details/presentation/widgets/form_bottom_sheet.dart';
 import 'package:gps_app/features/user/restaurant_details/presentation/widgets/restaurant_details_forms.dart';
+import 'package:gps_app/features/user/restaurant_details/presentation/widgets/show_action_sheet.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class CertificationsScreen extends StatelessWidget {
-  const CertificationsScreen({
-    super.key,
-    required this.items,
-    required this.enableEdit,
-    this.title = 'Certifications',
-  });
+  const CertificationsScreen({super.key, required this.enableEdit, this.title = 'Certifications'});
 
-  final List<Certification> items;
   final String title;
   final bool enableEdit;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-
+    final cubit = context.watch<RestaurantCubit>();
+    final List<Certification>? items = cubit.state.data?.certifications;
     return Scaffold(
       appBar: AppBar(elevation: 0, backgroundColor: GPSColors.primary, title: Text(title)),
       body:
-          items.isEmpty
+          items?.isEmpty == true
               ? const _EmptyState().animate().fadeIn(duration: 280.ms).slideY(begin: .08)
               : ListView.separated(
                 padding: const EdgeInsets.fromLTRB(16, 16, 16, 28),
-                itemCount: items.length,
+                itemCount: items?.length ?? 0,
                 separatorBuilder: (_, __) => GPSGaps.h12,
                 physics: const ClampingScrollPhysics(),
                 itemBuilder: (context, i) {
-                  final c = items[i];
+                  final c = items![i];
                   final delay = (70 * i).ms;
-                  return _CertificationCard(cert: c, enableEdit: enableEdit)
+                  return CertificationCard(
+                        // key: Key("${c.id}-${c.title}"),
+                        cert: c,
+                        enableEdit: enableEdit,
+                      )
                       .animate(delay: delay)
                       .fadeIn(duration: 260.ms, curve: Curves.easeOutCubic)
                       .slideY(begin: .08, curve: Curves.easeOutCubic)
@@ -53,8 +58,8 @@ class CertificationsScreen extends StatelessWidget {
   }
 }
 
-class _CertificationCard extends StatefulWidget {
-  const _CertificationCard({required this.cert, required this.enableEdit});
+class CertificationCard extends StatefulWidget {
+  const CertificationCard({super.key, required this.cert, required this.enableEdit});
   final Certification cert;
   final bool enableEdit;
   static bool _isValidHttpUrl(String? url) {
@@ -64,10 +69,10 @@ class _CertificationCard extends StatefulWidget {
   }
 
   @override
-  State<_CertificationCard> createState() => _CertificationCardState();
+  State<CertificationCard> createState() => _CertificationCardState();
 }
 
-class _CertificationCardState extends State<_CertificationCard> {
+class _CertificationCardState extends State<CertificationCard> {
   RestaurantFile? get _firstFile =>
       (widget.cert.file != null && widget.cert.file!.isNotEmpty) ? widget.cert.file!.first : null;
   bool showEdit = false;
@@ -75,7 +80,7 @@ class _CertificationCardState extends State<_CertificationCard> {
   Widget build(BuildContext context) {
     final txt = Theme.of(context).textTheme;
     final firstUrl = _firstFile?.path?.trim();
-    final hasValidUrl = _CertificationCard._isValidHttpUrl(firstUrl);
+    final hasValidUrl = CertificationCard._isValidHttpUrl(firstUrl);
     context.watch<RestaurantCubit>();
     return CustomStack(
       enableEdit: widget.enableEdit,
@@ -86,81 +91,95 @@ class _CertificationCardState extends State<_CertificationCard> {
           });
         },
       ),
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: GPSColors.cardBorder),
-          boxShadow: const [
-            BoxShadow(
-              blurRadius: 14,
-              spreadRadius: -4,
-              offset: Offset(0, 6),
-              color: Color(0x1A000000),
+      child: Stack(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: GPSColors.cardBorder),
+              boxShadow: const [
+                BoxShadow(
+                  blurRadius: 14,
+                  spreadRadius: -4,
+                  offset: Offset(0, 6),
+                  color: Color(0x1A000000),
+                ),
+              ],
             ),
-          ],
-        ),
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(14, 14, 14, 14),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Title row
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(14, 14, 14, 14),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Expanded(
+                  // Title row
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: CustomStack(
+                          enableEdit: widget.enableEdit && showEdit,
+                          actionWidget: EditButton(
+                            onPressed: () => _updateCertificationTitle(cert: widget.cert),
+                          ),
+                          child: Text(
+                            (widget.cert.title ?? 'Certification').trim(),
+                            style: txt.titleMedium?.copyWith(
+                              color: GPSColors.text,
+                              fontWeight: FontWeight.w800,
+                            ),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  GPSGaps.h8,
+
+                  // Description
+                  if ((widget.cert.description ?? '').trim().isNotEmpty)
+                    CustomStack(
+                      enableEdit: widget.enableEdit && showEdit,
+                      actionWidget: EditButton(
+                        onPressed: () => _updateCertificationDescription(cert: widget.cert),
+                      ),
+                      child: Text(
+                        widget.cert.description!.trim(),
+                        style: txt.bodyMedium?.copyWith(color: GPSColors.mutedText, height: 1.35),
+                      ).animate().fadeIn(duration: 200.ms).slideY(begin: .05),
+                    ),
+
+                  GPSGaps.h12,
+
+                  Align(
+                    alignment: Alignment.centerRight,
                     child: CustomStack(
                       enableEdit: widget.enableEdit && showEdit,
                       actionWidget: EditButton(
-                        onPressed: () => _updateCertificationTitle(cert: widget.cert),
+                        onPressed: () => _updateCertificationFile(cert: widget.cert),
                       ),
-                      child: Text(
-                        (widget.cert.title ?? 'Certification').trim(),
-                        style: txt.titleMedium?.copyWith(
-                          color: GPSColors.text,
-                          fontWeight: FontWeight.w800,
-                        ),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
+                      child: _OpenFileButton(
+                        enabled: hasValidUrl,
+                        onPressed: hasValidUrl ? () => _openUrl(context, firstUrl!) : null,
                       ),
                     ),
                   ),
                 ],
               ),
-              GPSGaps.h8,
-
-              // Description
-              if ((widget.cert.description ?? '').trim().isNotEmpty)
-                CustomStack(
-                  enableEdit: widget.enableEdit && showEdit,
-                  actionWidget: EditButton(
-                    onPressed: () => _updateCertificationDescription(cert: widget.cert),
-                  ),
-                  child: Text(
-                    widget.cert.description!.trim(),
-                    style: txt.bodyMedium?.copyWith(color: GPSColors.mutedText, height: 1.35),
-                  ).animate().fadeIn(duration: 200.ms).slideY(begin: .05),
-                ),
-
-              GPSGaps.h12,
-
-              Align(
-                alignment: Alignment.centerRight,
-                child: CustomStack(
-                  enableEdit: widget.enableEdit && showEdit,
-                  actionWidget: EditButton(
-                    onPressed: () => _updateCertificationFile(cert: widget.cert),
-                  ),
-                  child: _OpenFileButton(
-                    enabled: hasValidUrl,
-                    onPressed: hasValidUrl ? () => _openUrl(context, firstUrl!) : null,
-                  ),
-                ),
-              ),
-            ],
+            ),
           ),
-        ),
+          if (showEdit && widget.enableEdit)
+            Positioned(
+              top: 0,
+              left: 0,
+              child: DeleteButton(
+                onTap: () {
+                  _deleteCertification(cert: widget.cert);
+                },
+              ),
+            ),
+        ],
       ),
     );
   }
@@ -240,6 +259,26 @@ class _CertificationCardState extends State<_CertificationCard> {
       path: 'certificates/${cert?.id}',
       data: {'file_id': newVal.id},
     );
+  }
+
+  Future _deleteCertification({required Certification? cert}) async {
+    final areYouSure = await showActionSheet(
+      context,
+      title: 'Are you sure you want to delete this Certification?',
+      children: [
+        Row(children: [Icon(MdiIcons.check), GPSGaps.w10, Text('Yes')]),
+        Row(children: [Icon(MdiIcons.cancel), GPSGaps.w10, Text('No')]),
+      ],
+    );
+    if (areYouSure != 0) return;
+    final cubit = context.read<RestaurantCubit>();
+    cubit.state.data?.certifications ??= [];
+    final certs = cubit.state.data?.certifications;
+    certs?.remove(cert);
+    cubit.update(cubit.state.data!);
+    final controller = serviceLocator<RestaurantsController>();
+    final res = await controller.deleteCertification(certification: cert);
+    cubit.restaurant(restaurantId: (userInMemory()?.restaurant?.id)!);
   }
 }
 

@@ -41,6 +41,7 @@ class RestaurantsController {
       pr(response, '$t - response');
       final RestaurantDetailedModel model = RestaurantDetailedModel.fromJson(response);
       // return pr(ApiResponseModel(response: ResponseEnum.success, data: demoModel), t);
+      pr(model.certifications?.length, 'certs length');
       return pr(ApiResponseModel(response: ResponseEnum.success, data: model), t);
     } catch (e) {
       String errorMessage = e.toString();
@@ -72,7 +73,7 @@ class RestaurantsController {
   }
 
   Future<ApiResponseModel<bool>> deleteMenu({required Menu menu}) async {
-    final t = prt('removeMenu - RestaurantsController');
+    final t = prt('deleteMenu - RestaurantsController');
     try {
       final response = await _api.delete("${EndPoint.restaurantMenus}/${menu.id}");
       pr(response, '$t - response');
@@ -115,7 +116,7 @@ class RestaurantsController {
   }
 
   Future<ApiResponseModel<bool>> deleteMeal({required Meal meal}) async {
-    final t = prt('addMeal - RestaurantsController');
+    final t = prt('deleteMeal - RestaurantsController');
     try {
       final response = await _api.delete("${EndPoint.addMeal}/${meal.id}");
       pr(response, '$t - response');
@@ -131,7 +132,7 @@ class RestaurantsController {
   }
 
   Future<ApiResponseModel<bool>> deleteBranch({required Branch? branch}) async {
-    final t = prt('addMeal - RestaurantsController');
+    final t = prt('deleteBranch - RestaurantsController');
     try {
       final response = await _api.delete("${EndPoint.branches}/${branch?.id}");
       pr(response, '$t - response');
@@ -147,11 +148,29 @@ class RestaurantsController {
   }
 
   Future<ApiResponseModel<bool>> addBranch({required Branch? branch}) async {
-    final t = prt('addMeal - RestaurantsController');
+    final t = prt('addBranch - RestaurantsController');
     try {
       final Map<String, dynamic> body = branch?.toRequestBody() ?? {};
       body.addEntries({'restaurant_id': userInMemory()?.restaurant?.id}.entries);
       final response = await _api.post("${EndPoint.branches}/", data: body);
+      pr(response, '$t - response');
+      return pr(ApiResponseModel(response: ResponseEnum.success, data: true), t);
+    } catch (e) {
+      String errorMessage = e.toString();
+      if (e is DioException) {
+        errorMessage = jsonEncode(e.response?.data ?? 'Unknown error occurred');
+      }
+      showSnackbar('Error', errorMessage, true);
+      return pr(ApiResponseModel(errorMessage: errorMessage, response: ResponseEnum.failed), t);
+    }
+  }
+
+  Future<ApiResponseModel<bool>> deleteCertification({
+    required Certification? certification,
+  }) async {
+    final t = prt('deleteCertification - RestaurantsController');
+    try {
+      final response = await _api.delete("${EndPoint.restaurantCertificates}/${certification?.id}");
       pr(response, '$t - response');
       return pr(ApiResponseModel(response: ResponseEnum.success, data: true), t);
     } catch (e) {
