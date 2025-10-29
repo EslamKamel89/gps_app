@@ -36,7 +36,12 @@ class _MenuMealsListViewState extends State<MenuMealsListView> {
         index--;
         final meal = widget.menu.meals![index];
         final delay = (70 * index).ms;
-        return MenuItemCard(meal: meal, enableEdit: widget.enableEdit)
+        return MenuItemCard(
+              key: Key("${meal.id}-${meal.name}"),
+              menu: widget.menu,
+              meal: meal,
+              enableEdit: widget.enableEdit,
+            )
             .animate(delay: delay)
             .fadeIn(duration: 260.ms, curve: Curves.easeOutCubic)
             .slideY(begin: .08, curve: Curves.easeOutCubic)

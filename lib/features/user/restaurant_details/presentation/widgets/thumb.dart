@@ -8,7 +8,7 @@ class ThumbWidget extends StatelessWidget {
   const ThumbWidget({super.key, required this.meal});
   final Meal meal;
   String? imagePath() {
-    pr(meal.images, 'image')?.path;
+    // pr(meal.images, 'image')?.path;
     final path =
         meal.images?.path?.contains('http') == true
             ? meal.images?.path
