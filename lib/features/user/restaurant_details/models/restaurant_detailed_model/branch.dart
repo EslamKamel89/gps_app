@@ -1,3 +1,6 @@
+import 'package:gps_app/features/auth/models/district_model.dart';
+import 'package:gps_app/features/auth/models/state_model.dart';
+
 import 'image.dart';
 
 class Branch {
@@ -7,6 +10,10 @@ class Branch {
   String? website;
   String? longitude;
   String? latitude;
+  int? stateId;
+  int? districtId;
+  StateModel? state;
+  DistrictModel? district;
   List<RestaurantImage>? images;
 
   Branch({
@@ -17,6 +24,10 @@ class Branch {
     this.longitude,
     this.latitude,
     this.images,
+    this.state,
+    this.district,
+    this.stateId,
+    this.districtId,
   });
 
   @override
@@ -35,6 +46,14 @@ class Branch {
         (json['images'] as List<dynamic>?)
             ?.map((e) => RestaurantImage.fromJson(e as Map<String, dynamic>))
             .toList(),
+    stateId: json['state_id'] as int?,
+    districtId: json['district_id'] as int?,
+    state:
+        json['state'] == null ? null : StateModel.fromJson(json['state'] as Map<String, dynamic>),
+    district:
+        json['district'] == null
+            ? null
+            : DistrictModel.fromJson(json['district'] as Map<String, dynamic>),
   );
 
   Map<String, dynamic> toJson() => {
@@ -44,26 +63,20 @@ class Branch {
     'website': website,
     'longitude': longitude,
     'latitude': latitude,
+    'state_id': stateId,
+    'district_id': districtId,
+    'state': state?.toJson(),
+    'district': district?.toJson(),
     'images': images?.map((e) => e.toJson()).toList(),
   };
-
-  Branch copyWith({
-    int? id,
-    String? branchName,
-    String? phoneNumber,
-    String? website,
-    String? longitude,
-    String? latitude,
-    List<RestaurantImage>? images,
-  }) {
-    return Branch(
-      id: id ?? this.id,
-      branchName: branchName ?? this.branchName,
-      phoneNumber: phoneNumber ?? this.phoneNumber,
-      website: website ?? this.website,
-      longitude: longitude ?? this.longitude,
-      latitude: latitude ?? this.latitude,
-      images: images ?? this.images,
-    );
-  }
+  Map<String, dynamic> toRequestBody() => {
+    'branch_name': branchName,
+    'phone_number': phoneNumber,
+    'website': website,
+    'longitude': longitude,
+    'latitude': latitude,
+    'state_id': stateId,
+    'district_id': districtId,
+    'image_id': images?.isNotEmpty == true ? images![0].id : null,
+  };
 }

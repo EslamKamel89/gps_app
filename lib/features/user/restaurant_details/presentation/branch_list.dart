@@ -14,6 +14,7 @@ import 'package:gps_app/features/design/utils/gps_gaps.dart';
 import 'package:gps_app/features/user/restaurant_details/controllers/restaurants_controller.dart';
 import 'package:gps_app/features/user/restaurant_details/cubits/restaurant_cubit.dart';
 import 'package:gps_app/features/user/restaurant_details/models/restaurant_detailed_model/export.dart';
+import 'package:gps_app/features/user/restaurant_details/presentation/add_branch_card.dart';
 import 'package:gps_app/features/user/restaurant_details/presentation/widgets/branch_map_screen.dart';
 import 'package:gps_app/features/user/restaurant_details/presentation/widgets/custom_stack.dart';
 import 'package:gps_app/features/user/restaurant_details/presentation/widgets/delete_button.dart';
@@ -22,7 +23,7 @@ import 'package:gps_app/features/user/restaurant_details/presentation/widgets/re
 import 'package:gps_app/features/user/restaurant_details/presentation/widgets/show_action_sheet.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-class BranchList extends StatelessWidget {
+class BranchList extends StatefulWidget {
   const BranchList({
     super.key,
     required this.branches,
@@ -45,21 +46,27 @@ class BranchList extends StatelessWidget {
   final String? heroPrefix;
 
   @override
+  State<BranchList> createState() => _BranchListState();
+}
+
+class _BranchListState extends State<BranchList> {
+  @override
   Widget build(BuildContext context) {
-    final pad = compact ? const EdgeInsets.all(12) : const EdgeInsets.fromLTRB(16, 16, 16, 28);
+    final pad =
+        widget.compact ? const EdgeInsets.all(12) : const EdgeInsets.fromLTRB(16, 16, 16, 28);
     context.watch<RestaurantCubit>();
     return Scaffold(
       appBar: AppBar(title: Text('Branches'), backgroundColor: GPSColors.primary),
       body:
-          branches.isEmpty
+          widget.branches.isEmpty
               ? _EmptyState().animate().fadeIn(duration: 280.ms).slideY(begin: .08)
               : ListView.separated(
                 physics: const ClampingScrollPhysics(),
                 padding: pad,
-                itemCount: branches.length,
+                itemCount: widget.branches.length,
                 separatorBuilder: (_, __) => GPSGaps.h12,
                 itemBuilder: (context, i) {
-                  final b = branches[i];
+                  final b = widget.branches[i];
                   final delay = (70 * i).ms;
                   return _BranchCard(
                         branch: b,
@@ -67,10 +74,13 @@ class BranchList extends StatelessWidget {
                         //   HapticFeedback.selectionClick();
                         //   onTapBranch?.call(b);
                         // },
-                        onOpenWebsite: onOpenWebsite,
-                        onCall: onCall,
-                        enableEdit: enableEdit,
-                        heroTag: heroPrefix != null && b.id != null ? '$heroPrefix-${b.id}' : null,
+                        onOpenWebsite: widget.onOpenWebsite,
+                        onCall: widget.onCall,
+                        enableEdit: widget.enableEdit,
+                        heroTag:
+                            widget.heroPrefix != null && b.id != null
+                                ? '${widget.heroPrefix}-${b.id}'
+                                : null,
                       )
                       .animate(delay: delay)
                       .fadeIn(duration: 260.ms, curve: Curves.easeOutCubic)
@@ -78,7 +88,24 @@ class BranchList extends StatelessWidget {
                       .scale(begin: const Offset(.98, .98), end: const Offset(1, 1));
                 },
               ),
-      floatingActionButton: FloatingActionButton(onPressed: () {}, child: Icon(Icons.add)),
+      floatingActionButton: FloatingActionButton(onPressed: _addBranch, child: Icon(Icons.add)),
+    );
+  }
+
+  Future _addBranch() async {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      showDragHandle: true,
+      useSafeArea: true,
+      useRootNavigator: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+
+      builder: (_) {
+        return AddBranchCard();
+      },
     );
   }
 }
@@ -402,7 +429,8 @@ class _BranchImageHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     final radius = const BorderRadius.vertical(top: Radius.circular(16));
     // pr(image, 'image');
-    final url = image?.path ?? '';
+    var url = image?.path ?? '';
+    url = url.contains('http') ? url : "${EndPoint.baseUrl}/$url";
 
     final imgWidget = CachedNetworkImage(
       imageUrl: url,
