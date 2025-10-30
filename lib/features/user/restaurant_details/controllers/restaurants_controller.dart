@@ -184,7 +184,7 @@ class RestaurantsController {
   }
 
   Future<ApiResponseModel<bool>> addCertification({required Certification? cert}) async {
-    final t = prt('addBranch - RestaurantsController');
+    final t = prt('addCertification - RestaurantsController');
     try {
       final Map<String, dynamic> body = cert?.toRequestBody() ?? {};
       body.addEntries({'restaurant_id': userInMemory()?.restaurant?.id}.entries);

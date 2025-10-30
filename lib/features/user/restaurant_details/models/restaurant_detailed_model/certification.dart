@@ -52,7 +52,6 @@ class Certification {
   }
 
   Map<String, dynamic> toRequestBody() => {
-    'id': id,
     'title': title,
     'description': description,
     'restaurant_id': restaurantId,
