@@ -11,9 +11,13 @@ import 'package:gps_app/features/auth/models/catalog_section_model.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 import 'package:gps_app/features/user/restaurant_details/presentation/widgets/custom_stack.dart';
+import 'package:gps_app/features/user/restaurant_details/presentation/widgets/delete_button.dart';
 import 'package:gps_app/features/user/restaurant_details/presentation/widgets/form_bottom_sheet.dart';
 import 'package:gps_app/features/user/restaurant_details/presentation/widgets/restaurant_details_forms.dart';
+import 'package:gps_app/features/user/restaurant_details/presentation/widgets/show_action_sheet.dart';
+import 'package:gps_app/features/user/store_details/controllers/store_controller.dart';
 import 'package:gps_app/features/user/store_details/cubits/store_cubit.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class ItemCard extends StatefulWidget {
   const ItemCard({
@@ -56,106 +60,123 @@ class _ItemCardState extends State<ItemCard> {
           });
         },
       ),
-      child: Ink(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: GPSColors.cardBorder),
-          boxShadow: const [
-            BoxShadow(
-              blurRadius: 14,
-              spreadRadius: -4,
-              offset: Offset(0, 6),
-              color: Color(0x1A000000),
-            ),
-          ],
-        ),
-        child: Row(
-          children: [
-            // Image
-            CustomStack(
-              enableEdit: widget.enableEdit && _showEdit,
-              actionWidget: EditButton(
-                onPressed: () {
-                  _updateItemImage(widget.item);
-                },
-              ),
-              child: ClipRRect(
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(16),
-                  bottomLeft: Radius.circular(16),
+      child: Stack(
+        children: [
+          Ink(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: GPSColors.cardBorder),
+              boxShadow: const [
+                BoxShadow(
+                  blurRadius: 14,
+                  spreadRadius: -4,
+                  offset: Offset(0, 6),
+                  color: Color(0x1A000000),
                 ),
-                child: Hero(
-                  tag: widget.heroTag,
-                  child: Image.network(_imageUrl(), width: 110, height: 110, fit: BoxFit.cover),
-                ),
-              ),
+              ],
             ),
-
-            // Content
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(14),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    CustomStack(
-                      enableEdit: widget.enableEdit && _showEdit,
-                      actionWidget: EditButton(
-                        onPressed: () {
-                          _updateItemName(widget.item);
-                        },
-                      ),
-                      child: Text(
-                        widget.item.name ?? 'Item',
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: txt.titleSmall?.copyWith(
-                          color: GPSColors.text,
-                          fontWeight: FontWeight.w800,
-                        ),
-                      ),
+            child: Row(
+              children: [
+                // Image
+                CustomStack(
+                  enableEdit: widget.enableEdit && _showEdit,
+                  actionWidget: EditButton(
+                    onPressed: () {
+                      _updateItemImage(widget.item);
+                    },
+                  ),
+                  child: ClipRRect(
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(16),
+                      bottomLeft: Radius.circular(16),
                     ),
-                    GPSGaps.h8,
-                    if ((widget.item.description ?? '').isNotEmpty)
-                      CustomStack(
-                        enableEdit: widget.enableEdit && _showEdit,
-                        actionWidget: EditButton(
-                          onPressed: () {
-                            _updateItemDescription(widget.item);
-                          },
-                        ),
-                        child: Text(
-                          widget.item.description!,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: txt.bodyMedium?.copyWith(color: GPSColors.mutedText, height: 1.35),
-                        ),
-                      ),
-                    GPSGaps.h8,
-                    if (price != null)
-                      CustomStack(
-                        enableEdit: widget.enableEdit && _showEdit,
-                        actionWidget: EditButton(
-                          onPressed: () {
-                            _updateItemPrice(widget.item);
-                          },
-                        ),
-                        child: Text(
-                          price,
-                          style: txt.titleSmall?.copyWith(
-                            color: GPSColors.text,
-                            fontWeight: FontWeight.w800,
-                            fontFeatures: const [FontFeature.tabularFigures()],
+                    child: Hero(
+                      tag: widget.heroTag,
+                      child: Image.network(_imageUrl(), width: 110, height: 110, fit: BoxFit.cover),
+                    ),
+                  ),
+                ),
+
+                // Content
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(14),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        CustomStack(
+                          enableEdit: widget.enableEdit && _showEdit,
+                          actionWidget: EditButton(
+                            onPressed: () {
+                              _updateItemName(widget.item);
+                            },
+                          ),
+                          child: Text(
+                            widget.item.name ?? 'Item',
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: txt.titleSmall?.copyWith(
+                              color: GPSColors.text,
+                              fontWeight: FontWeight.w800,
+                            ),
                           ),
                         ),
-                      ),
-                  ],
+                        GPSGaps.h8,
+                        if ((widget.item.description ?? '').isNotEmpty)
+                          CustomStack(
+                            enableEdit: widget.enableEdit && _showEdit,
+                            actionWidget: EditButton(
+                              onPressed: () {
+                                _updateItemDescription(widget.item);
+                              },
+                            ),
+                            child: Text(
+                              widget.item.description!,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: txt.bodyMedium?.copyWith(
+                                color: GPSColors.mutedText,
+                                height: 1.35,
+                              ),
+                            ),
+                          ),
+                        GPSGaps.h8,
+                        if (price != null)
+                          CustomStack(
+                            enableEdit: widget.enableEdit && _showEdit,
+                            actionWidget: EditButton(
+                              onPressed: () {
+                                _updateItemPrice(widget.item);
+                              },
+                            ),
+                            child: Text(
+                              price,
+                              style: txt.titleSmall?.copyWith(
+                                color: GPSColors.text,
+                                fontWeight: FontWeight.w800,
+                                fontFeatures: const [FontFeature.tabularFigures()],
+                              ),
+                            ),
+                          ),
+                      ],
+                    ),
+                  ),
                 ),
+              ],
+            ),
+          ),
+          if (_showEdit && widget.enableEdit)
+            Positioned(
+              top: 0,
+              left: 0,
+              child: DeleteButton(
+                onTap: () {
+                  _deleteItem(section: widget.section, item: widget.item);
+                },
               ),
             ),
-          ],
-        ),
+        ],
       ),
     );
   }
@@ -249,5 +270,26 @@ class _ItemCardState extends State<ItemCard> {
     if (res.response == ResponseEnum.success) {
       storage.cacheUser(cubit.state.data);
     }
+  }
+
+  Future _deleteItem({
+    required CatalogSectionModel? section,
+    required CatalogItemModel item,
+  }) async {
+    final areYouSure = await showActionSheet(
+      context,
+      title: 'Are you sure you want to delete this item?',
+      children: [
+        Row(children: [Icon(MdiIcons.check), GPSGaps.w10, Text('Yes')]),
+        Row(children: [Icon(MdiIcons.cancel), GPSGaps.w10, Text('No')]),
+      ],
+    );
+    if (areYouSure != 0) return;
+    final cubit = context.read<StoreCubit>();
+    section?.items?.remove(item);
+    cubit.update(cubit.state.data!);
+    final controller = serviceLocator<StoreController>();
+    final res = await controller.deleteItem(item: item);
+    cubit.user();
   }
 }

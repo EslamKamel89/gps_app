@@ -30,7 +30,7 @@ class StoreController {
   }
 
   Future<ApiResponseModel<bool>> deleteSection({required CatalogSectionModel section}) async {
-    final t = prt('addSection - StoreController');
+    final t = prt('deleteSection - StoreController');
     try {
       final response = await _api.delete("${EndPoint.sections}/${section.id}");
       pr(response, '$t - response');
@@ -49,6 +49,22 @@ class StoreController {
     final t = prt('addItem - StoreController');
     try {
       final response = await _api.post("${EndPoint.items}/", data: item.toRequestBody());
+      pr(response, '$t - response');
+      return pr(ApiResponseModel(response: ResponseEnum.success, data: true), t);
+    } catch (e) {
+      String errorMessage = e.toString();
+      if (e is DioException) {
+        errorMessage = jsonEncode(e.response?.data ?? 'Unknown error occurred');
+      }
+      showSnackbar('Error', errorMessage, true);
+      return pr(ApiResponseModel(errorMessage: errorMessage, response: ResponseEnum.failed), t);
+    }
+  }
+
+  Future<ApiResponseModel<bool>> deleteItem({required CatalogItemModel item}) async {
+    final t = prt('deleteItem - StoreController');
+    try {
+      final response = await _api.delete("${EndPoint.items}/${item.id}");
       pr(response, '$t - response');
       return pr(ApiResponseModel(response: ResponseEnum.success, data: true), t);
     } catch (e) {
