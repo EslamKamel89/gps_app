@@ -25,6 +25,7 @@ import 'package:gps_app/features/user/restaurant_details/presentation/widgets/pr
 import 'package:gps_app/features/user/restaurant_details/presentation/widgets/restaurant_details_forms.dart';
 import 'package:gps_app/features/user/restaurant_details/presentation/widgets/show_action_sheet.dart';
 import 'package:gps_app/features/user/restaurant_details/presentation/widgets/tab_bar_delegate.dart';
+import 'package:gps_app/features/user/store_details/controllers/store_controller.dart';
 import 'package:gps_app/features/user/store_details/cubits/store_cubit.dart';
 import 'package:gps_app/features/user/store_details/presentation/widgets/add_section_card.dart';
 import 'package:gps_app/features/user/store_details/presentation/widgets/badge_chip.dart';
@@ -420,7 +421,7 @@ class StoreDetailsScreenState extends State<StoreDetailsScreen>
                                             enableEdit: widget.enableEdit,
                                             actionWidget: EditButton(
                                               onPressed: () async {
-                                                _updateSectionsNames(user: user);
+                                                _updateOrDeleteSection(user: user);
                                               },
                                             ),
                                             child: TabBar(
@@ -577,12 +578,12 @@ class StoreDetailsScreenState extends State<StoreDetailsScreen>
     }
   }
 
-  Future _updateSectionsNames({required UserModel? user}) async {
+  Future _updateOrDeleteSection({required UserModel? user}) async {
     final storage = serviceLocator<LocalStorage>();
     final sections = user?.storeOrFarm()?.sections;
     final idx = await showActionSheet(
       context,
-      title: 'Choose which category name to edit',
+      title: 'Choose which category you want',
       children:
           sections?.map((m) {
             return Row(children: [Icon(MdiIcons.pen), GPSGaps.w10, Text(m.name ?? '')]);
@@ -590,20 +591,52 @@ class StoreDetailsScreenState extends State<StoreDetailsScreen>
           [],
     );
     if (idx == null) return;
+    final action = await showActionSheet(
+      context,
+      title: 'Do you want to edit or delete?',
+      children: [
+        Row(children: [Icon(MdiIcons.pen), GPSGaps.w10, Text('Edit')]),
+        Row(children: [Icon(MdiIcons.trashCan), GPSGaps.w10, Text('Delete')]),
+      ],
+    );
+    if (action == null) return;
+    final section = sections?[idx];
+    if (action == 0) {
+      await _updateSection(section, storage);
+    } else if (action == 1) {
+      final areYouSure = await showActionSheet(
+        context,
+        title: 'Are you sure you want to delete category?',
+        children: [
+          Row(children: [Icon(MdiIcons.check), GPSGaps.w10, Text('Yes')]),
+          Row(children: [Icon(MdiIcons.cancel), GPSGaps.w10, Text('No')]),
+        ],
+      );
+      if (areYouSure != 0) return;
+      sections?.remove(section);
+      cubit.update(cubit.state.data!);
+      final res = await serviceLocator<StoreController>().deleteSection(section: section!);
+      if (res.response == ResponseEnum.success) {
+        storage.cacheUser(cubit.state.data);
+      }
+    }
+  }
+
+  Future _updateSection(CatalogSectionModel? section, LocalStorage storage) async {
     final String? newVal = await showFormBottomSheet<String>(
       context,
       builder:
           (ctx, ctl) => ProfileTextForm(
-            initialValue: sections?[idx].name ?? '',
+            initialValue: section?.name ?? '',
             controller: ctl,
             label: 'Update category name',
           ),
     );
     if (newVal == null) return;
-    sections?[idx].name = newVal;
+    section?.name = newVal;
     cubit.update(cubit.state.data!);
     final res = await UpdateController.update(
-      path: 'catalog-sections/${sections?[idx].id}',
+      path: 'catalog-sections/${section?.id}',
       data: {'name': newVal},
     );
     if (res.response == ResponseEnum.success) {

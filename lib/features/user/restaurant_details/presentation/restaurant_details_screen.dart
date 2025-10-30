@@ -488,7 +488,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen>
     );
     if (action == null) return;
     if (action == 0) {
-      await _updateMenuName(menu: restaurant?.menus?[idx]);
+      await _updateMenu(menu: restaurant?.menus?[idx]);
     } else if (action == 1) {
       final areYouSure = await showActionSheet(
         context,
@@ -499,11 +499,11 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen>
         ],
       );
       if (areYouSure != 0) return;
-      _deleteMenuName(restaurant: restaurant, menu: restaurant?.menus?[idx]);
+      _deleteMenu(restaurant: restaurant, menu: restaurant?.menus?[idx]);
     }
   }
 
-  Future _updateMenuName({required Menu? menu}) async {
+  Future _updateMenu({required Menu? menu}) async {
     final String? newVal = await showFormBottomSheet<String>(
       context,
       builder:
@@ -524,10 +524,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen>
     cubit.restaurant(restaurantId: (userInMemory()?.restaurant?.id)!);
   }
 
-  Future _deleteMenuName({
-    required RestaurantDetailedModel? restaurant,
-    required Menu? menu,
-  }) async {
+  Future _deleteMenu({required RestaurantDetailedModel? restaurant, required Menu? menu}) async {
     final controller = serviceLocator<RestaurantsController>();
     restaurant?.menus?.remove(menu);
     cubit.update(cubit.state.data!);
