@@ -7,6 +7,7 @@ import 'package:gps_app/core/helpers/update_controller.dart';
 import 'package:gps_app/core/service_locator/service_locator.dart';
 import 'package:gps_app/core/widgets/uploads/uploaded_image.dart';
 import 'package:gps_app/features/auth/models/catalog_item_model.dart';
+import 'package:gps_app/features/auth/models/catalog_section_model.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 import 'package:gps_app/features/user/restaurant_details/presentation/widgets/custom_stack.dart';
@@ -15,8 +16,15 @@ import 'package:gps_app/features/user/restaurant_details/presentation/widgets/re
 import 'package:gps_app/features/user/store_details/cubits/store_cubit.dart';
 
 class ItemCard extends StatefulWidget {
-  const ItemCard({super.key, required this.item, required this.heroTag, required this.enableEdit});
+  const ItemCard({
+    super.key,
+    required this.section,
+    required this.item,
+    required this.heroTag,
+    required this.enableEdit,
+  });
   final bool enableEdit;
+  final CatalogSectionModel section;
   final CatalogItemModel item;
   final String heroTag;
 

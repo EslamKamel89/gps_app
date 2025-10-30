@@ -24,17 +24,19 @@ class MealsListView extends StatefulWidget {
 class _MealsListViewState extends State<MealsListView> {
   @override
   Widget build(BuildContext context) {
+    widget.menu.meals ?? [];
+    final meals = widget.menu.meals;
     return ListView.separated(
       physics: const ClampingScrollPhysics(),
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 28),
-      itemCount: widget.menu.meals!.length + (widget.enableEdit ? 1 : 0),
+      itemCount: meals!.length + (widget.enableEdit ? 1 : 0),
       separatorBuilder: (_, __) => GPSGaps.h12,
       itemBuilder: (context, index) {
-        if (index == 0) {
+        if (index == meals.length) {
           return AddMealCard(menu: widget.menu);
         }
-        index--;
-        final meal = widget.menu.meals![index];
+
+        final meal = meals[index];
         final delay = (70 * index).ms;
         return MenuItemCard(
               key: Key("${meal.id}-${meal.name}"),
