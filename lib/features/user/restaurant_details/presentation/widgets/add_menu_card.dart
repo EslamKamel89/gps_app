@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gps_app/core/enums/response_type.dart';
 import 'package:gps_app/core/extensions/context-extensions.dart';
 import 'package:gps_app/core/helpers/user.dart';
 import 'package:gps_app/core/helpers/validator.dart';
@@ -120,10 +121,12 @@ class _AddMenuCardState extends State<AddMenuCard> {
     cubit.state.data?.menus?.add(menu);
     cubit.update(cubit.state.data!);
     final res = await controller.addMenu(menu: menu);
-    if (mounted) {
-      setState(() {
-        menu = Menu();
-      });
+    if (res.response == ResponseEnum.success) {
+      if (mounted) {
+        setState(() {
+          menu = Menu();
+        });
+      }
     }
     cubit.restaurant(restaurantId: (userInMemory()?.restaurant?.id)!);
   }
