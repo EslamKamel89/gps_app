@@ -26,6 +26,7 @@ import 'package:gps_app/features/user/restaurant_details/presentation/widgets/re
 import 'package:gps_app/features/user/restaurant_details/presentation/widgets/show_action_sheet.dart';
 import 'package:gps_app/features/user/restaurant_details/presentation/widgets/tab_bar_delegate.dart';
 import 'package:gps_app/features/user/store_details/cubits/store_cubit.dart';
+import 'package:gps_app/features/user/store_details/presentation/widgets/add_section_card.dart';
 import 'package:gps_app/features/user/store_details/presentation/widgets/badge_chip.dart';
 import 'package:gps_app/features/user/store_details/presentation/widgets/circle_back.dart';
 import 'package:gps_app/features/user/store_details/presentation/widgets/contact_card.dart';
@@ -144,11 +145,11 @@ class StoreDetailsScreenState extends State<StoreDetailsScreen>
         final tabs = sections.map((s) => s.name ?? 'Section').toList();
         return SafeArea(
           child: DefaultTabController(
-            length: tabs.isEmpty ? 1 : tabs.length,
+            length: tabs.length + (widget.enableEdit ? 1 : 0),
             child: Scaffold(
               backgroundColor: GPSColors.background,
               body:
-                  state.response == ResponseEnum.loading
+                  state.response == ResponseEnum.loading && state.data == null
                       ? Padding(padding: EdgeInsets.all(10), child: StoreDetailsSkeleton())
                       : NestedScrollView(
                         headerSliverBuilder:
@@ -443,6 +444,16 @@ class StoreDetailsScreenState extends State<StoreDetailsScreen>
                                                       ),
                                                     ),
                                                   ),
+                                                if (widget.enableEdit)
+                                                  Tab(
+                                                    child: Padding(
+                                                      padding: const EdgeInsets.all(1.0),
+                                                      child: Text(
+                                                        'Add Category',
+                                                        style: const TextStyle(fontSize: 16),
+                                                      ),
+                                                    ),
+                                                  ),
                                               ],
                                             ),
                                           ),
@@ -462,6 +473,7 @@ class StoreDetailsScreenState extends State<StoreDetailsScreen>
                                 heroPrefix: 'tab$ti',
                                 enableEdit: widget.enableEdit,
                               ),
+                            if (widget.enableEdit) AddSectionCard(),
                           ],
                         ),
                       ),

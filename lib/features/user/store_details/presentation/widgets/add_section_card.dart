@@ -34,65 +34,69 @@ class _AddSectionCardState extends State<AddSectionCard> {
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,
-      child: Container(
-        margin: const EdgeInsets.only(bottom: 16),
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: GPSColors.cardBorder),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.05),
-              blurRadius: 8,
-              offset: const Offset(0, 2),
-            ),
-          ],
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Header
-            Row(
-              children: [
-                Text(
-                  "Category • ${section.name ?? 'Untitled'}",
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.w700,
-                    color: GPSColors.text,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+        child: Container(
+          margin: const EdgeInsets.only(bottom: 16),
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: GPSColors.cardBorder),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.05),
+                blurRadius: 8,
+                offset: const Offset(0, 2),
+              ),
+            ],
+          ),
+          child: ListView(
+            physics: const ClampingScrollPhysics(),
+            padding: const EdgeInsets.fromLTRB(16, 16, 16, 28),
+            children: [
+              // Header
+              Row(
+                children: [
+                  Text(
+                    "Category • ${section.name ?? 'Untitled'}",
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.w700,
+                      color: GPSColors.text,
+                    ),
                   ),
+                  const Spacer(),
+                ],
+              ),
+              GPSGaps.h12,
+
+              // Menu Name
+              GpsLabeledField(
+                label: 'Category Name',
+                child: TextFormField(
+                  initialValue: section.name,
+                  onChanged: (v) {
+                    setState(() {
+                      section.name = v;
+                    });
+                  },
+                  decoration: const InputDecoration(hintText: 'e.g., Organic'),
+                  validator: (v) => validator(input: v, label: 'Category Name', isRequired: true),
                 ),
-                const Spacer(),
-              ],
-            ),
-            GPSGaps.h12,
-
-            // Menu Name
-            GpsLabeledField(
-              label: 'Category Name',
-              child: TextFormField(
-                initialValue: section.name,
-                onChanged: (v) {
-                  setState(() {
-                    section.name = v;
-                  });
-                },
-                decoration: const InputDecoration(hintText: 'e.g., Organic'),
-                validator: (v) => validator(input: v, label: 'Category Name', isRequired: true),
               ),
-            ),
 
-            GPSGaps.h12,
-            Align(
-              alignment: Alignment.centerRight,
-              child: SizedBox(
-                width: context.width * 0.5,
-                child: AddButton(label: 'Add Category', onTap: _addSection),
+              GPSGaps.h12,
+              Align(
+                alignment: Alignment.centerRight,
+                child: SizedBox(
+                  width: context.width * 0.5,
+                  child: AddButton(label: 'Add Category', onTap: _addSection),
+                ),
               ),
-            ),
-          ],
-        ),
-      ).animate().fadeIn(duration: 300.ms).slideY(begin: 0.08),
+            ],
+          ),
+        ).animate().fadeIn(duration: 300.ms).slideY(begin: 0.08),
+      ),
     );
   }
 
