@@ -11,6 +11,7 @@ import 'package:gps_app/features/design/utils/gps_gaps.dart';
 import 'package:gps_app/features/user/restaurant_details/controllers/restaurants_controller.dart';
 import 'package:gps_app/features/user/restaurant_details/cubits/restaurant_cubit.dart';
 import 'package:gps_app/features/user/restaurant_details/models/restaurant_detailed_model/export.dart';
+import 'package:gps_app/features/user/restaurant_details/presentation/widgets/add_certification_card.dart';
 import 'package:gps_app/features/user/restaurant_details/presentation/widgets/custom_stack.dart';
 import 'package:gps_app/features/user/restaurant_details/presentation/widgets/delete_button.dart';
 import 'package:gps_app/features/user/restaurant_details/presentation/widgets/form_bottom_sheet.dart';
@@ -19,19 +20,24 @@ import 'package:gps_app/features/user/restaurant_details/presentation/widgets/sh
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class CertificationsScreen extends StatelessWidget {
+class CertificationsScreen extends StatefulWidget {
   const CertificationsScreen({super.key, required this.enableEdit, this.title = 'Certifications'});
 
   final String title;
   final bool enableEdit;
 
   @override
+  State<CertificationsScreen> createState() => _CertificationsScreenState();
+}
+
+class _CertificationsScreenState extends State<CertificationsScreen> {
+  @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final cubit = context.watch<RestaurantCubit>();
     final List<Certification>? items = cubit.state.data?.certifications;
     return Scaffold(
-      appBar: AppBar(elevation: 0, backgroundColor: GPSColors.primary, title: Text(title)),
+      appBar: AppBar(elevation: 0, backgroundColor: GPSColors.primary, title: Text(widget.title)),
       body:
           items?.isEmpty == true
               ? const _EmptyState().animate().fadeIn(duration: 280.ms).slideY(begin: .08)
@@ -46,7 +52,7 @@ class CertificationsScreen extends StatelessWidget {
                   return CertificationCard(
                         // key: Key("${c.id}-${c.title}"),
                         cert: c,
-                        enableEdit: enableEdit,
+                        enableEdit: widget.enableEdit,
                       )
                       .animate(delay: delay)
                       .fadeIn(duration: 260.ms, curve: Curves.easeOutCubic)
@@ -54,6 +60,27 @@ class CertificationsScreen extends StatelessWidget {
                       .scale(begin: const Offset(.98, .98), end: const Offset(1, 1));
                 },
               ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _addCertificate,
+        child: Icon(Icons.add),
+      ),
+    );
+  }
+
+  Future _addCertificate() async {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      showDragHandle: true,
+      useSafeArea: true,
+      useRootNavigator: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+
+      builder: (_) {
+        return AddCertificateCard();
+      },
     );
   }
 }

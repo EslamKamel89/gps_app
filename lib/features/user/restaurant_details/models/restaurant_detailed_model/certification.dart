@@ -7,13 +7,7 @@ class Certification {
   int? restaurantId;
   List<RestaurantFile>? file;
 
-  Certification({
-    this.id,
-    this.title,
-    this.description,
-    this.restaurantId,
-    this.file,
-  });
+  Certification({this.id, this.title, this.description, this.restaurantId, this.file});
 
   @override
   String toString() {
@@ -56,4 +50,12 @@ class Certification {
       file: file ?? this.file,
     );
   }
+
+  Map<String, dynamic> toRequestBody() => {
+    'id': id,
+    'title': title,
+    'description': description,
+    'restaurant_id': restaurantId,
+    'file_id': file?.isNotEmpty == true ? file![0].id : null,
+  };
 }

@@ -165,6 +165,13 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen>
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
+                                  // TextButton(
+                                  //   onPressed: () {
+                                  //     var user = userInMemory();
+                                  //     pr(user?.restaurant, 'restaurant');
+                                  //   },
+                                  //   child: Text('test'),
+                                  // ),
                                   Row(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
