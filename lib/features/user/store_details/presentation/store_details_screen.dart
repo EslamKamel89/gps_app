@@ -31,7 +31,7 @@ import 'package:gps_app/features/user/store_details/presentation/widgets/add_sec
 import 'package:gps_app/features/user/store_details/presentation/widgets/badge_chip.dart';
 import 'package:gps_app/features/user/store_details/presentation/widgets/circle_back.dart';
 import 'package:gps_app/features/user/store_details/presentation/widgets/contact_card.dart';
-import 'package:gps_app/features/user/store_details/presentation/widgets/section_list_view.dart';
+import 'package:gps_app/features/user/store_details/presentation/widgets/items_list_view.dart';
 import 'package:gps_app/features/user/store_details/presentation/widgets/state_city_card.dart';
 import 'package:gps_app/features/user/store_details/presentation/widgets/store_details_skeleton.dart';
 import 'package:gps_app/features/user/store_details/presentation/widgets/today_hours_row.dart';
@@ -469,7 +469,7 @@ class StoreDetailsScreenState extends State<StoreDetailsScreen>
                         body: TabBarView(
                           children: [
                             for (int ti = 0; ti < tabs.length; ti++)
-                              SectionListView(
+                              ItemsListView(
                                 section: sections[ti],
                                 heroPrefix: 'tab$ti',
                                 enableEdit: widget.enableEdit,

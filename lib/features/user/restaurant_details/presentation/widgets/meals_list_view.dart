@@ -6,8 +6,8 @@ import 'package:gps_app/features/user/restaurant_details/presentation/widgets/ad
 // Keep your existing MenuItemCard import
 import 'package:gps_app/features/user/restaurant_details/presentation/widgets/menu_item_card.dart';
 
-class MenuMealsListView extends StatefulWidget {
-  const MenuMealsListView({
+class MealsListView extends StatefulWidget {
+  const MealsListView({
     super.key,
     required this.menu,
     required this.heroPrefix,
@@ -18,10 +18,10 @@ class MenuMealsListView extends StatefulWidget {
   final bool enableEdit;
 
   @override
-  State<MenuMealsListView> createState() => _MenuMealsListViewState();
+  State<MealsListView> createState() => _MealsListViewState();
 }
 
-class _MenuMealsListViewState extends State<MenuMealsListView> {
+class _MealsListViewState extends State<MealsListView> {
   @override
   Widget build(BuildContext context) {
     return ListView.separated(

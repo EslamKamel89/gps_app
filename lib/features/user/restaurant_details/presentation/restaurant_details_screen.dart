@@ -31,7 +31,7 @@ import 'widgets/badges.dart';
 import 'widgets/circle_back.dart';
 import 'widgets/helpers.dart';
 import 'widgets/loading_error_scaffolds.dart';
-import 'widgets/menu_meals_list_view.dart';
+import 'widgets/meals_list_view.dart';
 import 'widgets/reviews.dart';
 import 'widgets/tab_bar_delegate.dart';
 
@@ -420,7 +420,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen>
                           ? TabBarView(
                             children: [
                               for (int ti = 0; ti < tabs.length; ti++)
-                                MenuMealsListView(
+                                MealsListView(
                                   heroPrefix: 'tab$ti',
                                   menu: menus[ti],
                                   enableEdit: widget.enableEdit,

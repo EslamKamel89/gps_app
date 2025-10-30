@@ -1,47 +1,59 @@
+// features/vendor_onboarding/widgets/menu_item_form.dart
+
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gps_app/core/enums/response_type.dart';
 import 'package:gps_app/core/extensions/context-extensions.dart';
-import 'package:gps_app/core/helpers/user.dart';
 import 'package:gps_app/core/helpers/validator.dart';
 import 'package:gps_app/core/service_locator/service_locator.dart';
 import 'package:gps_app/core/widgets/uploads/image_upload_field.dart';
 import 'package:gps_app/core/widgets/uploads/uploaded_image.dart';
+import 'package:gps_app/features/auth/models/catalog_item_model.dart';
+import 'package:gps_app/features/auth/models/catalog_section_model.dart';
+import 'package:gps_app/features/auth/models/image_model.dart';
 import 'package:gps_app/features/auth/presentation/widgets/add_button.dart';
 import 'package:gps_app/features/auth/presentation/widgets/gps_label_field.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
-import 'package:gps_app/features/user/categories/presentation/widgets/category_selector.dart';
-import 'package:gps_app/features/user/restaurant_details/controllers/restaurants_controller.dart';
-import 'package:gps_app/features/user/restaurant_details/cubits/restaurant_cubit.dart';
-import 'package:gps_app/features/user/restaurant_details/models/restaurant_detailed_model/export.dart';
+import 'package:gps_app/features/user/store_details/controllers/store_controller.dart';
+import 'package:gps_app/features/user/store_details/cubits/store_cubit.dart';
 
-class AddMealCard extends StatefulWidget {
-  const AddMealCard({super.key, required this.menu});
-  final Menu menu;
+class AddItemCard extends StatefulWidget {
+  const AddItemCard({super.key, required this.section});
+  final CatalogSectionModel section;
+
   @override
-  State<AddMealCard> createState() => _AddMealCardState();
+  State<AddItemCard> createState() => _AddItemCardState();
 }
 
-class _AddMealCardState extends State<AddMealCard> {
-  Meal _meal = Meal();
+class _AddItemCardState extends State<AddItemCard> {
+  late CatalogItemModel item;
   bool _expanded = false;
 
-  void _toggleExpanded([bool? v]) => setState(() => _expanded = v ?? !_expanded);
+  void _toggleExpanded([bool? v]) {
+    setState(() => _expanded = v ?? !_expanded);
+    if (v == false) FocusScope.of(context).unfocus();
+  }
+
+  @override
+  void initState() {
+    item = CatalogItemModel(catalogSectionId: widget.section.id);
+    super.initState();
+  }
 
   final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
-    final borderColor = GPSColors.cardBorder.withOpacity(0.3);
-
     return Form(
       key: _formKey,
       child: Container(
         margin: const EdgeInsets.only(bottom: 12),
         decoration: BoxDecoration(
           color: Colors.white.withOpacity(0.05),
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: borderColor),
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: GPSColors.cardBorder.withOpacity(0.3)),
         ),
         child: AnimatedSwitcher(
           duration: 250.ms,
@@ -54,11 +66,10 @@ class _AddMealCardState extends State<AddMealCard> {
               ),
           child: _expanded ? _buildExpanded(context) : _buildCollapsed(context),
         ),
-      ).animate().fadeIn(duration: 200.ms).slideY(begin: 0.06, curve: Curves.easeOutCubic),
+      ).animate().fadeIn(duration: 200.ms).slideY(begin: 0.06),
     );
   }
 
-  // Collapsed view: full-width primary button
   Widget _buildCollapsed(BuildContext context) {
     return Padding(
       key: const ValueKey('collapsed'),
@@ -75,7 +86,7 @@ class _AddMealCardState extends State<AddMealCard> {
             elevation: 0,
           ),
           child: const Text(
-            'Add Meal',
+            'Add Item',
             style: TextStyle(fontWeight: FontWeight.w700, letterSpacing: 0.3),
           ),
         ).animate().fadeIn(duration: 160.ms).scale(begin: const Offset(0.98, 0.98)),
@@ -83,23 +94,20 @@ class _AddMealCardState extends State<AddMealCard> {
     );
   }
 
-  // Expanded form
   Widget _buildExpanded(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
-
     return Padding(
           key: const ValueKey('expanded'),
           padding: const EdgeInsets.all(12),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Header + collapse
+              // Header + collapse button
               Row(
                 children: [
                   Text(
-                    'Meal • ${(_meal.name?.trim().isNotEmpty ?? false) ? _meal.name! : 'Untitled'}',
-                    style: textTheme.bodyMedium?.copyWith(
-                      fontWeight: FontWeight.w700,
+                    "Item • ${item.name ?? 'Untitled'}",
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      fontWeight: FontWeight.w600,
                       color: GPSColors.text,
                     ),
                   ),
@@ -112,7 +120,7 @@ class _AddMealCardState extends State<AddMealCard> {
                   ),
                 ],
               ),
-              const SizedBox(height: 6),
+              // subtle divider
               Container(
                 height: 1,
                 decoration: BoxDecoration(
@@ -131,29 +139,14 @@ class _AddMealCardState extends State<AddMealCard> {
               GpsLabeledField(
                 label: 'Name',
                 child: TextFormField(
-                  key: const ValueKey('name'),
-                  initialValue: _meal.name,
-                  onChanged: (v) => setState(() => _meal.name = v),
+                  initialValue: item.name,
+                  onChanged: (v) {
+                    setState(() {
+                      item.name = v;
+                    });
+                  },
                   decoration: const InputDecoration(hintText: 'e.g., Beef Burger'),
                   validator: (v) => validator(input: v, label: 'Name', isRequired: true),
-                ),
-              ),
-              GPSGaps.h12,
-
-              // Price
-              GpsLabeledField(
-                label: 'Price',
-                child: TextFormField(
-                  key: const ValueKey('price'),
-                  initialValue: _meal.price?.toString() ?? '',
-                  onChanged: (v) => setState(() => _meal.price = v),
-                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                  validator: (v) => validator(input: v, label: 'Price', isRequired: true),
-                  decoration: const InputDecoration(
-                    hintText: 'e.g., 12.95',
-                    prefixText: '\$ ',
-                    prefixStyle: TextStyle(color: GPSColors.primary, fontWeight: FontWeight.w700),
-                  ),
                 ),
               ),
               GPSGaps.h12,
@@ -161,16 +154,11 @@ class _AddMealCardState extends State<AddMealCard> {
               // Image upload
               ImageUploadField(
                 multiple: false,
-                resource: UploadResource.common,
-
+                resource: UploadResource.item,
+                initial: const [],
                 onChanged: (images) {
-                  setState(() {
-                    if (images.isEmpty) {
-                      _meal.images = null;
-                    } else {
-                      _meal.images = RestaurantImage(id: images[0].id, path: images[0].path);
-                    }
-                  });
+                  if (images.isEmpty) return;
+                  item.image = ImageModel(id: images[0].id, path: images[0].path);
                 },
                 child: Container(
                   height: 56,
@@ -179,19 +167,25 @@ class _AddMealCardState extends State<AddMealCard> {
                     borderRadius: BorderRadius.circular(12),
                     border: Border.all(color: Colors.grey.shade400),
                   ),
-                  child: const Text('Tap to upload meal image'),
+                  child: const Text('Tap to upload product image'),
                 ),
               ),
               GPSGaps.h12,
 
-              // Category / Subcategory
-              CategorySelectorProvider(
-                onSelect: (selected) {
-                  setState(() {
-                    _meal.categories = Category(id: selected.selectedCategory?.id);
-                    _meal.subcategories = Category(id: selected.selectedSubCategory?.id);
-                  });
-                },
+              // Price
+              GpsLabeledField(
+                label: 'Price',
+                child: TextFormField(
+                  initialValue: item.price ?? '',
+                  onChanged: (v) => item.price = v,
+                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                  decoration: const InputDecoration(
+                    hintText: 'e.g., 12.95',
+                    prefixText: '\$ ',
+                    prefixStyle: TextStyle(color: GPSColors.primary),
+                  ),
+                  validator: (v) => validator(input: v, label: 'Price', isRequired: true),
+                ),
               ),
               GPSGaps.h12,
 
@@ -199,9 +193,8 @@ class _AddMealCardState extends State<AddMealCard> {
               GpsLabeledField(
                 label: 'Description (Optional)',
                 child: TextFormField(
-                  key: const ValueKey('description'),
-                  initialValue: _meal.description,
-                  onChanged: (v) => setState(() => _meal.description = v),
+                  initialValue: item.description,
+                  onChanged: (v) => item.description = v,
                   maxLines: 2,
                   decoration: const InputDecoration(
                     hintText: 'e.g., Grass-fed beef, cheddar, lettuce...',
@@ -209,11 +202,12 @@ class _AddMealCardState extends State<AddMealCard> {
                 ),
               ),
               GPSGaps.h12,
+
               Align(
                 alignment: Alignment.centerRight,
                 child: SizedBox(
                   width: context.width * 0.5,
-                  child: AddButton(label: 'Add Meal', onTap: _addMeal),
+                  child: AddButton(label: 'Add Item', onTap: _addItem),
                 ),
               ),
             ],
@@ -224,20 +218,21 @@ class _AddMealCardState extends State<AddMealCard> {
         .slideY(begin: 0.03, curve: Curves.easeOutCubic);
   }
 
-  Future _addMeal() async {
+  Future _addItem() async {
     if (!_formKey.currentState!.validate()) return;
-    final controller = serviceLocator<RestaurantsController>();
-    final cubit = context.read<RestaurantCubit>();
-    widget.menu.meals ?? [];
-    widget.menu.meals?.add(_meal);
+    final controller = serviceLocator<StoreController>();
+    final cubit = context.read<StoreCubit>();
+    widget.section.items ?? [];
+    widget.section.items?.add(item);
     cubit.update(cubit.state.data!);
-    _toggleExpanded();
-    final res = await controller.addMeal(menu: widget.menu, meal: _meal);
-    if (mounted) {
-      setState(() {
-        _meal = Meal();
-      });
+    final res = await controller.addItem(item: item);
+    cubit.user();
+    if (res.response == ResponseEnum.success) {
+      if (mounted) {
+        setState(() {
+          item = CatalogItemModel(catalogSectionId: widget.section.id);
+        });
+      }
     }
-    cubit.restaurant(restaurantId: (userInMemory()?.restaurant?.id)!);
   }
 }

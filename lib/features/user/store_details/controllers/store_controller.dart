@@ -8,6 +8,7 @@ import 'package:gps_app/core/helpers/print_helper.dart';
 import 'package:gps_app/core/helpers/snackbar.dart';
 import 'package:gps_app/core/models/api_response_model.dart';
 import 'package:gps_app/core/service_locator/service_locator.dart';
+import 'package:gps_app/features/auth/models/catalog_item_model.dart';
 import 'package:gps_app/features/auth/models/catalog_section_model.dart';
 
 class StoreController {
@@ -32,6 +33,22 @@ class StoreController {
     final t = prt('addSection - StoreController');
     try {
       final response = await _api.delete("${EndPoint.sections}/${section.id}");
+      pr(response, '$t - response');
+      return pr(ApiResponseModel(response: ResponseEnum.success, data: true), t);
+    } catch (e) {
+      String errorMessage = e.toString();
+      if (e is DioException) {
+        errorMessage = jsonEncode(e.response?.data ?? 'Unknown error occurred');
+      }
+      showSnackbar('Error', errorMessage, true);
+      return pr(ApiResponseModel(errorMessage: errorMessage, response: ResponseEnum.failed), t);
+    }
+  }
+
+  Future<ApiResponseModel<bool>> addItem({required CatalogItemModel item}) async {
+    final t = prt('addItem - StoreController');
+    try {
+      final response = await _api.post("${EndPoint.items}/", data: item.toRequestBody());
       pr(response, '$t - response');
       return pr(ApiResponseModel(response: ResponseEnum.success, data: true), t);
     } catch (e) {

@@ -25,4 +25,5 @@ class EndPoint {
   static const String addMeal = "$baseUrl/api/meals";
   static const String branches = "$baseUrl/api/branches";
   static const String sections = "$baseUrl/api/catalog-sections";
+  static const String items = "$baseUrl/api/catalog-items";
 }

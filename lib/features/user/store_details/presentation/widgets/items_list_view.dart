@@ -5,8 +5,8 @@ import 'package:gps_app/features/design/utils/gps_gaps.dart';
 import 'package:gps_app/features/user/store_details/presentation/widgets/empty_state.dart';
 import 'package:gps_app/features/user/store_details/presentation/widgets/item_card.dart';
 
-class SectionListView extends StatelessWidget {
-  const SectionListView({
+class ItemsListView extends StatelessWidget {
+  const ItemsListView({
     super.key,
     required this.section,
     required this.heroPrefix,
