@@ -7,7 +7,13 @@ class Certification {
   int? restaurantId;
   List<RestaurantFile>? file;
 
-  Certification({this.id, this.title, this.description, this.restaurantId, this.file});
+  Certification({
+    this.id,
+    this.title,
+    this.description,
+    this.restaurantId,
+    this.file,
+  });
 
   @override
   String toString() {

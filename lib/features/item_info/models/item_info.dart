@@ -43,7 +43,13 @@ class ItemInfoEntity {
   String? name;
   String? description;
   String? sectionName;
-  ItemInfoEntity({this.itemImagePath, this.isMeal, this.name, this.description, this.sectionName});
+  ItemInfoEntity({
+    this.itemImagePath,
+    this.isMeal,
+    this.name,
+    this.description,
+    this.sectionName,
+  });
 
   @override
   String toString() {

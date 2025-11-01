@@ -18,17 +18,28 @@ class ItemInfoController {
   }) async {
     final t = prt('getItemInfo - ItemInfoController');
     try {
-      final response = await _api.get("${EndPoint.itemDetails}/$itemId/$acceptorId");
+      final response = await _api.get(
+        "${EndPoint.itemDetails}/$itemId/$acceptorId",
+      );
       pr(response, '$t - response');
       final ItemInfoEntity model = ItemInfoModel.fromJson(response).toEntity();
-      return pr(ApiResponseModel(response: ResponseEnum.success, data: model), t);
+      return pr(
+        ApiResponseModel(response: ResponseEnum.success, data: model),
+        t,
+      );
     } catch (e) {
       String errorMessage = e.toString();
       if (e is DioException) {
         errorMessage = jsonEncode(e.response?.data ?? 'Unknown error occurred');
       }
       showSnackbar('Error', errorMessage, true);
-      return pr(ApiResponseModel(errorMessage: errorMessage, response: ResponseEnum.failed), t);
+      return pr(
+        ApiResponseModel(
+          errorMessage: errorMessage,
+          response: ResponseEnum.failed,
+        ),
+        t,
+      );
     }
   }
 }

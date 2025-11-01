@@ -18,7 +18,10 @@ class StoreDetailsSkeleton extends StatelessWidget {
     return Material(
           color: bg,
           child: ListView(
-            padding: const EdgeInsets.symmetric(horizontal: _pad, vertical: _pad),
+            padding: const EdgeInsets.symmetric(
+              horizontal: _pad,
+              vertical: _pad,
+            ),
             children: [
               _box(height: 220, radius: 24),
 
@@ -36,7 +39,13 @@ class StoreDetailsSkeleton extends StatelessWidget {
 
               const SizedBox(height: 14),
 
-              Row(children: [_chip(width: 110), const SizedBox(width: 10), _chip(width: 80)]),
+              Row(
+                children: [
+                  _chip(width: 110),
+                  const SizedBox(width: 10),
+                  _chip(width: 80),
+                ],
+              ),
 
               const SizedBox(height: 16),
 
@@ -91,11 +100,19 @@ class StoreDetailsSkeleton extends StatelessWidget {
         colors: [Colors.black.withOpacity(.03), Colors.black.withOpacity(.02)],
       ),
     ),
-    child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: children),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: children,
+    ),
   );
 
-  static Widget _sectionHeader() =>
-      Row(children: [_circle(size: 28), const SizedBox(width: 8), _box(height: 18, width: 90)]);
+  static Widget _sectionHeader() => Row(
+    children: [
+      _circle(size: 28),
+      const SizedBox(width: 8),
+      _box(height: 18, width: 90),
+    ],
+  );
 
   static Widget _iconLine({
     required Color lineColor,
@@ -131,9 +148,14 @@ class StoreDetailsSkeleton extends StatelessWidget {
     child: _box(height: 12, width: width, radius: 8),
   );
 
-  static Widget _circle({double size = 32}) => _box(height: size, width: size, radius: size);
+  static Widget _circle({double size = 32}) =>
+      _box(height: size, width: size, radius: size);
 
-  static Widget _box({double? height, double? width, double radius = _radius}) => Container(
+  static Widget _box({
+    double? height,
+    double? width,
+    double radius = _radius,
+  }) => Container(
     height: height,
     width: width,
     decoration: BoxDecoration(

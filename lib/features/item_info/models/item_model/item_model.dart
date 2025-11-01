@@ -66,9 +66,13 @@ class ItemModel {
     section:
         json['section'] == null
             ? null
-            : CatalogSectionModel.fromJson(json['section'] as Map<String, dynamic>),
+            : CatalogSectionModel.fromJson(
+              json['section'] as Map<String, dynamic>,
+            ),
     images:
-        json['images'] == null ? null : ImageModel.fromJson(json['images'] as Map<String, dynamic>),
+        json['images'] == null
+            ? null
+            : ImageModel.fromJson(json['images'] as Map<String, dynamic>),
   );
 
   Map<String, dynamic> toJson() => {

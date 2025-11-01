@@ -34,7 +34,8 @@ class _SectionCardState extends State<SectionCard> {
 
   @override
   Widget build(BuildContext context) {
-    CreateCatalogSectionItemsCubit cubit = context.watch<CreateCatalogSectionItemsCubit>();
+    CreateCatalogSectionItemsCubit cubit =
+        context.watch<CreateCatalogSectionItemsCubit>();
 
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
@@ -81,7 +82,12 @@ class _SectionCardState extends State<SectionCard> {
               initialValue: widget.section.name,
               onChanged: (v) => widget.section.name = v,
               decoration: const InputDecoration(hintText: 'e.g., Organic'),
-              validator: (v) => validator(input: v, label: 'Category Name', isRequired: true),
+              validator:
+                  (v) => validator(
+                    input: v,
+                    label: 'Category Name',
+                    isRequired: true,
+                  ),
             ),
           ),
           // GPSGaps.h16,
@@ -125,12 +131,18 @@ class _SectionCardState extends State<SectionCard> {
           if (widget.section.catalogItems?.isEmpty == true)
             Text(
               'No items added yet.',
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(color: GPSColors.mutedText),
+              style: Theme.of(
+                context,
+              ).textTheme.bodySmall?.copyWith(color: GPSColors.mutedText),
             ),
           ...(widget.section.catalogItems ?? []).map((item) {
             return ProductItemForm(
               item: item,
-              onRemove: () => cubit.removeItem(sectionParam: widget.section, itemParam: item),
+              onRemove:
+                  () => cubit.removeItem(
+                    sectionParam: widget.section,
+                    itemParam: item,
+                  ),
             );
           }),
 
@@ -142,8 +154,10 @@ class _SectionCardState extends State<SectionCard> {
               child: AddButton(
                 label: 'Add Category Item',
                 onTap:
-                    () =>
-                        cubit.addItem(sectionParam: widget.section, itemParam: CatalogItemParam()),
+                    () => cubit.addItem(
+                      sectionParam: widget.section,
+                      itemParam: CatalogItemParam(),
+                    ),
               ),
             ),
           ),

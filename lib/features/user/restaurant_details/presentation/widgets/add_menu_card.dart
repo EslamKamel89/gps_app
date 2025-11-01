@@ -77,8 +77,15 @@ class _AddMenuCardState extends State<AddMenuCard> {
                       menu.name = v;
                     });
                   },
-                  decoration: const InputDecoration(hintText: 'e.g., Lunch Menu'),
-                  validator: (v) => validator(input: v, label: 'Menu Name', isRequired: true),
+                  decoration: const InputDecoration(
+                    hintText: 'e.g., Lunch Menu',
+                  ),
+                  validator:
+                      (v) => validator(
+                        input: v,
+                        label: 'Menu Name',
+                        isRequired: true,
+                      ),
                 ),
               ),
               GPSGaps.h16,
@@ -93,7 +100,9 @@ class _AddMenuCardState extends State<AddMenuCard> {
                     });
                   },
                   maxLines: 2,
-                  decoration: const InputDecoration(hintText: 'e.g., Weekday lunch specials'),
+                  decoration: const InputDecoration(
+                    hintText: 'e.g., Weekday lunch specials',
+                  ),
                 ),
               ),
               GPSGaps.h16,

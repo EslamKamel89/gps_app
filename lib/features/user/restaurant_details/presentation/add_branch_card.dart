@@ -77,8 +77,15 @@ class _AddBranchCardState extends State<AddBranchCard> {
                       branch.branchName = v;
                     });
                   },
-                  decoration: const InputDecoration(hintText: 'e.g., Downtown Branch'),
-                  validator: (v) => validator(input: v, label: 'Branch Name', isRequired: true),
+                  decoration: const InputDecoration(
+                    hintText: 'e.g., Downtown Branch',
+                  ),
+                  validator:
+                      (v) => validator(
+                        input: v,
+                        label: 'Branch Name',
+                        isRequired: true,
+                      ),
                 ),
               ),
               GPSGaps.h16,
@@ -90,8 +97,15 @@ class _AddBranchCardState extends State<AddBranchCard> {
                   initialValue: branch.phoneNumber,
                   onChanged: (v) => branch.phoneNumber = v,
                   keyboardType: TextInputType.phone,
-                  decoration: const InputDecoration(hintText: 'e.g., +1 212 555 1234'),
-                  validator: (v) => validator(input: v, label: 'Phone Number', isRequired: true),
+                  decoration: const InputDecoration(
+                    hintText: 'e.g., +1 212 555 1234',
+                  ),
+                  validator:
+                      (v) => validator(
+                        input: v,
+                        label: 'Phone Number',
+                        isRequired: true,
+                      ),
                 ),
               ),
               GPSGaps.h16,
@@ -102,7 +116,9 @@ class _AddBranchCardState extends State<AddBranchCard> {
                 child: TextFormField(
                   initialValue: branch.website,
                   onChanged: (v) => branch.website = v,
-                  decoration: const InputDecoration(hintText: 'https://yourrestaurant.com'),
+                  decoration: const InputDecoration(
+                    hintText: 'https://yourrestaurant.com',
+                  ),
                 ),
               ),
               GPSGaps.h16,
@@ -131,7 +147,9 @@ class _AddBranchCardState extends State<AddBranchCard> {
                 initial: const [],
                 onChanged: (images) {
                   if (images.isEmpty) return;
-                  branch.images = [RestaurantImage(id: images[0].id, path: images[0].path)];
+                  branch.images = [
+                    RestaurantImage(id: images[0].id, path: images[0].path),
+                  ];
                 },
                 child: Container(
                   height: 56,

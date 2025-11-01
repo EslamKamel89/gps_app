@@ -75,8 +75,12 @@ class _AddCertificateCardState extends State<AddCertificateCard> {
               child: TextFormField(
                 initialValue: cert.title,
                 onChanged: (v) => cert.title = v,
-                decoration: const InputDecoration(hintText: 'e.g., Health License'),
-                validator: (v) => validator(input: v, label: 'Title', isRequired: true),
+                decoration: const InputDecoration(
+                  hintText: 'e.g., Health License',
+                ),
+                validator:
+                    (v) =>
+                        validator(input: v, label: 'Title', isRequired: true),
               ),
             ),
             GPSGaps.h16,
@@ -88,7 +92,9 @@ class _AddCertificateCardState extends State<AddCertificateCard> {
                 initialValue: cert.description,
                 onChanged: (v) => cert.description = v,
                 maxLines: 2,
-                decoration: const InputDecoration(hintText: 'e.g., Issued by City Health Dept.'),
+                decoration: const InputDecoration(
+                  hintText: 'e.g., Issued by City Health Dept.',
+                ),
               ),
             ),
             GPSGaps.h16,
@@ -108,7 +114,10 @@ class _AddCertificateCardState extends State<AddCertificateCard> {
               alignment: Alignment.centerRight,
               child: SizedBox(
                 width: context.width * 0.5,
-                child: AddButton(label: 'Add Certification', onTap: _addCertification),
+                child: AddButton(
+                  label: 'Add Certification',
+                  onTap: _addCertification,
+                ),
               ),
             ),
           ],

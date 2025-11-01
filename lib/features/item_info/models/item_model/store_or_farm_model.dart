@@ -20,14 +20,15 @@ class StoreOrFarmModel {
     return 'Store(id: $id, userId: $userId, vendorId: $vendorId, longitude: $longitude, latitude: $latitude, website: $website)';
   }
 
-  factory StoreOrFarmModel.fromJson(Map<String, dynamic> json) => StoreOrFarmModel(
-    id: json['id'] as int?,
-    userId: json['user_id'] as int?,
-    vendorId: json['vendor_id'] as int?,
-    longitude: json['longitude'] as String?,
-    latitude: json['latitude'] as String?,
-    website: json['website'] as String?,
-  );
+  factory StoreOrFarmModel.fromJson(Map<String, dynamic> json) =>
+      StoreOrFarmModel(
+        id: json['id'] as int?,
+        userId: json['user_id'] as int?,
+        vendorId: json['vendor_id'] as int?,
+        longitude: json['longitude'] as String?,
+        latitude: json['latitude'] as String?,
+        website: json['website'] as String?,
+      );
 
   Map<String, dynamic> toJson() => {
     'id': id,

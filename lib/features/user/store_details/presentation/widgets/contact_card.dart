@@ -47,7 +47,8 @@ class _ContactCardState extends State<ContactCard> {
 
   bool get _hasMobile => (widget.user?.mobile?.trim().isNotEmpty ?? false);
 
-  bool get _hasWebsite => (widget.user?.storeOrFarm()?.website?.trim().isNotEmpty ?? false);
+  bool get _hasWebsite =>
+      (widget.user?.storeOrFarm()?.website?.trim().isNotEmpty ?? false);
 
   bool get _hasAny => _hasEmail || _hasMobile || _hasWebsite;
   bool showEdit = false;
@@ -94,7 +95,8 @@ class _ContactCardState extends State<ContactCard> {
             label: 'Mobile',
             value: widget.user?.mobile?.trim() ?? '',
             order: order++,
-            onTap: () => _callNumber(widget.user?.mobile?.trim() ?? '', context),
+            onTap:
+                () => _callNumber(widget.user?.mobile?.trim() ?? '', context),
             iconColor: GPSColors.primary,
             chevronColor: GPSColors.accent,
           ),
@@ -109,9 +111,15 @@ class _ContactCardState extends State<ContactCard> {
           child: _ContactRow(
             icon: Icons.public_rounded,
             label: 'Website',
-            value: ContactCard._normalizeUrl(widget.user?.storeOrFarm()?.website?.trim() ?? ''),
+            value: ContactCard._normalizeUrl(
+              widget.user?.storeOrFarm()?.website?.trim() ?? '',
+            ),
             order: order++,
-            onTap: () => _openWebsite(widget.user?.storeOrFarm()?.website?.trim() ?? '', context),
+            onTap:
+                () => _openWebsite(
+                  widget.user?.storeOrFarm()?.website?.trim() ?? '',
+                  context,
+                ),
             iconColor: GPSColors.primary,
             chevronColor: GPSColors.accent,
           ),
@@ -161,7 +169,10 @@ class _ContactCardState extends State<ContactCard> {
                       children: [
                         // Compact header chip with brand gradient
                         Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 10,
+                                vertical: 6,
+                              ),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
                                 gradient: LinearGradient(
@@ -238,9 +249,9 @@ class _ContactCardState extends State<ContactCard> {
   }
 
   void _toast(BuildContext context, String msg) {
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(SnackBar(content: Text(msg), behavior: SnackBarBehavior.floating));
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(msg), behavior: SnackBarBehavior.floating),
+    );
   }
 
   Future _updateUserEmail({required UserModel? user}) async {
@@ -266,7 +277,10 @@ class _ContactCardState extends State<ContactCard> {
     } else {
       context.read<StoreCubit>().update(user!);
     }
-    final res = await UpdateController.update(path: 'user/${userId()}', data: {'email': newVal});
+    final res = await UpdateController.update(
+      path: 'user/${userId()}',
+      data: {'email': newVal},
+    );
     if (res.response == ResponseEnum.success) {
       currentUser?.email = newVal;
       storage.cacheUser(currentUser);
@@ -297,7 +311,10 @@ class _ContactCardState extends State<ContactCard> {
     } else {
       context.read<StoreCubit>().update(user!);
     }
-    final res = await UpdateController.update(path: 'user/${userId()}', data: {'mobile': newVal});
+    final res = await UpdateController.update(
+      path: 'user/${userId()}',
+      data: {'mobile': newVal},
+    );
     if (res.response == ResponseEnum.success) {
       currentUser?.mobile = newVal;
       storage.cacheUser(currentUser);
@@ -380,7 +397,8 @@ class _ContactRow extends StatelessWidget {
               ),
             ),
 
-            if (onTap != null) Icon(Icons.chevron_right_rounded, color: chevronColor, size: 18),
+            if (onTap != null)
+              Icon(Icons.chevron_right_rounded, color: chevronColor, size: 18),
           ],
         ),
       ),

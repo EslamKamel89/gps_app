@@ -25,8 +25,12 @@ Future<int?> showActionSheet(
             constraints: BoxConstraints(maxHeight: media.size.height * 0.7),
             decoration: BoxDecoration(
               color: GPSColors.background,
-              borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
-              border: const Border(top: BorderSide(color: GPSColors.cardBorder)),
+              borderRadius: const BorderRadius.vertical(
+                top: Radius.circular(20),
+              ),
+              border: const Border(
+                top: BorderSide(color: GPSColors.cardBorder),
+              ),
             ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -50,7 +54,9 @@ Future<int?> showActionSheet(
                         Expanded(
                           child: Text(
                             title,
-                            style: Theme.of(ctx).textTheme.titleMedium?.copyWith(
+                            style: Theme.of(
+                              ctx,
+                            ).textTheme.titleMedium?.copyWith(
                               color: GPSColors.text,
                               fontWeight: FontWeight.w800,
                             ),
@@ -58,7 +64,10 @@ Future<int?> showActionSheet(
                         ),
                         IconButton(
                           tooltip: 'Close',
-                          icon: const Icon(Icons.close_rounded, color: GPSColors.mutedText),
+                          icon: const Icon(
+                            Icons.close_rounded,
+                            color: GPSColors.mutedText,
+                          ),
                           onPressed: () => Navigator.of(ctx).pop(null),
                         ),
                       ],
@@ -83,14 +92,19 @@ Future<int?> showActionSheet(
                             borderRadius: BorderRadius.circular(14),
                             onTap: () => Navigator.of(ctx).pop(i),
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 14,
+                                vertical: 12,
+                              ),
                               child: child,
                             ),
                           ),
                         );
 
                         return Padding(
-                          padding: EdgeInsets.only(bottom: i == children.length - 1 ? 0 : 10),
+                          padding: EdgeInsets.only(
+                            bottom: i == children.length - 1 ? 0 : 10,
+                          ),
                           child: DecoratedBox(
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(14),
@@ -106,9 +120,15 @@ Future<int?> showActionSheet(
                             ),
                             child: tappable
                                 .animate(delay: (60 * i).ms)
-                                .fadeIn(duration: 220.ms, curve: Curves.easeOutCubic)
+                                .fadeIn(
+                                  duration: 220.ms,
+                                  curve: Curves.easeOutCubic,
+                                )
                                 .slideY(begin: .08, curve: Curves.easeOutCubic)
-                                .scale(begin: const Offset(.98, .98), end: const Offset(1, 1)),
+                                .scale(
+                                  begin: const Offset(.98, .98),
+                                  end: const Offset(1, 1),
+                                ),
                           ),
                         );
                       }),
@@ -124,7 +144,10 @@ Future<int?> showActionSheet(
 
       return ClipRRect(
         borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
-        child: BackdropFilter(filter: ImageFilter.blur(sigmaX: 0.0, sigmaY: 0.0), child: sheet),
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 0.0, sigmaY: 0.0),
+          child: sheet,
+        ),
       );
     },
   );

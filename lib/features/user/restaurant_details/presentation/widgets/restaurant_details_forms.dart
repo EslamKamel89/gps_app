@@ -56,7 +56,8 @@ class _ProfileTextFormState extends State<ProfileTextForm> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisSize: MainAxisSize.min, // wrap content, lets sheet size to content
+      mainAxisSize:
+          MainAxisSize.min, // wrap content, lets sheet size to content
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(widget.label, style: Theme.of(context).textTheme.titleMedium),
@@ -69,7 +70,11 @@ class _ProfileTextFormState extends State<ProfileTextForm> {
             keyboardType: widget.isNumeric ? TextInputType.number : null,
             decoration: InputDecoration(border: OutlineInputBorder()),
             validator:
-                (v) => validator(input: v, label: widget.label, isRequired: widget.isRequired),
+                (v) => validator(
+                  input: v,
+                  label: widget.label,
+                  isRequired: widget.isRequired,
+                ),
             onFieldSubmitted: (_) => _submit(),
           ),
         ),
@@ -90,10 +95,12 @@ class ProfileCategorySelectionForm extends StatefulWidget {
   final BottomSheetFormController<CategorySelector> controller;
 
   @override
-  State<ProfileCategorySelectionForm> createState() => _ProfileCategorySelectionFormState();
+  State<ProfileCategorySelectionForm> createState() =>
+      _ProfileCategorySelectionFormState();
 }
 
-class _ProfileCategorySelectionFormState extends State<ProfileCategorySelectionForm> {
+class _ProfileCategorySelectionFormState
+    extends State<ProfileCategorySelectionForm> {
   final _formKey = GlobalKey<FormState>();
   CategorySelector selectedValue = CategorySelector();
   @override
@@ -112,7 +119,8 @@ class _ProfileCategorySelectionFormState extends State<ProfileCategorySelectionF
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisSize: MainAxisSize.min, // wrap content, lets sheet size to content
+      mainAxisSize:
+          MainAxisSize.min, // wrap content, lets sheet size to content
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text('Pick Category', style: Theme.of(context).textTheme.titleMedium),
@@ -186,7 +194,8 @@ class _ProfileImageFormState extends State<ProfileImageForm> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisSize: MainAxisSize.min, // wrap content, lets sheet size to content
+      mainAxisSize:
+          MainAxisSize.min, // wrap content, lets sheet size to content
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(widget.label, style: Theme.of(context).textTheme.titleMedium),
@@ -278,7 +287,8 @@ class _ProfileLocationFormState extends State<ProfileLocationForm> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisSize: MainAxisSize.min, // wrap content, lets sheet size to content
+      mainAxisSize:
+          MainAxisSize.min, // wrap content, lets sheet size to content
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(widget.label, style: Theme.of(context).textTheme.titleMedium),
@@ -313,7 +323,8 @@ class ProfileStateSelectionForm extends StatefulWidget {
   final BottomSheetFormController<SelectedStateAndDistrict> controller;
 
   @override
-  State<ProfileStateSelectionForm> createState() => _ProfileStateSelectionFormState();
+  State<ProfileStateSelectionForm> createState() =>
+      _ProfileStateSelectionFormState();
 }
 
 class _ProfileStateSelectionFormState extends State<ProfileStateSelectionForm> {
@@ -335,10 +346,14 @@ class _ProfileStateSelectionFormState extends State<ProfileStateSelectionForm> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisSize: MainAxisSize.min, // wrap content, lets sheet size to content
+      mainAxisSize:
+          MainAxisSize.min, // wrap content, lets sheet size to content
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Pick state and city', style: Theme.of(context).textTheme.titleMedium),
+        Text(
+          'Pick state and city',
+          style: Theme.of(context).textTheme.titleMedium,
+        ),
         const SizedBox(height: 12),
         Form(
           key: _formKey,
@@ -373,7 +388,8 @@ class ProfileOperatingHoursForm extends StatefulWidget {
   final bool isRequired;
   final OperatingTimeModel? initialValue;
   @override
-  State<ProfileOperatingHoursForm> createState() => _ProfileOperatingHoursFormState();
+  State<ProfileOperatingHoursForm> createState() =>
+      _ProfileOperatingHoursFormState();
 }
 
 class _ProfileOperatingHoursFormState extends State<ProfileOperatingHoursForm> {
@@ -410,7 +426,8 @@ class _ProfileOperatingHoursFormState extends State<ProfileOperatingHoursForm> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisSize: MainAxisSize.min, // wrap content, lets sheet size to content
+      mainAxisSize:
+          MainAxisSize.min, // wrap content, lets sheet size to content
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(widget.label, style: Theme.of(context).textTheme.titleMedium),
@@ -491,7 +508,8 @@ class _ProfileFileFormState extends State<ProfileFileForm> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisSize: MainAxisSize.min, // wrap content, lets sheet size to content
+      mainAxisSize:
+          MainAxisSize.min, // wrap content, lets sheet size to content
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(widget.label, style: Theme.of(context).textTheme.titleMedium),

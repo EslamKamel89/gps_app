@@ -53,13 +53,21 @@ class _BranchListState extends State<BranchList> {
   @override
   Widget build(BuildContext context) {
     final pad =
-        widget.compact ? const EdgeInsets.all(12) : const EdgeInsets.fromLTRB(16, 16, 16, 28);
+        widget.compact
+            ? const EdgeInsets.all(12)
+            : const EdgeInsets.fromLTRB(16, 16, 16, 28);
     context.watch<RestaurantCubit>();
     return Scaffold(
-      appBar: AppBar(title: Text('Branches'), backgroundColor: GPSColors.primary),
+      appBar: AppBar(
+        title: Text('Branches'),
+        backgroundColor: GPSColors.primary,
+      ),
       body:
           widget.branches.isEmpty
-              ? _EmptyState().animate().fadeIn(duration: 280.ms).slideY(begin: .08)
+              ? _EmptyState()
+                  .animate()
+                  .fadeIn(duration: 280.ms)
+                  .slideY(begin: .08)
               : ListView.separated(
                 physics: const ClampingScrollPhysics(),
                 padding: pad,
@@ -85,10 +93,16 @@ class _BranchListState extends State<BranchList> {
                       .animate(delay: delay)
                       .fadeIn(duration: 260.ms, curve: Curves.easeOutCubic)
                       .slideY(begin: .08, curve: Curves.easeOutCubic)
-                      .scale(begin: const Offset(.98, .98), end: const Offset(1, 1));
+                      .scale(
+                        begin: const Offset(.98, .98),
+                        end: const Offset(1, 1),
+                      );
                 },
               ),
-      floatingActionButton: FloatingActionButton(onPressed: _addBranch, child: Icon(Icons.add)),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _addBranch,
+        child: Icon(Icons.add),
+      ),
     );
   }
 
@@ -181,7 +195,10 @@ class _BranchCardState extends State<_BranchCard> {
                   actionWidget: EditButton(
                     onPressed: () => _updateBranchImage(branch: widget.branch),
                   ),
-                  child: _BranchImageHeader(image: _firstImg, heroTag: widget.heroTag),
+                  child: _BranchImageHeader(
+                    image: _firstImg,
+                    heroTag: widget.heroTag,
+                  ),
                 ),
                 // Content
                 Padding(
@@ -196,10 +213,14 @@ class _BranchCardState extends State<_BranchCard> {
                             child: CustomStack(
                               enableEdit: widget.enableEdit && showEdit,
                               actionWidget: EditButton(
-                                onPressed: () => _updateBranchName(branch: widget.branch),
+                                onPressed:
+                                    () => _updateBranchName(
+                                      branch: widget.branch,
+                                    ),
                               ),
                               child: Text(
-                                widget.branch.branchName?.trim().isNotEmpty == true
+                                widget.branch.branchName?.trim().isNotEmpty ==
+                                        true
                                     ? widget.branch.branchName!.trim()
                                     : 'Branch',
                                 style: txt.titleMedium?.copyWith(
@@ -225,12 +246,16 @@ class _BranchCardState extends State<_BranchCard> {
                           //     icon: Icons.language_rounded,
                           //     onTap: () => widget.onOpenWebsite?.call(widget.branch.website!.trim()),
                           // ).animate(delay: 40.ms).fadeIn(duration: 150.ms),
-                          if ((widget.branch.latitude ?? '').isNotEmpty) GPSGaps.w8,
+                          if ((widget.branch.latitude ?? '').isNotEmpty)
+                            GPSGaps.w8,
                           if ((widget.branch.latitude ?? '').isNotEmpty)
                             CustomStack(
                               enableEdit: widget.enableEdit && showEdit,
                               actionWidget: EditButton(
-                                onPressed: () => _updateBranchLocation(branch: widget.branch),
+                                onPressed:
+                                    () => _updateBranchLocation(
+                                      branch: widget.branch,
+                                    ),
                               ),
                               child: _IconAction(
                                 tooltip: 'Open Map',
@@ -240,9 +265,13 @@ class _BranchCardState extends State<_BranchCard> {
                                     MaterialPageRoute(
                                       builder:
                                           (_) => BranchMapScreen(
-                                            latitude: widget.branch.latitude ?? '0',
-                                            longitude: widget.branch.longitude ?? '0',
-                                            title: widget.branch.branchName ?? 'Branch Location',
+                                            latitude:
+                                                widget.branch.latitude ?? '0',
+                                            longitude:
+                                                widget.branch.longitude ?? '0',
+                                            title:
+                                                widget.branch.branchName ??
+                                                'Branch Location',
                                           ),
                                       fullscreenDialog: true,
                                     ),
@@ -264,25 +293,38 @@ class _BranchCardState extends State<_BranchCard> {
                             CustomStack(
                               enableEdit: widget.enableEdit && showEdit,
                               actionWidget: EditButton(
-                                onPressed: () => _updateBranchPhoneNumber(branch: widget.branch),
+                                onPressed:
+                                    () => _updateBranchPhoneNumber(
+                                      branch: widget.branch,
+                                    ),
                               ),
                               child: _MetaChip(
                                 icon: Icons.phone_rounded,
                                 label: widget.branch.phoneNumber!,
-                                onTap: () => widget.onCall?.call(widget.branch.phoneNumber!.trim()),
+                                onTap:
+                                    () => widget.onCall?.call(
+                                      widget.branch.phoneNumber!.trim(),
+                                    ),
                               ),
                             ),
                           if ((widget.branch.website ?? '').isNotEmpty)
                             CustomStack(
                               enableEdit: widget.enableEdit && showEdit,
                               actionWidget: EditButton(
-                                onPressed: () => _updateBranchWebsite(branch: widget.branch),
+                                onPressed:
+                                    () => _updateBranchWebsite(
+                                      branch: widget.branch,
+                                    ),
                               ),
                               child: _MetaChip(
                                 icon: Icons.link_rounded,
-                                label: _BranchCard._domainOnly(widget.branch.website!),
+                                label: _BranchCard._domainOnly(
+                                  widget.branch.website!,
+                                ),
                                 onTap:
-                                    () => widget.onOpenWebsite?.call(widget.branch.website!.trim()),
+                                    () => widget.onOpenWebsite?.call(
+                                      widget.branch.website!.trim(),
+                                    ),
                               ),
                             ),
                         ],
@@ -373,7 +415,11 @@ class _BranchCardState extends State<_BranchCard> {
     final cubit = context.read<RestaurantCubit>();
     final LatLng? newVal = await showFormBottomSheet<LatLng>(
       context,
-      builder: (ctx, ctl) => ProfileLocationForm(controller: ctl, label: 'Update branch location'),
+      builder:
+          (ctx, ctl) => ProfileLocationForm(
+            controller: ctl,
+            label: 'Update branch location',
+          ),
     );
     if (newVal == null) return;
     branch?.latitude = newVal.latitude.toString();
@@ -390,10 +436,14 @@ class _BranchCardState extends State<_BranchCard> {
 
     final UploadedImage? newVal = await showFormBottomSheet<UploadedImage>(
       context,
-      builder: (ctx, ctl) => ProfileImageForm(controller: ctl, label: 'Update Branch Image'),
+      builder:
+          (ctx, ctl) =>
+              ProfileImageForm(controller: ctl, label: 'Update Branch Image'),
     );
     if (newVal == null) return;
-    branch?.images = [RestaurantImage(path: "${EndPoint.baseUrl}/${newVal.path}")];
+    branch?.images = [
+      RestaurantImage(path: "${EndPoint.baseUrl}/${newVal.path}"),
+    ];
     cubit.update(cubit.state.data!);
     final res = await UpdateController.update(
       path: 'branches/${branch?.id}',
@@ -439,13 +489,20 @@ class _BranchImageHeader extends StatelessWidget {
       height: 160,
       fadeInDuration: const Duration(milliseconds: 200),
       placeholder:
-          (context, _) => _ShimmerBox(width: double.infinity, height: 160, borderRadius: radius),
+          (context, _) => _ShimmerBox(
+            width: double.infinity,
+            height: 160,
+            borderRadius: radius,
+          ),
       errorWidget: (context, _, __) => _ErrorImageStub(borderRadius: radius),
     );
 
     final child = ClipRRect(
       borderRadius: radius,
-      child: url.isNotEmpty ? imgWidget : _PlaceholderMonogram(borderRadius: radius),
+      child:
+          url.isNotEmpty
+              ? imgWidget
+              : _PlaceholderMonogram(borderRadius: radius),
     );
 
     return heroTag == null ? child : Hero(tag: heroTag!, child: child);
@@ -453,7 +510,11 @@ class _BranchImageHeader extends StatelessWidget {
 }
 
 class _IconAction extends StatelessWidget {
-  const _IconAction({required this.icon, required this.onTap, required this.tooltip});
+  const _IconAction({
+    required this.icon,
+    required this.onTap,
+    required this.tooltip,
+  });
   final IconData icon;
   final VoidCallback onTap;
   final String tooltip;
@@ -506,7 +567,10 @@ class _MetaChip extends StatelessWidget {
             label,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: txt.labelMedium?.copyWith(color: GPSColors.text, fontWeight: FontWeight.w700),
+            style: txt.labelMedium?.copyWith(
+              color: GPSColors.text,
+              fontWeight: FontWeight.w700,
+            ),
           ),
         ],
       ),
@@ -517,7 +581,11 @@ class _MetaChip extends StatelessWidget {
 }
 
 class _ShimmerBox extends StatelessWidget {
-  const _ShimmerBox({required this.width, required this.height, required this.borderRadius});
+  const _ShimmerBox({
+    required this.width,
+    required this.height,
+    required this.borderRadius,
+  });
 
   final double width;
   final double height;
@@ -530,7 +598,11 @@ class _ShimmerBox extends StatelessWidget {
       effects: [
         ShimmerEffect(
           duration: 1200.ms,
-          colors: const [Color(0xFFEFEFEF), Color(0xFFF7F7F7), Color(0xFFEFEFEF)],
+          colors: const [
+            Color(0xFFEFEFEF),
+            Color(0xFFF7F7F7),
+            Color(0xFFEFEFEF),
+          ],
         ),
       ],
       child: Container(
@@ -560,7 +632,9 @@ class _ErrorImageStub extends StatelessWidget {
         borderRadius: borderRadius,
         border: Border.all(color: GPSColors.cardBorder),
       ),
-      child: const Center(child: Icon(Icons.broken_image_rounded, color: GPSColors.mutedText)),
+      child: const Center(
+        child: Icon(Icons.broken_image_rounded, color: GPSColors.mutedText),
+      ),
     );
   }
 }
@@ -583,7 +657,9 @@ class _PlaceholderMonogram extends StatelessWidget {
         ),
         borderRadius: borderRadius,
       ),
-      child: const Center(child: Icon(Icons.store_rounded, color: Colors.white70, size: 36)),
+      child: const Center(
+        child: Icon(Icons.store_rounded, color: Colors.white70, size: 36),
+      ),
     );
   }
 }

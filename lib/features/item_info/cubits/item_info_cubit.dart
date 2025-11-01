@@ -12,10 +12,8 @@ class ItemInfoCubit extends Cubit<ApiResponseModel<ItemInfoEntity>> {
   Future getItem({required int acceptorId, required int itemId}) async {
     final t = prt('getItem - ItemInfoCubit');
     emit(state.copyWith(errorMessage: null, response: ResponseEnum.loading));
-    final ApiResponseModel<ItemInfoEntity> response = await controller.getItemInfo(
-      acceptorId: acceptorId,
-      itemId: itemId,
-    );
+    final ApiResponseModel<ItemInfoEntity> response = await controller
+        .getItemInfo(acceptorId: acceptorId, itemId: itemId);
     pr(response, t);
     emit(response);
   }

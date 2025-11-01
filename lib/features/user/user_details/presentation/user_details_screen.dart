@@ -35,7 +35,8 @@ class UserDetailsScreen extends StatefulWidget {
   State<UserDetailsScreen> createState() => UserDetailsScreenState();
 }
 
-class UserDetailsScreenState extends State<UserDetailsScreen> with SingleTickerProviderStateMixin {
+class UserDetailsScreenState extends State<UserDetailsScreen>
+    with SingleTickerProviderStateMixin {
   bool _isFav = false;
   bool _editNameLocation = false;
   String _imageUrl(UserModel? user) {
@@ -68,7 +69,10 @@ class UserDetailsScreenState extends State<UserDetailsScreen> with SingleTickerP
             backgroundColor: GPSColors.background,
             body:
                 state.response == ResponseEnum.loading
-                    ? Padding(padding: EdgeInsets.all(10), child: StoreDetailsSkeleton())
+                    ? Padding(
+                      padding: EdgeInsets.all(10),
+                      child: StoreDetailsSkeleton(),
+                    )
                     : NestedScrollView(
                       headerSliverBuilder:
                           (context, innerScrolled) => [
@@ -77,7 +81,9 @@ class UserDetailsScreenState extends State<UserDetailsScreen> with SingleTickerP
                               expandedHeight: 260,
                               pinned: true,
                               elevation: 0,
-                              leading: CircleBack(onTap: () => Navigator.of(context).maybePop()),
+                              leading: CircleBack(
+                                onTap: () => Navigator.of(context).maybePop(),
+                              ),
                               actions: [
                                 // IconButton(
                                 //   tooltip: 'Share',
@@ -119,68 +125,98 @@ class UserDetailsScreenState extends State<UserDetailsScreen> with SingleTickerP
                               child: Container(
                                 decoration: const BoxDecoration(
                                   color: GPSColors.background,
-                                  borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+                                  borderRadius: BorderRadius.vertical(
+                                    top: Radius.circular(24),
+                                  ),
                                 ),
                                 child: Padding(
-                                  padding: const EdgeInsets.fromLTRB(16, 18, 16, 14),
+                                  padding: const EdgeInsets.fromLTRB(
+                                    16,
+                                    18,
+                                    16,
+                                    14,
+                                  ),
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       CustomStack(
                                         enableEdit: widget.enableEdit,
                                         actionWidget: EditButton(
                                           onPressed: () {
                                             setState(() {
-                                              _editNameLocation = !_editNameLocation;
+                                              _editNameLocation =
+                                                  !_editNameLocation;
                                             });
                                           },
                                         ),
                                         child: Row(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Expanded(
-                                              child: CustomStack(
-                                                enableEdit: widget.enableEdit && _editNameLocation,
-                                                actionWidget: EditButton(
-                                                  onPressed: () async {
-                                                    _updateUserName(user: user);
-                                                  },
-                                                ),
-                                                child: Text(
-                                                  title,
-                                                  maxLines: 2,
-                                                  overflow: TextOverflow.ellipsis,
-                                                  style: Theme.of(
-                                                    context,
-                                                  ).textTheme.headlineSmall?.copyWith(
-                                                    color: GPSColors.text,
-                                                    fontWeight: FontWeight.w800,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Expanded(
+                                                  child: CustomStack(
+                                                    enableEdit:
+                                                        widget.enableEdit &&
+                                                        _editNameLocation,
+                                                    actionWidget: EditButton(
+                                                      onPressed: () async {
+                                                        _updateUserName(
+                                                          user: user,
+                                                        );
+                                                      },
+                                                    ),
+                                                    child: Text(
+                                                      title,
+                                                      maxLines: 2,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .headlineSmall
+                                                          ?.copyWith(
+                                                            color:
+                                                                GPSColors.text,
+                                                            fontWeight:
+                                                                FontWeight.w800,
+                                                          ),
+                                                    ),
                                                   ),
                                                 ),
-                                              ),
-                                            ),
 
-                                            IconButton(
-                                              tooltip:
-                                                  _isFav
-                                                      ? 'Remove from favorites'
-                                                      : 'Add to favorites',
-                                              onPressed: () => setState(() => _isFav = !_isFav),
-                                              icon: Icon(
-                                                _isFav
-                                                    ? Icons.favorite_rounded
-                                                    : Icons.favorite_outline,
-                                                color:
-                                                    _isFav ? Colors.redAccent : GPSColors.mutedText,
-                                              ),
-                                            ),
-                                          ],
-                                        ).animate().fadeIn(duration: 280.ms).slideY(begin: .1),
+                                                IconButton(
+                                                  tooltip:
+                                                      _isFav
+                                                          ? 'Remove from favorites'
+                                                          : 'Add to favorites',
+                                                  onPressed:
+                                                      () => setState(
+                                                        () => _isFav = !_isFav,
+                                                      ),
+                                                  icon: Icon(
+                                                    _isFav
+                                                        ? Icons.favorite_rounded
+                                                        : Icons
+                                                            .favorite_outline,
+                                                    color:
+                                                        _isFav
+                                                            ? Colors.redAccent
+                                                            : GPSColors
+                                                                .mutedText,
+                                                  ),
+                                                ),
+                                              ],
+                                            )
+                                            .animate()
+                                            .fadeIn(duration: 280.ms)
+                                            .slideY(begin: .1),
                                       ),
 
-                                      if (user?.state != null && user?.district != null)
+                                      if (user?.state != null &&
+                                          user?.district != null)
                                         GPSGaps.h16,
-                                      if (user?.state != null && user?.district != null)
+                                      if (user?.state != null &&
+                                          user?.district != null)
                                         CustomStack(
                                           enableEdit: widget.enableEdit,
                                           actionWidget: EditButton(
@@ -194,7 +230,10 @@ class UserDetailsScreenState extends State<UserDetailsScreen> with SingleTickerP
                                           ),
                                         ),
                                       GPSGaps.h10,
-                                      ContactCard(user: user, enableEdit: widget.enableEdit),
+                                      ContactCard(
+                                        user: user,
+                                        enableEdit: widget.enableEdit,
+                                      ),
                                       GPSGaps.h10,
                                     ],
                                   ),
@@ -235,11 +274,14 @@ class UserDetailsScreenState extends State<UserDetailsScreen> with SingleTickerP
 
   Future _updateUserStateDistrict(UserModel? user) async {
     final storage = serviceLocator<LocalStorage>();
-    final SelectedStateAndDistrict? newVal = await showFormBottomSheet<SelectedStateAndDistrict>(
-      context,
-      builder: (ctx, ctl) => ProfileStateSelectionForm(controller: ctl),
-    );
-    if (newVal == null || newVal.selectedState == null || newVal.selectedDistrict == null) {
+    final SelectedStateAndDistrict? newVal =
+        await showFormBottomSheet<SelectedStateAndDistrict>(
+          context,
+          builder: (ctx, ctl) => ProfileStateSelectionForm(controller: ctl),
+        );
+    if (newVal == null ||
+        newVal.selectedState == null ||
+        newVal.selectedDistrict == null) {
       return;
     }
     user?.state = newVal.selectedState;
@@ -247,7 +289,10 @@ class UserDetailsScreenState extends State<UserDetailsScreen> with SingleTickerP
     cubit.update(cubit.state.data!);
     final res = await UpdateController.update(
       path: 'user/${user?.id}',
-      data: {'state_id': newVal.selectedState?.id, 'district_id': newVal.selectedDistrict?.id},
+      data: {
+        'state_id': newVal.selectedState?.id,
+        'district_id': newVal.selectedDistrict?.id,
+      },
     );
     if (res.response == ResponseEnum.success) {
       storage.cacheUser(cubit.state.data);
@@ -258,7 +303,9 @@ class UserDetailsScreenState extends State<UserDetailsScreen> with SingleTickerP
     final storage = serviceLocator<LocalStorage>();
     final UploadedImage? newVal = await showFormBottomSheet<UploadedImage>(
       context,
-      builder: (ctx, ctl) => ProfileImageForm(controller: ctl, label: 'Update Your Image'),
+      builder:
+          (ctx, ctl) =>
+              ProfileImageForm(controller: ctl, label: 'Update Your Image'),
     );
     if (newVal == null) return;
     user.image?.path = newVal.path;

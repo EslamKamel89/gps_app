@@ -93,7 +93,12 @@ class _ItemCardState extends State<ItemCard> {
                     ),
                     child: Hero(
                       tag: widget.heroTag,
-                      child: Image.network(_imageUrl(), width: 110, height: 110, fit: BoxFit.cover),
+                      child: Image.network(
+                        _imageUrl(),
+                        width: 110,
+                        height: 110,
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
                 ),
@@ -155,7 +160,9 @@ class _ItemCardState extends State<ItemCard> {
                               style: txt.titleSmall?.copyWith(
                                 color: GPSColors.text,
                                 fontWeight: FontWeight.w800,
-                                fontFeatures: const [FontFeature.tabularFigures()],
+                                fontFeatures: const [
+                                  FontFeature.tabularFigures(),
+                                ],
                               ),
                             ),
                           ),
@@ -187,8 +194,11 @@ class _ItemCardState extends State<ItemCard> {
     final String? newVal = await showFormBottomSheet<String>(
       context,
       builder:
-          (ctx, ctl) =>
-              ProfileTextForm(initialValue: item.name, controller: ctl, label: 'Update Item Name'),
+          (ctx, ctl) => ProfileTextForm(
+            initialValue: item.name,
+            controller: ctl,
+            label: 'Update Item Name',
+          ),
     );
     if (newVal == null) return;
     item.name = newVal;
@@ -258,7 +268,9 @@ class _ItemCardState extends State<ItemCard> {
     final cubit = context.read<StoreCubit>();
     final UploadedImage? newVal = await showFormBottomSheet<UploadedImage>(
       context,
-      builder: (ctx, ctl) => ProfileImageForm(controller: ctl, label: 'Update Item image'),
+      builder:
+          (ctx, ctl) =>
+              ProfileImageForm(controller: ctl, label: 'Update Item image'),
     );
     if (newVal == null) return;
     item.image?.path = newVal.path;

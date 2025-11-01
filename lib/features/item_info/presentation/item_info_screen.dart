@@ -11,7 +11,11 @@ import 'package:gps_app/features/item_info/cubits/item_info_cubit.dart';
 import 'package:gps_app/features/item_info/models/item_info.dart';
 
 class ItemInfoScreen extends StatefulWidget {
-  const ItemInfoScreen({super.key, required this.acceptorId, required this.itemId});
+  const ItemInfoScreen({
+    super.key,
+    required this.acceptorId,
+    required this.itemId,
+  });
   final int acceptorId;
   final int itemId;
   @override
@@ -39,7 +43,10 @@ class _ItemInfoScreenState extends State<ItemInfoScreen> {
       builder: (context, state) {
         return SafeArea(
           child: Scaffold(
-            appBar: AppBar(backgroundColor: GPSColors.primary, title: Text(state.data?.name ?? '')),
+            appBar: AppBar(
+              backgroundColor: GPSColors.primary,
+              title: Text(state.data?.name ?? ''),
+            ),
             body: SingleChildScrollView(
               physics: const ClampingScrollPhysics(),
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
@@ -60,12 +67,16 @@ class _ItemInfoScreenState extends State<ItemInfoScreen> {
                               child: AspectRatio(
                                 aspectRatio: 16 / 9,
                                 child: Image.network(
-                                      pr("${EndPoint.baseUrl}/${item.itemImagePath!}"),
+                                      pr(
+                                        "${EndPoint.baseUrl}/${item.itemImagePath!}",
+                                      ),
                                       fit: BoxFit.cover,
                                       alignment: Alignment.center,
                                       frameBuilder: (c, child, frame, wasSync) {
                                         if (frame == null) {
-                                          return Container(color: Colors.black12);
+                                          return Container(
+                                            color: Colors.black12,
+                                          );
                                         }
                                         return child;
                                       },
@@ -81,7 +92,10 @@ class _ItemInfoScreenState extends State<ItemInfoScreen> {
                                           ),
                                     )
                                     .animate()
-                                    .fadeIn(duration: 350.ms, curve: Curves.easeOutCubic)
+                                    .fadeIn(
+                                      duration: 350.ms,
+                                      curve: Curves.easeOutCubic,
+                                    )
                                     .scale(
                                       begin: const Offset(1.02, 1.02),
                                       end: const Offset(1, 1),
@@ -98,7 +112,10 @@ class _ItemInfoScreenState extends State<ItemInfoScreen> {
                                     gradient: LinearGradient(
                                       begin: Alignment.topCenter,
                                       end: Alignment.bottomCenter,
-                                      colors: [Colors.transparent, Color(0x66000000)],
+                                      colors: [
+                                        Colors.transparent,
+                                        Color(0x66000000),
+                                      ],
                                     ),
                                   ),
                                 ),
@@ -115,14 +132,23 @@ class _ItemInfoScreenState extends State<ItemInfoScreen> {
                                             _isFav
                                                 ? Icons.favorite_rounded
                                                 : Icons.favorite_border_rounded,
-                                        onTap: () => setState(() => _isFav = !_isFav),
-                                        foreground: _isFav ? Colors.redAccent : Colors.white,
+                                        onTap:
+                                            () => setState(
+                                              () => _isFav = !_isFav,
+                                            ),
+                                        foreground:
+                                            _isFav
+                                                ? Colors.redAccent
+                                                : Colors.white,
                                       )
                                       .animate()
                                       .fadeIn(duration: 220.ms)
                                       .scale(begin: const Offset(.9, .9)),
                                   GPSGaps.w8,
-                                  _CircleIconButton(icon: Icons.share_rounded, onTap: () {})
+                                  _CircleIconButton(
+                                        icon: Icons.share_rounded,
+                                        onTap: () {},
+                                      )
                                       .animate(delay: 60.ms)
                                       .fadeIn(duration: 220.ms)
                                       .scale(begin: const Offset(.9, .9)),
@@ -138,8 +164,11 @@ class _ItemInfoScreenState extends State<ItemInfoScreen> {
                             spacing: 8,
                             runSpacing: 8,
                             children: [
-                              _BadgeChip(label: item.isMeal == true ? 'Meal' : 'Product'),
-                              if (item.sectionName != null) _BadgeChip(label: item.sectionName!),
+                              _BadgeChip(
+                                label: item.isMeal == true ? 'Meal' : 'Product',
+                              ),
+                              if (item.sectionName != null)
+                                _BadgeChip(label: item.sectionName!),
                             ],
                           )
                           .animate()
@@ -213,9 +242,10 @@ class _BadgeChip extends StatelessWidget {
           GPSGaps.w8,
           Text(
             label,
-            style: Theme.of(
-              context,
-            ).textTheme.labelMedium?.copyWith(color: GPSColors.text, fontWeight: FontWeight.w700),
+            style: Theme.of(context).textTheme.labelMedium?.copyWith(
+              color: GPSColors.text,
+              fontWeight: FontWeight.w700,
+            ),
           ),
         ],
       ),
@@ -224,7 +254,11 @@ class _BadgeChip extends StatelessWidget {
 }
 
 class _CircleIconButton extends StatelessWidget {
-  const _CircleIconButton({required this.icon, this.onTap, this.foreground = Colors.white});
+  const _CircleIconButton({
+    required this.icon,
+    this.onTap,
+    this.foreground = Colors.white,
+  });
 
   final IconData icon;
   final VoidCallback? onTap;
@@ -256,7 +290,9 @@ class _LoadingShimmer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width - 32; // padding accounted for in parent
+    final width =
+        MediaQuery.of(context).size.width -
+        32; // padding accounted for in parent
     final chipHeights = 34.0;
 
     return Column(
@@ -322,7 +358,11 @@ class _LoadingShimmer extends StatelessWidget {
 }
 
 class _ShimmerBox extends StatelessWidget {
-  const _ShimmerBox({required this.width, required this.height, this.radius = 12});
+  const _ShimmerBox({
+    required this.width,
+    required this.height,
+    this.radius = 12,
+  });
 
   final double width;
   final double height;

@@ -31,7 +31,9 @@ class Vendor {
     operatingHours:
         json['operating_hours'] == null
             ? null
-            : OperatingHours.fromJson(json['operating_hours'] as Map<String, dynamic>),
+            : OperatingHours.fromJson(
+              json['operating_hours'] as Map<String, dynamic>,
+            ),
   );
 
   Map<String, dynamic> toJson() => {

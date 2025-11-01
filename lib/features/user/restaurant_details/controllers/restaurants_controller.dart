@@ -23,33 +23,55 @@ class RestaurantsController {
           (response['unverified'] as List)
               .map((json) => RestaurantMainData.fromJson(json))
               .toList();
-      return pr(ApiResponseModel(response: ResponseEnum.success, data: models), t);
+      return pr(
+        ApiResponseModel(response: ResponseEnum.success, data: models),
+        t,
+      );
     } catch (e) {
       String errorMessage = e.toString();
       if (e is DioException) {
         errorMessage = jsonEncode(e.response?.data ?? 'Unknown error occurred');
       }
       showSnackbar('Error', errorMessage, true);
-      return pr(ApiResponseModel(errorMessage: errorMessage, response: ResponseEnum.failed), t);
+      return pr(
+        ApiResponseModel(
+          errorMessage: errorMessage,
+          response: ResponseEnum.failed,
+        ),
+        t,
+      );
     }
   }
 
-  Future<ApiResponseModel<RestaurantDetailedModel>> restaurant({required int restaurantId}) async {
+  Future<ApiResponseModel<RestaurantDetailedModel>> restaurant({
+    required int restaurantId,
+  }) async {
     final t = prt('restaurant - RestaurantsController');
     try {
       final response = await _api.get("${EndPoint.restaurants}/$restaurantId");
       pr(response, '$t - response');
-      final RestaurantDetailedModel model = RestaurantDetailedModel.fromJson(response);
+      final RestaurantDetailedModel model = RestaurantDetailedModel.fromJson(
+        response,
+      );
       // return pr(ApiResponseModel(response: ResponseEnum.success, data: demoModel), t);
       pr(model.certifications?.length, 'certs length');
-      return pr(ApiResponseModel(response: ResponseEnum.success, data: model), t);
+      return pr(
+        ApiResponseModel(response: ResponseEnum.success, data: model),
+        t,
+      );
     } catch (e) {
       String errorMessage = e.toString();
       if (e is DioException) {
         errorMessage = jsonEncode(e.response?.data ?? 'Unknown error occurred');
       }
       showSnackbar('Error', errorMessage, true);
-      return pr(ApiResponseModel(errorMessage: errorMessage, response: ResponseEnum.failed), t);
+      return pr(
+        ApiResponseModel(
+          errorMessage: errorMessage,
+          response: ResponseEnum.failed,
+        ),
+        t,
+      );
     }
   }
 
@@ -61,34 +83,57 @@ class RestaurantsController {
         data: {"name": menu.name, "description": menu.description},
       );
       pr(response, '$t - response');
-      return pr(ApiResponseModel(response: ResponseEnum.success, data: true), t);
+      return pr(
+        ApiResponseModel(response: ResponseEnum.success, data: true),
+        t,
+      );
     } catch (e) {
       String errorMessage = e.toString();
       if (e is DioException) {
         errorMessage = jsonEncode(e.response?.data ?? 'Unknown error occurred');
       }
       showSnackbar('Error', errorMessage, true);
-      return pr(ApiResponseModel(errorMessage: errorMessage, response: ResponseEnum.failed), t);
+      return pr(
+        ApiResponseModel(
+          errorMessage: errorMessage,
+          response: ResponseEnum.failed,
+        ),
+        t,
+      );
     }
   }
 
   Future<ApiResponseModel<bool>> deleteMenu({required Menu menu}) async {
     final t = prt('deleteMenu - RestaurantsController');
     try {
-      final response = await _api.delete("${EndPoint.restaurantMenus}/${menu.id}");
+      final response = await _api.delete(
+        "${EndPoint.restaurantMenus}/${menu.id}",
+      );
       pr(response, '$t - response');
-      return pr(ApiResponseModel(response: ResponseEnum.success, data: true), t);
+      return pr(
+        ApiResponseModel(response: ResponseEnum.success, data: true),
+        t,
+      );
     } catch (e) {
       String errorMessage = e.toString();
       if (e is DioException) {
         errorMessage = jsonEncode(e.response?.data ?? 'Unknown error occurred');
       }
       showSnackbar('Error', errorMessage, true);
-      return pr(ApiResponseModel(errorMessage: errorMessage, response: ResponseEnum.failed), t);
+      return pr(
+        ApiResponseModel(
+          errorMessage: errorMessage,
+          response: ResponseEnum.failed,
+        ),
+        t,
+      );
     }
   }
 
-  Future<ApiResponseModel<bool>> addMeal({required Menu menu, required Meal meal}) async {
+  Future<ApiResponseModel<bool>> addMeal({
+    required Menu menu,
+    required Meal meal,
+  }) async {
     final t = prt('addMeal - RestaurantsController');
     try {
       final response = await _api.post(
@@ -104,14 +149,23 @@ class RestaurantsController {
         },
       );
       pr(response, '$t - response');
-      return pr(ApiResponseModel(response: ResponseEnum.success, data: true), t);
+      return pr(
+        ApiResponseModel(response: ResponseEnum.success, data: true),
+        t,
+      );
     } catch (e) {
       String errorMessage = e.toString();
       if (e is DioException) {
         errorMessage = jsonEncode(e.response?.data ?? 'Unknown error occurred');
       }
       showSnackbar('Error', errorMessage, true);
-      return pr(ApiResponseModel(errorMessage: errorMessage, response: ResponseEnum.failed), t);
+      return pr(
+        ApiResponseModel(
+          errorMessage: errorMessage,
+          response: ResponseEnum.failed,
+        ),
+        t,
+      );
     }
   }
 
@@ -120,14 +174,23 @@ class RestaurantsController {
     try {
       final response = await _api.delete("${EndPoint.addMeal}/${meal.id}");
       pr(response, '$t - response');
-      return pr(ApiResponseModel(response: ResponseEnum.success, data: true), t);
+      return pr(
+        ApiResponseModel(response: ResponseEnum.success, data: true),
+        t,
+      );
     } catch (e) {
       String errorMessage = e.toString();
       if (e is DioException) {
         errorMessage = jsonEncode(e.response?.data ?? 'Unknown error occurred');
       }
       showSnackbar('Error', errorMessage, true);
-      return pr(ApiResponseModel(errorMessage: errorMessage, response: ResponseEnum.failed), t);
+      return pr(
+        ApiResponseModel(
+          errorMessage: errorMessage,
+          response: ResponseEnum.failed,
+        ),
+        t,
+      );
     }
   }
 
@@ -136,14 +199,23 @@ class RestaurantsController {
     try {
       final response = await _api.delete("${EndPoint.branches}/${branch?.id}");
       pr(response, '$t - response');
-      return pr(ApiResponseModel(response: ResponseEnum.success, data: true), t);
+      return pr(
+        ApiResponseModel(response: ResponseEnum.success, data: true),
+        t,
+      );
     } catch (e) {
       String errorMessage = e.toString();
       if (e is DioException) {
         errorMessage = jsonEncode(e.response?.data ?? 'Unknown error occurred');
       }
       showSnackbar('Error', errorMessage, true);
-      return pr(ApiResponseModel(errorMessage: errorMessage, response: ResponseEnum.failed), t);
+      return pr(
+        ApiResponseModel(
+          errorMessage: errorMessage,
+          response: ResponseEnum.failed,
+        ),
+        t,
+      );
     }
   }
 
@@ -151,17 +223,28 @@ class RestaurantsController {
     final t = prt('addBranch - RestaurantsController');
     try {
       final Map<String, dynamic> body = branch?.toRequestBody() ?? {};
-      body.addEntries({'restaurant_id': userInMemory()?.restaurant?.id}.entries);
+      body.addEntries(
+        {'restaurant_id': userInMemory()?.restaurant?.id}.entries,
+      );
       final response = await _api.post("${EndPoint.branches}/", data: body);
       pr(response, '$t - response');
-      return pr(ApiResponseModel(response: ResponseEnum.success, data: true), t);
+      return pr(
+        ApiResponseModel(response: ResponseEnum.success, data: true),
+        t,
+      );
     } catch (e) {
       String errorMessage = e.toString();
       if (e is DioException) {
         errorMessage = jsonEncode(e.response?.data ?? 'Unknown error occurred');
       }
       showSnackbar('Error', errorMessage, true);
-      return pr(ApiResponseModel(errorMessage: errorMessage, response: ResponseEnum.failed), t);
+      return pr(
+        ApiResponseModel(
+          errorMessage: errorMessage,
+          response: ResponseEnum.failed,
+        ),
+        t,
+      );
     }
   }
 
@@ -170,34 +253,61 @@ class RestaurantsController {
   }) async {
     final t = prt('deleteCertification - RestaurantsController');
     try {
-      final response = await _api.delete("${EndPoint.restaurantCertificates}/${certification?.id}");
+      final response = await _api.delete(
+        "${EndPoint.restaurantCertificates}/${certification?.id}",
+      );
       pr(response, '$t - response');
-      return pr(ApiResponseModel(response: ResponseEnum.success, data: true), t);
+      return pr(
+        ApiResponseModel(response: ResponseEnum.success, data: true),
+        t,
+      );
     } catch (e) {
       String errorMessage = e.toString();
       if (e is DioException) {
         errorMessage = jsonEncode(e.response?.data ?? 'Unknown error occurred');
       }
       showSnackbar('Error', errorMessage, true);
-      return pr(ApiResponseModel(errorMessage: errorMessage, response: ResponseEnum.failed), t);
+      return pr(
+        ApiResponseModel(
+          errorMessage: errorMessage,
+          response: ResponseEnum.failed,
+        ),
+        t,
+      );
     }
   }
 
-  Future<ApiResponseModel<bool>> addCertification({required Certification? cert}) async {
+  Future<ApiResponseModel<bool>> addCertification({
+    required Certification? cert,
+  }) async {
     final t = prt('addCertification - RestaurantsController');
     try {
       final Map<String, dynamic> body = cert?.toRequestBody() ?? {};
-      body.addEntries({'restaurant_id': userInMemory()?.restaurant?.id}.entries);
-      final response = await _api.post("${EndPoint.restaurantCertificates}/", data: body);
+      body.addEntries(
+        {'restaurant_id': userInMemory()?.restaurant?.id}.entries,
+      );
+      final response = await _api.post(
+        "${EndPoint.restaurantCertificates}/",
+        data: body,
+      );
       pr(response, '$t - response');
-      return pr(ApiResponseModel(response: ResponseEnum.success, data: true), t);
+      return pr(
+        ApiResponseModel(response: ResponseEnum.success, data: true),
+        t,
+      );
     } catch (e) {
       String errorMessage = e.toString();
       if (e is DioException) {
         errorMessage = jsonEncode(e.response?.data ?? 'Unknown error occurred');
       }
       showSnackbar('Error', errorMessage, true);
-      return pr(ApiResponseModel(errorMessage: errorMessage, response: ResponseEnum.failed), t);
+      return pr(
+        ApiResponseModel(
+          errorMessage: errorMessage,
+          response: ResponseEnum.failed,
+        ),
+        t,
+      );
     }
   }
 }

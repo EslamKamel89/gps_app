@@ -78,18 +78,26 @@ class _AddItemCardState extends State<AddItemCard> {
         width: double.infinity,
         height: 56,
         child: ElevatedButton(
-          onPressed: () => _toggleExpanded(true),
-          style: ElevatedButton.styleFrom(
-            backgroundColor: GPSColors.primary,
-            foregroundColor: Colors.white,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-            elevation: 0,
-          ),
-          child: const Text(
-            'Add Item',
-            style: TextStyle(fontWeight: FontWeight.w700, letterSpacing: 0.3),
-          ),
-        ).animate().fadeIn(duration: 160.ms).scale(begin: const Offset(0.98, 0.98)),
+              onPressed: () => _toggleExpanded(true),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: GPSColors.primary,
+                foregroundColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(14),
+                ),
+                elevation: 0,
+              ),
+              child: const Text(
+                'Add Item',
+                style: TextStyle(
+                  fontWeight: FontWeight.w700,
+                  letterSpacing: 0.3,
+                ),
+              ),
+            )
+            .animate()
+            .fadeIn(duration: 160.ms)
+            .scale(begin: const Offset(0.98, 0.98)),
       ),
     );
   }
@@ -115,7 +123,9 @@ class _AddItemCardState extends State<AddItemCard> {
                   IconButton(
                     tooltip: 'Collapse',
                     onPressed: () => _toggleExpanded(false),
-                    style: IconButton.styleFrom(backgroundColor: Colors.white.withOpacity(0.06)),
+                    style: IconButton.styleFrom(
+                      backgroundColor: Colors.white.withOpacity(0.06),
+                    ),
                     icon: const Icon(Icons.expand_less, color: GPSColors.text),
                   ),
                 ],
@@ -145,8 +155,12 @@ class _AddItemCardState extends State<AddItemCard> {
                       item.name = v;
                     });
                   },
-                  decoration: const InputDecoration(hintText: 'e.g., Beef Burger'),
-                  validator: (v) => validator(input: v, label: 'Name', isRequired: true),
+                  decoration: const InputDecoration(
+                    hintText: 'e.g., Beef Burger',
+                  ),
+                  validator:
+                      (v) =>
+                          validator(input: v, label: 'Name', isRequired: true),
                 ),
               ),
               GPSGaps.h12,
@@ -158,7 +172,10 @@ class _AddItemCardState extends State<AddItemCard> {
                 initial: const [],
                 onChanged: (images) {
                   if (images.isEmpty) return;
-                  item.image = ImageModel(id: images[0].id, path: images[0].path);
+                  item.image = ImageModel(
+                    id: images[0].id,
+                    path: images[0].path,
+                  );
                 },
                 child: Container(
                   height: 56,
@@ -178,13 +195,17 @@ class _AddItemCardState extends State<AddItemCard> {
                 child: TextFormField(
                   initialValue: item.price ?? '',
                   onChanged: (v) => item.price = v,
-                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                  keyboardType: const TextInputType.numberWithOptions(
+                    decimal: true,
+                  ),
                   decoration: const InputDecoration(
                     hintText: 'e.g., 12.95',
                     prefixText: '\$ ',
                     prefixStyle: TextStyle(color: GPSColors.primary),
                   ),
-                  validator: (v) => validator(input: v, label: 'Price', isRequired: true),
+                  validator:
+                      (v) =>
+                          validator(input: v, label: 'Price', isRequired: true),
                 ),
               ),
               GPSGaps.h12,

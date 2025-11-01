@@ -20,7 +20,11 @@ class TabBarDelegate extends SliverPersistentHeaderDelegate {
   double get maxExtent => _height;
 
   @override
-  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
+  Widget build(
+    BuildContext context,
+    double shrinkOffset,
+    bool overlapsContent,
+  ) {
     return Material(
       color: backgroundColor ?? Theme.of(context).scaffoldBackgroundColor,
       elevation: overlapsContent ? 1.0 : 0.0,

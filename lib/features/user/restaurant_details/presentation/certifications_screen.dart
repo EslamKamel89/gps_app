@@ -21,7 +21,11 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:url_launcher/url_launcher.dart';
 
 class CertificationsScreen extends StatefulWidget {
-  const CertificationsScreen({super.key, required this.enableEdit, this.title = 'Certifications'});
+  const CertificationsScreen({
+    super.key,
+    required this.enableEdit,
+    this.title = 'Certifications',
+  });
 
   final String title;
   final bool enableEdit;
@@ -37,10 +41,17 @@ class _CertificationsScreenState extends State<CertificationsScreen> {
     final cubit = context.watch<RestaurantCubit>();
     final List<Certification>? items = cubit.state.data?.certifications;
     return Scaffold(
-      appBar: AppBar(elevation: 0, backgroundColor: GPSColors.primary, title: Text(widget.title)),
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: GPSColors.primary,
+        title: Text(widget.title),
+      ),
       body:
           items?.isEmpty == true
-              ? const _EmptyState().animate().fadeIn(duration: 280.ms).slideY(begin: .08)
+              ? const _EmptyState()
+                  .animate()
+                  .fadeIn(duration: 280.ms)
+                  .slideY(begin: .08)
               : ListView.separated(
                 padding: const EdgeInsets.fromLTRB(16, 16, 16, 28),
                 itemCount: items?.length ?? 0,
@@ -57,7 +68,10 @@ class _CertificationsScreenState extends State<CertificationsScreen> {
                       .animate(delay: delay)
                       .fadeIn(duration: 260.ms, curve: Curves.easeOutCubic)
                       .slideY(begin: .08, curve: Curves.easeOutCubic)
-                      .scale(begin: const Offset(.98, .98), end: const Offset(1, 1));
+                      .scale(
+                        begin: const Offset(.98, .98),
+                        end: const Offset(1, 1),
+                      );
                 },
               ),
       floatingActionButton: FloatingActionButton(
@@ -86,7 +100,11 @@ class _CertificationsScreenState extends State<CertificationsScreen> {
 }
 
 class CertificationCard extends StatefulWidget {
-  const CertificationCard({super.key, required this.cert, required this.enableEdit});
+  const CertificationCard({
+    super.key,
+    required this.cert,
+    required this.enableEdit,
+  });
   final Certification cert;
   final bool enableEdit;
   static bool _isValidHttpUrl(String? url) {
@@ -101,7 +119,9 @@ class CertificationCard extends StatefulWidget {
 
 class _CertificationCardState extends State<CertificationCard> {
   RestaurantFile? get _firstFile =>
-      (widget.cert.file != null && widget.cert.file!.isNotEmpty) ? widget.cert.file!.first : null;
+      (widget.cert.file != null && widget.cert.file!.isNotEmpty)
+          ? widget.cert.file!.first
+          : null;
   bool showEdit = false;
   @override
   Widget build(BuildContext context) {
@@ -147,7 +167,10 @@ class _CertificationCardState extends State<CertificationCard> {
                         child: CustomStack(
                           enableEdit: widget.enableEdit && showEdit,
                           actionWidget: EditButton(
-                            onPressed: () => _updateCertificationTitle(cert: widget.cert),
+                            onPressed:
+                                () => _updateCertificationTitle(
+                                  cert: widget.cert,
+                                ),
                           ),
                           child: Text(
                             (widget.cert.title ?? 'Certification').trim(),
@@ -169,11 +192,17 @@ class _CertificationCardState extends State<CertificationCard> {
                     CustomStack(
                       enableEdit: widget.enableEdit && showEdit,
                       actionWidget: EditButton(
-                        onPressed: () => _updateCertificationDescription(cert: widget.cert),
+                        onPressed:
+                            () => _updateCertificationDescription(
+                              cert: widget.cert,
+                            ),
                       ),
                       child: Text(
                         widget.cert.description!.trim(),
-                        style: txt.bodyMedium?.copyWith(color: GPSColors.mutedText, height: 1.35),
+                        style: txt.bodyMedium?.copyWith(
+                          color: GPSColors.mutedText,
+                          height: 1.35,
+                        ),
                       ).animate().fadeIn(duration: 200.ms).slideY(begin: .05),
                     ),
 
@@ -184,11 +213,15 @@ class _CertificationCardState extends State<CertificationCard> {
                     child: CustomStack(
                       enableEdit: widget.enableEdit && showEdit,
                       actionWidget: EditButton(
-                        onPressed: () => _updateCertificationFile(cert: widget.cert),
+                        onPressed:
+                            () => _updateCertificationFile(cert: widget.cert),
                       ),
                       child: _OpenFileButton(
                         enabled: hasValidUrl,
-                        onPressed: hasValidUrl ? () => _openUrl(context, firstUrl!) : null,
+                        onPressed:
+                            hasValidUrl
+                                ? () => _openUrl(context, firstUrl!)
+                                : null,
                       ),
                     ),
                   ),
@@ -277,7 +310,11 @@ class _CertificationCardState extends State<CertificationCard> {
     final cubit = context.read<RestaurantCubit>();
     final UploadedFile? newVal = await showFormBottomSheet<UploadedFile>(
       context,
-      builder: (ctx, ctl) => ProfileFileForm(controller: ctl, label: 'Update certification file'),
+      builder:
+          (ctx, ctl) => ProfileFileForm(
+            controller: ctl,
+            label: 'Update certification file',
+          ),
     );
     if (newVal == null) return;
     cert?.file = [RestaurantFile(path: newVal.path)];
@@ -339,41 +376,47 @@ class _OpenFileButtonState extends State<_OpenFileButton> {
     final fg = widget.enabled ? Colors.white : Colors.white70;
 
     final core = Container(
-      height: 42,
-      padding: const EdgeInsets.symmetric(horizontal: 14),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
-        gradient: bg,
-        boxShadow:
-            widget.enabled
-                ? const [
-                  BoxShadow(
-                    blurRadius: 16,
-                    spreadRadius: -6,
-                    offset: Offset(0, 10),
-                    color: Color(0x3300A86B),
-                  ),
-                ]
-                : null,
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(Icons.open_in_new_rounded, size: 18, color: fg)
-              .animate(target: widget.enabled ? 1 : 0, onPlay: (c) => c.repeat())
-              .rotate(duration: 2200.ms, curve: Curves.linear),
-          GPSGaps.w8,
-          Text(
-            'Open',
-            style: Theme.of(context).textTheme.labelLarge?.copyWith(
-              color: fg,
-              fontWeight: FontWeight.w800,
-              letterSpacing: .3,
-            ),
+          height: 42,
+          padding: const EdgeInsets.symmetric(horizontal: 14),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12),
+            gradient: bg,
+            boxShadow:
+                widget.enabled
+                    ? const [
+                      BoxShadow(
+                        blurRadius: 16,
+                        spreadRadius: -6,
+                        offset: Offset(0, 10),
+                        color: Color(0x3300A86B),
+                      ),
+                    ]
+                    : null,
           ),
-        ],
-      ),
-    ).animate().fadeIn(duration: 180.ms).slideY(begin: .06, curve: Curves.easeOutCubic);
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(Icons.open_in_new_rounded, size: 18, color: fg)
+                  .animate(
+                    target: widget.enabled ? 1 : 0,
+                    onPlay: (c) => c.repeat(),
+                  )
+                  .rotate(duration: 2200.ms, curve: Curves.linear),
+              GPSGaps.w8,
+              Text(
+                'Open',
+                style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                  color: fg,
+                  fontWeight: FontWeight.w800,
+                  letterSpacing: .3,
+                ),
+              ),
+            ],
+          ),
+        )
+        .animate()
+        .fadeIn(duration: 180.ms)
+        .slideY(begin: .06, curve: Curves.easeOutCubic);
 
     if (!widget.enabled) {
       return Tooltip(message: 'No file available', child: core);
@@ -388,9 +431,18 @@ class _OpenFileButtonState extends State<_OpenFileButton> {
         onTap: widget.onPressed,
         child: core
             .animate(target: _pressed ? 1 : 0)
-            .scale(begin: const Offset(1, 1), end: const Offset(.98, .98), duration: 120.ms)
+            .scale(
+              begin: const Offset(1, 1),
+              end: const Offset(.98, .98),
+              duration: 120.ms,
+            )
             .then()
-            .rotate(begin: 0, end: .12, duration: 140.ms, curve: Curves.easeOutCubic),
+            .rotate(
+              begin: 0,
+              end: .12,
+              duration: 140.ms,
+              curve: Curves.easeOutCubic,
+            ),
       ),
     );
   }

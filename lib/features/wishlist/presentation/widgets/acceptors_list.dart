@@ -26,7 +26,11 @@ class AcceptorsList extends StatelessWidget {
               onTap: () {
                 pr(a, 'acceptor');
                 if ([a.userId, a.item?.id].contains(null)) {
-                  showSnackbar('Error', 'Acceptor id or item id equals null', true);
+                  showSnackbar(
+                    'Error',
+                    'Acceptor id or item id equals null',
+                    true,
+                  );
                   return;
                 }
                 Navigator.pushNamed(

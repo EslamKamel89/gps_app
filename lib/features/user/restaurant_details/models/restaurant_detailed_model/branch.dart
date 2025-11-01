@@ -49,7 +49,9 @@ class Branch {
     stateId: json['state_id'] as int?,
     districtId: json['district_id'] as int?,
     state:
-        json['state'] == null ? null : StateModel.fromJson(json['state'] as Map<String, dynamic>),
+        json['state'] == null
+            ? null
+            : StateModel.fromJson(json['state'] as Map<String, dynamic>),
     district:
         json['district'] == null
             ? null
