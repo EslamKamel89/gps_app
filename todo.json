@@ -103,14 +103,6 @@
     "when the user is a store or a farm he can't go to the enter categories and products screen",
     "work on updating image in the users , meal , branch , items table",
     "create the page for user profile",
-    "------------------------------------------------"
-  ],
-  "todos": [
-    "menu and meal images upload their images to the common folder",
-    "allow the user to edit his main information - but i have a problem the main data that the user entered is not visible in the response returned by the endpoint",
-    "handle the verified state in the categories in the restaurant details",
-    "holidays are not handled in the ui of the profile page",
-    "+++++++++++++++++++++++++++++++++++++++++++++++++",
     "add the profile information for the restaurant",
     "update the file in the certificates",
     "create the ui for adding a menu , meal ,section , item",
@@ -118,6 +110,15 @@
     "create the form to create meal",
     "create the form to create section",
     "create the form to create item",
+    "menu and meal images upload their images to the common folder",
+    "allow the user to edit his main information - but i have a problem the main data that the user entered is not visible in the response returned by the endpoint",
+    "------------------------------------------------"
+  ],
+  "todos": [
+    "handle the verified state in the categories in the restaurant details",
+    "holidays are not handled in the ui of the profile page",
+    "+++++++++++++++++++++++++++++++++++++++++++++++++",
+    "fix the issue of the navigation in the bilk insert in meals , branches , certificates , items ",
     "------------------------------------------------"
   ]
 }
