@@ -16,4 +16,8 @@ class BlogsCubit extends Cubit<ApiResponseModel<List<BlogModel>>> {
     pr(response, t);
     emit(response);
   }
+
+  void update() {
+    emit(state.copyWith());
+  }
 }
