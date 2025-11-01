@@ -112,13 +112,13 @@
     "create the form to create item",
     "menu and meal images upload their images to the common folder",
     "allow the user to edit his main information - but i have a problem the main data that the user entered is not visible in the response returned by the endpoint",
+    "fix the issue of the navigation in the bilk insert in meals , branches , certificates , items ",
     "------------------------------------------------"
   ],
   "todos": [
     "handle the verified state in the categories in the restaurant details",
     "holidays are not handled in the ui of the profile page",
     "+++++++++++++++++++++++++++++++++++++++++++++++++",
-    "fix the issue of the navigation in the bilk insert in meals , branches , certificates , items ",
     "------------------------------------------------"
   ]
 }
