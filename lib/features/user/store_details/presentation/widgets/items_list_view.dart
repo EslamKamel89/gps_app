@@ -30,18 +30,18 @@ class _ItemsListViewState extends State<ItemsListView> {
     return ListView.separated(
       physics: const ClampingScrollPhysics(),
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 28),
-      itemCount: items!.length + (widget.enableEdit ? 1 : 0),
+      itemCount: (items?.length ?? 0) + (widget.enableEdit ? 1 : 0),
       separatorBuilder: (_, __) => GPSGaps.h12,
       itemBuilder: (context, index) {
-        if (index == items.length) {
+        if (index == (items?.length ?? 0)) {
           return AddItemCard(section: widget.section);
         }
 
-        final item = items[index];
+        final item = items?[index];
         final delay = (70 * index).ms;
         return ItemCard(
-              key: Key("${item.id}-${item.name}"),
-              item: item,
+              key: Key("${item?.id}-${item?.name}"),
+              item: item!,
               heroTag: '${widget.heroPrefix}-$index',
               enableEdit: widget.enableEdit,
               section: widget.section,
