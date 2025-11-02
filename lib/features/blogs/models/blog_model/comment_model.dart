@@ -1,4 +1,3 @@
-import 'package:gps_app/core/helpers/user.dart';
 import 'package:gps_app/features/auth/models/user_model.dart';
 
 class CommentModel {
@@ -30,14 +29,12 @@ class CommentModel {
   factory CommentModel.fromJson(Map<String, dynamic> json) => CommentModel(
     id: json['id'] as int?,
     blogId: json['blog_id'] as int?,
-    userId: (json['user_id'] as int?) ?? userInMemory()?.id,
+    userId: json['user_id'] as int?,
     type: json['type'] as String?,
     comment: json['comment'] as String?,
     createdAt: json['created_at'] == null ? null : DateTime.parse(json['created_at'] as String),
     updatedAt: json['updated_at'] == null ? null : DateTime.parse(json['updated_at'] as String),
-    user:
-        (json['user'] == null ? null : UserModel.fromJson(json['user'] as Map<String, dynamic>)) ??
-        userInMemory(),
+    user: json['user'] == null ? null : UserModel.fromJson(json['user'] as Map<String, dynamic>),
   );
 
   Map<String, dynamic> toJson() => {

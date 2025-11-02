@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:gps_app/core/router/app_routes_names.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class GPSBottomNav extends StatelessWidget {
   const GPSBottomNav({super.key, required this.currentIndex, required this.onChanged});
@@ -10,11 +11,13 @@ class GPSBottomNav extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const items = [
+    final items = [
       Icons.home_filled,
-      Icons.shop,
+      // Icons.shop,
+      MdiIcons.heartOutline,
       Icons.camera,
-      Icons.favorite_rounded,
+      // Icons.favorite_rounded,
+      MdiIcons.giftOutline,
       Icons.bookmark_rounded,
     ];
 
