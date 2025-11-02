@@ -8,7 +8,7 @@ import 'package:gps_app/features/auth/models/user_model.dart';
 import 'package:gps_app/features/auth/models/vendor_model/vendor_model.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
-import 'package:gps_app/features/favorites/models/favourtie_model.dart';
+import 'package:gps_app/features/favorites/models/favorite_model.dart';
 import 'package:gps_app/features/favorites/presentation/widgets/error_avatar.dart';
 import 'package:gps_app/features/favorites/presentation/widgets/image_placeholder.dart';
 import 'package:gps_app/features/favorites/presentation/widgets/initials_avatar.dart';

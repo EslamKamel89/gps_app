@@ -8,7 +8,7 @@ import 'package:gps_app/features/auth/models/user_model.dart';
 import 'package:gps_app/features/auth/models/vendor_model/vendor_model.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
-import 'package:gps_app/features/favorites/models/favourtie_model.dart';
+import 'package:gps_app/features/favorites/models/favorite_model.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class TypeChip extends StatelessWidget {

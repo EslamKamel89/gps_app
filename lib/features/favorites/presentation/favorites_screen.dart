@@ -6,7 +6,7 @@ import 'package:gps_app/features/auth/models/vendor_model/vendor_model.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 import 'package:gps_app/features/design/widgets/gps_bottom_nav.dart';
-import 'package:gps_app/features/favorites/models/favourtie_model.dart';
+import 'package:gps_app/features/favorites/models/favorite_model.dart';
 import 'package:gps_app/features/favorites/presentation/widgets/empty_state.dart';
 import 'package:gps_app/features/favorites/presentation/widgets/favorite_card.dart';
 

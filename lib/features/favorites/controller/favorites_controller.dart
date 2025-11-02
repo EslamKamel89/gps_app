@@ -8,7 +8,7 @@ import 'package:gps_app/core/helpers/print_helper.dart';
 import 'package:gps_app/core/helpers/snackbar.dart';
 import 'package:gps_app/core/models/api_response_model.dart';
 import 'package:gps_app/core/service_locator/service_locator.dart';
-import 'package:gps_app/features/favorites/models/favourtie_model.dart';
+import 'package:gps_app/features/favorites/models/favorite_model.dart';
 
 class FavoritesController {
   final _api = serviceLocator<ApiConsumer>();
