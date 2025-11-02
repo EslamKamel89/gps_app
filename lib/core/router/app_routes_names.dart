@@ -28,4 +28,5 @@ class AppRoutesNames {
   static const String otpScreen = '/otpScreen';
   static const String itemInfoScreen = '/itemInfoScreen';
   static const String blogListScreen = '/blogListScreen';
+  static const String favoritesScreen = '/favoritesScreen';
 }

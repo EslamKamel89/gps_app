@@ -27,6 +27,7 @@ import 'package:gps_app/features/design/screens/user/market_category_selection/m
 import 'package:gps_app/features/design/screens/user/market_place/market_place_screen.dart';
 import 'package:gps_app/features/design/screens/user/scann_image/scan_image_screen.dart';
 import 'package:gps_app/features/design/screens/user/splash/splash_screen.dart';
+import 'package:gps_app/features/favorites/presentation/widgets/favorites_screen.dart';
 import 'package:gps_app/features/item_info/cubits/item_info_cubit.dart';
 import 'package:gps_app/features/item_info/presentation/item_info_screen.dart';
 import 'package:gps_app/features/user/categories/presentation/category_selection_screen.dart';
@@ -168,6 +169,8 @@ class AppRouter {
         );
       case AppRoutesNames.blogListScreen:
         return CustomPageRoute(builder: (context) => BlogListScreen(), settings: routeSettings);
+      case AppRoutesNames.favoritesScreen:
+        return CustomPageRoute(builder: (context) => FavoritesScreen(), settings: routeSettings);
       default:
         return null;
     }
