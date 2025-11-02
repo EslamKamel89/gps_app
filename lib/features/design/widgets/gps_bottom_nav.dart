@@ -42,10 +42,9 @@ class GPSBottomNav extends StatelessWidget {
                   ).pushNamedAndRemoveUntil(AppRoutesNames.homeSearchScreen, (_) => false);
                 }
                 if (i == 1) {
-                  Navigator.of(context).pushNamedAndRemoveUntil(
-                    AppRoutesNames.marketCategorySelectionScreen,
-                    (_) => false,
-                  );
+                  Navigator.of(
+                    context,
+                  ).pushNamedAndRemoveUntil(AppRoutesNames.favoritesScreen, (_) => false);
                 }
                 if (i == 2) {
                   Navigator.of(

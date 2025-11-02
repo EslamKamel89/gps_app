@@ -5,6 +5,7 @@ import 'package:gps_app/features/auth/models/user_model.dart';
 import 'package:gps_app/features/auth/models/vendor_model/vendor_model.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
+import 'package:gps_app/features/design/widgets/gps_bottom_nav.dart';
 import 'package:gps_app/features/favorites/models/favourtie_model.dart';
 import 'package:gps_app/features/favorites/presentation/widgets/empty_state.dart';
 import 'package:gps_app/features/favorites/presentation/widgets/favorite_card.dart';
@@ -118,18 +119,18 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
     ];
   }
 
+  int _currentTab = 0;
   @override
   Widget build(BuildContext context) {
-    // NOTE: GPSColors & GPSGaps are defined in your codebase already.
     return Scaffold(
       backgroundColor: GPSColors.background,
       appBar: AppBar(
-        backgroundColor: GPSColors.background,
+        backgroundColor: GPSColors.primary,
         elevation: 0,
         centerTitle: true,
         title: Text(
-          'Favorites',
-          style: TextStyle(color: GPSColors.text, fontWeight: FontWeight.w700),
+          '💖 Favorites',
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700),
         ),
       ),
       body: SingleChildScrollView(
@@ -163,6 +164,12 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                     GPSGaps.h24,
                   ],
                 ),
+      ),
+      bottomNavigationBar: GPSBottomNav(
+        currentIndex: _currentTab,
+        onChanged: (i) {
+          setState(() => _currentTab = i);
+        },
       ),
     );
   }
