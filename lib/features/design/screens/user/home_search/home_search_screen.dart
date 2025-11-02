@@ -32,7 +32,7 @@ class HomeSearchScreen extends StatefulWidget {
 HomeFilters? _filters;
 
 class _HomeSearchScreenState extends State<HomeSearchScreen> {
-  int _currentTab = 1;
+  int _currentTab = 0;
   @override
   void initState() {
     super.initState();

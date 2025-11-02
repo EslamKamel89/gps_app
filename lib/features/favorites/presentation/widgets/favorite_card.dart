@@ -3,6 +3,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:gps_app/core/helpers/image_url.dart';
 import 'package:gps_app/features/auth/models/image_model.dart';
 import 'package:gps_app/features/auth/models/user_model.dart';
 import 'package:gps_app/features/auth/models/vendor_model/vendor_model.dart';
@@ -32,7 +33,8 @@ class _FavoriteCardState extends State<FavoriteCard> {
   Widget build(BuildContext context) {
     final user = widget.favorite.user;
     final vendor = user?.vendor;
-    final imageUrl = (user?.images?.isNotEmpty ?? false) ? user!.images!.first.path : null;
+    var imageUrl = (user?.images?.isNotEmpty ?? false) ? user!.images!.first.path : null;
+    imageUrl = getImageUrl(imageUrl);
 
     final type = (widget.favorite.favoriteType ?? '').toLowerCase().trim();
     final typeIcon = _typeIcon(type);
