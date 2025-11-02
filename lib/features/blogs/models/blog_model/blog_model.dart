@@ -41,7 +41,7 @@ class BlogModel {
     title: json['title'] as String?,
     content: json['content'] as String?,
     mediaId: json['media_id'] as int?,
-    link: (json['link'] as String?) ?? 'https://www.youtube.com/watch?v=P7gNto62zwU&t=51s',
+    link: json['link'] as String?,
     type: json['type'] as String?,
     createdAt: json['created_at'] == null ? null : DateTime.parse(json['created_at'] as String),
     updatedAt: json['updated_at'] == null ? null : DateTime.parse(json['updated_at'] as String),

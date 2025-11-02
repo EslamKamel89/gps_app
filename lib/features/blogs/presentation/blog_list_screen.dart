@@ -41,7 +41,7 @@ class _BlogListScreenState extends State<BlogListScreen> {
             elevation: 1,
           ),
           body:
-              state.response == ResponseEnum.loading
+              state.response == ResponseEnum.loading && state.data == null
                   ? BlogListLoadingState()
                   : SingleChildScrollView(
                     padding: const EdgeInsets.all(16),

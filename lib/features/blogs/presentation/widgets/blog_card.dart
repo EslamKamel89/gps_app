@@ -62,7 +62,7 @@ class BlogCard extends StatelessWidget {
                 ],
               ),
             ),
-            _buildBadges(blog),
+            BadgesRow(blog: blog),
           ],
         ),
       ),
@@ -93,60 +93,6 @@ class BlogCard extends StatelessWidget {
               height: 200,
               child: const Icon(Icons.image_not_supported, size: 48, color: GPSColors.mutedText),
             ),
-      ),
-    );
-  }
-
-  Widget _buildBadges(BlogModel blog) {
-    return Wrap(
-          spacing: 8,
-          runSpacing: 4,
-          children: [
-            _buildBadge(
-              icon: Icons.favorite,
-              label: "${blog.likesCount ?? 0}",
-              iconColor: Colors.red,
-            ),
-            _buildBadge(
-              icon: Icons.comment,
-              label: "${blog.commentsCount ?? 0}",
-              iconColor: GPSColors.primary,
-            ),
-            if (blog.type != null)
-              _buildBadge(icon: Icons.label, label: blog.type!, iconColor: GPSColors.primary),
-          ],
-        )
-        .animate()
-        .fadeIn(duration: 400.ms)
-        .scale(begin: const Offset(0.9, 0.9), end: const Offset(1, 1));
-  }
-
-  Widget _buildBadge({
-    required IconData icon,
-    required String label,
-    Color iconColor = GPSColors.primary,
-  }) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-      decoration: BoxDecoration(
-        color: GPSColors.cardSelected.withOpacity(0.5),
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: GPSColors.cardBorder),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(icon, color: iconColor, size: 16),
-          GPSGaps.w4,
-          Text(
-            label,
-            style: const TextStyle(
-              fontSize: 13,
-              color: GPSColors.text,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-        ],
       ),
     );
   }

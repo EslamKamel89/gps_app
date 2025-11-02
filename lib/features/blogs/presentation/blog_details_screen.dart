@@ -1,12 +1,18 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:gps_app/features/auth/models/image_model.dart';
-import 'package:gps_app/features/auth/models/user_model.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gps_app/core/helpers/image_url.dart';
+import 'package:gps_app/core/helpers/user.dart';
+import 'package:gps_app/core/helpers/validator.dart';
+import 'package:gps_app/features/blogs/cubits/blogs_cubit.dart';
 import 'package:gps_app/features/blogs/models/blog_model/blog_model.dart';
 import 'package:gps_app/features/blogs/models/blog_model/comment_model.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
+import 'package:gps_app/features/user/restaurant_details/presentation/widgets/form_bottom_sheet.dart';
+import 'package:gps_app/features/user/restaurant_details/presentation/widgets/restaurant_details_forms.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
@@ -21,15 +27,10 @@ class BlogDetailsScreen extends StatefulWidget {
 
 class _BlogDetailsScreenState extends State<BlogDetailsScreen> {
   YoutubePlayerController? _youtubeController;
-  final TextEditingController _commentController = TextEditingController();
-  final ValueNotifier<List<CommentModel>> _commentsNotifier = ValueNotifier([]);
-  bool _liked = false;
 
   @override
   void initState() {
     super.initState();
-    // Initialize comments in-memory from incoming blog (safe copy)
-    _commentsNotifier.value = List<CommentModel>.from(widget.blog.comments ?? []);
 
     // Initialize YouTube controller if we have a valid video id
     if (widget.blog.type == "video" && widget.blog.link != null) {
@@ -46,20 +47,15 @@ class _BlogDetailsScreenState extends State<BlogDetailsScreen> {
   @override
   void dispose() {
     _youtubeController?.dispose();
-    _commentController.dispose();
-    _commentsNotifier.dispose();
+
     super.dispose();
   }
 
-  /// Attempts to extract a YouTube video id from multiple possible URL formats.
-  /// Returns `null` if extraction fails.
   String? _extractYoutubeId(String url) {
     try {
-      // Use youtube_player_flutter helper if available; otherwise regex fallback
       final idFromYouTube = YoutubePlayer.convertUrlToId(url);
       if (idFromYouTube != null && idFromYouTube.isNotEmpty) return idFromYouTube;
 
-      // Regex fallback (common patterns)
       final regExp = RegExp(
         r'(?:v=|v\/|embed\/|youtu\.be\/|\/v\/|watch\?v=|&v=)([A-Za-z0-9_-]{11})',
         caseSensitive: false,
@@ -68,27 +64,6 @@ class _BlogDetailsScreenState extends State<BlogDetailsScreen> {
       if (match != null && match.groupCount >= 1) return match.group(1);
     } catch (_) {}
     return null;
-  }
-
-  void _onAddComment() {
-    final text = _commentController.text.trim();
-    if (text.isEmpty) return;
-    final newComment = CommentModel(
-      id: DateTime.now().millisecondsSinceEpoch,
-      blogId: widget.blog.id,
-      comment: text,
-      createdAt: DateTime.now(),
-      user: UserModel(
-        id: 0,
-        userName: "you",
-        fullName: "You",
-        image: ImageModel(path: "https://picsum.photos/seed/user/80/80"),
-      ),
-    );
-    // Add to notifier list
-    _commentsNotifier.value = [newComment, ..._commentsNotifier.value];
-    _commentController.clear();
-    // optional: scroll-to-top behavior could be added later
   }
 
   @override
@@ -108,7 +83,10 @@ class _BlogDetailsScreenState extends State<BlogDetailsScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Media: either youtube player (if valid) or image
-            _buildMediaSection(blog).animate().fadeIn(duration: 400.ms).slideY(begin: 0.1),
+            MediaSection(
+              blog: blog,
+              youtubeController: _youtubeController,
+            ).animate().fadeIn(duration: 400.ms).slideY(begin: 0.1),
 
             GPSGaps.h12,
 
@@ -135,18 +113,16 @@ class _BlogDetailsScreenState extends State<BlogDetailsScreen> {
             GPSGaps.h12,
 
             // Badges row (wrap)
-            _buildBadges(
-              blog,
+            BadgesRow(
+              blog: blog,
             ).animate().fadeIn(duration: 350.ms).scale(begin: const Offset(0.95, 0.95)),
 
             GPSGaps.h16,
 
-            // Add Comment field (above comments list per your instruction)
-            _buildAddCommentField(),
+            AddCommentWidget(blog: widget.blog),
 
             GPSGaps.h12,
 
-            // Comments header
             Row(
               children: [
                 const Text(
@@ -159,70 +135,57 @@ class _BlogDetailsScreenState extends State<BlogDetailsScreen> {
                 ),
                 GPSGaps.w8,
                 Text(
-                  "(${_commentsNotifier.value.length})",
+                  "(${blog.comments?.length ?? 0})",
                   style: const TextStyle(color: GPSColors.mutedText, fontSize: 13),
                 ),
               ],
             ).animate().fadeIn(duration: 300.ms),
 
             GPSGaps.h12,
-
+            blog.comments?.isNotEmpty == true
+                ? CommentsList(blog: blog)
+                : Center(
+                  child:
+                      Column(
+                        children: [
+                          const Icon(
+                            Icons.chat_bubble_outline,
+                            size: 48,
+                            color: GPSColors.mutedText,
+                          ),
+                          GPSGaps.h8,
+                          const Text(
+                            "No comments yet",
+                            style: TextStyle(color: GPSColors.mutedText),
+                          ),
+                        ],
+                      ).animate().fadeIn(),
+                ),
             // Comments List (shrinkWrap ListView)
-            ValueListenableBuilder<List<CommentModel>>(
-              valueListenable: _commentsNotifier,
-              builder: (context, comments, _) {
-                if (comments.isEmpty) {
-                  return Center(
-                    child:
-                        Column(
-                          children: [
-                            const Icon(
-                              Icons.chat_bubble_outline,
-                              size: 48,
-                              color: GPSColors.mutedText,
-                            ),
-                            GPSGaps.h8,
-                            const Text(
-                              "No comments yet",
-                              style: TextStyle(color: GPSColors.mutedText),
-                            ),
-                          ],
-                        ).animate().fadeIn(),
-                  );
-                }
-
-                return ListView.separated(
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: comments.length,
-                  separatorBuilder: (_, __) => const SizedBox(height: 12),
-                  itemBuilder: (context, idx) {
-                    final c = comments[idx];
-                    return _buildCommentItem(c)
-                        .animate()
-                        .fadeIn(duration: 300.ms)
-                        .slideX(begin: -0.05 * (idx % 2 == 0 ? 1 : -1));
-                  },
-                );
-              },
-            ),
           ],
         ),
       ),
     );
   }
+}
 
-  /// ----------------------------------------------------------
-  /// Media: Youtube player if possible, otherwise image
-  /// ----------------------------------------------------------
-  Widget _buildMediaSection(BlogModel blog) {
-    final imageUrl = blog.image?.path ?? "";
-    // If we have a youtube controller it means we successfully extracted an id
-    if (_youtubeController != null) {
+class MediaSection extends StatefulWidget {
+  const MediaSection({super.key, required this.blog, required this.youtubeController});
+  final BlogModel blog;
+  final YoutubePlayerController? youtubeController;
+  @override
+  State<MediaSection> createState() => _MediaSectionState();
+}
+
+class _MediaSectionState extends State<MediaSection> {
+  @override
+  Widget build(BuildContext context) {
+    final imageUrl = widget.blog.image?.path ?? "";
+    if (widget.youtubeController != null) {
       return ClipRRect(
         borderRadius: BorderRadius.circular(12),
         child: YoutubePlayer(
-          controller: _youtubeController!,
+          controller: widget.youtubeController!,
           showVideoProgressIndicator: true,
           progressIndicatorColor: GPSColors.primary,
           progressColors: ProgressBarColors(
@@ -233,11 +196,10 @@ class _BlogDetailsScreenState extends State<BlogDetailsScreen> {
       );
     }
 
-    // Fallback to image
     return ClipRRect(
       borderRadius: BorderRadius.circular(12),
       child: CachedNetworkImage(
-        imageUrl: imageUrl,
+        imageUrl: getImageUrl(imageUrl),
         height: 220,
         width: double.infinity,
         fit: BoxFit.cover,
@@ -261,19 +223,27 @@ class _BlogDetailsScreenState extends State<BlogDetailsScreen> {
       ),
     );
   }
+}
 
-  /// ----------------------------------------------------------
-  /// Badges build (likes, comments count, type)
-  /// ----------------------------------------------------------
-  Widget _buildBadges(BlogModel blog) {
+class BadgesRow extends StatefulWidget {
+  const BadgesRow({super.key, required this.blog});
+  final BlogModel blog;
+
+  @override
+  State<BadgesRow> createState() => _BadgesRowState();
+}
+
+class _BadgesRowState extends State<BadgesRow> {
+  @override
+  Widget build(BuildContext context) {
+    final cubit = context.watch<BlogsCubit>();
     return Wrap(
       spacing: 8,
       runSpacing: 6,
       children: [
-        // Likes with heart icon (toggle in-memory)
         GestureDetector(
           onTap: () {
-            setState(() => _liked = !_liked);
+            cubit.likeBlog(blog: widget.blog);
           },
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -285,14 +255,10 @@ class _BlogDetailsScreenState extends State<BlogDetailsScreen> {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(
-                  _liked ? Icons.favorite : Icons.favorite_border,
-                  color: _liked ? Colors.red : GPSColors.primary,
-                  size: 16,
-                ),
+                Icon(Icons.favorite, color: Colors.red, size: 16),
                 GPSGaps.w8,
                 Text(
-                  "${blog.likesCount ?? 0}",
+                  "${widget.blog.likesCount ?? 0}",
                   style: const TextStyle(fontWeight: FontWeight.w600, color: GPSColors.text),
                 ),
               ],
@@ -314,7 +280,7 @@ class _BlogDetailsScreenState extends State<BlogDetailsScreen> {
               const Icon(Icons.comment, size: 16, color: GPSColors.primary),
               GPSGaps.w8,
               Text(
-                "${blog.commentsCount ?? (widget.blog.comments?.length ?? 0)}",
+                "${widget.blog.commentsCount ?? (widget.blog.comments?.length ?? 0)}",
                 style: const TextStyle(fontWeight: FontWeight.w600, color: GPSColors.text),
               ),
             ],
@@ -322,7 +288,7 @@ class _BlogDetailsScreenState extends State<BlogDetailsScreen> {
         ),
 
         // Type badge if available
-        if (blog.type != null)
+        if (widget.blog.type != null)
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
             decoration: BoxDecoration(
@@ -333,11 +299,10 @@ class _BlogDetailsScreenState extends State<BlogDetailsScreen> {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Icon(Icons.label, size: 16, color: GPSColors.primary),
-                GPSGaps.w8,
-                Text(
-                  blog.type!,
-                  style: const TextStyle(fontWeight: FontWeight.w600, color: GPSColors.text),
+                Icon(
+                  widget.blog.type == 'image' ? Icons.image : MdiIcons.youtube,
+                  size: 16,
+                  color: GPSColors.primary,
                 ),
               ],
             ),
@@ -345,57 +310,88 @@ class _BlogDetailsScreenState extends State<BlogDetailsScreen> {
       ],
     );
   }
+}
 
-  /// ----------------------------------------------------------
-  /// Add Comment Field (above comments)
-  /// ----------------------------------------------------------
-  Widget _buildAddCommentField() {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border.all(color: GPSColors.cardBorder),
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black12.withOpacity(0.04),
-            blurRadius: 6,
-            offset: const Offset(0, 3),
-          ),
-        ],
-      ),
-      child: Row(
-        children: [
-          Expanded(
-            child: TextField(
-              controller: _commentController,
-              textInputAction: TextInputAction.send,
-              minLines: 1,
-              maxLines: 3,
-              decoration: const InputDecoration(
-                hintText: "Add a comment...",
-                border: InputBorder.none,
-                isDense: true,
-                contentPadding: EdgeInsets.symmetric(vertical: 8),
-              ),
-              onSubmitted: (_) => _onAddComment(),
-            ),
-          ),
-          IconButton(
-            onPressed: _onAddComment,
-            icon: const Icon(Icons.send_rounded, color: GPSColors.primary),
-          ),
-        ],
-      ),
-    ).animate().fadeIn(duration: 300.ms).scale(begin: const Offset(0.98, 0.98));
+class AddCommentWidget extends StatefulWidget {
+  const AddCommentWidget({super.key, required this.blog});
+  final BlogModel blog;
+  @override
+  State<AddCommentWidget> createState() => _AddCommentWidgetState();
+}
+
+class _AddCommentWidgetState extends State<AddCommentWidget> {
+  final _formKey = GlobalKey<FormState>();
+  final TextEditingController _commentController = TextEditingController();
+  @override
+  void dispose() {
+    _commentController.dispose();
+    super.dispose();
   }
 
-  /// ----------------------------------------------------------
-  /// Single Comment Item
-  /// ----------------------------------------------------------
-  Widget _buildCommentItem(CommentModel comment) {
+  @override
+  Widget build(BuildContext context) {
+    return Form(
+      key: _formKey,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        decoration: BoxDecoration(
+          border: Border.all(color: GPSColors.cardBorder),
+          borderRadius: BorderRadius.circular(12),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black12.withOpacity(0.04),
+              blurRadius: 6,
+              offset: const Offset(0, 3),
+            ),
+          ],
+        ),
+        child: Row(
+          children: [
+            Expanded(
+              child: TextFormField(
+                textInputAction: TextInputAction.send,
+                controller: _commentController,
+                minLines: 1,
+                maxLines: 3,
+                validator: (v) => validator(input: v, label: 'comment', isRequired: true),
+                decoration: const InputDecoration(
+                  hintText: "Add a comment...",
+                  border: InputBorder.none,
+                  isDense: true,
+                  contentPadding: EdgeInsets.symmetric(vertical: 8),
+                ),
+
+                // onSubmitted: (_) => _onAddComment(),
+              ),
+            ),
+            IconButton(
+              onPressed: () {
+                if (!_formKey.currentState!.validate()) return;
+                context.read<BlogsCubit>().addComment(
+                  blog: widget.blog,
+                  content: _commentController.text,
+                );
+                setState(() {
+                  _commentController.text = '';
+                });
+                FocusScope.of(context).unfocus();
+              },
+              icon: const Icon(Icons.send_rounded, color: GPSColors.primary),
+            ),
+          ],
+        ),
+      ).animate().fadeIn(duration: 300.ms).scale(begin: const Offset(0.98, 0.98)),
+    );
+  }
+}
+
+class CommentWidget extends StatelessWidget {
+  const CommentWidget({super.key, required this.comment});
+  final CommentModel comment;
+  @override
+  Widget build(BuildContext context) {
     final user = comment.user;
-    final avatarUrl = user?.image?.path ?? "";
+    final avatarUrl = getImageUrl(user?.image?.path);
     final username = user?.userName ?? user?.fullName ?? "Unknown";
 
     return Row(
@@ -453,14 +449,65 @@ class _BlogDetailsScreenState extends State<BlogDetailsScreen> {
               ),
               GPSGaps.h6,
               // Comment content
-              Text(
-                comment.comment ?? "",
-                style: const TextStyle(color: GPSColors.mutedText, fontSize: 14, height: 1.4),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    comment.comment ?? "",
+                    style: const TextStyle(color: GPSColors.mutedText, fontSize: 14, height: 1.4),
+                  ),
+                  if (userInMemory()?.id == comment.userId)
+                    InkWell(
+                      onTap: () async {
+                        final String? newVal = await showFormBottomSheet<String>(
+                          context,
+                          builder:
+                              (ctx, ctl) => ProfileTextForm(
+                                initialValue: comment.comment,
+                                controller: ctl,
+                                label: 'Update Your Comment ',
+                              ),
+                        );
+                        if (newVal == null) return;
+                        context.read<BlogsCubit>().updateComment(comment: comment, content: newVal);
+                      },
+                      child: Container(
+                        padding: EdgeInsets.symmetric(vertical: 5),
+                        child: Text('🖊️ Edit'),
+                      ),
+                    ),
+                ],
               ),
             ],
           ),
         ),
       ],
+    );
+  }
+}
+
+class CommentsList extends StatefulWidget {
+  const CommentsList({super.key, required this.blog});
+  final BlogModel blog;
+  @override
+  State<CommentsList> createState() => _CommentsListState();
+}
+
+class _CommentsListState extends State<CommentsList> {
+  @override
+  Widget build(BuildContext context) {
+    context.watch<BlogsCubit>();
+    return ListView.separated(
+      physics: const NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
+      itemCount: widget.blog.comments?.length ?? 0,
+      separatorBuilder: (_, __) => const SizedBox(height: 12),
+      itemBuilder: (context, idx) {
+        final c = widget.blog.comments![idx];
+        return CommentWidget(
+          comment: c,
+        ).animate().fadeIn(duration: 300.ms).slideX(begin: -0.05 * (idx % 2 == 0 ? 1 : -1));
+      },
     );
   }
 }

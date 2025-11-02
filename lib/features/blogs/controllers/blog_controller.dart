@@ -29,4 +29,61 @@ class BlogController {
       return pr(ApiResponseModel(errorMessage: errorMessage, response: ResponseEnum.failed), t);
     }
   }
+
+  Future<ApiResponseModel<bool>> likeBlog({required int blogId}) async {
+    final t = prt('likeBlog - BlogController');
+    try {
+      final response = await _api.post(EndPoint.blogs, data: {'blog_id': blogId, 'type': 'like'});
+      pr(response, '$t - response');
+      return pr(ApiResponseModel(response: ResponseEnum.success, data: true), t);
+    } catch (e) {
+      String errorMessage = e.toString();
+      if (e is DioException) {
+        errorMessage = jsonEncode(e.response?.data ?? 'Unknown error occurred');
+      }
+      showSnackbar('Error', errorMessage, true);
+      return pr(ApiResponseModel(errorMessage: errorMessage, response: ResponseEnum.failed), t);
+    }
+  }
+
+  Future<ApiResponseModel<bool>> addComment({required int blogId, required String content}) async {
+    final t = prt('addComment - BlogController');
+    try {
+      final response = await _api.post(
+        EndPoint.blogs,
+        data: {'blog_id': blogId, 'type': 'comment', 'comment': content},
+      );
+      pr(response, '$t - response');
+      return pr(ApiResponseModel(response: ResponseEnum.success, data: true), t);
+    } catch (e) {
+      String errorMessage = e.toString();
+      if (e is DioException) {
+        errorMessage = jsonEncode(e.response?.data ?? 'Unknown error occurred');
+      }
+      showSnackbar('Error', errorMessage, true);
+      return pr(ApiResponseModel(errorMessage: errorMessage, response: ResponseEnum.failed), t);
+    }
+  }
+
+  Future<ApiResponseModel<bool>> updateComment({
+    required int commentId,
+    required String content,
+  }) async {
+    final t = prt('addComment - BlogController');
+    try {
+      final response = await _api.put(
+        "${EndPoint.blogs}/$commentId",
+        data: {'type': 'comment', 'comment': content},
+      );
+      pr(response, '$t - response');
+      return pr(ApiResponseModel(response: ResponseEnum.success, data: true), t);
+    } catch (e) {
+      String errorMessage = e.toString();
+      if (e is DioException) {
+        errorMessage = jsonEncode(e.response?.data ?? 'Unknown error occurred');
+      }
+      showSnackbar('Error', errorMessage, true);
+      return pr(ApiResponseModel(errorMessage: errorMessage, response: ResponseEnum.failed), t);
+    }
+  }
 }
