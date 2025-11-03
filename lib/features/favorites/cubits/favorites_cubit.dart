@@ -16,4 +16,12 @@ class FavoritesCubit extends Cubit<ApiResponseModel<List<FavoriteModel>>> {
     pr(response, t);
     emit(response);
   }
+
+  Future<ApiResponseModel<bool>> removeFromFavorites(FavoriteModel fav) async {
+    state.data?.remove(fav);
+    emit(state.copyWith());
+    final ApiResponseModel<bool> response = await controller.removeFromFavorite(id: fav.id);
+    favorites();
+    return response;
+  }
 }

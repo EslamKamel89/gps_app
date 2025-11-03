@@ -56,7 +56,10 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                       itemCount: state.data?.length ?? 0,
                       itemBuilder: (context, i) {
                         final fav = state.data![i];
-                        return FavoriteCard(key: ValueKey('fav_$i'), favorite: fav)
+                        return FavoriteCard(
+                              key: ValueKey('fav_${fav.id}-${fav.favoriteType}'),
+                              favorite: fav,
+                            )
                             .animate(delay: (50 * i).ms)
                             .fadeIn(duration: 300.ms)
                             .move(

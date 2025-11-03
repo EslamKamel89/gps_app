@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gps_app/core/helpers/image_url.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
+import 'package:gps_app/features/favorites/cubits/favorites_cubit.dart';
 import 'package:gps_app/features/favorites/models/favorite_model.dart';
 import 'package:gps_app/features/favorites/presentation/widgets/chevron.dart';
 import 'package:gps_app/features/favorites/presentation/widgets/expanded_details.dart';
 import 'package:gps_app/features/favorites/presentation/widgets/favorite_avatar.dart';
 import 'package:gps_app/features/favorites/presentation/widgets/type_chip.dart';
+import 'package:gps_app/features/user/restaurant_details/presentation/restaurant_detail_provider.dart';
+import 'package:gps_app/features/user/restaurant_details/presentation/widgets/show_action_sheet.dart';
+import 'package:gps_app/features/user/store_details/presentation/store_details_screen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class FavoriteCard extends StatefulWidget {
@@ -145,7 +150,9 @@ class _FavoriteCardState extends State<FavoriteCard> {
                   SizedBox(
                         width: double.infinity,
                         child: ElevatedButton.icon(
-                          onPressed: () {},
+                          onPressed: () {
+                            _navigateToProfileScreen();
+                          },
                           icon: const Icon(Icons.person_outline, size: 18),
                           label: const Text(
                             'Go to Profile',
@@ -174,7 +181,9 @@ class _FavoriteCardState extends State<FavoriteCard> {
                   Align(
                     alignment: Alignment.centerLeft,
                     child: TextButton.icon(
-                          onPressed: () {},
+                          onPressed: () {
+                            _removeFromFavorites();
+                          },
                           icon: Icon(
                             MdiIcons.heartOffOutline,
                             size: 18,
@@ -211,6 +220,48 @@ class _FavoriteCardState extends State<FavoriteCard> {
         ],
       ),
     );
+  }
+
+  void _navigateToProfileScreen() {
+    String? type = widget.favorite.favoriteType;
+    if (type == 'restaurant') {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder:
+              (_) => RestaurantDetailProvider(
+                restaurantId: widget.favorite.favoriteId ?? -1,
+                enableEdit: false,
+                enableCompleteProfile: false,
+              ),
+        ),
+      );
+    } else if (type == 'store' || type == 'farm') {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder:
+              (_) => StoreDetailsScreen(
+                userId: widget.favorite.user?.id,
+                publicPage: true,
+                enableEdit: false,
+                enableCompleteProfile: true,
+              ),
+        ),
+      );
+    }
+  }
+
+  Future _removeFromFavorites() async {
+    final areYouSure = await showActionSheet(
+      context,
+      title: 'Are you sure you want to remove from favorites?',
+      children: [
+        Row(children: [Icon(MdiIcons.check), GPSGaps.w10, Text('Yes')]),
+        Row(children: [Icon(MdiIcons.cancel), GPSGaps.w10, Text('No')]),
+      ],
+    );
+    if (areYouSure != 0) return;
+    final cubit = context.read<FavoritesCubit>();
+    cubit.removeFromFavorites(widget.favorite);
   }
 
   String? _sanitize(String? v) {

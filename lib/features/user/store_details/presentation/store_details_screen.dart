@@ -42,10 +42,14 @@ class StoreDetailsScreen extends StatefulWidget {
     super.key,
     required this.enableEdit,
     required this.enableCompleteProfile,
+    required this.publicPage,
+    this.userId,
   });
 
   final bool enableEdit;
   final bool enableCompleteProfile;
+  final bool publicPage;
+  final int? userId;
   @override
   State<StoreDetailsScreen> createState() => StoreDetailsScreenState();
 }
@@ -68,15 +72,8 @@ class StoreDetailsScreenState extends State<StoreDetailsScreen>
 
     final now = DateTime.now();
     final weekdayKey =
-        <int, String>{
-          1: 'mon',
-          2: 'tue',
-          3: 'wed',
-          4: 'thu',
-          5: 'fri',
-          6: 'sat',
-          7: 'sun',
-        }[now.weekday]!;
+        <int, String>{1: 'mon', 2: 'tue', 3: 'wed', 4: 'thu', 5: 'fri', 6: 'sat', 7: 'sun'}[now
+            .weekday]!;
 
     List<String>? slot;
     switch (weekdayKey) {
@@ -131,7 +128,7 @@ class StoreDetailsScreenState extends State<StoreDetailsScreen>
   late StoreCubit cubit;
   @override
   void initState() {
-    cubit = context.read<StoreCubit>()..user();
+    cubit = context.read<StoreCubit>()..user(publicPage: widget.publicPage, userId: widget.userId);
     super.initState();
   }
 
@@ -158,10 +155,7 @@ class StoreDetailsScreenState extends State<StoreDetailsScreen>
               backgroundColor: GPSColors.background,
               body:
                   state.response == ResponseEnum.loading && state.data == null
-                      ? Padding(
-                        padding: EdgeInsets.all(10),
-                        child: StoreDetailsSkeleton(),
-                      )
+                      ? Padding(padding: EdgeInsets.all(10), child: StoreDetailsSkeleton())
                       : NestedScrollView(
                         headerSliverBuilder:
                             (context, innerScrolled) => [
@@ -170,9 +164,7 @@ class StoreDetailsScreenState extends State<StoreDetailsScreen>
                                 expandedHeight: 260,
                                 pinned: true,
                                 elevation: 0,
-                                leading: CircleBack(
-                                  onTap: () => Navigator.of(context).maybePop(),
-                                ),
+                                leading: CircleBack(onTap: () => Navigator.of(context).maybePop()),
                                 actions: [
                                   // IconButton(
                                   //   tooltip: 'Share',
@@ -214,98 +206,71 @@ class StoreDetailsScreenState extends State<StoreDetailsScreen>
                                 child: Container(
                                   decoration: const BoxDecoration(
                                     color: GPSColors.background,
-                                    borderRadius: BorderRadius.vertical(
-                                      top: Radius.circular(24),
-                                    ),
+                                    borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
                                   ),
                                   child: Padding(
-                                    padding: const EdgeInsets.fromLTRB(
-                                      16,
-                                      18,
-                                      16,
-                                      14,
-                                    ),
+                                    padding: const EdgeInsets.fromLTRB(16, 18, 16, 14),
                                     child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         CustomStack(
                                           enableEdit: widget.enableEdit,
                                           actionWidget: EditButton(
                                             onPressed: () {
                                               setState(() {
-                                                _editNameLocation =
-                                                    !_editNameLocation;
+                                                _editNameLocation = !_editNameLocation;
                                               });
                                             },
                                           ),
                                           child: Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
                                               Expanded(
                                                 child: CustomStack(
                                                   enableEdit:
-                                                      widget.enableEdit &&
-                                                      _editNameLocation,
+                                                      widget.enableEdit && _editNameLocation,
                                                   actionWidget: EditButton(
                                                     onPressed: () async {
-                                                      _updateVendorName(
-                                                        user: user,
-                                                      );
+                                                      _updateVendorName(user: user);
                                                     },
                                                   ),
                                                   child: Text(
                                                     title,
                                                     maxLines: 2,
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .headlineSmall
-                                                        ?.copyWith(
-                                                          color: GPSColors.text,
-                                                          fontWeight:
-                                                              FontWeight.w800,
-                                                        ),
+                                                    overflow: TextOverflow.ellipsis,
+                                                    style: Theme.of(
+                                                      context,
+                                                    ).textTheme.headlineSmall?.copyWith(
+                                                      color: GPSColors.text,
+                                                      fontWeight: FontWeight.w800,
+                                                    ),
                                                   ),
                                                 ),
                                               ),
                                               CustomStack(
-                                                enableEdit:
-                                                    widget.enableEdit &&
-                                                    _editNameLocation,
+                                                enableEdit: widget.enableEdit && _editNameLocation,
                                                 actionWidget: EditButton(
                                                   onPressed: () async {
-                                                    _updateVendorLocation(
-                                                      user: user,
-                                                    );
+                                                    _updateVendorLocation(user: user);
                                                   },
                                                 ),
                                                 child: IconButton(
                                                   tooltip: 'Open Map',
-                                                  icon: Icon(
-                                                    MdiIcons.mapMarker,
-                                                  ),
+                                                  icon: Icon(MdiIcons.mapMarker),
                                                   onPressed: () {
                                                     Navigator.of(context).push(
                                                       MaterialPageRoute(
                                                         builder:
-                                                            (
-                                                              _,
-                                                            ) => BranchMapScreen(
+                                                            (_) => BranchMapScreen(
                                                               latitude:
-                                                                  storeOrFarm
-                                                                      ?.latitude
+                                                                  storeOrFarm?.latitude
                                                                       ?.toString() ??
                                                                   '0',
                                                               longitude:
-                                                                  storeOrFarm
-                                                                      ?.longitude
+                                                                  storeOrFarm?.longitude
                                                                       ?.toString() ??
                                                                   '0',
-                                                              title:
-                                                                  "$title Location",
+                                                              title: "$title Location",
                                                             ),
                                                         fullscreenDialog: true,
                                                       ),
@@ -319,10 +284,7 @@ class StoreDetailsScreenState extends State<StoreDetailsScreen>
                                                     _isFav
                                                         ? 'Remove from favorites'
                                                         : 'Add to favorites',
-                                                onPressed:
-                                                    () => setState(
-                                                      () => _isFav = !_isFav,
-                                                    ),
+                                                onPressed: () => setState(() => _isFav = !_isFav),
                                                 icon: Icon(
                                                   _isFav
                                                       ? Icons.favorite_rounded
@@ -346,33 +308,21 @@ class StoreDetailsScreenState extends State<StoreDetailsScreen>
                                                 BadgeChip(
                                                   icon:
                                                       _isOpenNow(user)
-                                                          ? Icons
-                                                              .schedule_rounded
-                                                          : Icons
-                                                              .schedule_rounded,
-                                                  label:
-                                                      _isOpenNow(user)
-                                                          ? 'Open now'
-                                                          : 'Closed',
+                                                          ? Icons.schedule_rounded
+                                                          : Icons.schedule_rounded,
+                                                  label: _isOpenNow(user) ? 'Open now' : 'Closed',
                                                   iconColor:
                                                       _isOpenNow(user)
                                                           ? Colors.green
                                                           : GPSColors.mutedText,
                                                 ),
-                                                if (user?.userType?.type ==
-                                                    'store')
+                                                if (user?.userType?.type == 'store')
                                                   const BadgeChip(
-                                                    icon:
-                                                        Icons
-                                                            .storefront_rounded,
+                                                    icon: Icons.storefront_rounded,
                                                     label: 'Store',
                                                   ),
-                                                if (user?.userType?.type ==
-                                                    'farm')
-                                                  BadgeChip(
-                                                    icon: MdiIcons.tree,
-                                                    label: 'Store',
-                                                  ),
+                                                if (user?.userType?.type == 'farm')
+                                                  BadgeChip(icon: MdiIcons.tree, label: 'Store'),
                                               ],
                                             )
                                             .animate(delay: 70.ms)
@@ -385,31 +335,22 @@ class StoreDetailsScreenState extends State<StoreDetailsScreen>
                                             enableEdit: widget.enableEdit,
                                             actionWidget: EditButton(
                                               onPressed: () async {
-                                                _updateVendorAddress(
-                                                  user: user,
-                                                );
+                                                _updateVendorAddress(user: user);
                                               },
                                             ),
                                             child: Text(
-                                                  vendor!.address!,
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .bodyMedium
-                                                      ?.copyWith(
-                                                        color:
-                                                            GPSColors.mutedText,
-                                                        height: 1.4,
-                                                      ),
-                                                )
-                                                .animate()
-                                                .fadeIn(duration: 250.ms)
-                                                .slideY(begin: .06),
+                                              vendor!.address!,
+                                              style: Theme.of(
+                                                context,
+                                              ).textTheme.bodyMedium?.copyWith(
+                                                color: GPSColors.mutedText,
+                                                height: 1.4,
+                                              ),
+                                            ).animate().fadeIn(duration: 250.ms).slideY(begin: .06),
                                           ),
-                                        if (user?.state != null &&
-                                            user?.district != null)
+                                        if (user?.state != null && user?.district != null)
                                           GPSGaps.h16,
-                                        if (user?.state != null &&
-                                            user?.district != null)
+                                        if (user?.state != null && user?.district != null)
                                           CustomStack(
                                             enableEdit: widget.enableEdit,
                                             actionWidget: EditButton(
@@ -423,29 +364,19 @@ class StoreDetailsScreenState extends State<StoreDetailsScreen>
                                             ),
                                           ),
                                         GPSGaps.h16,
-                                        ContactCard(
-                                          user: user,
-                                          enableEdit: widget.enableEdit,
-                                        ),
-                                        if (vendor?.operatingHours != null)
-                                          GPSGaps.h16,
+                                        ContactCard(user: user, enableEdit: widget.enableEdit),
+                                        if (vendor?.operatingHours != null) GPSGaps.h16,
                                         if (vendor?.operatingHours != null)
                                           CustomStack(
                                             enableEdit: widget.enableEdit,
                                             actionWidget: EditButton(
                                               onPressed: () async {
-                                                _updateVendorOperatingHours(
-                                                  user,
-                                                );
+                                                _updateVendorOperatingHours(user);
                                               },
                                             ),
                                             child: TodayHoursRow(
-                                                  operating:
-                                                      vendor!.operatingHours!,
-                                                )
-                                                .animate()
-                                                .fadeIn(duration: 240.ms)
-                                                .slideY(begin: .06),
+                                              operating: vendor!.operatingHours!,
+                                            ).animate().fadeIn(duration: 240.ms).slideY(begin: .06),
                                           ),
                                         // if (_vendor?.operatingHours != null) GPSGaps.h16,
                                         GPSGaps.h10,
@@ -458,9 +389,7 @@ class StoreDetailsScreenState extends State<StoreDetailsScreen>
                                                 label: 'Add Category',
                                                 onPressed: () {
                                                   Future.delayed(100.ms, () {
-                                                    Navigator.of(
-                                                      context,
-                                                    ).pushNamed(
+                                                    Navigator.of(context).pushNamed(
                                                       AppRoutesNames
                                                           .storeFarmOnboardingProductsScreen,
                                                     );
@@ -486,25 +415,17 @@ class StoreDetailsScreenState extends State<StoreDetailsScreen>
                                         indicatorWeight: 3,
                                         indicatorColor: GPSColors.primary,
                                         labelColor: GPSColors.text,
-                                        unselectedLabelColor:
-                                            GPSColors.mutedText,
+                                        unselectedLabelColor: GPSColors.mutedText,
                                       )
                                       : PreferredSize(
-                                        preferredSize: const Size.fromHeight(
-                                          kTextTabBarHeight,
-                                        ),
+                                        preferredSize: const Size.fromHeight(kTextTabBarHeight),
                                         child: Material(
-                                          color:
-                                              Theme.of(
-                                                context,
-                                              ).scaffoldBackgroundColor,
+                                          color: Theme.of(context).scaffoldBackgroundColor,
                                           child: CustomStack(
                                             enableEdit: widget.enableEdit,
                                             actionWidget: EditButton(
                                               onPressed: () async {
-                                                _updateOrDeleteSection(
-                                                  user: user,
-                                                );
+                                                _updateOrDeleteSection(user: user);
                                               },
                                             ),
                                             child: TabBar(
@@ -513,39 +434,28 @@ class StoreDetailsScreenState extends State<StoreDetailsScreen>
                                               indicatorColor: Colors.green,
                                               labelColor: Colors.black,
                                               unselectedLabelColor: Colors.grey,
-                                              labelStyle: Theme.of(
-                                                context,
-                                              ).textTheme.titleSmall?.copyWith(
-                                                fontWeight: FontWeight.w800,
-                                              ),
+                                              labelStyle: Theme.of(context).textTheme.titleSmall
+                                                  ?.copyWith(fontWeight: FontWeight.w800),
                                               tabs: [
                                                 for (final t in tabs)
                                                   Tab(
                                                     child: Padding(
-                                                      padding:
-                                                          const EdgeInsets.symmetric(
-                                                            horizontal: 2.0,
-                                                          ),
+                                                      padding: const EdgeInsets.symmetric(
+                                                        horizontal: 2.0,
+                                                      ),
                                                       child: Text(
                                                         t,
-                                                        style: const TextStyle(
-                                                          fontSize: 16,
-                                                        ),
+                                                        style: const TextStyle(fontSize: 16),
                                                       ),
                                                     ),
                                                   ),
                                                 if (widget.enableEdit)
                                                   Tab(
                                                     child: Padding(
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                            1.0,
-                                                          ),
+                                                      padding: const EdgeInsets.all(1.0),
                                                       child: Text(
                                                         'Add Category',
-                                                        style: const TextStyle(
-                                                          fontSize: 16,
-                                                        ),
+                                                        style: const TextStyle(fontSize: 16),
                                                       ),
                                                     ),
                                                   ),
@@ -629,11 +539,7 @@ class StoreDetailsScreenState extends State<StoreDetailsScreen>
     final storage = serviceLocator<LocalStorage>();
     final LatLng? newVal = await showFormBottomSheet<LatLng>(
       context,
-      builder:
-          (ctx, ctl) => ProfileLocationForm(
-            controller: ctl,
-            label: 'Update your location',
-          ),
+      builder: (ctx, ctl) => ProfileLocationForm(controller: ctl, label: 'Update your location'),
     );
     if (newVal == null) return;
     final type = user?.userType?.type;
@@ -657,14 +563,11 @@ class StoreDetailsScreenState extends State<StoreDetailsScreen>
 
   Future _updateUserStateDistrict(UserModel? user) async {
     final storage = serviceLocator<LocalStorage>();
-    final SelectedStateAndDistrict? newVal =
-        await showFormBottomSheet<SelectedStateAndDistrict>(
-          context,
-          builder: (ctx, ctl) => ProfileStateSelectionForm(controller: ctl),
-        );
-    if (newVal == null ||
-        newVal.selectedState == null ||
-        newVal.selectedDistrict == null) {
+    final SelectedStateAndDistrict? newVal = await showFormBottomSheet<SelectedStateAndDistrict>(
+      context,
+      builder: (ctx, ctl) => ProfileStateSelectionForm(controller: ctl),
+    );
+    if (newVal == null || newVal.selectedState == null || newVal.selectedDistrict == null) {
       return;
     }
     user?.state = newVal.selectedState;
@@ -672,10 +575,7 @@ class StoreDetailsScreenState extends State<StoreDetailsScreen>
     cubit.update(cubit.state.data!);
     final res = await UpdateController.update(
       path: 'user/${user?.id}',
-      data: {
-        'state_id': newVal.selectedState?.id,
-        'district_id': newVal.selectedDistrict?.id,
-      },
+      data: {'state_id': newVal.selectedState?.id, 'district_id': newVal.selectedDistrict?.id},
     );
     if (res.response == ResponseEnum.success) {
       storage.cacheUser(cubit.state.data);
@@ -690,9 +590,7 @@ class StoreDetailsScreenState extends State<StoreDetailsScreen>
       title: 'Choose which category you want',
       children:
           sections?.map((m) {
-            return Row(
-              children: [Icon(MdiIcons.pen), GPSGaps.w10, Text(m.name ?? '')],
-            );
+            return Row(children: [Icon(MdiIcons.pen), GPSGaps.w10, Text(m.name ?? '')]);
           }).toList() ??
           [],
     );
@@ -721,19 +619,14 @@ class StoreDetailsScreenState extends State<StoreDetailsScreen>
       if (areYouSure != 0) return;
       sections?.remove(section);
       cubit.update(cubit.state.data!);
-      final res = await serviceLocator<StoreController>().deleteSection(
-        section: section!,
-      );
+      final res = await serviceLocator<StoreController>().deleteSection(section: section!);
       if (res.response == ResponseEnum.success) {
         storage.cacheUser(cubit.state.data);
       }
     }
   }
 
-  Future _updateSection(
-    CatalogSectionModel? section,
-    LocalStorage storage,
-  ) async {
+  Future _updateSection(CatalogSectionModel? section, LocalStorage storage) async {
     final String? newVal = await showFormBottomSheet<String>(
       context,
       builder:
@@ -759,9 +652,7 @@ class StoreDetailsScreenState extends State<StoreDetailsScreen>
     final storage = serviceLocator<LocalStorage>();
     final UploadedImage? newVal = await showFormBottomSheet<UploadedImage>(
       context,
-      builder:
-          (ctx, ctl) =>
-              ProfileImageForm(controller: ctl, label: 'Update Your Image'),
+      builder: (ctx, ctl) => ProfileImageForm(controller: ctl, label: 'Update Your Image'),
     );
     if (newVal == null) return;
     user.image?.path = newVal.path;
@@ -776,11 +667,10 @@ class StoreDetailsScreenState extends State<StoreDetailsScreen>
   }
 
   Future _updateVendorOperatingHours(UserModel? user) async {
-    final OperatingTimeModel? newVal =
-        await showFormBottomSheet<OperatingTimeModel>(
-          context,
-          builder: (ctx, ctl) => ProfileOperatingHoursForm(controller: ctl),
-        );
+    final OperatingTimeModel? newVal = await showFormBottomSheet<OperatingTimeModel>(
+      context,
+      builder: (ctx, ctl) => ProfileOperatingHoursForm(controller: ctl),
+    );
     if (newVal == null) {
       return;
     }

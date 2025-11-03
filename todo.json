@@ -118,15 +118,15 @@
     "work on like action",
     "work on comment action",
     "work on edit commit action",
+    "handle add to favorites screen",
+    "don't show the favorite button if the user in memory is the same as the profile page",
+    "implement remove from favorites",
     "------------------------------------------------"
   ],
   "todos": [
     "handle the verified state in the categories in the restaurant details",
     "holidays are not handled in the ui of the profile page",
     "+++++++++++++++++++++++++++++++++++++++++++++++++",
-    "handle add to favorites screen",
-    "don't show the favorite button if the user in memory is the same as the profile page",
-    "implement remove from favorites",
     "------------------------------------------------"
   ]
 }

@@ -9,10 +9,15 @@ import 'package:gps_app/features/auth/models/user_model.dart';
 class StoreCubit extends Cubit<ApiResponseModel<UserModel>> {
   StoreCubit() : super(ApiResponseModel());
   final AuthController controller = serviceLocator<AuthController>();
-  Future user() async {
+  Future user({bool? publicPage, int? userId}) async {
     final t = prt('user - StoreCubit');
     emit(state.copyWith(errorMessage: null, response: ResponseEnum.loading));
-    final ApiResponseModel<UserModel> response = await controller.userSync();
+    ApiResponseModel<UserModel> response;
+    if (publicPage != true) {
+      response = await controller.userSync();
+    } else {
+      response = await controller.getUserById(userId: userId);
+    }
     pr(response, t);
     emit(response);
   }
