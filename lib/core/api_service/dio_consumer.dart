@@ -141,10 +141,10 @@ class DioConsumer extends ApiConsumer {
     if (token == null) {
       dio.options.headers.remove('Authorization');
     } else {
-      dio.options.headers.addAll({"Authorization": 'Bearer $token'});
-      // dio.options.headers.addAll({
-      //   "Authorization": 'Bearer f01BpAsx798u672ASmJi242agoukbB1ea55OvNpR4ae92a14',
-      // });
+      // dio.options.headers.addAll({"Authorization": 'Bearer $token'});
+      dio.options.headers.addAll({
+        "Authorization": 'Bearer f01BpAsx798u672ASmJi242agoukbB1ea55OvNpR4ae92a14',
+      });
     }
   }
 }

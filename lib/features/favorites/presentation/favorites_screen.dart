@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gps_app/core/enums/response_type.dart';
 import 'package:gps_app/core/models/api_response_model.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/widgets/gps_bottom_nav.dart';
@@ -8,6 +9,7 @@ import 'package:gps_app/features/favorites/cubits/favorites_cubit.dart';
 import 'package:gps_app/features/favorites/models/favorite_model.dart';
 import 'package:gps_app/features/favorites/presentation/widgets/empty_state.dart';
 import 'package:gps_app/features/favorites/presentation/widgets/favorite_card.dart';
+import 'package:gps_app/features/favorites/presentation/widgets/loading_favorities_widget.dart';
 
 class FavoritesScreen extends StatefulWidget {
   const FavoritesScreen({super.key});
@@ -65,6 +67,8 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                             );
                       },
                     )
+                    : state.response == ResponseEnum.loading
+                    ? LoadingFavoritesPlaceholder()
                     : EmptyState()
                         .animate()
                         .fade(duration: 300.ms)

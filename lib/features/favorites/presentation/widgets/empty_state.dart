@@ -3,6 +3,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:gps_app/core/extensions/context-extensions.dart';
 import 'package:gps_app/features/auth/models/image_model.dart';
 import 'package:gps_app/features/auth/models/user_model.dart';
 import 'package:gps_app/features/auth/models/vendor_model/vendor_model.dart';
@@ -22,21 +23,26 @@ class EmptyState extends StatelessWidget {
       style: TextStyle(color: GPSColors.mutedText, fontSize: 15, fontWeight: FontWeight.w600),
     );
 
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        GPSGaps.h24,
-        icon
-            .animate(onPlay: (c) => c.repeat(reverse: true))
-            .scale(
-              begin: const Offset(0.96, 0.96),
-              end: const Offset(1.04, 1.04),
-              duration: 900.ms,
-              curve: Curves.easeInOut,
-            ),
-        GPSGaps.h12,
-        text.animate().fadeIn(duration: 350.ms),
-      ],
+    return Container(
+      alignment: Alignment.center,
+      height: context.height * 0.7,
+      width: context.width,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          GPSGaps.h24,
+          icon
+              .animate(onPlay: (c) => c.repeat(reverse: true))
+              .scale(
+                begin: const Offset(0.96, 0.96),
+                end: const Offset(1.04, 1.04),
+                duration: 900.ms,
+                curve: Curves.easeInOut,
+              ),
+          GPSGaps.h12,
+          text.animate().fadeIn(duration: 350.ms),
+        ],
+      ),
     );
   }
 }
