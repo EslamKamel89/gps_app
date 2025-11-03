@@ -7,7 +7,6 @@ import 'package:gps_app/features/favorites/models/favorite_model.dart';
 import 'package:gps_app/features/favorites/presentation/widgets/chevron.dart';
 import 'package:gps_app/features/favorites/presentation/widgets/expanded_details.dart';
 import 'package:gps_app/features/favorites/presentation/widgets/favorite_avatar.dart';
-import 'package:gps_app/features/favorites/presentation/widgets/title_and_subtitle.dart';
 import 'package:gps_app/features/favorites/presentation/widgets/type_chip.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
@@ -27,13 +26,20 @@ class _FavoriteCardState extends State<FavoriteCard> {
   Widget build(BuildContext context) {
     final user = widget.favorite.user;
     final vendor = user?.vendor;
-    var imageUrl = (user?.images?.isNotEmpty ?? false) ? user!.images!.first.path : null;
+
+    String? imageUrl = (user?.images?.isNotEmpty ?? false) ? user!.images!.first.path : null;
     imageUrl = getImageUrl(imageUrl);
 
-    final type = (widget.favorite.favoriteType ?? '').toLowerCase().trim();
-    final typeIcon = _typeIcon(type);
-    final typeLabel = _typeLabel(type);
-    final avatar = FavoriteAvatar(imageUrl: imageUrl, initials: _initials(vendor?.vendorName));
+    final String? title = _sanitize(vendor?.vendorName);
+    final String? subtitle = _sanitize(vendor?.address);
+
+    final String type = (widget.favorite.favoriteType ?? '').toLowerCase().trim();
+    final bool hasType = type == 'farm' || type == 'store' || type == 'restaurant';
+
+    final IconData? typeIcon = _typeIconNullable(type);
+    final String? typeLabel = _typeLabelNullable(type);
+
+    final avatar = FavoriteAvatar(imageUrl: imageUrl, initials: _initials(title));
 
     return AnimatedContainer(
       duration: 250.ms,
@@ -54,7 +60,6 @@ class _FavoriteCardState extends State<FavoriteCard> {
       ),
       child: Column(
         children: [
-          // Header Row — ONLY this toggles expand/collapse
           GestureDetector(
             behavior: HitTestBehavior.opaque,
             onTap: () => setState(() => _expanded = !_expanded),
@@ -63,21 +68,54 @@ class _FavoriteCardState extends State<FavoriteCard> {
               children: [
                 avatar,
                 GPSGaps.w12,
+
                 Expanded(
-                  child: TitleAndSubtitle(
-                    title: vendor?.vendorName ?? 'Unknown',
-                    subtitle: vendor?.address ?? 'No address available',
-                  ),
+                  child:
+                      (title == null && subtitle == null)
+                          ? const SizedBox.shrink()
+                          : Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              if (title != null)
+                                Text(
+                                  title,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    color: GPSColors.text,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                              if (subtitle != null) ...[
+                                GPSGaps.h4,
+                                Text(
+                                  subtitle,
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    color: GPSColors.mutedText,
+                                    fontSize: 13,
+                                    height: 1.2,
+                                  ),
+                                ),
+                              ],
+                            ],
+                          ),
                 ),
+
                 GPSGaps.w8,
-                TypeChip(icon: typeIcon, label: typeLabel),
-                GPSGaps.w8,
+
+                if (hasType && typeIcon != null && typeLabel != null) ...[
+                  TypeChip(icon: typeIcon, label: typeLabel),
+                  GPSGaps.w8,
+                ],
+
                 Chevron(expanded: _expanded),
               ],
             ),
           ),
 
-          // Expanded Content
           AnimatedCrossFade(
             crossFadeState: _expanded ? CrossFadeState.showSecond : CrossFadeState.showFirst,
             duration: 250.ms,
@@ -87,10 +125,10 @@ class _FavoriteCardState extends State<FavoriteCard> {
               child: Column(
                 children: [
                   ExpandedDetails(
-                        ownerName: user?.fullName,
-                        mobile: user?.mobile,
-                        email: user?.email,
-                        address: vendor?.address,
+                        ownerName: _sanitize(user?.fullName),
+                        mobile: _sanitize(user?.mobile),
+                        email: _sanitize(user?.email),
+                        address: _sanitize(vendor?.address),
                         seatingCapacity: vendor?.seatingCapacity,
                       )
                       .animate()
@@ -104,7 +142,6 @@ class _FavoriteCardState extends State<FavoriteCard> {
 
                   GPSGaps.h16,
 
-                  // CTA BUTTON — primary colored, collapses the card when tapped
                   SizedBox(
                         width: double.infinity,
                         child: ElevatedButton.icon(
@@ -131,6 +168,42 @@ class _FavoriteCardState extends State<FavoriteCard> {
                         duration: 300.ms,
                         curve: Curves.easeOutCubic,
                       ),
+
+                  GPSGaps.h8,
+
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: TextButton.icon(
+                          onPressed: () {},
+                          icon: Icon(
+                            MdiIcons.heartOffOutline,
+                            size: 18,
+                            color: GPSColors.mutedText,
+                          ),
+                          label: Text(
+                            'Remove from favorites',
+                            style: TextStyle(
+                              color: GPSColors.mutedText,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 13,
+                            ),
+                          ),
+                          style: TextButton.styleFrom(
+                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+                            foregroundColor: GPSColors.mutedText,
+                            overlayColor: GPSColors.cardSelected.withOpacity(0.25),
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                          ),
+                        )
+                        .animate()
+                        .fadeIn(duration: 250.ms)
+                        .move(
+                          begin: const Offset(0, 6),
+                          end: Offset.zero,
+                          duration: 250.ms,
+                          curve: Curves.easeOut,
+                        ),
+                  ),
                 ],
               ),
             ),
@@ -140,20 +213,25 @@ class _FavoriteCardState extends State<FavoriteCard> {
     );
   }
 
-  IconData _typeIcon(String type) {
+  String? _sanitize(String? v) {
+    final s = v?.trim();
+    return (s == null || s.isEmpty) ? null : s;
+  }
+
+  IconData? _typeIconNullable(String type) {
     switch (type) {
       case 'farm':
-        return MdiIcons.barn; // or barn variant
+        return MdiIcons.barn;
       case 'store':
         return MdiIcons.storefrontOutline;
       case 'restaurant':
         return MdiIcons.silverwareForkKnife;
       default:
-        return MdiIcons.tagOutline;
+        return null;
     }
   }
 
-  String _typeLabel(String type) {
+  String? _typeLabelNullable(String type) {
     switch (type) {
       case 'farm':
         return 'Farm';
@@ -162,15 +240,15 @@ class _FavoriteCardState extends State<FavoriteCard> {
       case 'restaurant':
         return 'Restaurant';
       default:
-        return 'Other';
+        return null;
     }
   }
 
   String _initials(String? name) {
-    final n = (name ?? '').trim();
-    if (n.isEmpty) return 'V';
+    final n = _sanitize(name);
+    if (n == null) return '';
     final parts = n.split(RegExp(r'\s+')).where((p) => p.isNotEmpty).toList();
-    if (parts.isEmpty) return n.characters.first.toUpperCase();
+    if (parts.isEmpty) return '';
     if (parts.length == 1) return parts.first.characters.first.toUpperCase();
     return (parts.first.characters.first + parts.last.characters.first).toUpperCase();
   }

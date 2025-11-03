@@ -13,6 +13,7 @@ import 'package:gps_app/core/widgets/uploads/uploaded_image.dart';
 import 'package:gps_app/features/auth/models/image_model.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
+import 'package:gps_app/features/favorites/presentation/widgets/fav_button.dart';
 import 'package:gps_app/features/user/restaurant_details/controllers/restaurants_controller.dart';
 import 'package:gps_app/features/user/restaurant_details/cubits/restaurant_cubit.dart';
 import 'package:gps_app/features/user/restaurant_details/models/restaurant_detailed_model/export.dart';
@@ -32,7 +33,6 @@ import 'widgets/circle_back.dart';
 import 'widgets/helpers.dart';
 import 'widgets/loading_error_scaffolds.dart';
 import 'widgets/meals_list_view.dart';
-import 'widgets/reviews.dart';
 import 'widgets/tab_bar_delegate.dart';
 
 class RestaurantDetailsScreen extends StatefulWidget {
@@ -47,30 +47,11 @@ class RestaurantDetailsScreen extends StatefulWidget {
   final bool enableCompleteProfile;
 
   @override
-  State<RestaurantDetailsScreen> createState() =>
-      _RestaurantDetailsScreenState();
+  State<RestaurantDetailsScreen> createState() => _RestaurantDetailsScreenState();
 }
 
 class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen>
     with SingleTickerProviderStateMixin {
-  bool _isFav = false;
-  late final List<Review> _reviews = const [
-    Review(
-      reviewerName: 'Amina H.',
-      comment: 'Amazing grass-fed options. The short ribs were melt-in-mouth!',
-      rating: 4.5,
-    ),
-    Review(
-      reviewerName: 'Omar K.',
-      comment: 'Great ingredients. Loved the raw cheese board.',
-      rating: 4.0,
-    ),
-    Review(
-      reviewerName: 'Layla S.',
-      comment: 'Kimchi chicken was perfectly spicy. Friendly staff.',
-      rating: 5.0,
-    ),
-  ];
   late final RestaurantCubit cubit;
   @override
   void initState() {
@@ -81,22 +62,15 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen>
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<
-      RestaurantCubit,
-      ApiResponseModel<RestaurantDetailedModel>
-    >(
+    return BlocConsumer<RestaurantCubit, ApiResponseModel<RestaurantDetailedModel>>(
       listener: (context, state) {},
       builder: (context, state) {
-        if ((state.response == ResponseEnum.initial ||
-                state.response == ResponseEnum.loading) &&
+        if ((state.response == ResponseEnum.initial || state.response == ResponseEnum.loading) &&
             state.data == null) {
           return const LoadingScaffold();
         } else if (state.response case ResponseEnum.failed) {
-          return ErrorScaffold(
-            onRetry: () => cubit.restaurant(restaurantId: widget.restaurantId),
-          );
-        } else if (state.response == ResponseEnum.success ||
-            state.data != null) {
+          return ErrorScaffold(onRetry: () => cubit.restaurant(restaurantId: widget.restaurantId));
+        } else if (state.response == ResponseEnum.success || state.data != null) {
           final menus = state.data?.menus ?? const <Menu>[];
           final tabs = menus.map((m) => m.name ?? 'Menu').toList();
 
@@ -124,9 +98,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen>
                           expandedHeight: 260,
                           pinned: true,
                           elevation: 0,
-                          leading: CircleBack(
-                            onTap: () => Navigator.of(context).maybePop(),
-                          ),
+                          leading: CircleBack(onTap: () => Navigator.of(context).maybePop()),
                           actions: [
                             // IconButton(
                             //   tooltip: 'Share',
@@ -141,19 +113,14 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen>
                                 CustomStack(
                                   enableEdit: widget.enableEdit,
                                   actionWidget: EditButton(
-                                    onPressed:
-                                        () => _updateUserImage(
-                                          restaurant: state.data,
-                                        ),
+                                    onPressed: () => _updateUserImage(restaurant: state.data),
                                   ),
                                   child: CachedNetworkImage(
                                         width: double.infinity,
                                         imageUrl: coverUrl,
                                         fit: BoxFit.cover,
-                                        placeholder:
-                                            (_, __) => const CoverPlaceholder(),
-                                        errorWidget:
-                                            (_, __, ___) => const CoverError(),
+                                        placeholder: (_, __) => const CoverPlaceholder(),
+                                        errorWidget: (_, __, ___) => const CoverError(),
                                       )
                                       .animate()
                                       .fadeIn(duration: 400.ms)
@@ -173,17 +140,10 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen>
                           child: Container(
                             decoration: const BoxDecoration(
                               color: GPSColors.background,
-                              borderRadius: BorderRadius.vertical(
-                                top: Radius.circular(24),
-                              ),
+                              borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
                             ),
                             child: Padding(
-                              padding: const EdgeInsets.fromLTRB(
-                                16,
-                                18,
-                                16,
-                                14,
-                              ),
+                              padding: const EdgeInsets.fromLTRB(16, 18, 16, 14),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -195,55 +155,35 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen>
                                   //   child: Text('test'),
                                   // ),
                                   Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Expanded(
-                                            child: CustomStack(
-                                              enableEdit: widget.enableEdit,
-                                              actionWidget: EditButton(
-                                                onPressed:
-                                                    () => _updateRestaurantName(
-                                                      restaurant: state.data,
-                                                    ),
-                                              ),
-                                              child: Text(
-                                                restaurantTitle,
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .headlineSmall
-                                                    ?.copyWith(
-                                                      color: GPSColors.text,
-                                                      fontWeight:
-                                                          FontWeight.w800,
-                                                    ),
-                                              ),
-                                            ),
-                                          ),
-                                          IconButton(
-                                            tooltip:
-                                                _isFav
-                                                    ? 'Remove from favorites'
-                                                    : 'Add to favorites',
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Expanded(
+                                        child: CustomStack(
+                                          enableEdit: widget.enableEdit,
+                                          actionWidget: EditButton(
                                             onPressed:
-                                                () => setState(
-                                                  () => _isFav = !_isFav,
-                                                ),
-                                            icon: Icon(
-                                              _isFav
-                                                  ? Icons.favorite_rounded
-                                                  : Icons.favorite_outline,
-                                              color:
-                                                  _isFav
-                                                      ? Colors.redAccent
-                                                      : GPSColors.mutedText,
+                                                () => _updateRestaurantName(restaurant: state.data),
+                                          ),
+                                          child: Text(
+                                            restaurantTitle,
+                                            style: Theme.of(
+                                              context,
+                                            ).textTheme.headlineSmall?.copyWith(
+                                              color: GPSColors.text,
+                                              fontWeight: FontWeight.w800,
                                             ),
                                           ),
-                                        ],
-                                      )
-                                      .animate()
-                                      .fadeIn(duration: 280.ms)
-                                      .slideY(begin: .1),
+                                        ),
+                                      ),
+                                      FavoriteButton(
+                                        showFav:
+                                            state.data?.id?.toString() !=
+                                            userInMemory()?.restaurant?.id?.toString(),
+                                        id: state.data?.id,
+                                        type: 'restaurant',
+                                      ),
+                                    ],
+                                  ).animate().fadeIn(duration: 280.ms).slideY(begin: .1),
 
                                   // if (state.data?.mainCategories?.isNotEmpty == true)
                                   Column(
@@ -253,20 +193,12 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen>
                                             spacing: 10,
                                             runSpacing: 10,
                                             children: [
-                                              ...(state.data?.mainCategories ??
-                                                      [])
-                                                  .map(
-                                                    (c) => BadgeChip(
-                                                      label: c.name ?? '',
-                                                    ),
-                                                  ),
-                                              ...(state.data?.subCategories ??
-                                                      [])
-                                                  .map(
-                                                    (c) => BadgeChip(
-                                                      label: c.name ?? '',
-                                                    ),
-                                                  ),
+                                              ...(state.data?.mainCategories ?? []).map(
+                                                (c) => BadgeChip(label: c.name ?? ''),
+                                              ),
+                                              ...(state.data?.subCategories ?? []).map(
+                                                (c) => BadgeChip(label: c.name ?? ''),
+                                              ),
                                             ],
                                           )
                                           .animate(delay: 70.ms)
@@ -305,13 +237,8 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen>
                                                 MaterialPageRoute(
                                                   builder:
                                                       (_) => BranchList(
-                                                        branches:
-                                                            state
-                                                                .data
-                                                                ?.branches ??
-                                                            [],
-                                                        enableEdit:
-                                                            widget.enableEdit,
+                                                        branches: state.data?.branches ?? [],
+                                                        enableEdit: widget.enableEdit,
                                                       ),
                                                 ),
                                               );
@@ -324,8 +251,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen>
                                       ],
                                     ),
 
-                                  if (state.data?.branches?.isNotEmpty ==
-                                          false &&
+                                  if (state.data?.branches?.isNotEmpty == false &&
                                       widget.enableCompleteProfile)
                                     Column(
                                       children: [
@@ -335,8 +261,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen>
                                           onPressed: () {
                                             Future.delayed(100.ms, () {
                                               Navigator.of(context).pushNamed(
-                                                AppRoutesNames
-                                                    .restaurantOnboardingBranchesScreen,
+                                                AppRoutesNames.restaurantOnboardingBranchesScreen,
                                               );
                                             });
                                           },
@@ -346,8 +271,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen>
                                       ],
                                     ),
 
-                                  if (state.data?.certifications?.isNotEmpty ==
-                                      true)
+                                  if (state.data?.certifications?.isNotEmpty == true)
                                     Column(
                                       children: [
                                         GPSGaps.h8,
@@ -358,12 +282,9 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen>
                                               Navigator.of(context).push(
                                                 MaterialPageRoute(
                                                   builder:
-                                                      (_) =>
-                                                          CertificationsScreen(
-                                                            enableEdit:
-                                                                widget
-                                                                    .enableEdit,
-                                                          ),
+                                                      (_) => CertificationsScreen(
+                                                        enableEdit: widget.enableEdit,
+                                                      ),
                                                 ),
                                               );
                                             });
@@ -374,8 +295,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen>
                                       ],
                                     ),
 
-                                  if (state.data?.certifications?.isNotEmpty ==
-                                          false &&
+                                  if (state.data?.certifications?.isNotEmpty == false &&
                                       widget.enableCompleteProfile)
                                     Column(
                                       children: [
@@ -391,8 +311,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen>
                                             });
                                           },
                                           icon: MdiIcons.certificate,
-                                          tooltip:
-                                              'Go to certification details',
+                                          tooltip: 'Go to certification details',
                                           expand: true,
                                         ),
                                       ],
@@ -407,8 +326,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen>
                                           onPressed: () {
                                             Future.delayed(100.ms, () {
                                               Navigator.of(context).pushNamed(
-                                                AppRoutesNames
-                                                    .restaurantOnboardingMenuScreen,
+                                                AppRoutesNames.restaurantOnboardingMenuScreen,
                                               );
                                             });
                                           },
@@ -431,67 +349,46 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen>
                             delegate: TabBarDelegate(
                               // forcedHeight: 80,
                               PreferredSize(
-                                preferredSize: const Size.fromHeight(
-                                  kTextTabBarHeight,
-                                ),
+                                preferredSize: const Size.fromHeight(kTextTabBarHeight),
                                 // preferredSize: const Size.fromHeight(70),
                                 child: Material(
-                                  color:
-                                      Theme.of(context).scaffoldBackgroundColor,
+                                  color: Theme.of(context).scaffoldBackgroundColor,
                                   child: CustomStack(
                                     enableEdit: widget.enableEdit,
                                     actionWidget: EditButton(
                                       onPressed: () {
-                                        _updateOrDeleteMenusNames(
-                                          restaurant: state.data,
-                                        );
+                                        _updateOrDeleteMenusNames(restaurant: state.data);
                                       },
                                     ),
                                     child: TabBar(
-                                          isScrollable: true,
-                                          indicatorWeight: 3,
-                                          indicatorColor: Colors.green,
-                                          labelColor: Colors.black,
-                                          unselectedLabelColor: Colors.grey,
-                                          labelStyle: Theme.of(
-                                            context,
-                                          ).textTheme.titleSmall?.copyWith(
-                                            fontWeight: FontWeight.w800,
+                                      isScrollable: true,
+                                      indicatorWeight: 3,
+                                      indicatorColor: Colors.green,
+                                      labelColor: Colors.black,
+                                      unselectedLabelColor: Colors.grey,
+                                      labelStyle: Theme.of(
+                                        context,
+                                      ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w800),
+                                      tabs: [
+                                        for (final t in tabs)
+                                          Tab(
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(1.0),
+                                              child: Text(t, style: const TextStyle(fontSize: 16)),
+                                            ),
                                           ),
-                                          tabs: [
-                                            for (final t in tabs)
-                                              Tab(
-                                                child: Padding(
-                                                  padding: const EdgeInsets.all(
-                                                    1.0,
-                                                  ),
-                                                  child: Text(
-                                                    t,
-                                                    style: const TextStyle(
-                                                      fontSize: 16,
-                                                    ),
-                                                  ),
-                                                ),
+                                        if (widget.enableEdit)
+                                          Tab(
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(1.0),
+                                              child: Text(
+                                                'Add Menu',
+                                                style: const TextStyle(fontSize: 16),
                                               ),
-                                            if (widget.enableEdit)
-                                              Tab(
-                                                child: Padding(
-                                                  padding: const EdgeInsets.all(
-                                                    1.0,
-                                                  ),
-                                                  child: Text(
-                                                    'Add Menu',
-                                                    style: const TextStyle(
-                                                      fontSize: 16,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                          ],
-                                        )
-                                        .animate()
-                                        .fadeIn(duration: 220.ms)
-                                        .slideY(begin: .08),
+                                            ),
+                                          ),
+                                      ],
+                                    ).animate().fadeIn(duration: 220.ms).slideY(begin: .08),
                                   ),
                                 ),
                               ),
@@ -508,8 +405,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen>
                                   menu: menus[ti],
                                   enableEdit: widget.enableEdit,
                                 ),
-                              if (widget.enableEdit)
-                                AddMenuCard(restaurant: state.data),
+                              if (widget.enableEdit) AddMenuCard(restaurant: state.data),
                             ],
                           )
                           : const SizedBox(),
@@ -524,9 +420,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen>
     );
   }
 
-  Future _updateRestaurantName({
-    required RestaurantDetailedModel? restaurant,
-  }) async {
+  Future _updateRestaurantName({required RestaurantDetailedModel? restaurant}) async {
     final storage = serviceLocator<LocalStorage>();
     final currentUser = userInMemory();
     final String? newVal = await showFormBottomSheet<String>(
@@ -553,17 +447,13 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen>
     }
   }
 
-  Future _updateOrDeleteMenusNames({
-    required RestaurantDetailedModel? restaurant,
-  }) async {
+  Future _updateOrDeleteMenusNames({required RestaurantDetailedModel? restaurant}) async {
     final idx = await showActionSheet(
       context,
       title: 'Choose which menu you want',
       children:
           restaurant?.menus?.map((m) {
-            return Row(
-              children: [Icon(MdiIcons.check), GPSGaps.w10, Text(m.name ?? '')],
-            );
+            return Row(children: [Icon(MdiIcons.check), GPSGaps.w10, Text(m.name ?? '')]);
           }).toList() ??
           [],
     );
@@ -614,26 +504,19 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen>
     cubit.restaurant(restaurantId: (userInMemory()?.restaurant?.id)!);
   }
 
-  Future _deleteMenu({
-    required RestaurantDetailedModel? restaurant,
-    required Menu? menu,
-  }) async {
+  Future _deleteMenu({required RestaurantDetailedModel? restaurant, required Menu? menu}) async {
     final controller = serviceLocator<RestaurantsController>();
     restaurant?.menus?.remove(menu);
     cubit.update(cubit.state.data!);
     final res = await controller.deleteMenu(menu: menu!);
   }
 
-  Future _updateUserImage({
-    required RestaurantDetailedModel? restaurant,
-  }) async {
+  Future _updateUserImage({required RestaurantDetailedModel? restaurant}) async {
     final storage = serviceLocator<LocalStorage>();
     final currentUser = userInMemory();
     final UploadedImage? newVal = await showFormBottomSheet<UploadedImage>(
       context,
-      builder:
-          (ctx, ctl) =>
-              ProfileImageForm(controller: ctl, label: 'Update Your Image'),
+      builder: (ctx, ctl) => ProfileImageForm(controller: ctl, label: 'Update Your Image'),
     );
     if (newVal == null) return;
     restaurant?.user?.images = [ImageModel(path: newVal.path)];
