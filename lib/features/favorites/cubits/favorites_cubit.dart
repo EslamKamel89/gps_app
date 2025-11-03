@@ -13,7 +13,6 @@ class FavoritesCubit extends Cubit<ApiResponseModel<List<FavoriteModel>>> {
     final t = prt('favorites - FavoritesCubit');
     emit(state.copyWith(errorMessage: null, response: ResponseEnum.loading));
     final ApiResponseModel<List<FavoriteModel>> response = await controller.favorites();
-    response.data = [];
     pr(response, t);
     emit(response);
   }

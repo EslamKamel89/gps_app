@@ -1,12 +1,6 @@
-// ignore_for_file: unused_import
-
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:gps_app/core/helpers/image_url.dart';
-import 'package:gps_app/features/auth/models/image_model.dart';
-import 'package:gps_app/features/auth/models/user_model.dart';
-import 'package:gps_app/features/auth/models/vendor_model/vendor_model.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 import 'package:gps_app/features/favorites/models/favorite_model.dart';
@@ -41,29 +35,30 @@ class _FavoriteCardState extends State<FavoriteCard> {
     final typeLabel = _typeLabel(type);
     final avatar = FavoriteAvatar(imageUrl: imageUrl, initials: _initials(vendor?.vendorName));
 
-    return GestureDetector(
-      onTap: () => setState(() => _expanded = !_expanded),
-      child: AnimatedContainer(
-        duration: 250.ms,
-        curve: Curves.easeOutCubic,
-        margin: const EdgeInsets.symmetric(vertical: 8),
-        padding: const EdgeInsets.all(12),
-        decoration: BoxDecoration(
-          color: _expanded ? GPSColors.cardSelected.withOpacity(0.35) : Colors.white,
-          border: Border.all(color: GPSColors.cardBorder),
-          borderRadius: BorderRadius.circular(16),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(_expanded ? 0.06 : 0.04),
-              blurRadius: _expanded ? 12 : 8,
-              offset: const Offset(0, 4),
-            ),
-          ],
-        ),
-        child: Column(
-          children: [
-            // Header Row
-            Row(
+    return AnimatedContainer(
+      duration: 250.ms,
+      curve: Curves.easeOutCubic,
+      margin: const EdgeInsets.symmetric(vertical: 8),
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: _expanded ? GPSColors.cardSelected.withOpacity(0.35) : Colors.white,
+        border: Border.all(color: GPSColors.cardBorder),
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(_expanded ? 0.06 : 0.04),
+            blurRadius: _expanded ? 12 : 8,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Column(
+        children: [
+          // Header Row — ONLY this toggles expand/collapse
+          GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onTap: () => setState(() => _expanded = !_expanded),
+            child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 avatar,
@@ -80,32 +75,67 @@ class _FavoriteCardState extends State<FavoriteCard> {
                 Chevron(expanded: _expanded),
               ],
             ),
-            // Expanded Content
-            AnimatedCrossFade(
-              crossFadeState: _expanded ? CrossFadeState.showSecond : CrossFadeState.showFirst,
-              duration: 250.ms,
-              firstChild: const SizedBox.shrink(),
-              secondChild: Padding(
-                padding: const EdgeInsets.only(top: 12),
-                child: ExpandedDetails(
-                      ownerName: user?.fullName,
-                      mobile: user?.mobile,
-                      email: user?.email,
-                      address: vendor?.address,
-                      seatingCapacity: vendor?.seatingCapacity,
-                    )
-                    .animate()
-                    .fadeIn(duration: 250.ms)
-                    .move(
-                      begin: const Offset(0, -4),
-                      end: Offset.zero,
-                      duration: 250.ms,
-                      curve: Curves.easeOut,
-                    ),
+          ),
+
+          // Expanded Content
+          AnimatedCrossFade(
+            crossFadeState: _expanded ? CrossFadeState.showSecond : CrossFadeState.showFirst,
+            duration: 250.ms,
+            firstChild: const SizedBox.shrink(),
+            secondChild: Padding(
+              padding: const EdgeInsets.only(top: 12),
+              child: Column(
+                children: [
+                  ExpandedDetails(
+                        ownerName: user?.fullName,
+                        mobile: user?.mobile,
+                        email: user?.email,
+                        address: vendor?.address,
+                        seatingCapacity: vendor?.seatingCapacity,
+                      )
+                      .animate()
+                      .fadeIn(duration: 250.ms)
+                      .move(
+                        begin: const Offset(0, -4),
+                        end: Offset.zero,
+                        duration: 250.ms,
+                        curve: Curves.easeOut,
+                      ),
+
+                  GPSGaps.h16,
+
+                  // CTA BUTTON — primary colored, collapses the card when tapped
+                  SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton.icon(
+                          onPressed: () {},
+                          icon: const Icon(Icons.person_outline, size: 18),
+                          label: const Text(
+                            'Go to Profile',
+                            style: TextStyle(fontWeight: FontWeight.w600),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: GPSColors.primary,
+                            foregroundColor: Colors.white,
+                            padding: const EdgeInsets.symmetric(vertical: 12),
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                            elevation: 0,
+                          ),
+                        ),
+                      )
+                      .animate()
+                      .fadeIn(duration: 300.ms)
+                      .move(
+                        begin: const Offset(0, 10),
+                        end: Offset.zero,
+                        duration: 300.ms,
+                        curve: Curves.easeOutCubic,
+                      ),
+                ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

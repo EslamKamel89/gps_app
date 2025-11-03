@@ -1,18 +1,9 @@
-// ignore_for_file: unused_import
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:gps_app/features/auth/models/image_model.dart';
-import 'package:gps_app/features/auth/models/user_model.dart';
-import 'package:gps_app/features/auth/models/vendor_model/vendor_model.dart';
-import 'package:gps_app/features/design/utils/gps_colors.dart';
-import 'package:gps_app/features/design/utils/gps_gaps.dart';
-import 'package:gps_app/features/favorites/models/favorite_model.dart';
 import 'package:gps_app/features/favorites/presentation/widgets/error_avatar.dart';
 import 'package:gps_app/features/favorites/presentation/widgets/image_placeholder.dart';
 import 'package:gps_app/features/favorites/presentation/widgets/initials_avatar.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class FavoriteAvatar extends StatelessWidget {
   final String? imageUrl;
