@@ -2,6 +2,7 @@ class EndPoint {
   // static const String baseUrl = "http://10.0.2.2:8000";
   static const String baseUrl = "https://gps.gaztec.org";
   static const String category = "$baseUrl/api/category";
+  static const String diet = "$baseUrl/api/diet";
   static const String states = "$baseUrl/api/states";
   static const String holidays = "$baseUrl/api/holidays";
   static const String districts = "$baseUrl/api/districts";

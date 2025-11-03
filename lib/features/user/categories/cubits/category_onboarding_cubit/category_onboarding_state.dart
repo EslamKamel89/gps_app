@@ -3,31 +3,35 @@ part of 'category_onboarding_cubit.dart';
 
 class CategoryOnboardingState {
   ApiResponseModel<List<CategoryModel>> categories;
+  ApiResponseModel<List<DietModel>> diets;
   List<CategoryModel> selectedCategories;
   List<SubCategoryModel> selectedSubCategories;
   CategoryOnboardingState({
+    required this.diets,
     required this.categories,
     required this.selectedCategories,
     required this.selectedSubCategories,
   });
   factory CategoryOnboardingState.initial() {
     return CategoryOnboardingState(
+      categories: ApiResponseModel(),
+      diets: ApiResponseModel(),
       selectedCategories: [],
       selectedSubCategories: [],
-      categories: ApiResponseModel(),
     );
   }
 
   CategoryOnboardingState copyWith({
     ApiResponseModel<List<CategoryModel>>? categories,
+    ApiResponseModel<List<DietModel>>? diets,
     List<CategoryModel>? selectedCategories,
     List<SubCategoryModel>? selectedSubCategories,
   }) {
     return CategoryOnboardingState(
       categories: categories ?? this.categories,
+      diets: diets ?? this.diets,
       selectedCategories: selectedCategories ?? this.selectedCategories,
-      selectedSubCategories:
-          selectedSubCategories ?? this.selectedSubCategories,
+      selectedSubCategories: selectedSubCategories ?? this.selectedSubCategories,
     );
   }
 

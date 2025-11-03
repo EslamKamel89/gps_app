@@ -6,6 +6,7 @@ import 'package:gps_app/core/service_locator/service_locator.dart';
 import 'package:gps_app/features/user/categories/controllers/category_controller.dart';
 import 'package:gps_app/features/user/categories/models/category_model/category_model.dart';
 import 'package:gps_app/features/user/categories/models/category_model/sub_category_model.dart';
+import 'package:gps_app/features/user/categories/models/diet_model.dart';
 
 part 'category_onboarding_state.dart';
 
@@ -24,17 +25,13 @@ class CategoryOnboardingCubit extends Cubit<CategoryOnboardingState> {
         ),
       ),
     );
-    final ApiResponseModel<List<CategoryModel>> response =
-        await controller.categoriesIndex();
+    final ApiResponseModel<List<CategoryModel>> response = await controller.categoriesIndex();
     pr(response, t);
     emit(state.copyWith(categories: response));
   }
 
   void toggleSelectedCategory(CategoryModel category) {
-    bool categoryExist =
-        state.selectedCategories
-            .where((cat) => cat.id == category.id)
-            .isNotEmpty;
+    bool categoryExist = state.selectedCategories.where((cat) => cat.id == category.id).isNotEmpty;
     if (categoryExist) {
       state.selectedCategories.removeWhere((cat) => cat.id == category.id);
     } else {
@@ -45,14 +42,25 @@ class CategoryOnboardingCubit extends Cubit<CategoryOnboardingState> {
 
   void toggleSelectedSubCategory(SubCategoryModel subCat) {
     bool subCategoryExist =
-        state.selectedSubCategories
-            .where((cat) => cat.id == subCat.id)
-            .isNotEmpty;
+        state.selectedSubCategories.where((cat) => cat.id == subCat.id).isNotEmpty;
     if (subCategoryExist) {
       state.selectedSubCategories.removeWhere((cat) => cat.id == subCat.id);
     } else {
       state.selectedSubCategories.add(subCat);
     }
     emit(state.copyWith());
+  }
+
+  Future dietsIndex() async {
+    final t = prt('dietsIndex - CategoryOnboardingCubit');
+
+    emit(
+      state.copyWith(
+        diets: state.diets.copyWith(errorMessage: null, response: ResponseEnum.loading, data: []),
+      ),
+    );
+    final ApiResponseModel<List<DietModel>> response = await controller.dietsIndex();
+    pr(response, t);
+    emit(state.copyWith(diets: response));
   }
 }
