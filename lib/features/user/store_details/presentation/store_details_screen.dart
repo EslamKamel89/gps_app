@@ -21,6 +21,7 @@ import 'package:gps_app/features/design/utils/gps_gaps.dart';
 import 'package:gps_app/features/user/restaurant_details/presentation/widgets/branch_map_screen.dart';
 import 'package:gps_app/features/user/restaurant_details/presentation/widgets/custom_stack.dart';
 import 'package:gps_app/features/user/restaurant_details/presentation/widgets/form_bottom_sheet.dart';
+import 'package:gps_app/features/user/restaurant_details/presentation/widgets/profile_appbar.dart';
 import 'package:gps_app/features/user/restaurant_details/presentation/widgets/profile_nav_button.dart';
 import 'package:gps_app/features/user/restaurant_details/presentation/widgets/restaurant_details_forms.dart';
 import 'package:gps_app/features/user/restaurant_details/presentation/widgets/show_action_sheet.dart';
@@ -29,7 +30,6 @@ import 'package:gps_app/features/user/store_details/controllers/store_controller
 import 'package:gps_app/features/user/store_details/cubits/store_cubit.dart';
 import 'package:gps_app/features/user/store_details/presentation/widgets/add_section_card.dart';
 import 'package:gps_app/features/user/store_details/presentation/widgets/badge_chip.dart';
-import 'package:gps_app/features/user/store_details/presentation/widgets/circle_back.dart';
 import 'package:gps_app/features/user/store_details/presentation/widgets/contact_card.dart';
 import 'package:gps_app/features/user/store_details/presentation/widgets/items_list_view.dart';
 import 'package:gps_app/features/user/store_details/presentation/widgets/state_city_card.dart';
@@ -153,55 +153,81 @@ class StoreDetailsScreenState extends State<StoreDetailsScreen>
             length: tabs.length + (widget.enableEdit ? 1 : 0),
             child: Scaffold(
               backgroundColor: GPSColors.background,
+              appBar: profileAppBar(title: state.data?.vendor?.vendorName ?? ''),
               body:
                   state.response == ResponseEnum.loading && state.data == null
                       ? Padding(padding: EdgeInsets.all(10), child: StoreDetailsSkeleton())
                       : NestedScrollView(
                         headerSliverBuilder:
                             (context, innerScrolled) => [
-                              SliverAppBar(
-                                backgroundColor: GPSColors.background,
-                                expandedHeight: 260,
-                                pinned: true,
-                                elevation: 0,
-                                leading: CircleBack(onTap: () => Navigator.of(context).maybePop()),
-                                actions: [
-                                  // IconButton(
-                                  //   tooltip: 'Share',
-                                  //   icon: const Icon(Icons.share_rounded, color: Colors.white),
-                                  //   onPressed: () {
-                                  //     // pr(widget.user.sections().length);
-                                  //   },
-                                  // ),
-                                ],
-                                flexibleSpace: FlexibleSpaceBar(
-                                  background: Stack(
-                                    fit: StackFit.expand,
-                                    children: [
-                                      CustomStack(
-                                        enableEdit: widget.enableEdit,
-                                        actionWidget: EditButton(
-                                          onPressed: () async {
-                                            _updateUserImage(user: user!);
-                                          },
-                                        ),
-                                        child: Image.network(
-                                              _imageUrl(user),
-                                              fit: BoxFit.cover,
-                                              width: double.infinity,
-                                            )
-                                            .animate()
-                                            .fadeIn(duration: 400.ms)
-                                            .scale(
-                                              begin: const Offset(1.02, 1.02),
-                                              end: const Offset(1, 1),
-                                            ),
+                              // SliverAppBar(
+                              //   backgroundColor: GPSColors.background,
+                              //   expandedHeight: 260,
+                              //   pinned: true,
+                              //   elevation: 0,
+                              //   leading: CircleBack(onTap: () => Navigator.of(context).maybePop()),
+                              //   actions: [
+                              //     // IconButton(
+                              //     //   tooltip: 'Share',
+                              //     //   icon: const Icon(Icons.share_rounded, color: Colors.white),
+                              //     //   onPressed: () {
+                              //     //     // pr(widget.user.sections().length);
+                              //     //   },
+                              //     // ),
+                              //   ],
+                              //   flexibleSpace: FlexibleSpaceBar(
+                              //     background: Stack(
+                              //       fit: StackFit.expand,
+                              //       children: [
+                              //         CustomStack(
+                              //           enableEdit: widget.enableEdit,
+                              //           actionWidget: EditButton(
+                              //             onPressed: () async {
+                              //               _updateUserImage(user: user!);
+                              //             },
+                              //           ),
+                              //           child: Image.network(
+                              //                 _imageUrl(user),
+                              //                 fit: BoxFit.cover,
+                              //                 width: double.infinity,
+                              //               )
+                              //               .animate()
+                              //               .fadeIn(duration: 400.ms)
+                              //               .scale(
+                              //                 begin: const Offset(1.02, 1.02),
+                              //                 end: const Offset(1, 1),
+                              //               ),
+                              //         ),
+                              //       ],
+                              //     ),
+                              //   ),
+                              // ),
+                              SliverToBoxAdapter(
+                                child: Stack(
+                                  children: [
+                                    CustomStack(
+                                      enableEdit: widget.enableEdit,
+                                      actionWidget: EditButton(
+                                        onPressed: () async {
+                                          _updateUserImage(user: user!);
+                                        },
                                       ),
-                                    ],
-                                  ),
+                                      child: Image.network(
+                                            _imageUrl(user),
+                                            height: 200,
+                                            fit: BoxFit.cover,
+                                            width: double.infinity,
+                                          )
+                                          .animate()
+                                          .fadeIn(duration: 400.ms)
+                                          .scale(
+                                            begin: const Offset(1.02, 1.02),
+                                            end: const Offset(1, 1),
+                                          ),
+                                    ),
+                                  ],
                                 ),
                               ),
-
                               SliverToBoxAdapter(
                                 child: Container(
                                   decoration: const BoxDecoration(

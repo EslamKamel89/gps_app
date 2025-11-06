@@ -22,6 +22,7 @@ import 'package:gps_app/features/user/restaurant_details/presentation/certificat
 import 'package:gps_app/features/user/restaurant_details/presentation/widgets/add_menu_card.dart';
 import 'package:gps_app/features/user/restaurant_details/presentation/widgets/custom_stack.dart';
 import 'package:gps_app/features/user/restaurant_details/presentation/widgets/form_bottom_sheet.dart';
+import 'package:gps_app/features/user/restaurant_details/presentation/widgets/profile_appbar.dart';
 import 'package:gps_app/features/user/restaurant_details/presentation/widgets/profile_nav_button.dart';
 import 'package:gps_app/features/user/restaurant_details/presentation/widgets/restaurant_details_forms.dart';
 import 'package:gps_app/features/user/restaurant_details/presentation/widgets/show_action_sheet.dart';
@@ -29,7 +30,6 @@ import 'package:gps_app/features/user/store_details/presentation/widgets/contact
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import 'widgets/badges.dart';
-import 'widgets/circle_back.dart';
 import 'widgets/helpers.dart';
 import 'widgets/loading_error_scaffolds.dart';
 import 'widgets/meals_list_view.dart';
@@ -58,6 +58,12 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen>
     cubit = context.read<RestaurantCubit>();
     cubit.restaurant(restaurantId: widget.restaurantId);
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    cubit.state.data = null;
+    super.dispose();
   }
 
   @override
@@ -90,52 +96,83 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen>
               length: tabs.length + (widget.enableEdit ? 1 : 0),
               child: Scaffold(
                 backgroundColor: GPSColors.background,
+                appBar: profileAppBar(
+                  title: state.data?.vendor?.vendorName ?? 'Restaurant Details',
+                ),
+
                 body: NestedScrollView(
                   headerSliverBuilder:
                       (context, inner) => [
-                        SliverAppBar(
-                          backgroundColor: GPSColors.background,
-                          expandedHeight: 260,
-                          pinned: true,
-                          elevation: 0,
-                          leading: CircleBack(onTap: () => Navigator.of(context).maybePop()),
-                          actions: [
-                            // IconButton(
-                            //   tooltip: 'Share',
-                            //   icon: const Icon(Icons.share_rounded, color: Colors.black),
-                            //   onPressed: () {},
-                            // ),
-                          ],
-                          flexibleSpace: FlexibleSpaceBar(
-                            background: Stack(
-                              fit: StackFit.expand,
-                              children: [
-                                CustomStack(
-                                  enableEdit: widget.enableEdit,
-                                  actionWidget: EditButton(
-                                    onPressed: () => _updateUserImage(restaurant: state.data),
-                                  ),
-                                  child: CachedNetworkImage(
-                                        width: double.infinity,
-                                        imageUrl: coverUrl,
-                                        fit: BoxFit.cover,
-                                        placeholder: (_, __) => const CoverPlaceholder(),
-                                        errorWidget: (_, __, ___) => const CoverError(),
-                                      )
-                                      .animate()
-                                      .fadeIn(duration: 400.ms)
-                                      .scale(
-                                        begin: const Offset(1.02, 1.02),
-                                        end: const Offset(1, 1),
-                                      ),
-                                ),
+                        // SliverAppBar(
+                        //   backgroundColor: GPSColors.background,
+                        //   expandedHeight: 260,
+                        //   pinned: true,
+                        //   elevation: 0,
+                        //   // leading: CircleBack(onTap: () => Navigator.of(context).maybePop()),
+                        //   actions: [
+                        //     // IconButton(
+                        //     //   tooltip: 'Share',
+                        //     //   icon: const Icon(Icons.share_rounded, color: Colors.black),
+                        //     //   onPressed: () {},
+                        //     // ),
+                        //   ],
+                        //   flexibleSpace: FlexibleSpaceBar(
+                        //     background: Stack(
+                        //       fit: StackFit.expand,
+                        //       children: [
+                        //         CustomStack(
+                        //           enableEdit: widget.enableEdit,
+                        //           actionWidget: EditButton(
+                        //             onPressed: () => _updateUserImage(restaurant: state.data),
+                        //           ),
+                        //           child: CachedNetworkImage(
+                        //                 width: double.infinity,
+                        //                 imageUrl: coverUrl,
+                        //                 fit: BoxFit.cover,
+                        //                 placeholder: (_, __) => const CoverPlaceholder(),
+                        //                 errorWidget: (_, __, ___) => const CoverError(),
+                        //               )
+                        //               .animate()
+                        //               .fadeIn(duration: 400.ms)
+                        //               .scale(
+                        //                 begin: const Offset(1.02, 1.02),
+                        //                 end: const Offset(1, 1),
+                        //               ),
+                        //         ),
 
-                                // Positioned(bottom: 5, right: 5, child: WishButton()),
-                              ],
-                            ),
+                        //         // Positioned(bottom: 5, right: 5, child: WishButton()),
+                        //       ],
+                        //     ),
+                        //   ),
+                        // ),
+                        SliverToBoxAdapter(
+                          child: Stack(
+                            children: [
+                              CustomStack(
+                                enableEdit: widget.enableEdit,
+                                actionWidget: EditButton(
+                                  onPressed: () => _updateUserImage(restaurant: state.data),
+                                ),
+                                child: CachedNetworkImage(
+                                      height: 200,
+                                      width: double.infinity,
+                                      imageUrl: coverUrl,
+                                      fit: BoxFit.cover,
+                                      placeholder: (_, __) => const CoverPlaceholder(),
+                                      errorWidget: (_, __, ___) => const CoverError(),
+                                    )
+                                    .animate()
+                                    .fadeIn(duration: 400.ms)
+                                    .scale(
+                                      begin: const Offset(1.02, 1.02),
+                                      end: const Offset(1, 1),
+                                    ),
+                              ),
+
+                              // Positioned(bottom: 5, right: 5, child: WishButton()),
+                            ],
                           ),
                         ),
-
                         SliverToBoxAdapter(
                           child: Container(
                             decoration: const BoxDecoration(
