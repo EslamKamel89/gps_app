@@ -3,14 +3,15 @@
     "when the user select a category all the subcategories for this parent category should be selected by default",
     "remove the categories from the subcategories screen",
     "add label if a subcategories is not found in the db",
+    "post the selected categories to the backend",
     "------------------------------------------------"
   ],
   "todos": [
     "handle the verified state in the categories in the restaurant details",
     "holidays are not handled in the ui of the profile page",
     "+++++++++++++++++++++++++++++++++++++++++++++++++",
-    "post the selected categories to the backend",
     "fetch the selected categories and sub categories for initialization",
+    "handle selecting the diets in the state",
     "post the selected diets to the backend",
     "fetch the selected diets for initialization",
     "------------------------------------------------"

@@ -6,6 +6,7 @@ import 'package:gps_app/core/service_locator/service_locator.dart';
 import 'package:gps_app/features/user/preferences/controllers/preferences_controller.dart';
 import 'package:gps_app/features/user/preferences/models/category_model/category_model.dart';
 import 'package:gps_app/features/user/preferences/models/category_model/sub_category_model.dart';
+import 'package:gps_app/features/user/preferences/models/category_preference_model.dart';
 import 'package:gps_app/features/user/preferences/models/diet_model.dart';
 
 part 'preferences_state.dart';
@@ -28,6 +29,21 @@ class PreferencesCubit extends Cubit<PreferencesState> {
     final ApiResponseModel<List<CategoryModel>> response = await controller.categoriesIndex();
     pr(response, t);
     emit(state.copyWith(categories: response));
+    _getSelectedCategories();
+  }
+
+  Future _getSelectedCategories() async {
+    final t = prt('getSelectedCategories - CategoryOnboardingCubit');
+    final ApiResponseModel<SelectedCategoriesPreferences> prefs =
+        await controller.getSelectedCategories();
+    final List<int?> catIds = prefs.data?.categories.map((c) => c.id).toList() ?? [];
+    emit(
+      state.copyWith(
+        selectedCategories:
+            state.categories.data?.where((c) => catIds.contains(c.id) == true).toList(),
+        selectedSubCategories: prefs.data?.subCategories ?? [],
+      ),
+    );
   }
 
   void toggleSelectedCategory(CategoryModel category) {
@@ -64,5 +80,13 @@ class PreferencesCubit extends Cubit<PreferencesState> {
     final ApiResponseModel<List<DietModel>> response = await controller.dietsIndex();
     pr(response, t);
     emit(state.copyWith(diets: response));
+  }
+
+  Future submitSubCategories() async {
+    controller.submitSubCategories(subCats: state.selectedSubCategories);
+  }
+
+  Future submitDiets() async {
+    // controller.submitSubCategories(subCats: state);
   }
 }

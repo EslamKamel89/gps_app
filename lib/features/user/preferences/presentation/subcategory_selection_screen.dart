@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gps_app/core/helpers/print_helper.dart';
 import 'package:gps_app/core/router/app_routes_names.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
@@ -96,57 +97,61 @@ class _SubCategorySelectionScreenState extends State<SubCategorySelectionScreen>
                                   return Wrap(
                                     runSpacing: 10,
                                     spacing: 5,
-                                    children: List.generate(subCategories.length, (index) {
-                                      final subCat = subCategories[index];
-                                      final selected =
-                                          state.selectedSubCategories
-                                              .where((cat) => cat.id == subCat.id)
-                                              .isNotEmpty;
-                                      return InkWell(
-                                            onTap: () {
-                                              cubit.toggleSelectedSubCategory(subCat);
-                                            },
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                color:
-                                                    selected
-                                                        ? GPSColors.primary
-                                                        : GPSColors.primary.withOpacity(0.2),
-                                                borderRadius: BorderRadius.circular(5),
-                                              ),
-                                              // margin: EdgeInsets.all(5),
-                                              padding: EdgeInsets.only(
-                                                top: 5,
-                                                bottom: 5,
-                                                right: 10,
-                                                left: 5,
-                                              ),
-                                              child: Row(
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: [
-                                                  Icon(
-                                                    Icons.add,
-                                                    color: selected ? Colors.white : Colors.black,
-                                                  ),
-                                                  Text(
-                                                    subCat.name ?? '',
-                                                    style: TextStyle(
+                                    children: List.generate(
+                                      pr(subCategories, 'sub categories').length,
+                                      (index) {
+                                        final subCat = subCategories[index];
+                                        final selected =
+                                            state.selectedSubCategories
+                                                .where((cat) => cat.id == subCat.id)
+                                                .isNotEmpty;
+                                        return InkWell(
+                                              onTap: () {
+                                                cubit.toggleSelectedSubCategory(subCat);
+                                              },
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                  color:
+                                                      selected
+                                                          ? GPSColors.primary
+                                                          : GPSColors.primary.withOpacity(0.2),
+                                                  borderRadius: BorderRadius.circular(5),
+                                                ),
+                                                // margin: EdgeInsets.all(5),
+                                                padding: EdgeInsets.only(
+                                                  top: 5,
+                                                  bottom: 5,
+                                                  right: 10,
+                                                  left: 5,
+                                                ),
+                                                child: Row(
+                                                  mainAxisSize: MainAxisSize.min,
+                                                  children: [
+                                                    Icon(
+                                                      Icons.add,
                                                       color: selected ? Colors.white : Colors.black,
-                                                      fontSize: 20,
                                                     ),
-                                                  ),
-                                                ],
+                                                    Text(
+                                                      subCat.name ?? '',
+                                                      style: TextStyle(
+                                                        color:
+                                                            selected ? Colors.white : Colors.black,
+                                                        fontSize: 20,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
                                               ),
-                                            ),
-                                          )
-                                          .animate(delay: (80 * index).ms)
-                                          .fadeIn(duration: 300.ms)
-                                          .slideY(begin: .15)
-                                          .scale(
-                                            begin: const Offset(.98, .98),
-                                            curve: Curves.easeOutBack,
-                                          );
-                                    }),
+                                            )
+                                            .animate(delay: (80 * index).ms)
+                                            .fadeIn(duration: 300.ms)
+                                            .slideY(begin: .15)
+                                            .scale(
+                                              begin: const Offset(.98, .98),
+                                              curve: Curves.easeOutBack,
+                                            );
+                                      },
+                                    ),
                                   );
                                 },
                               ),
@@ -163,6 +168,7 @@ class _SubCategorySelectionScreenState extends State<SubCategorySelectionScreen>
                     onSkip:
                         () => Navigator.of(context).pushNamed(AppRoutesNames.dietSelectionScreen),
                     onNext: () {
+                      cubit.submitSubCategories();
                       Navigator.of(context).pushNamed(AppRoutesNames.dietSelectionScreen);
                     },
                   ),
