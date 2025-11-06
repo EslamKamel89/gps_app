@@ -9,7 +9,7 @@ import 'package:gps_app/features/auth/controllers/auth_controller.dart';
 import 'package:gps_app/features/blogs/controllers/blog_controller.dart';
 import 'package:gps_app/features/favorites/controller/favorites_controller.dart';
 import 'package:gps_app/features/item_info/controllers/item_info_controller.dart';
-import 'package:gps_app/features/user/categories/controllers/category_controller.dart';
+import 'package:gps_app/features/user/preferences/controllers/preferences_controller.dart';
 import 'package:gps_app/features/user/restaurant_details/controllers/restaurants_controller.dart';
 import 'package:gps_app/features/user/store_details/controllers/store_controller.dart';
 import 'package:gps_app/features/wishlist/controllers/wishlist_controller.dart';
@@ -30,7 +30,7 @@ Future initServiceLocator() async {
   );
   serviceLocator.registerLazySingleton<AppRouter>(() => AppRouter(appMiddleWare: serviceLocator()));
 
-  serviceLocator.registerLazySingleton<CategoryController>(() => CategoryController());
+  serviceLocator.registerLazySingleton<PreferencesController>(() => PreferencesController());
   serviceLocator.registerLazySingleton<AuthController>(() => AuthController());
   serviceLocator.registerLazySingleton<RestaurantsController>(() => RestaurantsController());
   serviceLocator.registerLazySingleton<WishListController>(() => WishListController());

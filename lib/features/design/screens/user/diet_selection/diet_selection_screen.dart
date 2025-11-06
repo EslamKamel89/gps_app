@@ -7,7 +7,7 @@ import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 import 'package:gps_app/features/design/widgets/footer.dart';
 import 'package:gps_app/features/design/widgets/header.dart';
-import 'package:gps_app/features/user/categories/cubits/category_onboarding_cubit/category_onboarding_cubit.dart';
+import 'package:gps_app/features/user/preferences/cubits/preferences/preferences_cubit.dart';
 
 class DietSelectionScreen extends StatefulWidget {
   const DietSelectionScreen({super.key});
@@ -17,18 +17,18 @@ class DietSelectionScreen extends StatefulWidget {
 }
 
 class _DietSelectionScreenState extends State<DietSelectionScreen> {
-  late CategoryOnboardingCubit cubit;
+  late PreferencesCubit cubit;
 
   @override
   void initState() {
-    cubit = context.read<CategoryOnboardingCubit>();
+    cubit = context.read<PreferencesCubit>();
     cubit.dietsIndex();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<CategoryOnboardingCubit, CategoryOnboardingState>(
+    return BlocConsumer<PreferencesCubit, PreferencesState>(
       listener: (context, state) {
         // TODO: implement listener
       },

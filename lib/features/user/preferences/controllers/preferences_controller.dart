@@ -8,10 +8,10 @@ import 'package:gps_app/core/helpers/print_helper.dart';
 import 'package:gps_app/core/helpers/snackbar.dart';
 import 'package:gps_app/core/models/api_response_model.dart';
 import 'package:gps_app/core/service_locator/service_locator.dart';
-import 'package:gps_app/features/user/categories/models/category_model/category_model.dart';
-import 'package:gps_app/features/user/categories/models/diet_model.dart';
+import 'package:gps_app/features/user/preferences/models/category_model/category_model.dart';
+import 'package:gps_app/features/user/preferences/models/diet_model.dart';
 
-class CategoryController {
+class PreferencesController {
   ApiConsumer api = serviceLocator();
   Future<ApiResponseModel<List<CategoryModel>>> categoriesIndex() async {
     final t = prt('categoriesIndex - CategoryController');

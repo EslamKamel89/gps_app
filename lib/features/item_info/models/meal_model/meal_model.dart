@@ -1,6 +1,6 @@
 import 'package:gps_app/features/auth/models/image_model.dart';
-import 'package:gps_app/features/user/categories/models/category_model/category_model.dart';
-import 'package:gps_app/features/user/categories/models/category_model/sub_category_model.dart';
+import 'package:gps_app/features/user/preferences/models/category_model/category_model.dart';
+import 'package:gps_app/features/user/preferences/models/category_model/sub_category_model.dart';
 
 import 'restaurant_menu.dart';
 

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
-import 'package:gps_app/features/user/categories/models/category_model/category_model.dart';
-import 'package:gps_app/features/user/categories/models/category_model/sub_category_model.dart';
+import 'package:gps_app/features/user/preferences/models/category_model/category_model.dart';
+import 'package:gps_app/features/user/preferences/models/category_model/sub_category_model.dart';
 import 'package:gps_app/features/wishlist/presentation/widgets/mini_restaurant_chip.dart';
 
 class CategoryPreviewRow extends StatelessWidget {

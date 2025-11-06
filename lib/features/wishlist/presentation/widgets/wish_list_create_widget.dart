@@ -5,7 +5,7 @@ import 'package:gps_app/core/helpers/validator.dart';
 import 'package:gps_app/features/auth/presentation/widgets/labeled_field.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
-import 'package:gps_app/features/user/categories/presentation/widgets/category_selector.dart';
+import 'package:gps_app/features/user/preferences/presentation/widgets/category_selector.dart';
 import 'package:gps_app/features/wishlist/cubits/wishes_cubit.dart';
 
 class WishListCreateWidget extends StatefulWidget {
@@ -74,12 +74,7 @@ class _WishListCreateWidgetState extends State<WishListCreateWidget> {
                     keyboardType: TextInputType.emailAddress,
                     textInputAction: TextInputAction.next,
                     validator:
-                        (v) => validator(
-                          input: v,
-                          label: 'Wish',
-                          isRequired: true,
-                          minChars: 3,
-                        ),
+                        (v) => validator(input: v, label: 'Wish', isRequired: true, minChars: 3),
                     decoration: _inputDecoration(
                       'e.g., “I love vegan pizza” or “Gluten-free falafel wrap”',
                     ),
@@ -108,18 +103,10 @@ class _WishListCreateWidgetState extends State<WishListCreateWidget> {
                   style: OutlinedButton.styleFrom(
                     foregroundColor: GPSColors.text,
                     side: const BorderSide(color: GPSColors.cardBorder),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 12,
-                    ),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                   ),
-                  child: const Text(
-                    'Cancel',
-                    style: TextStyle(fontWeight: FontWeight.w700),
-                  ),
+                  child: const Text('Cancel', style: TextStyle(fontWeight: FontWeight.w700)),
                 ).animate().fadeIn(duration: 220.ms).slideY(begin: .04),
 
                 GPSGaps.w12,
@@ -127,27 +114,16 @@ class _WishListCreateWidgetState extends State<WishListCreateWidget> {
                 isLoading
                     ? Center(child: CircularProgressIndicator())
                     : ElevatedButton(
-                          onPressed: _onSave,
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: GPSColors.primary,
-                            foregroundColor: Colors.white,
-                            elevation: 0,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 18,
-                              vertical: 12,
-                            ),
-                          ),
-                          child: const Text(
-                            'Save',
-                            style: TextStyle(fontWeight: FontWeight.w800),
-                          ),
-                        )
-                        .animate()
-                        .fadeIn(duration: 220.ms)
-                        .scale(begin: const Offset(.98, .98)),
+                      onPressed: _onSave,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: GPSColors.primary,
+                        foregroundColor: Colors.white,
+                        elevation: 0,
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
+                      ),
+                      child: const Text('Save', style: TextStyle(fontWeight: FontWeight.w800)),
+                    ).animate().fadeIn(duration: 220.ms).scale(begin: const Offset(.98, .98)),
               ],
             ),
           ],

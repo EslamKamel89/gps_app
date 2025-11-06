@@ -9,7 +9,7 @@ import 'package:gps_app/features/auth/models/menu_param/meal_param.dart';
 import 'package:gps_app/features/auth/presentation/widgets/gps_label_field.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
-import 'package:gps_app/features/user/categories/presentation/widgets/category_selector.dart';
+import 'package:gps_app/features/user/preferences/presentation/widgets/category_selector.dart';
 
 class MealForm extends StatefulWidget {
   final MealParam meal;
@@ -61,8 +61,7 @@ class _MealFormState extends State<MealForm> {
               initialValue: widget.meal.name,
               onChanged: (v) => widget.meal.name = v,
               decoration: const InputDecoration(hintText: 'e.g., Beef Burger'),
-              validator:
-                  (v) => validator(input: v, label: 'Name', isRequired: true),
+              validator: (v) => validator(input: v, label: 'Name', isRequired: true),
             ),
           ),
           GPSGaps.h12,
@@ -74,8 +73,7 @@ class _MealFormState extends State<MealForm> {
               initialValue: widget.meal.price?.toString() ?? '',
               onChanged: (v) => widget.meal.price = double.parse(v),
               keyboardType: TextInputType.numberWithOptions(decimal: true),
-              validator:
-                  (v) => validator(input: v, label: 'Price', isRequired: true),
+              validator: (v) => validator(input: v, label: 'Price', isRequired: true),
               decoration: const InputDecoration(
                 hintText: 'e.g., 12.95',
                 prefixText: '\$ ',

@@ -7,10 +7,10 @@ import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 import 'package:gps_app/features/design/widgets/footer.dart';
 import 'package:gps_app/features/design/widgets/header.dart';
-import 'package:gps_app/features/user/categories/cubits/category_onboarding_cubit/category_onboarding_cubit.dart';
-import 'package:gps_app/features/user/categories/models/category_model/category_model.dart';
-import 'package:gps_app/features/user/categories/models/category_model/sub_category_model.dart';
-import 'package:gps_app/features/user/categories/presentation/widgets/category_card.dart';
+import 'package:gps_app/features/user/preferences/cubits/preferences/preferences_cubit.dart';
+import 'package:gps_app/features/user/preferences/models/category_model/category_model.dart';
+import 'package:gps_app/features/user/preferences/models/category_model/sub_category_model.dart';
+import 'package:gps_app/features/user/preferences/presentation/widgets/category_card.dart';
 
 class SubCategorySelectionScreen extends StatefulWidget {
   const SubCategorySelectionScreen({super.key});
@@ -20,16 +20,16 @@ class SubCategorySelectionScreen extends StatefulWidget {
 }
 
 class _SubCategorySelectionScreenState extends State<SubCategorySelectionScreen> {
-  late CategoryOnboardingCubit cubit;
+  late PreferencesCubit cubit;
   @override
   void initState() {
-    cubit = context.read<CategoryOnboardingCubit>();
+    cubit = context.read<PreferencesCubit>();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CategoryOnboardingCubit, CategoryOnboardingState>(
+    return BlocBuilder<PreferencesCubit, PreferencesState>(
       builder: (context, state) {
         final selectedCategories = state.selectedCategories;
         final subCategories = _mergeSubCategory(selectedCategories);

@@ -4,7 +4,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:gps_app/core/helpers/image_url.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
-import 'package:gps_app/features/user/categories/models/diet_model.dart';
+import 'package:gps_app/features/user/preferences/models/diet_model.dart';
 
 class DietCard extends StatelessWidget {
   const DietCard({super.key, required this.diet, required this.onTap, required this.selected});

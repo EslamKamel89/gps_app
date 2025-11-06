@@ -1,19 +1,19 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-part of 'category_onboarding_cubit.dart';
+part of 'preferences_cubit.dart';
 
-class CategoryOnboardingState {
+class PreferencesState {
   ApiResponseModel<List<CategoryModel>> categories;
   ApiResponseModel<List<DietModel>> diets;
   List<CategoryModel> selectedCategories;
   List<SubCategoryModel> selectedSubCategories;
-  CategoryOnboardingState({
+  PreferencesState({
     required this.diets,
     required this.categories,
     required this.selectedCategories,
     required this.selectedSubCategories,
   });
-  factory CategoryOnboardingState.initial() {
-    return CategoryOnboardingState(
+  factory PreferencesState.initial() {
+    return PreferencesState(
       categories: ApiResponseModel(),
       diets: ApiResponseModel(),
       selectedCategories: [],
@@ -21,13 +21,13 @@ class CategoryOnboardingState {
     );
   }
 
-  CategoryOnboardingState copyWith({
+  PreferencesState copyWith({
     ApiResponseModel<List<CategoryModel>>? categories,
     ApiResponseModel<List<DietModel>>? diets,
     List<CategoryModel>? selectedCategories,
     List<SubCategoryModel>? selectedSubCategories,
   }) {
-    return CategoryOnboardingState(
+    return PreferencesState(
       categories: categories ?? this.categories,
       diets: diets ?? this.diets,
       selectedCategories: selectedCategories ?? this.selectedCategories,
