@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gps_app/core/api_service/end_points.dart';
 import 'package:gps_app/core/router/app_routes_names.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
@@ -10,7 +9,7 @@ import 'package:gps_app/features/design/widgets/header.dart';
 import 'package:gps_app/features/user/preferences/cubits/preferences/preferences_cubit.dart';
 import 'package:gps_app/features/user/preferences/models/category_model/category_model.dart';
 import 'package:gps_app/features/user/preferences/models/category_model/sub_category_model.dart';
-import 'package:gps_app/features/user/preferences/presentation/widgets/category_card.dart';
+import 'package:gps_app/features/user/preferences/presentation/widgets/selected_sub_categories_info_widget.dart';
 
 class SubCategorySelectionScreen extends StatefulWidget {
   const SubCategorySelectionScreen({super.key});
@@ -54,41 +53,46 @@ class _SubCategorySelectionScreenState extends State<SubCategorySelectionScreen>
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              GridView.builder(
-                                padding: EdgeInsets.zero,
-                                physics: NeverScrollableScrollPhysics(),
-                                shrinkWrap: true,
-                                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 2,
-                                  mainAxisSpacing: 14,
-                                  crossAxisSpacing: 14,
-                                  childAspectRatio: 1.05,
-                                ),
-                                itemCount: selectedCategories.length,
-                                itemBuilder: (context, index) {
-                                  final category = selectedCategories[index];
-                                  final card = CategoryCard(
-                                    label: category.name ?? '',
-                                    description: category.description ?? '',
-                                    imageUrl: "${EndPoint.baseUrl}/${category.image?.path}",
+                              // GridView.builder(
+                              //   padding: EdgeInsets.zero,
+                              //   physics: NeverScrollableScrollPhysics(),
+                              //   shrinkWrap: true,
+                              //   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                              //     crossAxisCount: 2,
+                              //     mainAxisSpacing: 14,
+                              //     crossAxisSpacing: 14,
+                              //     childAspectRatio: 1.05,
+                              //   ),
+                              //   itemCount: selectedCategories.length,
+                              //   itemBuilder: (context, index) {
+                              //     final category = selectedCategories[index];
+                              //     final card = CategoryCard(
+                              //       label: category.name ?? '',
+                              //       description: category.description ?? '',
+                              //       imageUrl: "${EndPoint.baseUrl}/${category.image?.path}",
 
-                                    selected: true,
-                                    onTap: () {},
-                                  );
+                              //       selected: true,
+                              //       onTap: () {},
+                              //     );
 
-                                  return card
-                                      .animate(delay: (80 * index).ms)
-                                      .fadeIn(duration: 300.ms)
-                                      .slideY(begin: .15)
-                                      .scale(
-                                        begin: const Offset(.98, .98),
-                                        curve: Curves.easeOutBack,
-                                      );
-                                },
-                              ),
+                              //     return card
+                              //         .animate(delay: (80 * index).ms)
+                              //         .fadeIn(duration: 300.ms)
+                              //         .slideY(begin: .15)
+                              //         .scale(
+                              //           begin: const Offset(.98, .98),
+                              //           curve: Curves.easeOutBack,
+                              //         );
+                              //   },
+                              // ),
+                              // GPSGaps.h12,
+                              SelectedSubcategoriesInfo(count: state.selectedSubCategories.length),
                               GPSGaps.h12,
                               Builder(
                                 builder: (context) {
+                                  if (subCategories.isEmpty) {
+                                    return Text('There are no subcategories found');
+                                  }
                                   return Wrap(
                                     runSpacing: 10,
                                     spacing: 5,
@@ -157,13 +161,10 @@ class _SubCategorySelectionScreenState extends State<SubCategorySelectionScreen>
 
                   Footer(
                     onSkip:
-                        () => Navigator.of(context).pushNamed(AppRoutesNames.foodSelectionScreen),
-                    onNext:
-                        state.selectedCategories.isNotEmpty
-                            ? () {
-                              Navigator.of(context).pushNamed(AppRoutesNames.dietSelectionScreen);
-                            }
-                            : null,
+                        () => Navigator.of(context).pushNamed(AppRoutesNames.dietSelectionScreen),
+                    onNext: () {
+                      Navigator.of(context).pushNamed(AppRoutesNames.dietSelectionScreen);
+                    },
                   ),
                 ],
               ),

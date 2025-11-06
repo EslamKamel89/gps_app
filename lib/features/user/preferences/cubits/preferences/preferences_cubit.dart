@@ -34,8 +34,10 @@ class PreferencesCubit extends Cubit<PreferencesState> {
     bool categoryExist = state.selectedCategories.where((cat) => cat.id == category.id).isNotEmpty;
     if (categoryExist) {
       state.selectedCategories.removeWhere((cat) => cat.id == category.id);
+      state.selectedSubCategories.removeWhere((subCat) => subCat.categoryId == category.id);
     } else {
       state.selectedCategories.add(category);
+      state.selectedSubCategories.addAll(category.subCategories ?? []);
     }
     emit(state.copyWith());
   }

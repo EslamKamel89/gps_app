@@ -97,8 +97,8 @@ class _CategorySelectionScreenState extends State<CategorySelectionScreen> {
                             );
 
                             return card
-                                .animate(delay: (80 * index).ms)
-                                .fadeIn(duration: 300.ms)
+                                .animate(delay: (10 * index).ms)
+                                .fadeIn(duration: 50.ms)
                                 .slideY(begin: .15)
                                 .scale(begin: const Offset(.98, .98), curve: Curves.easeOutBack);
                           },

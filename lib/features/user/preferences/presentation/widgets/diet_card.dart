@@ -25,12 +25,11 @@ class DietCard extends StatelessWidget {
         width: double.infinity,
         height: 70,
         placeholder:
-            (context, url) => const Center(
-              child: SizedBox(
-                width: 24,
-                height: 24,
-                child: CircularProgressIndicator(strokeWidth: 2),
-              ),
+            (context, url) => Center(
+              child: Icon(Icons.image_outlined, size: 28, color: Colors.grey.shade400)
+                  // shimmer loop
+                  .animate(onPlay: (controller) => controller.repeat())
+                  .shimmer(duration: 200.ms),
             ),
         errorWidget:
             (context, url, error) =>
