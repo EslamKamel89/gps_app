@@ -87,9 +87,14 @@ class _DietSelectionScreenState extends State<DietSelectionScreen> {
                           itemCount: diets.length,
                           itemBuilder: (context, index) {
                             final diet = diets[index];
-                            // final selected = _selected.contains(item.id);
-
-                            final card = DietCard(diet: diet, selected: true, onTap: () {});
+                            final card = DietCard(
+                              diet: diet,
+                              selected:
+                                  state.selectedDiets.where((d) => d.id == diet.id).isNotEmpty,
+                              onTap: () {
+                                cubit.toggleSelectedDiet(diet);
+                              },
+                            );
 
                             return card
                                 .animate(delay: (80 * index).ms)

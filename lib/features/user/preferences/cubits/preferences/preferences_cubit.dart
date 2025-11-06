@@ -69,6 +69,16 @@ class PreferencesCubit extends Cubit<PreferencesState> {
     emit(state.copyWith());
   }
 
+  void toggleSelectedDiet(DietModel diet) {
+    bool dietExist = state.selectedDiets.where((d) => d.id == diet.id).isNotEmpty;
+    if (dietExist) {
+      state.selectedDiets.removeWhere((d) => d.id == diet.id);
+    } else {
+      state.selectedDiets.add(diet);
+    }
+    emit(state.copyWith());
+  }
+
   Future dietsIndex() async {
     final t = prt('dietsIndex - CategoryOnboardingCubit');
 
