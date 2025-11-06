@@ -109,4 +109,22 @@ class PreferencesController {
       return pr(ApiResponseModel(errorMessage: errorMessage, response: ResponseEnum.failed), t);
     }
   }
+
+  Future<ApiResponseModel<List<DietModel>>> getSelectedDiets() async {
+    final t = prt('getSelectedDiets - CategoryController');
+    try {
+      final response = await api.get(EndPoint.getDiets);
+      pr(response, '$t - response');
+      final List<DietModel> models =
+          (response as List).map((json) => DietModel.fromJson(json)).toList();
+      return pr(ApiResponseModel(response: ResponseEnum.success, data: models), t);
+    } catch (e) {
+      String errorMessage = e.toString();
+      if (e is DioException) {
+        errorMessage = jsonEncode(e.response?.data ?? 'Unknown error occurred');
+      }
+      showSnackbar('Error', errorMessage, true);
+      return pr(ApiResponseModel(errorMessage: errorMessage, response: ResponseEnum.failed), t);
+    }
+  }
 }

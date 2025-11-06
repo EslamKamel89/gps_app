@@ -69,16 +69,6 @@ class PreferencesCubit extends Cubit<PreferencesState> {
     emit(state.copyWith());
   }
 
-  void toggleSelectedDiet(DietModel diet) {
-    bool dietExist = state.selectedDiets.where((d) => d.id == diet.id).isNotEmpty;
-    if (dietExist) {
-      state.selectedDiets.removeWhere((d) => d.id == diet.id);
-    } else {
-      state.selectedDiets.add(diet);
-    }
-    emit(state.copyWith());
-  }
-
   Future dietsIndex() async {
     final t = prt('dietsIndex - CategoryOnboardingCubit');
 
@@ -90,6 +80,23 @@ class PreferencesCubit extends Cubit<PreferencesState> {
     final ApiResponseModel<List<DietModel>> response = await controller.dietsIndex();
     pr(response, t);
     emit(state.copyWith(diets: response));
+    _getSelectedDiets();
+  }
+
+  Future _getSelectedDiets() async {
+    final t = prt('_getSelectedDiets - CategoryOnboardingCubit');
+    final ApiResponseModel<List<DietModel>> diets = await controller.getSelectedDiets();
+    emit(state.copyWith(selectedDiets: diets.data));
+  }
+
+  void toggleSelectedDiet(DietModel diet) {
+    bool dietExist = state.selectedDiets.where((d) => d.id == diet.id).isNotEmpty;
+    if (dietExist) {
+      state.selectedDiets.removeWhere((d) => d.id == diet.id);
+    } else {
+      state.selectedDiets.add(diet);
+    }
+    emit(state.copyWith());
   }
 
   Future submitSubCategories() async {
@@ -97,6 +104,6 @@ class PreferencesCubit extends Cubit<PreferencesState> {
   }
 
   Future submitDiets() async {
-    // controller.submitSubCategories(subCats: state);
+    controller.submitDiets(diets: state.selectedDiets);
   }
 }

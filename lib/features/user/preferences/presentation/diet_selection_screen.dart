@@ -115,6 +115,7 @@ class _DietSelectionScreenState extends State<DietSelectionScreen> {
                       Navigator.of(context).pushNamed(AppRoutesNames.homeSearchScreen);
                     },
                     onNext: () {
+                      cubit.submitDiets();
                       Navigator.of(context).pushNamed(AppRoutesNames.homeSearchScreen);
                     },
                   ),

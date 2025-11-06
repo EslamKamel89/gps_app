@@ -111,9 +111,7 @@ class _CategorySelectionScreenState extends State<CategorySelectionScreen> {
 
                   Footer(
                     onSkip:
-                        () => Navigator.of(
-                          context,
-                        ).pushNamed(AppRoutesNames.subcategorySelectionScreen),
+                        () => Navigator.of(context).pushNamed(AppRoutesNames.dietSelectionScreen),
                     onNext:
                         state.selectedCategories.isNotEmpty
                             ? () {
