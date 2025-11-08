@@ -6,16 +6,13 @@ import 'package:gps_app/core/service_locator/service_locator.dart';
 import 'package:gps_app/features/user/restaurant_details/controllers/restaurants_controller.dart';
 import 'package:gps_app/features/user/restaurant_details/models/restaurant_main_data.dart';
 
-class RestaurantsCubit
-    extends Cubit<ApiResponseModel<List<RestaurantMainData>>> {
+class RestaurantsCubit extends Cubit<ApiResponseModel<List<RestaurantMainData>>> {
   RestaurantsCubit() : super(ApiResponseModel());
-  final RestaurantsController controller =
-      serviceLocator<RestaurantsController>();
+  final RestaurantsController controller = serviceLocator<RestaurantsController>();
   Future restaurantsIndex() async {
     final t = prt('restaurantsIndex - RestaurantsCubit');
     emit(state.copyWith(errorMessage: null, response: ResponseEnum.loading));
-    final ApiResponseModel<List<RestaurantMainData>> response =
-        await controller.restaurants();
+    final ApiResponseModel<List<RestaurantMainData>> response = await controller.restaurants();
     pr(response, t);
     emit(response);
   }

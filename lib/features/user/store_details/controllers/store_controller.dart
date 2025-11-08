@@ -10,120 +10,89 @@ import 'package:gps_app/core/models/api_response_model.dart';
 import 'package:gps_app/core/service_locator/service_locator.dart';
 import 'package:gps_app/features/auth/models/catalog_item_model.dart';
 import 'package:gps_app/features/auth/models/catalog_section_model.dart';
+import 'package:gps_app/features/auth/models/user_model.dart';
 
 class StoreController {
   final _api = serviceLocator<ApiConsumer>();
-  Future<ApiResponseModel<bool>> addSection({
-    required CatalogSectionModel section,
-  }) async {
+  Future<ApiResponseModel<bool>> addSection({required CatalogSectionModel section}) async {
     final t = prt('addSection - StoreController');
     try {
-      final response = await _api.post(
-        "${EndPoint.sections}/",
-        data: {"name": section.name},
-      );
+      final response = await _api.post("${EndPoint.sections}/", data: {"name": section.name});
       pr(response, '$t - response');
-      return pr(
-        ApiResponseModel(response: ResponseEnum.success, data: true),
-        t,
-      );
+      return pr(ApiResponseModel(response: ResponseEnum.success, data: true), t);
     } catch (e) {
       String errorMessage = e.toString();
       if (e is DioException) {
         errorMessage = jsonEncode(e.response?.data ?? 'Unknown error occurred');
       }
       showSnackbar('Error', errorMessage, true);
-      return pr(
-        ApiResponseModel(
-          errorMessage: errorMessage,
-          response: ResponseEnum.failed,
-        ),
-        t,
-      );
+      return pr(ApiResponseModel(errorMessage: errorMessage, response: ResponseEnum.failed), t);
     }
   }
 
-  Future<ApiResponseModel<bool>> deleteSection({
-    required CatalogSectionModel section,
-  }) async {
+  Future<ApiResponseModel<bool>> deleteSection({required CatalogSectionModel section}) async {
     final t = prt('deleteSection - StoreController');
     try {
       final response = await _api.delete("${EndPoint.sections}/${section.id}");
       pr(response, '$t - response');
-      return pr(
-        ApiResponseModel(response: ResponseEnum.success, data: true),
-        t,
-      );
+      return pr(ApiResponseModel(response: ResponseEnum.success, data: true), t);
     } catch (e) {
       String errorMessage = e.toString();
       if (e is DioException) {
         errorMessage = jsonEncode(e.response?.data ?? 'Unknown error occurred');
       }
       showSnackbar('Error', errorMessage, true);
-      return pr(
-        ApiResponseModel(
-          errorMessage: errorMessage,
-          response: ResponseEnum.failed,
-        ),
-        t,
-      );
+      return pr(ApiResponseModel(errorMessage: errorMessage, response: ResponseEnum.failed), t);
     }
   }
 
-  Future<ApiResponseModel<bool>> addItem({
-    required CatalogItemModel item,
-  }) async {
+  Future<ApiResponseModel<bool>> addItem({required CatalogItemModel item}) async {
     final t = prt('addItem - StoreController');
     try {
-      final response = await _api.post(
-        "${EndPoint.items}/",
-        data: item.toRequestBody(),
-      );
+      final response = await _api.post("${EndPoint.items}/", data: item.toRequestBody());
       pr(response, '$t - response');
-      return pr(
-        ApiResponseModel(response: ResponseEnum.success, data: true),
-        t,
-      );
+      return pr(ApiResponseModel(response: ResponseEnum.success, data: true), t);
     } catch (e) {
       String errorMessage = e.toString();
       if (e is DioException) {
         errorMessage = jsonEncode(e.response?.data ?? 'Unknown error occurred');
       }
       showSnackbar('Error', errorMessage, true);
-      return pr(
-        ApiResponseModel(
-          errorMessage: errorMessage,
-          response: ResponseEnum.failed,
-        ),
-        t,
-      );
+      return pr(ApiResponseModel(errorMessage: errorMessage, response: ResponseEnum.failed), t);
     }
   }
 
-  Future<ApiResponseModel<bool>> deleteItem({
-    required CatalogItemModel item,
-  }) async {
+  Future<ApiResponseModel<bool>> deleteItem({required CatalogItemModel item}) async {
     final t = prt('deleteItem - StoreController');
     try {
       final response = await _api.delete("${EndPoint.items}/${item.id}");
       pr(response, '$t - response');
-      return pr(
-        ApiResponseModel(response: ResponseEnum.success, data: true),
-        t,
-      );
+      return pr(ApiResponseModel(response: ResponseEnum.success, data: true), t);
     } catch (e) {
       String errorMessage = e.toString();
       if (e is DioException) {
         errorMessage = jsonEncode(e.response?.data ?? 'Unknown error occurred');
       }
       showSnackbar('Error', errorMessage, true);
-      return pr(
-        ApiResponseModel(
-          errorMessage: errorMessage,
-          response: ResponseEnum.failed,
-        ),
-        t,
-      );
+      return pr(ApiResponseModel(errorMessage: errorMessage, response: ResponseEnum.failed), t);
+    }
+  }
+
+  Future<ApiResponseModel<List<UserModel>>> stores({required bool isStore}) async {
+    final t = prt('stores - StoreController');
+    try {
+      final response = await _api.get(isStore ? EndPoint.store : EndPoint.farm);
+      pr(response, '$t - response');
+      final List<UserModel> models =
+          (response as List).map((json) => UserModel.fromJson(json['user'])).toList();
+      return pr(ApiResponseModel(response: ResponseEnum.success, data: models), t);
+    } catch (e) {
+      String errorMessage = e.toString();
+      if (e is DioException) {
+        errorMessage = jsonEncode(e.response?.data ?? 'Unknown error occurred');
+      }
+      showSnackbar('Error', errorMessage, true);
+      return pr(ApiResponseModel(errorMessage: errorMessage, response: ResponseEnum.failed), t);
     }
   }
 }

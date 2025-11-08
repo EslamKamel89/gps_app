@@ -32,4 +32,6 @@ class EndPoint {
   static const String favorites = "$baseUrl/api/favourites";
   static const String selectSubCategory = "$baseUrl/api/select-sub-category";
   static const String getDiets = "$baseUrl/api/get-diets";
+  static const String store = "$baseUrl/api/store";
+  static const String farm = "$baseUrl/api/farm";
 }

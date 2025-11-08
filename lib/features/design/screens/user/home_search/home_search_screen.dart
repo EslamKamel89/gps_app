@@ -21,6 +21,7 @@ import 'package:gps_app/features/design/widgets/gps_bottom_nav.dart';
 import 'package:gps_app/features/user/restaurant_details/models/restaurant_main_data.dart';
 import 'package:gps_app/features/user/restaurant_details/presentation/restaurant_detail_provider.dart';
 import 'package:gps_app/features/user/restaurant_details/presentation/widgets/most_loved_restaurants.dart';
+import 'package:gps_app/features/user/store_details/presentation/widgets/most_loved_stores.dart';
 
 class HomeSearchScreen extends StatefulWidget {
   const HomeSearchScreen({super.key});
@@ -327,7 +328,9 @@ class _HomeSearchScreenState extends State<HomeSearchScreen> {
                         // CategoryShortcutWidget(items: _shortcutItems),
                         // GPSGaps.h16,
                         MostLovedRestaurantsProvider(),
-                        GPSGaps.h20,
+                        MostLovedStoresProvider(isStore: true),
+                        MostLovedStoresProvider(isStore: false),
+                        // GPSGaps.h20,
                         const PromoCard(),
                         GPSGaps.h20,
                         Padding(

@@ -133,6 +133,12 @@ class StoreDetailsScreenState extends State<StoreDetailsScreen>
   }
 
   @override
+  void dispose() {
+    cubit.state.data = null;
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocConsumer<StoreCubit, ApiResponseModel<UserModel>>(
       listener: (context, state) {},
