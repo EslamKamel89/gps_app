@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gps_app/core/helpers/print_helper.dart';
 import 'package:gps_app/features/design/screens/user/home_search/widgets/round_square_buttom.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
@@ -30,13 +29,9 @@ class _SearchRowState extends State<SearchRow> {
     super.initState();
   }
 
-  bool _showSuggestions = false;
-
   void _onQueryChanged(String _) {
     final hasText = _searchCtrl.text.trim().isNotEmpty;
-    setState(() {
-      _showSuggestions = hasText;
-    });
+
     if (!hasText) {
       widget.onClear();
     }
@@ -49,56 +44,19 @@ class _SearchRowState extends State<SearchRow> {
   }
 
   void _exitSearchIfCleared() {
-    if (_searchCtrl.text.trim().isEmpty) {
-      setState(() {
-        _showSuggestions = false;
-      });
-    }
+    if (_searchCtrl.text.trim().isEmpty) {}
   }
 
   Future<void> _openFilters() async {
     await showModalBottomSheet(
       context: context,
+      isScrollControlled: true,
+      showDragHandle: true,
       builder: (_) {
-        return FilterDialog();
+        return SafeArea(child: FilterDialog());
       },
     );
     cubit.update();
-  }
-
-  Widget _buildFilters() {
-    final state = cubit.state;
-    final hasFilters =
-        state.distance != null ||
-        state.category != null ||
-        state.subCategory != null ||
-        state.diet != null;
-
-    if (!hasFilters) return const SizedBox();
-
-    return Column(
-      children: [
-        GPSGaps.h16,
-        Wrap(
-          spacing: 8,
-          runSpacing: 8,
-          children: [
-            if (state.distance != null)
-              InputChip(
-                label: Text('Distance: ${state.distance}'),
-                onDeleted: () => state.distance = null,
-              ),
-            if (state.subCategory != null)
-              InputChip(
-                label: Text('Category: ${state.subCategory?.name}'),
-                onDeleted: () => state.subCategory = null,
-              ),
-            if (state.diet != null)
-              InputChip(label: Text(state.diet?.name ?? ''), onDeleted: () => state.diet = null),
-          ],
-        ),
-      ],
-    );
   }
 
   @override
@@ -114,7 +72,6 @@ class _SearchRowState extends State<SearchRow> {
       controller: _searchCtrl,
       focusNode: _searchFocus,
       onChanged: _onQueryChanged,
-      onSubmitted: (_) => setState(() => _showSuggestions = false),
       decoration: _decoration(widget.hint).copyWith(
         prefixIcon: const Icon(Icons.search_rounded, color: GPSColors.primary),
         suffixIcon:
@@ -142,25 +99,25 @@ class _SearchRowState extends State<SearchRow> {
         return Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            TextButton(
-              onPressed: () {
-                pr(state, 'state');
-              },
-              child: Text('test'),
-            ),
+            // TextButton(
+            //   onPressed: () {
+            //     pr(state, 'state');
+            //   },
+            //   child: Text('test'),
+            // ),
             searchRow,
             FiltersRow(),
-            if (_showSuggestions) ...[
-              GPSGaps.h8,
-              // Your SuggestionList should support `items`, `onSelect`, maybe `onClose`
-              // SuggestionsList(
-              //   items: _filtered,
-              //   onSelect: _selectSuggestion,
-              //   favorites: {},
-              //   onToggleFavorite: (value) {},
-              //   // onClose: () => setState(() => _showSuggestions = false),
-              // ),
-            ],
+
+            GPSGaps.h8,
+
+            // Your SuggestionList should support `items`, `onSelect`, maybe `onClose`
+            // SuggestionsList(
+            //   items: _filtered,
+            //   onSelect: _selectSuggestion,
+            //   favorites: {},
+            //   onToggleFavorite: (value) {},
+            //   // onClose: () => setState(() => _showSuggestions = false),
+            // ),
           ],
         );
       },

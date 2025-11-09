@@ -4,6 +4,7 @@ import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 import 'package:gps_app/features/search/cubits/search_cubit/search_cubit.dart';
 import 'package:gps_app/features/search/presentation/diets_row.dart';
+import 'package:gps_app/features/search/presentation/type_multi_select.dart';
 import 'package:gps_app/features/user/preferences/presentation/widgets/category_selector.dart';
 
 class FilterDialog extends StatefulWidget {
@@ -26,10 +27,15 @@ class _FilterDialogState extends State<FilterDialog> {
 
   @override
   Widget build(BuildContext context) {
-    final content = SingleChildScrollView(
+    final content = SizedBox(
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
+          const SizedBox(height: 12),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Text('Pick Distance', style: Theme.of(context).textTheme.titleMedium),
+          ),
           DropdownButtonFormField<int?>(
             initialValue: cubit.state.distance,
             decoration: const InputDecoration(hintText: 'Please Select Distance'),
@@ -43,7 +49,10 @@ class _FilterDialogState extends State<FilterDialog> {
             onChanged: (v) => setState(() => cubit.state.distance = v),
           ),
           const SizedBox(height: 12),
-
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Text('Pick Category', style: Theme.of(context).textTheme.titleMedium),
+          ),
           CategorySelectorProvider(
             onSelect: (c) {
               cubit.state.category = c.selectedCategory;
@@ -51,13 +60,26 @@ class _FilterDialogState extends State<FilterDialog> {
             },
           ),
           const SizedBox(height: 16),
-
+          const SizedBox(height: 8),
           Align(
             alignment: Alignment.centerLeft,
             child: Text('Diets', style: Theme.of(context).textTheme.titleMedium),
           ),
-          const SizedBox(height: 8),
           DietsRowProvider(),
+          const SizedBox(height: 8),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              'Pick what your looking for',
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
+          ),
+          TypeMultiSelect(
+            onSelectionChanged: (types) {
+              cubit.state.types = types;
+            },
+            initialValue: cubit.state.types ?? [],
+          ),
         ],
       ),
     );
@@ -72,11 +94,18 @@ class _FilterDialogState extends State<FilterDialog> {
         },
         child: const Text('Cancel'),
       ),
-      FilledButton(
-        onPressed: () {
+      InkWell(
+        onTap: () {
           Navigator.pop(context);
         },
-        child: const Text('apply'),
+        child: Container(
+          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+          decoration: BoxDecoration(
+            color: GPSColors.accent,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: const Text('apply', style: TextStyle(color: Colors.white)),
+        ),
       ),
     ];
 
