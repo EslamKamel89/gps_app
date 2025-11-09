@@ -35,9 +35,11 @@ class BlogCard extends StatelessWidget {
           children: [
             InkWell(
               onTap: () {
-                Navigator.of(
-                  context,
-                ).push(MaterialPageRoute(builder: (_) => BlogDetailsScreen(blog: blog)));
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => BlogDetailsScreen(blog: blog),
+                  ),
+                );
               },
               child: Column(
                 children: [
@@ -56,7 +58,11 @@ class BlogCard extends StatelessWidget {
                     blog.content ?? "",
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(color: GPSColors.mutedText, fontSize: 14, height: 1.4),
+                    style: const TextStyle(
+                      color: GPSColors.mutedText,
+                      fontSize: 14,
+                      height: 1.4,
+                    ),
                   ).animate().fadeIn(duration: 300.ms).slideX(begin: 0.2),
                   GPSGaps.h12,
                 ],
@@ -91,7 +97,11 @@ class BlogCard extends StatelessWidget {
             (context, url, error) => Container(
               color: GPSColors.cardBorder,
               height: 200,
-              child: const Icon(Icons.image_not_supported, size: 48, color: GPSColors.mutedText),
+              child: const Icon(
+                Icons.image_not_supported,
+                size: 48,
+                color: GPSColors.mutedText,
+              ),
             ),
       ),
     );

@@ -15,7 +15,8 @@ class CategorySelectionScreen extends StatefulWidget {
   const CategorySelectionScreen({super.key});
 
   @override
-  State<CategorySelectionScreen> createState() => _CategorySelectionScreenState();
+  State<CategorySelectionScreen> createState() =>
+      _CategorySelectionScreenState();
 }
 
 class _CategorySelectionScreenState extends State<CategorySelectionScreen> {
@@ -42,8 +43,11 @@ class _CategorySelectionScreenState extends State<CategorySelectionScreen> {
                 children: [
                   GPSGaps.h24,
                   const GpsHeader(
-                    title: 'Which categories are you interested in?',
-                  ).animate().fadeIn(duration: 300.ms).slideY(begin: .2, curve: Curves.easeOutQuad),
+                        title: 'Which categories are you interested in?',
+                      )
+                      .animate()
+                      .fadeIn(duration: 300.ms)
+                      .slideY(begin: .2, curve: Curves.easeOutQuad),
                   GPSGaps.h24,
 
                   Builder(
@@ -52,20 +56,23 @@ class _CategorySelectionScreenState extends State<CategorySelectionScreen> {
                         return Expanded(
                           child: GridView.builder(
                             padding: EdgeInsets.zero,
-                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              mainAxisSpacing: 14,
-                              crossAxisSpacing: 14,
-                              childAspectRatio: 1.05,
-                            ),
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
+                                  mainAxisSpacing: 14,
+                                  crossAxisSpacing: 14,
+                                  childAspectRatio: 1.05,
+                                ),
                             itemCount: 4,
                             itemBuilder: (context, index) {
                               return Container(
-                                decoration: BoxDecoration(
-                                  color: Colors.grey.withOpacity(0.6),
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                              ).animate(onPlay: (c) => c.repeat()).shimmer(duration: 1000.ms);
+                                    decoration: BoxDecoration(
+                                      color: Colors.grey.withOpacity(0.6),
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                  )
+                                  .animate(onPlay: (c) => c.repeat())
+                                  .shimmer(duration: 1000.ms);
                             },
                           ),
                         );
@@ -73,12 +80,13 @@ class _CategorySelectionScreenState extends State<CategorySelectionScreen> {
                       return Expanded(
                         child: GridView.builder(
                           padding: EdgeInsets.zero,
-                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            mainAxisSpacing: 14,
-                            crossAxisSpacing: 14,
-                            childAspectRatio: 1.05,
-                          ),
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                mainAxisSpacing: 14,
+                                crossAxisSpacing: 14,
+                                childAspectRatio: 1.05,
+                              ),
                           itemCount: categories.length,
                           itemBuilder: (context, index) {
                             final category = categories[index];
@@ -90,17 +98,22 @@ class _CategorySelectionScreenState extends State<CategorySelectionScreen> {
                             final card = CategoryCard(
                               label: category.name ?? '',
                               description: category.description ?? '', // NEW
-                              imageUrl: "${EndPoint.baseUrl}/${category.image?.path}",
+                              imageUrl:
+                                  "${EndPoint.baseUrl}/${category.image?.path}",
 
                               selected: selected,
-                              onTap: () => cubit.toggleSelectedCategory(category),
+                              onTap:
+                                  () => cubit.toggleSelectedCategory(category),
                             );
 
                             return card
                                 .animate(delay: (10 * index).ms)
                                 .fadeIn(duration: 50.ms)
                                 .slideY(begin: .15)
-                                .scale(begin: const Offset(.98, .98), curve: Curves.easeOutBack);
+                                .scale(
+                                  begin: const Offset(.98, .98),
+                                  curve: Curves.easeOutBack,
+                                );
                           },
                         ),
                       );
@@ -111,7 +124,9 @@ class _CategorySelectionScreenState extends State<CategorySelectionScreen> {
 
                   Footer(
                     onSkip:
-                        () => Navigator.of(context).pushNamed(AppRoutesNames.dietSelectionScreen),
+                        () => Navigator.of(
+                          context,
+                        ).pushNamed(AppRoutesNames.dietSelectionScreen),
                     onNext:
                         state.selectedCategories.isNotEmpty
                             ? () {
@@ -122,9 +137,9 @@ class _CategorySelectionScreenState extends State<CategorySelectionScreen> {
                               //     ),
                               //   ),
                               // );
-                              Navigator.of(
-                                context,
-                              ).pushNamed(AppRoutesNames.subcategorySelectionScreen);
+                              Navigator.of(context).pushNamed(
+                                AppRoutesNames.subcategorySelectionScreen,
+                              );
                             }
                             : null,
                   ),

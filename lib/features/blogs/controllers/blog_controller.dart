@@ -19,34 +19,58 @@ class BlogController {
       pr(response, '$t - response');
       final List<BlogModel> models =
           (response as List).map((json) => BlogModel.fromJson(json)).toList();
-      return pr(ApiResponseModel(response: ResponseEnum.success, data: models), t);
+      return pr(
+        ApiResponseModel(response: ResponseEnum.success, data: models),
+        t,
+      );
     } catch (e) {
       String errorMessage = e.toString();
       if (e is DioException) {
         errorMessage = jsonEncode(e.response?.data ?? 'Unknown error occurred');
       }
       showSnackbar('Error', errorMessage, true);
-      return pr(ApiResponseModel(errorMessage: errorMessage, response: ResponseEnum.failed), t);
+      return pr(
+        ApiResponseModel(
+          errorMessage: errorMessage,
+          response: ResponseEnum.failed,
+        ),
+        t,
+      );
     }
   }
 
   Future<ApiResponseModel<bool>> likeBlog({required int blogId}) async {
     final t = prt('likeBlog - BlogController');
     try {
-      final response = await _api.post(EndPoint.blogs, data: {'blog_id': blogId, 'type': 'like'});
+      final response = await _api.post(
+        EndPoint.blogs,
+        data: {'blog_id': blogId, 'type': 'like'},
+      );
       pr(response, '$t - response');
-      return pr(ApiResponseModel(response: ResponseEnum.success, data: true), t);
+      return pr(
+        ApiResponseModel(response: ResponseEnum.success, data: true),
+        t,
+      );
     } catch (e) {
       String errorMessage = e.toString();
       if (e is DioException) {
         errorMessage = jsonEncode(e.response?.data ?? 'Unknown error occurred');
       }
       showSnackbar('Error', errorMessage, true);
-      return pr(ApiResponseModel(errorMessage: errorMessage, response: ResponseEnum.failed), t);
+      return pr(
+        ApiResponseModel(
+          errorMessage: errorMessage,
+          response: ResponseEnum.failed,
+        ),
+        t,
+      );
     }
   }
 
-  Future<ApiResponseModel<bool>> addComment({required int blogId, required String content}) async {
+  Future<ApiResponseModel<bool>> addComment({
+    required int blogId,
+    required String content,
+  }) async {
     final t = prt('addComment - BlogController');
     try {
       final response = await _api.post(
@@ -54,14 +78,23 @@ class BlogController {
         data: {'blog_id': blogId, 'type': 'comment', 'comment': content},
       );
       pr(response, '$t - response');
-      return pr(ApiResponseModel(response: ResponseEnum.success, data: true), t);
+      return pr(
+        ApiResponseModel(response: ResponseEnum.success, data: true),
+        t,
+      );
     } catch (e) {
       String errorMessage = e.toString();
       if (e is DioException) {
         errorMessage = jsonEncode(e.response?.data ?? 'Unknown error occurred');
       }
       showSnackbar('Error', errorMessage, true);
-      return pr(ApiResponseModel(errorMessage: errorMessage, response: ResponseEnum.failed), t);
+      return pr(
+        ApiResponseModel(
+          errorMessage: errorMessage,
+          response: ResponseEnum.failed,
+        ),
+        t,
+      );
     }
   }
 
@@ -76,14 +109,23 @@ class BlogController {
         data: {'type': 'comment', 'comment': content},
       );
       pr(response, '$t - response');
-      return pr(ApiResponseModel(response: ResponseEnum.success, data: true), t);
+      return pr(
+        ApiResponseModel(response: ResponseEnum.success, data: true),
+        t,
+      );
     } catch (e) {
       String errorMessage = e.toString();
       if (e is DioException) {
         errorMessage = jsonEncode(e.response?.data ?? 'Unknown error occurred');
       }
       showSnackbar('Error', errorMessage, true);
-      return pr(ApiResponseModel(errorMessage: errorMessage, response: ResponseEnum.failed), t);
+      return pr(
+        ApiResponseModel(
+          errorMessage: errorMessage,
+          response: ResponseEnum.failed,
+        ),
+        t,
+      );
     }
   }
 }

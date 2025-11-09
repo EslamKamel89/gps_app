@@ -16,7 +16,9 @@ class ImagePlaceholder extends StatelessWidget {
     );
     return base
         .animate(
-          onPlay: (c) => c.repeat(reverse: false), // continuous shimmer while loading
+          onPlay:
+              (c) =>
+                  c.repeat(reverse: false), // continuous shimmer while loading
         )
         .shimmer(duration: 1200.ms);
   }

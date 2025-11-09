@@ -35,7 +35,8 @@ class PreferencesState {
       categories: categories ?? this.categories,
       diets: diets ?? this.diets,
       selectedCategories: selectedCategories ?? this.selectedCategories,
-      selectedSubCategories: selectedSubCategories ?? this.selectedSubCategories,
+      selectedSubCategories:
+          selectedSubCategories ?? this.selectedSubCategories,
       selectedDiets: selectedDiets ?? this.selectedDiets,
     );
   }

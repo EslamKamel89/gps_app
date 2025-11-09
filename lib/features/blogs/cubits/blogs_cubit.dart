@@ -23,7 +23,9 @@ class BlogsCubit extends Cubit<ApiResponseModel<List<BlogModel>>> {
     if (blog.id == null) return;
     blog.likesCount = (blog.likesCount ?? 0) + 1;
     emit(state.copyWith());
-    final ApiResponseModel<bool> response = await controller.likeBlog(blogId: blog.id!);
+    final ApiResponseModel<bool> response = await controller.likeBlog(
+      blogId: blog.id!,
+    );
     blogs();
   }
 
@@ -48,7 +50,10 @@ class BlogsCubit extends Cubit<ApiResponseModel<List<BlogModel>>> {
     blogs();
   }
 
-  Future updateComment({required CommentModel comment, required String content}) async {
+  Future updateComment({
+    required CommentModel comment,
+    required String content,
+  }) async {
     if (comment.blogId == null) return;
     comment.comment = content;
     emit(state.copyWith());

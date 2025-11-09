@@ -21,34 +21,57 @@ class PreferencesController {
       final response = await api.get(EndPoint.category);
       pr(response, '$t - response');
       final List<CategoryModel> models =
-          (response as List).map((json) => CategoryModel.fromJson(json)).toList();
-      return pr(ApiResponseModel(response: ResponseEnum.success, data: models), t);
+          (response as List)
+              .map((json) => CategoryModel.fromJson(json))
+              .toList();
+      return pr(
+        ApiResponseModel(response: ResponseEnum.success, data: models),
+        t,
+      );
     } catch (e) {
       String errorMessage = e.toString();
       if (e is DioException) {
         errorMessage = jsonEncode(e.response?.data ?? 'Unknown error occurred');
       }
       showSnackbar('Error', errorMessage, true);
-      return pr(ApiResponseModel(errorMessage: errorMessage, response: ResponseEnum.failed), t);
+      return pr(
+        ApiResponseModel(
+          errorMessage: errorMessage,
+          response: ResponseEnum.failed,
+        ),
+        t,
+      );
     }
   }
 
-  Future<ApiResponseModel<SelectedCategoriesPreferences>> getSelectedCategories() async {
+  Future<ApiResponseModel<SelectedCategoriesPreferences>>
+  getSelectedCategories() async {
     final t = prt('getSelectedCategories - CategoryController');
     try {
       final response = await api.get(EndPoint.selectSubCategory);
       pr(response, '$t - response');
       final List<CategoryPreferenceModel> models =
-          (response as List).map((json) => CategoryPreferenceModel.fromJson(json)).toList();
+          (response as List)
+              .map((json) => CategoryPreferenceModel.fromJson(json))
+              .toList();
       final prefs = SelectedCategoriesPreferences.fromResponse(models);
-      return pr(ApiResponseModel(response: ResponseEnum.success, data: prefs), t);
+      return pr(
+        ApiResponseModel(response: ResponseEnum.success, data: prefs),
+        t,
+      );
     } catch (e) {
       String errorMessage = e.toString();
       if (e is DioException) {
         errorMessage = jsonEncode(e.response?.data ?? 'Unknown error occurred');
       }
       showSnackbar('Error', errorMessage, true);
-      return pr(ApiResponseModel(errorMessage: errorMessage, response: ResponseEnum.failed), t);
+      return pr(
+        ApiResponseModel(
+          errorMessage: errorMessage,
+          response: ResponseEnum.failed,
+        ),
+        t,
+      );
     }
   }
 
@@ -59,14 +82,23 @@ class PreferencesController {
       pr(response, '$t - response');
       final List<DietModel> models =
           (response as List).map((json) => DietModel.fromJson(json)).toList();
-      return pr(ApiResponseModel(response: ResponseEnum.success, data: models), t);
+      return pr(
+        ApiResponseModel(response: ResponseEnum.success, data: models),
+        t,
+      );
     } catch (e) {
       String errorMessage = e.toString();
       if (e is DioException) {
         errorMessage = jsonEncode(e.response?.data ?? 'Unknown error occurred');
       }
       showSnackbar('Error', errorMessage, true);
-      return pr(ApiResponseModel(errorMessage: errorMessage, response: ResponseEnum.failed), t);
+      return pr(
+        ApiResponseModel(
+          errorMessage: errorMessage,
+          response: ResponseEnum.failed,
+        ),
+        t,
+      );
     }
   }
 
@@ -80,18 +112,29 @@ class PreferencesController {
         data: subCats.map((s) => {"sub_category_id": s.id}).toList(),
       );
       pr(response, '$t - response');
-      return pr(ApiResponseModel(response: ResponseEnum.success, data: true), t);
+      return pr(
+        ApiResponseModel(response: ResponseEnum.success, data: true),
+        t,
+      );
     } catch (e) {
       String errorMessage = e.toString();
       if (e is DioException) {
         errorMessage = jsonEncode(e.response?.data ?? 'Unknown error occurred');
       }
       showSnackbar('Error', errorMessage, true);
-      return pr(ApiResponseModel(errorMessage: errorMessage, response: ResponseEnum.failed), t);
+      return pr(
+        ApiResponseModel(
+          errorMessage: errorMessage,
+          response: ResponseEnum.failed,
+        ),
+        t,
+      );
     }
   }
 
-  Future<ApiResponseModel<bool>> submitDiets({required List<DietModel> diets}) async {
+  Future<ApiResponseModel<bool>> submitDiets({
+    required List<DietModel> diets,
+  }) async {
     final t = prt('submitDiets - CategoryController');
     try {
       final response = await api.post(
@@ -99,14 +142,23 @@ class PreferencesController {
         data: diets.map((s) => {"diet_id": s.id}).toList(),
       );
       pr(response, '$t - response');
-      return pr(ApiResponseModel(response: ResponseEnum.success, data: true), t);
+      return pr(
+        ApiResponseModel(response: ResponseEnum.success, data: true),
+        t,
+      );
     } catch (e) {
       String errorMessage = e.toString();
       if (e is DioException) {
         errorMessage = jsonEncode(e.response?.data ?? 'Unknown error occurred');
       }
       showSnackbar('Error', errorMessage, true);
-      return pr(ApiResponseModel(errorMessage: errorMessage, response: ResponseEnum.failed), t);
+      return pr(
+        ApiResponseModel(
+          errorMessage: errorMessage,
+          response: ResponseEnum.failed,
+        ),
+        t,
+      );
     }
   }
 
@@ -117,14 +169,23 @@ class PreferencesController {
       pr(response, '$t - response');
       final List<DietModel> models =
           (response as List).map((json) => DietModel.fromJson(json)).toList();
-      return pr(ApiResponseModel(response: ResponseEnum.success, data: models), t);
+      return pr(
+        ApiResponseModel(response: ResponseEnum.success, data: models),
+        t,
+      );
     } catch (e) {
       String errorMessage = e.toString();
       if (e is DioException) {
         errorMessage = jsonEncode(e.response?.data ?? 'Unknown error occurred');
       }
       showSnackbar('Error', errorMessage, true);
-      return pr(ApiResponseModel(errorMessage: errorMessage, response: ResponseEnum.failed), t);
+      return pr(
+        ApiResponseModel(
+          errorMessage: errorMessage,
+          response: ResponseEnum.failed,
+        ),
+        t,
+      );
     }
   }
 }

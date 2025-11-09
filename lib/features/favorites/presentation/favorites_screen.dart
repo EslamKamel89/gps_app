@@ -43,7 +43,10 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
             centerTitle: true,
             title: Text(
               '💖 Favorites',
-              style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700),
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w700,
+              ),
             ),
           ),
           body: SingleChildScrollView(
@@ -57,7 +60,9 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                       itemBuilder: (context, i) {
                         final fav = state.data![i];
                         return FavoriteCard(
-                              key: ValueKey('fav_${fav.id}-${fav.favoriteType}'),
+                              key: ValueKey(
+                                'fav_${fav.id}-${fav.favoriteType}',
+                              ),
                               favorite: fav,
                             )
                             .animate(delay: (50 * i).ms)

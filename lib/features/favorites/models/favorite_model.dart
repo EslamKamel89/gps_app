@@ -18,7 +18,8 @@ class FavoriteModel {
       id: json['id'] as int?,
       favoriteType: json['favourite_type'] as String?,
       favoriteId: json['favourite_id'] as int?,
-      user: json['details'] == null ? null : UserModel.fromJson(json['details']),
+      user:
+          json['details'] == null ? null : UserModel.fromJson(json['details']),
     );
   }
 }

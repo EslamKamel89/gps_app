@@ -10,10 +10,18 @@ class EmptyState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final icon = Icon(MdiIcons.heartOutline, size: 56, color: GPSColors.mutedText);
+    final icon = Icon(
+      MdiIcons.heartOutline,
+      size: 56,
+      color: GPSColors.mutedText,
+    );
     final text = Text(
       'No favorites exist',
-      style: TextStyle(color: GPSColors.mutedText, fontSize: 15, fontWeight: FontWeight.w600),
+      style: TextStyle(
+        color: GPSColors.mutedText,
+        fontSize: 15,
+        fontWeight: FontWeight.w600,
+      ),
     );
 
     return Container(

@@ -1,13 +1,13 @@
-part of 'search_cubit_cubit.dart';
+part of 'search_cubit.dart';
 
-class SearchCubitState {
+class SearchState {
   LatLng? currentLocation;
   String? search;
   int? distance;
   int? subCategoryId;
   int? dietId;
   List<String>? types;
-  SearchCubitState({
+  SearchState({
     this.currentLocation,
     this.search,
     this.distance,
@@ -16,7 +16,7 @@ class SearchCubitState {
     this.types,
   });
 
-  SearchCubitState copyWith({
+  SearchState copyWith({
     LatLng? currentLocation,
     String? search,
     int? distance,
@@ -24,7 +24,7 @@ class SearchCubitState {
     int? dietId,
     List<String>? types,
   }) {
-    return SearchCubitState(
+    return SearchState(
       currentLocation: currentLocation ?? this.currentLocation,
       search: search ?? this.search,
       distance: distance ?? this.distance,

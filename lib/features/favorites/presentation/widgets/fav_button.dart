@@ -4,7 +4,12 @@ import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/favorites/controller/favorites_controller.dart';
 
 class FavoriteButton extends StatefulWidget {
-  const FavoriteButton({super.key, required this.showFav, required this.id, required this.type});
+  const FavoriteButton({
+    super.key,
+    required this.showFav,
+    required this.id,
+    required this.type,
+  });
   final bool showFav;
   final int? id;
   final String type;
@@ -24,7 +29,10 @@ class _FavoriteButtonState extends State<FavoriteButton> {
         setState(() {
           _isPressed = true;
         });
-        serviceLocator<FavoritesController>().addToFavorite(id: widget.id!, type: widget.type);
+        serviceLocator<FavoritesController>().addToFavorite(
+          id: widget.id!,
+          type: widget.type,
+        );
       },
       icon: Icon(
         _isPressed ? Icons.favorite_rounded : Icons.favorite_outline,

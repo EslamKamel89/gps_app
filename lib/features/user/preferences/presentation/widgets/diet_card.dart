@@ -7,7 +7,12 @@ import 'package:gps_app/features/design/utils/gps_gaps.dart';
 import 'package:gps_app/features/user/preferences/models/diet_model.dart';
 
 class DietCard extends StatelessWidget {
-  const DietCard({super.key, required this.diet, required this.onTap, required this.selected});
+  const DietCard({
+    super.key,
+    required this.diet,
+    required this.onTap,
+    required this.selected,
+  });
 
   final DietModel diet;
   final bool selected;
@@ -26,14 +31,19 @@ class DietCard extends StatelessWidget {
         height: 70,
         placeholder:
             (context, url) => Center(
-              child: Icon(Icons.image_outlined, size: 28, color: Colors.grey.shade400)
+              child: Icon(
+                    Icons.image_outlined,
+                    size: 28,
+                    color: Colors.grey.shade400,
+                  )
                   // shimmer loop
                   .animate(onPlay: (controller) => controller.repeat())
                   .shimmer(duration: 200.ms),
             ),
         errorWidget:
-            (context, url, error) =>
-                const Center(child: Icon(Icons.broken_image, color: Colors.grey, size: 28)),
+            (context, url, error) => const Center(
+              child: Icon(Icons.broken_image, color: Colors.grey, size: 28),
+            ),
       ),
     );
     final card = Container(
@@ -48,14 +58,17 @@ class DietCard extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            image.animate(target: selected ? 1 : 0).scaleXY(begin: 1, end: 1.08, duration: 180.ms),
+            image
+                .animate(target: selected ? 1 : 0)
+                .scaleXY(begin: 1, end: 1.08, duration: 180.ms),
             GPSGaps.h12,
             Text(
               diet.name ?? '',
               textAlign: TextAlign.center,
-              style: Theme.of(
-                context,
-              ).textTheme.titleMedium?.copyWith(color: GPSColors.text, fontWeight: FontWeight.w600),
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                color: GPSColors.text,
+                fontWeight: FontWeight.w600,
+              ),
             ),
           ],
         ),
@@ -66,6 +79,9 @@ class DietCard extends StatelessWidget {
         .animate(onPlay: (controller) => controller.forward())
         // .shadow(color: const Color(0x1A000000), begin: 0, end: 12, duration: 300.ms, curve: Curves.easeOut)
         .then()
-        .shake(hz: selected ? 2 : 0, duration: selected ? 200.ms : 1.ms); // subtle tap feedback
+        .shake(
+          hz: selected ? 2 : 0,
+          duration: selected ? 200.ms : 1.ms,
+        ); // subtle tap feedback
   }
 }

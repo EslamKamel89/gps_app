@@ -10,10 +10,18 @@ class Chevron extends StatelessWidget {
   Widget build(BuildContext context) {
     return Animate(
       effects: [
-        RotateEffect(begin: expanded ? 0.5 : 0, duration: 220.ms, curve: Curves.easeOut),
+        RotateEffect(
+          begin: expanded ? 0.5 : 0,
+          duration: 220.ms,
+          curve: Curves.easeOut,
+        ),
         FadeEffect(duration: 150.ms),
       ],
-      child: Icon(Icons.keyboard_arrow_down_rounded, color: GPSColors.mutedText, size: 24),
+      child: Icon(
+        Icons.keyboard_arrow_down_rounded,
+        color: GPSColors.mutedText,
+        size: 24,
+      ),
     );
   }
 }

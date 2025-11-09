@@ -44,7 +44,10 @@ class SelectedSubcategoriesInfo extends StatelessWidget {
                   : LinearGradient(
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
-                    colors: [GPSColors.cardSelected.withOpacity(0.55), GPSColors.background],
+                    colors: [
+                      GPSColors.cardSelected.withOpacity(0.55),
+                      GPSColors.background,
+                    ],
                   ),
         ),
         child: AnimatedSwitcher(
@@ -54,12 +57,21 @@ class SelectedSubcategoriesInfo extends StatelessWidget {
           layoutBuilder:
               (currentChild, previousChildren) => Stack(
                 alignment: Alignment.centerLeft,
-                children: <Widget>[...previousChildren, if (currentChild != null) currentChild],
+                children: <Widget>[
+                  ...previousChildren,
+                  if (currentChild != null) currentChild,
+                ],
               ),
           child:
               isEmpty
-                  ? _EmptyState(key: const ValueKey('empty'), asset: emptyStateAsset)
-                  : _SelectedState(key: const ValueKey('selected'), count: count),
+                  ? _EmptyState(
+                    key: const ValueKey('empty'),
+                    asset: emptyStateAsset,
+                  )
+                  : _SelectedState(
+                    key: const ValueKey('selected'),
+                    count: count,
+                  ),
         ),
       ),
     );
@@ -90,7 +102,10 @@ class _SelectedState extends StatelessWidget {
               GPSGaps.w8,
               Text(
                 '$count',
-                style: const TextStyle(fontWeight: FontWeight.w700, color: GPSColors.text),
+                style: const TextStyle(
+                  fontWeight: FontWeight.w700,
+                  color: GPSColors.text,
+                ),
               ),
             ],
           ),
@@ -137,8 +152,14 @@ class _EmptyState extends StatelessWidget {
             height: 56,
             width: 56,
             child: DecoratedBox(
-              decoration: BoxDecoration(color: GPSColors.cardSelected.withOpacity(0.35)),
-              child: Icon(Icons.inbox_outlined, size: 28, color: GPSColors.primary),
+              decoration: BoxDecoration(
+                color: GPSColors.cardSelected.withOpacity(0.35),
+              ),
+              child: Icon(
+                Icons.inbox_outlined,
+                size: 28,
+                color: GPSColors.primary,
+              ),
             ),
           ),
         ),
@@ -150,7 +171,11 @@ class _EmptyState extends StatelessWidget {
             children: const [
               Text(
                 'No sub-categories selected',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: GPSColors.text),
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                  color: GPSColors.text,
+                ),
               ),
               GPSGaps.h6,
               Text(

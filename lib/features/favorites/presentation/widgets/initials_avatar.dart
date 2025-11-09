@@ -20,7 +20,11 @@ class InitialsAvatar extends StatelessWidget {
       ),
       child: Text(
         initials,
-        style: TextStyle(color: GPSColors.text, fontWeight: FontWeight.w700, fontSize: 16),
+        style: TextStyle(
+          color: GPSColors.text,
+          fontWeight: FontWeight.w700,
+          fontSize: 16,
+        ),
       ),
     ).animate().shimmer(duration: 800.ms, delay: 50.ms); // subtle glint
   }

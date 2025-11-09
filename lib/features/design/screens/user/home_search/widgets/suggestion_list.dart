@@ -3,7 +3,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 
-class RestaurantSuggestion {
+class SuggestionModel {
   final String id;
   final String name;
   final double rating; // 0–5
@@ -11,7 +11,7 @@ class RestaurantSuggestion {
   final String imageUrl;
   final double distanceMiles; // e.g., 2.9
 
-  const RestaurantSuggestion({
+  const SuggestionModel({
     required this.id,
     required this.name,
     required this.rating,
@@ -33,10 +33,10 @@ class SuggestionsList extends StatelessWidget {
     required this.onToggleFavorite,
   });
 
-  final List<RestaurantSuggestion> items;
-  final ValueChanged<RestaurantSuggestion> onSelect;
+  final List<SuggestionModel> items;
+  final ValueChanged<SuggestionModel> onSelect;
   final Set<String> favorites;
-  final ValueChanged<RestaurantSuggestion> onToggleFavorite;
+  final ValueChanged<SuggestionModel> onToggleFavorite;
 
   @override
   Widget build(BuildContext context) {

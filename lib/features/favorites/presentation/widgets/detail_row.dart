@@ -22,7 +22,8 @@ class DetailRow extends StatelessWidget {
     if (text == null || text.isEmpty) return const SizedBox.shrink();
 
     return Row(
-      crossAxisAlignment: multiline ? CrossAxisAlignment.start : CrossAxisAlignment.center,
+      crossAxisAlignment:
+          multiline ? CrossAxisAlignment.start : CrossAxisAlignment.center,
       children: [
         Icon(icon, size: 18, color: GPSColors.primary),
         GPSGaps.w8,

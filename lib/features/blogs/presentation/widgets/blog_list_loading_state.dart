@@ -19,7 +19,9 @@ class BlogCardSkeleton extends StatelessWidget {
           Container(
             height: height * 0.5,
             decoration: BoxDecoration(
-              borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
+              borderRadius: const BorderRadius.vertical(
+                top: Radius.circular(12),
+              ),
               color: Colors.grey[300],
             ),
             child: Stack(
@@ -27,9 +29,15 @@ class BlogCardSkeleton extends StatelessWidget {
                 Positioned.fill(
                   child: Container(
                     decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
+                      borderRadius: const BorderRadius.vertical(
+                        top: Radius.circular(12),
+                      ),
                       gradient: LinearGradient(
-                        colors: [Colors.grey[300]!, Colors.grey[200]!, Colors.grey[300]!],
+                        colors: [
+                          Colors.grey[300]!,
+                          Colors.grey[200]!,
+                          Colors.grey[300]!,
+                        ],
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                       ),
@@ -40,7 +48,9 @@ class BlogCardSkeleton extends StatelessWidget {
                 Positioned.fill(
                   child: Container(
                     decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
+                      borderRadius: const BorderRadius.vertical(
+                        top: Radius.circular(12),
+                      ),
                       gradient: LinearGradient(
                         colors: [
                           Colors.transparent,

@@ -46,9 +46,17 @@ class VendorModel {
     operatingHours:
         json['operating_hours'] == null
             ? null
-            : OperatingTimeModel.fromJson(json['operating_hours'] as Map<String, dynamic>),
-    createdAt: json['created_at'] == null ? null : DateTime.parse(json['created_at'] as String),
-    updatedAt: json['updated_at'] == null ? null : DateTime.parse(json['updated_at'] as String),
+            : OperatingTimeModel.fromJson(
+              json['operating_hours'] as Map<String, dynamic>,
+            ),
+    createdAt:
+        json['created_at'] == null
+            ? null
+            : DateTime.parse(json['created_at'] as String),
+    updatedAt:
+        json['updated_at'] == null
+            ? null
+            : DateTime.parse(json['updated_at'] as String),
   );
 
   Map<String, dynamic> toJson() => {

@@ -24,7 +24,12 @@ import 'package:gps_app/features/user/restaurant_details/presentation/widgets/th
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class MenuItemCard extends StatefulWidget {
-  const MenuItemCard({super.key, required this.meal, required this.enableEdit, required this.menu});
+  const MenuItemCard({
+    super.key,
+    required this.meal,
+    required this.enableEdit,
+    required this.menu,
+  });
   final Menu menu;
   final Meal meal;
   final bool enableEdit;
@@ -75,7 +80,9 @@ class _MenuItemCardState extends State<MenuItemCard> {
                         _updateMealImage(widget.meal);
                       },
                     ),
-                    child: ThumbWidget(meal: widget.meal).animate().fadeIn(duration: 200.ms),
+                    child: ThumbWidget(
+                      meal: widget.meal,
+                    ).animate().fadeIn(duration: 200.ms),
                   ),
                   GPSGaps.w12,
                   Expanded(
@@ -109,7 +116,9 @@ class _MenuItemCardState extends State<MenuItemCard> {
                                   _updateMealPrice(widget.meal);
                                 },
                               ),
-                              child: PriceBadge(price: double.parse(widget.meal.price ?? '0')),
+                              child: PriceBadge(
+                                price: double.parse(widget.meal.price ?? '0'),
+                              ),
                             ),
                           ],
                         ),
@@ -123,7 +132,8 @@ class _MenuItemCardState extends State<MenuItemCard> {
                             },
                           ),
                           child: Text(
-                            widget.meal.description ?? (showEdit ? 'Add description' : ''),
+                            widget.meal.description ??
+                                (showEdit ? 'Add description' : ''),
                             style: textTheme.bodyMedium?.copyWith(
                               color: GPSColors.mutedText,
                               height: 1.35,
@@ -145,9 +155,16 @@ class _MenuItemCardState extends State<MenuItemCard> {
                                 child: Wrap(
                                   children: [
                                     if (widget.meal.categories?.name != null)
-                                      CategoryChip(title: widget.meal.categories?.name ?? ''),
+                                      CategoryChip(
+                                        title:
+                                            widget.meal.categories?.name ?? '',
+                                      ),
                                     if (widget.meal.subcategories?.name != null)
-                                      CategoryChip(title: widget.meal.subcategories?.name ?? ''),
+                                      CategoryChip(
+                                        title:
+                                            widget.meal.subcategories?.name ??
+                                            '',
+                                      ),
                                   ],
                                 ),
                               ),
@@ -155,7 +172,10 @@ class _MenuItemCardState extends State<MenuItemCard> {
 
                             // Spacer(),
                             // GPSGaps.w12,
-                            IconAction(icon: Icons.favorite_border_rounded, onTap: () {}),
+                            IconAction(
+                              icon: Icons.favorite_border_rounded,
+                              onTap: () {},
+                            ),
                           ],
                         ),
                       ],
@@ -185,13 +205,19 @@ class _MenuItemCardState extends State<MenuItemCard> {
     final String? newVal = await showFormBottomSheet<String>(
       context,
       builder:
-          (ctx, ctl) =>
-              ProfileTextForm(initialValue: meal.name, controller: ctl, label: 'Update Meal Name'),
+          (ctx, ctl) => ProfileTextForm(
+            initialValue: meal.name,
+            controller: ctl,
+            label: 'Update Meal Name',
+          ),
     );
     if (newVal == null) return;
     meal.name = newVal;
     cubit.update(cubit.state.data!);
-    final res = await UpdateController.update(path: 'meals/${meal.id}', data: {'name': newVal});
+    final res = await UpdateController.update(
+      path: 'meals/${meal.id}',
+      data: {'name': newVal},
+    );
   }
 
   Future _updateMealDescription(Meal meal) async {
@@ -229,16 +255,22 @@ class _MenuItemCardState extends State<MenuItemCard> {
     if (newVal == null) return;
     meal.price = newVal;
     cubit.update(cubit.state.data!);
-    final res = await UpdateController.update(path: 'meals/${meal.id}', data: {'price': newVal});
+    final res = await UpdateController.update(
+      path: 'meals/${meal.id}',
+      data: {'price': newVal},
+    );
   }
 
   Future _updateMealCategory(Meal meal) async {
     final cubit = context.read<RestaurantCubit>();
-    final CategorySelector? newVal = await showFormBottomSheet<CategorySelector>(
-      context,
-      builder: (ctx, ctl) => ProfileCategorySelectionForm(controller: ctl),
-    );
-    if (newVal == null || newVal.selectedCategory == null || newVal.selectedSubCategory == null) {
+    final CategorySelector? newVal =
+        await showFormBottomSheet<CategorySelector>(
+          context,
+          builder: (ctx, ctl) => ProfileCategorySelectionForm(controller: ctl),
+        );
+    if (newVal == null ||
+        newVal.selectedCategory == null ||
+        newVal.selectedSubCategory == null) {
       return;
     }
     meal.categories?.name = newVal.selectedCategory?.name;
@@ -257,7 +289,9 @@ class _MenuItemCardState extends State<MenuItemCard> {
     final cubit = context.read<RestaurantCubit>();
     final UploadedImage? newVal = await showFormBottomSheet<UploadedImage>(
       context,
-      builder: (ctx, ctl) => ProfileImageForm(controller: ctl, label: 'Update Meal image'),
+      builder:
+          (ctx, ctl) =>
+              ProfileImageForm(controller: ctl, label: 'Update Meal image'),
     );
     if (newVal == null) return;
     meal.images?.path = "${EndPoint.baseUrl}/${newVal.path}";

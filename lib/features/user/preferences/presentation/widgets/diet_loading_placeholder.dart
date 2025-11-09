@@ -22,7 +22,11 @@ class DietCardPlaceholder extends StatelessWidget {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(12),
-            child: Container(width: double.infinity, height: 40, color: Colors.black12),
+            child: Container(
+              width: double.infinity,
+              height: 40,
+              color: Colors.black12,
+            ),
           ),
           GPSGaps.h12,
           Container(
@@ -38,6 +42,8 @@ class DietCardPlaceholder extends StatelessWidget {
     );
 
     // Shimmer loop
-    return skeleton.animate(onPlay: (c) => c.repeat()).shimmer(duration: 1200.ms);
+    return skeleton
+        .animate(onPlay: (c) => c.repeat())
+        .shimmer(duration: 1200.ms);
   }
 }

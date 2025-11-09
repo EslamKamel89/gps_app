@@ -13,7 +13,8 @@ part 'preferences_state.dart';
 
 class PreferencesCubit extends Cubit<PreferencesState> {
   PreferencesCubit() : super(PreferencesState.initial());
-  final PreferencesController controller = serviceLocator<PreferencesController>();
+  final PreferencesController controller =
+      serviceLocator<PreferencesController>();
   Future categoriesIndex() async {
     final t = prt('categoriesIndex - CategoryOnboardingCubit');
 
@@ -26,7 +27,8 @@ class PreferencesCubit extends Cubit<PreferencesState> {
         ),
       ),
     );
-    final ApiResponseModel<List<CategoryModel>> response = await controller.categoriesIndex();
+    final ApiResponseModel<List<CategoryModel>> response =
+        await controller.categoriesIndex();
     pr(response, t);
     emit(state.copyWith(categories: response));
     _getSelectedCategories();
@@ -36,21 +38,29 @@ class PreferencesCubit extends Cubit<PreferencesState> {
     final t = prt('getSelectedCategories - CategoryOnboardingCubit');
     final ApiResponseModel<SelectedCategoriesPreferences> prefs =
         await controller.getSelectedCategories();
-    final List<int?> catIds = prefs.data?.categories.map((c) => c.id).toList() ?? [];
+    final List<int?> catIds =
+        prefs.data?.categories.map((c) => c.id).toList() ?? [];
     emit(
       state.copyWith(
         selectedCategories:
-            state.categories.data?.where((c) => catIds.contains(c.id) == true).toList(),
+            state.categories.data
+                ?.where((c) => catIds.contains(c.id) == true)
+                .toList(),
         selectedSubCategories: prefs.data?.subCategories ?? [],
       ),
     );
   }
 
   void toggleSelectedCategory(CategoryModel category) {
-    bool categoryExist = state.selectedCategories.where((cat) => cat.id == category.id).isNotEmpty;
+    bool categoryExist =
+        state.selectedCategories
+            .where((cat) => cat.id == category.id)
+            .isNotEmpty;
     if (categoryExist) {
       state.selectedCategories.removeWhere((cat) => cat.id == category.id);
-      state.selectedSubCategories.removeWhere((subCat) => subCat.categoryId == category.id);
+      state.selectedSubCategories.removeWhere(
+        (subCat) => subCat.categoryId == category.id,
+      );
     } else {
       state.selectedCategories.add(category);
       state.selectedSubCategories.addAll(category.subCategories ?? []);
@@ -60,7 +70,9 @@ class PreferencesCubit extends Cubit<PreferencesState> {
 
   void toggleSelectedSubCategory(SubCategoryModel subCat) {
     bool subCategoryExist =
-        state.selectedSubCategories.where((cat) => cat.id == subCat.id).isNotEmpty;
+        state.selectedSubCategories
+            .where((cat) => cat.id == subCat.id)
+            .isNotEmpty;
     if (subCategoryExist) {
       state.selectedSubCategories.removeWhere((cat) => cat.id == subCat.id);
     } else {
@@ -74,10 +86,15 @@ class PreferencesCubit extends Cubit<PreferencesState> {
 
     emit(
       state.copyWith(
-        diets: state.diets.copyWith(errorMessage: null, response: ResponseEnum.loading, data: []),
+        diets: state.diets.copyWith(
+          errorMessage: null,
+          response: ResponseEnum.loading,
+          data: [],
+        ),
       ),
     );
-    final ApiResponseModel<List<DietModel>> response = await controller.dietsIndex();
+    final ApiResponseModel<List<DietModel>> response =
+        await controller.dietsIndex();
     pr(response, t);
     emit(state.copyWith(diets: response));
     _getSelectedDiets();
@@ -85,12 +102,14 @@ class PreferencesCubit extends Cubit<PreferencesState> {
 
   Future _getSelectedDiets() async {
     final t = prt('_getSelectedDiets - CategoryOnboardingCubit');
-    final ApiResponseModel<List<DietModel>> diets = await controller.getSelectedDiets();
+    final ApiResponseModel<List<DietModel>> diets =
+        await controller.getSelectedDiets();
     emit(state.copyWith(selectedDiets: diets.data));
   }
 
   void toggleSelectedDiet(DietModel diet) {
-    bool dietExist = state.selectedDiets.where((d) => d.id == diet.id).isNotEmpty;
+    bool dietExist =
+        state.selectedDiets.where((d) => d.id == diet.id).isNotEmpty;
     if (dietExist) {
       state.selectedDiets.removeWhere((d) => d.id == diet.id);
     } else {

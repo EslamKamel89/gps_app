@@ -32,19 +32,25 @@ class _FavoriteCardState extends State<FavoriteCard> {
     final user = widget.favorite.user;
     final vendor = user?.vendor;
 
-    String? imageUrl = (user?.images?.isNotEmpty ?? false) ? user!.images!.first.path : null;
+    String? imageUrl =
+        (user?.images?.isNotEmpty ?? false) ? user!.images!.first.path : null;
     imageUrl = getImageUrl(imageUrl);
 
     final String? title = _sanitize(vendor?.vendorName);
     final String? subtitle = _sanitize(vendor?.address);
 
-    final String type = (widget.favorite.favoriteType ?? '').toLowerCase().trim();
-    final bool hasType = type == 'farm' || type == 'store' || type == 'restaurant';
+    final String type =
+        (widget.favorite.favoriteType ?? '').toLowerCase().trim();
+    final bool hasType =
+        type == 'farm' || type == 'store' || type == 'restaurant';
 
     final IconData? typeIcon = _typeIconNullable(type);
     final String? typeLabel = _typeLabelNullable(type);
 
-    final avatar = FavoriteAvatar(imageUrl: imageUrl, initials: _initials(title));
+    final avatar = FavoriteAvatar(
+      imageUrl: imageUrl,
+      initials: _initials(title),
+    );
 
     return AnimatedContainer(
       duration: 250.ms,
@@ -52,7 +58,8 @@ class _FavoriteCardState extends State<FavoriteCard> {
       margin: const EdgeInsets.symmetric(vertical: 8),
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: _expanded ? GPSColors.cardSelected.withOpacity(0.35) : Colors.white,
+        color:
+            _expanded ? GPSColors.cardSelected.withOpacity(0.35) : Colors.white,
         border: Border.all(color: GPSColors.cardBorder),
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
@@ -122,7 +129,10 @@ class _FavoriteCardState extends State<FavoriteCard> {
           ),
 
           AnimatedCrossFade(
-            crossFadeState: _expanded ? CrossFadeState.showSecond : CrossFadeState.showFirst,
+            crossFadeState:
+                _expanded
+                    ? CrossFadeState.showSecond
+                    : CrossFadeState.showFirst,
             duration: 250.ms,
             firstChild: const SizedBox.shrink(),
             secondChild: Padding(
@@ -162,7 +172,9 @@ class _FavoriteCardState extends State<FavoriteCard> {
                             backgroundColor: GPSColors.primary,
                             foregroundColor: Colors.white,
                             padding: const EdgeInsets.symmetric(vertical: 12),
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
                             elevation: 0,
                           ),
                         ),
@@ -198,10 +210,17 @@ class _FavoriteCardState extends State<FavoriteCard> {
                             ),
                           ),
                           style: TextButton.styleFrom(
-                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 6,
+                            ),
                             foregroundColor: GPSColors.mutedText,
-                            overlayColor: GPSColors.cardSelected.withOpacity(0.25),
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                            overlayColor: GPSColors.cardSelected.withOpacity(
+                              0.25,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
                           ),
                         )
                         .animate()
@@ -301,6 +320,7 @@ class _FavoriteCardState extends State<FavoriteCard> {
     final parts = n.split(RegExp(r'\s+')).where((p) => p.isNotEmpty).toList();
     if (parts.isEmpty) return '';
     if (parts.length == 1) return parts.first.characters.first.toUpperCase();
-    return (parts.first.characters.first + parts.last.characters.first).toUpperCase();
+    return (parts.first.characters.first + parts.last.characters.first)
+        .toUpperCase();
   }
 }

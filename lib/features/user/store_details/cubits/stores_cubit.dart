@@ -12,7 +12,9 @@ class StoresCubit extends Cubit<ApiResponseModel<List<UserModel>>> {
   Future stores({required bool isStore}) async {
     final t = prt('stores - StoresCubit');
     emit(state.copyWith(errorMessage: null, response: ResponseEnum.loading));
-    final ApiResponseModel<List<UserModel>> response = await controller.stores(isStore: isStore);
+    final ApiResponseModel<List<UserModel>> response = await controller.stores(
+      isStore: isStore,
+    );
     pr(response, t);
     emit(response);
   }

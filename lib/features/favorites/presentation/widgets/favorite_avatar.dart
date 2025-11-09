@@ -9,7 +9,11 @@ class FavoriteAvatar extends StatelessWidget {
   final String? imageUrl;
   final String initials;
 
-  const FavoriteAvatar({super.key, required this.imageUrl, required this.initials});
+  const FavoriteAvatar({
+    super.key,
+    required this.imageUrl,
+    required this.initials,
+  });
 
   @override
   Widget build(BuildContext context) {

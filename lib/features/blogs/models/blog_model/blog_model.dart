@@ -43,8 +43,14 @@ class BlogModel {
     mediaId: json['media_id'] as int?,
     link: json['link'] as String?,
     type: json['type'] as String?,
-    createdAt: json['created_at'] == null ? null : DateTime.parse(json['created_at'] as String),
-    updatedAt: json['updated_at'] == null ? null : DateTime.parse(json['updated_at'] as String),
+    createdAt:
+        json['created_at'] == null
+            ? null
+            : DateTime.parse(json['created_at'] as String),
+    updatedAt:
+        json['updated_at'] == null
+            ? null
+            : DateTime.parse(json['updated_at'] as String),
     likesCount: json['likes_count'] as int?,
     commentsCount: json['comments_count'] as int?,
     comments:
@@ -52,7 +58,9 @@ class BlogModel {
             ?.map((e) => CommentModel.fromJson(e as Map<String, dynamic>))
             .toList(),
     image:
-        json['image'] == null ? null : ImageModel.fromJson(json['image'] as Map<String, dynamic>),
+        json['image'] == null
+            ? null
+            : ImageModel.fromJson(json['image'] as Map<String, dynamic>),
   );
 
   Map<String, dynamic> toJson() => {

@@ -9,15 +9,19 @@ class CategoryPreferenceModel {
   SubCategoryModel? subCategory;
   CategoryPreferenceModel({this.id, this.category, this.subCategory});
 
-  factory CategoryPreferenceModel.fromJson(Map<String, dynamic> json) => CategoryPreferenceModel(
-    id: json['id'] as int?,
-    subCategory:
-        json['sub_category'] == null ? null : SubCategoryModel.fromJson(json['sub_category']),
-    category:
-        json['sub_category'] != null && json['sub_category']['category'] != null
-            ? CategoryModel.fromJson(json['sub_category']['category'])
-            : null,
-  );
+  factory CategoryPreferenceModel.fromJson(Map<String, dynamic> json) =>
+      CategoryPreferenceModel(
+        id: json['id'] as int?,
+        subCategory:
+            json['sub_category'] == null
+                ? null
+                : SubCategoryModel.fromJson(json['sub_category']),
+        category:
+            json['sub_category'] != null &&
+                    json['sub_category']['category'] != null
+                ? CategoryModel.fromJson(json['sub_category']['category'])
+                : null,
+      );
   @override
   String toString() =>
       'CategoryPreferenceModel(id: $id, category: $category, subCategory: $subCategory)';
@@ -26,8 +30,13 @@ class CategoryPreferenceModel {
 class SelectedCategoriesPreferences {
   List<CategoryModel> categories = [];
   List<SubCategoryModel> subCategories = [];
-  SelectedCategoriesPreferences({required this.categories, required this.subCategories});
-  factory SelectedCategoriesPreferences.fromResponse(List<CategoryPreferenceModel> prefs) {
+  SelectedCategoriesPreferences({
+    required this.categories,
+    required this.subCategories,
+  });
+  factory SelectedCategoriesPreferences.fromResponse(
+    List<CategoryPreferenceModel> prefs,
+  ) {
     return SelectedCategoriesPreferences(
       categories: getUniqueListByProperty<CategoryModel, int?>(
         prefs.map((p) => p.category!).toList(),

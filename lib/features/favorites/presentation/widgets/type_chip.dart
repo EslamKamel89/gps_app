@@ -34,6 +34,10 @@ class TypeChip extends StatelessWidget {
         )
         .animate()
         .fadeIn(duration: 250.ms)
-        .scale(begin: const Offset(0.98, 0.98), end: const Offset(1, 1), duration: 200.ms);
+        .scale(
+          begin: const Offset(0.98, 0.98),
+          end: const Offset(1, 1),
+          duration: 200.ms,
+        );
   }
 }

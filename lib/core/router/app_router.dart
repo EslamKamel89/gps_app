@@ -44,7 +44,10 @@ class AppRouter {
     String? routeName = appMiddleWare.middleware(routeSettings.name);
     switch (routeName) {
       case AppRoutesNames.emptyScreen:
-        return CustomPageRoute(builder: (context) => EmptyScreen(), settings: routeSettings);
+        return CustomPageRoute(
+          builder: (context) => EmptyScreen(),
+          settings: routeSettings,
+        );
       case AppRoutesNames.accountBlockedScreen:
         return CustomPageRoute(
           builder: (context) => AccountBlockedScreen(),
@@ -56,18 +59,27 @@ class AppRouter {
           settings: routeSettings,
         );
       case AppRoutesNames.homeSearchScreen:
-        return CustomPageRoute(builder: (context) => HomeSearchScreen(), settings: routeSettings);
+        return CustomPageRoute(
+          builder: (context) => HomeSearchScreen(),
+          settings: routeSettings,
+        );
       case AppRoutesNames.restaurantDetailScreen:
         return CustomPageRoute(
           builder: (context) => RestaurantDetailProvider(enableEdit: false),
           settings: routeSettings,
         );
       case AppRoutesNames.gpsSplashScreen:
-        return CustomPageRoute(builder: (context) => GPSSplashScreen(), settings: routeSettings);
+        return CustomPageRoute(
+          builder: (context) => GPSSplashScreen(),
+          settings: routeSettings,
+        );
       case AppRoutesNames.loginScreen:
         return CustomPageRoute(
           builder:
-              (context) => BlocProvider(create: (context) => LoginCubit(), child: LoginScreen()),
+              (context) => BlocProvider(
+                create: (context) => LoginCubit(),
+                child: LoginScreen(),
+              ),
           settings: routeSettings,
         );
       case AppRoutesNames.registerScreen:
@@ -80,7 +92,10 @@ class AppRouter {
           settings: routeSettings,
         );
       case AppRoutesNames.marketPlaceScreen:
-        return CustomPageRoute(builder: (context) => MarketPlaceScreen(), settings: routeSettings);
+        return CustomPageRoute(
+          builder: (context) => MarketPlaceScreen(),
+          settings: routeSettings,
+        );
       case AppRoutesNames.categorySelectionScreen:
         return CustomPageRoute(
           builder: (context) => CategorySelectionScreen(),
@@ -97,7 +112,10 @@ class AppRouter {
           settings: routeSettings,
         );
       case AppRoutesNames.scanImageScreen:
-        return CustomPageRoute(builder: (context) => ScanImageScreen(), settings: routeSettings);
+        return CustomPageRoute(
+          builder: (context) => ScanImageScreen(),
+          settings: routeSettings,
+        );
       case AppRoutesNames.marketCategorySelectionScreen:
         return CustomPageRoute(
           builder: (context) => MarketCategorySelectionScreen(),
@@ -150,11 +168,20 @@ class AppRouter {
           settings: routeSettings,
         );
       case AppRoutesNames.otpScreen:
-        return CustomPageRoute(builder: (context) => OTPScreen(), settings: routeSettings);
+        return CustomPageRoute(
+          builder: (context) => OTPScreen(),
+          settings: routeSettings,
+        );
       case AppRoutesNames.wishList:
-        return CustomPageRoute(builder: (_) => WishListScreen(), settings: routeSettings);
+        return CustomPageRoute(
+          builder: (_) => WishListScreen(),
+          settings: routeSettings,
+        );
       case AppRoutesNames.wishListCreate:
-        return CustomPageRoute(builder: (context) => WishCreateScreen(), settings: routeSettings);
+        return CustomPageRoute(
+          builder: (context) => WishCreateScreen(),
+          settings: routeSettings,
+        );
       case AppRoutesNames.itemInfoScreen:
         return CustomPageRoute(
           builder:
@@ -168,9 +195,15 @@ class AppRouter {
           settings: routeSettings,
         );
       case AppRoutesNames.blogListScreen:
-        return CustomPageRoute(builder: (context) => BlogListScreen(), settings: routeSettings);
+        return CustomPageRoute(
+          builder: (context) => BlogListScreen(),
+          settings: routeSettings,
+        );
       case AppRoutesNames.favoritesScreen:
-        return CustomPageRoute(builder: (context) => FavoritesScreen(), settings: routeSettings);
+        return CustomPageRoute(
+          builder: (context) => FavoritesScreen(),
+          settings: routeSettings,
+        );
       default:
         return null;
     }
@@ -178,7 +211,10 @@ class AppRouter {
 }
 
 class CustomPageRoute<T> extends MaterialPageRoute<T> {
-  CustomPageRoute({required super.builder, required RouteSettings super.settings});
+  CustomPageRoute({
+    required super.builder,
+    required RouteSettings super.settings,
+  });
   @override
   Widget buildTransitions(
     BuildContext context,

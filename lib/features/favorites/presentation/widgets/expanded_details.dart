@@ -23,14 +23,25 @@ class ExpandedDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final rows = <Widget>[
-      DetailRow(icon: MdiIcons.accountCircleOutline, label: 'Owner', value: ownerName),
+      DetailRow(
+        icon: MdiIcons.accountCircleOutline,
+        label: 'Owner',
+        value: ownerName,
+      ),
       DetailRow(icon: MdiIcons.phone, label: 'Mobile', value: mobile),
       DetailRow(icon: MdiIcons.emailOutline, label: 'Email', value: email),
-      DetailRow(icon: MdiIcons.mapMarkerOutline, label: 'Address', value: address, multiline: true),
+      DetailRow(
+        icon: MdiIcons.mapMarkerOutline,
+        label: 'Address',
+        value: address,
+        multiline: true,
+      ),
       // if (seatingCapacity != null)
       //   DetailRow(icon: MdiIcons.seatOutline, label: 'Seating', value: '$seatingCapacity'),
     ];
 
-    return Column(children: [GPSGaps.h8, ...rows.separatedBy(() => GPSGaps.h8)]);
+    return Column(
+      children: [GPSGaps.h8, ...rows.separatedBy(() => GPSGaps.h8)],
+    );
   }
 }

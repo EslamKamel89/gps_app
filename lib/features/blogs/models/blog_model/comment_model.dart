@@ -32,9 +32,18 @@ class CommentModel {
     userId: json['user_id'] as int?,
     type: json['type'] as String?,
     comment: json['comment'] as String?,
-    createdAt: json['created_at'] == null ? null : DateTime.parse(json['created_at'] as String),
-    updatedAt: json['updated_at'] == null ? null : DateTime.parse(json['updated_at'] as String),
-    user: json['user'] == null ? null : UserModel.fromJson(json['user'] as Map<String, dynamic>),
+    createdAt:
+        json['created_at'] == null
+            ? null
+            : DateTime.parse(json['created_at'] as String),
+    updatedAt:
+        json['updated_at'] == null
+            ? null
+            : DateTime.parse(json['updated_at'] as String),
+    user:
+        json['user'] == null
+            ? null
+            : UserModel.fromJson(json['user'] as Map<String, dynamic>),
   );
 
   Map<String, dynamic> toJson() => {

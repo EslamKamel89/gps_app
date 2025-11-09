@@ -53,9 +53,17 @@ class _LoadingFavoriteCard extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        _ShimmerBox(width: double.infinity, height: 16, radius: 6),
+                        _ShimmerBox(
+                          width: double.infinity,
+                          height: 16,
+                          radius: 6,
+                        ),
                         GPSGaps.h6,
-                        _ShimmerBox(width: double.infinity, height: 12, radius: 6),
+                        _ShimmerBox(
+                          width: double.infinity,
+                          height: 12,
+                          radius: 6,
+                        ),
                         GPSGaps.h4,
                         _ShimmerBox(
                           width: MediaQuery.sizeOf(context).width * 0.35,
@@ -108,7 +116,12 @@ class _ShimmerBox extends StatelessWidget {
   final double radius;
   final EdgeInsetsGeometry? margin;
 
-  const _ShimmerBox({required this.width, required this.height, this.radius = 8, this.margin});
+  const _ShimmerBox({
+    required this.width,
+    required this.height,
+    this.radius = 8,
+    this.margin,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -141,7 +154,11 @@ class _CircleShimmer extends StatelessWidget {
         shape: BoxShape.circle,
         border: Border.all(color: GPSColors.cardBorder),
       ),
-      child: Icon(Icons.image, size: diameter * 0.42, color: GPSColors.mutedText),
+      child: Icon(
+        Icons.image,
+        size: diameter * 0.42,
+        color: GPSColors.mutedText,
+      ),
     );
 
     return base.animate(onPlay: (c) => c.repeat()).shimmer(duration: 1200.ms);
@@ -204,7 +221,8 @@ class _DetailRowShimmer extends StatelessWidget {
     final value = _ShimmerBox(width: valueWidth, height: 12, radius: 6);
 
     return Row(
-      crossAxisAlignment: multiline ? CrossAxisAlignment.start : CrossAxisAlignment.center,
+      crossAxisAlignment:
+          multiline ? CrossAxisAlignment.start : CrossAxisAlignment.center,
       children: [
         _IconShimmer(size: 18),
         GPSGaps.w8,
@@ -215,7 +233,8 @@ class _DetailRowShimmer extends StatelessWidget {
             children: [
               label,
               value,
-              if (multiline) _ShimmerBox(width: valueWidth * 0.8, height: 12, radius: 6),
+              if (multiline)
+                _ShimmerBox(width: valueWidth * 0.8, height: 12, radius: 6),
             ],
           ),
         ),
