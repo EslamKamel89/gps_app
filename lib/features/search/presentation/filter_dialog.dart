@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 import 'package:gps_app/features/search/cubits/search_cubit/search_cubit.dart';
+import 'package:gps_app/features/search/presentation/diets_row.dart';
 import 'package:gps_app/features/user/preferences/presentation/widgets/category_selector.dart';
 
 class FilterDialog extends StatefulWidget {
@@ -56,46 +57,24 @@ class _FilterDialogState extends State<FilterDialog> {
             child: Text('Diets', style: Theme.of(context).textTheme.titleMedium),
           ),
           const SizedBox(height: 8),
-
-          // Wrap(
-          //   spacing: 8,
-          //   runSpacing: 8,
-          //   children:
-          //       _diets.map((d) {
-          //         final isSelected = _dietsSel.contains(d);
-          //         return FilterChip(
-          //           label: Text(d),
-          //           selected: isSelected,
-          //           onSelected: (val) {
-          //             setState(() {
-          //               if (val) {
-          //                 _dietsSel.add(d);
-          //               } else {
-          //                 _dietsSel.remove(d);
-          //               }
-          //             });
-          //           },
-          //         );
-          //       }).toList(),
-          // ),
+          DietsRowProvider(),
         ],
       ),
     );
     final actions = [
       TextButton(
-        // onPressed: () => Navigator.pop<HomeFilters>(context, null),
-        onPressed: () {},
+        onPressed: () {
+          cubit.state.category = null;
+          cubit.state.subCategory = null;
+          cubit.state.diet = null;
+          cubit.state.distance = null;
+          Navigator.pop(context);
+        },
         child: const Text('Cancel'),
       ),
       FilledButton(
         onPressed: () {
-          // final result = HomeFilters(
-          //   distance: _distance == 'Any' ? null : _distance,
-          //   category: _category,
-          //   subcategory: _subcategory,
-          //   diets: _dietsSel,
-          // );
-          // Navigator.pop<HomeFilters>(context, result);
+          Navigator.pop(context);
         },
         child: const Text('apply'),
       ),

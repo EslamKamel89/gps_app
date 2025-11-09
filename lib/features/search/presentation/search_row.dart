@@ -7,6 +7,7 @@ import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 import 'package:gps_app/features/search/cubits/search_cubit/search_cubit.dart';
 import 'package:gps_app/features/search/presentation/filter_dialog.dart';
+import 'package:gps_app/features/search/presentation/filters_row.dart';
 
 class SearchRow extends StatefulWidget {
   const SearchRow({super.key, this.hint = '', required this.onClear});
@@ -62,40 +63,42 @@ class _SearchRowState extends State<SearchRow> {
         return FilterDialog();
       },
     );
+    cubit.update();
   }
 
   Widget _buildFilters() {
-    // final f = _filters;
-    // final hasFilters =
-    //     f != null &&
-    //     (f.distance != null ||
-    //         f.category != null ||
-    //         f.subcategory != null ||
-    //         f.diets.isNotEmpty == true);
+    final state = cubit.state;
+    final hasFilters =
+        state.distance != null ||
+        state.category != null ||
+        state.subCategory != null ||
+        state.diet != null;
 
-    // if (!hasFilters) return const SizedBox();
+    if (!hasFilters) return const SizedBox();
 
-    // return Column(
-    //   children: [
-    //     GPSGaps.h16,
-    //     Wrap(
-    //       spacing: 8,
-    //       runSpacing: 8,
-    //       children: [
-    //         if (f.distance != null)
-    //           InputChip(label: Text('Distance: ${f.distance}'), onDeleted: _clearDistance),
-    //         if (f.category != null)
-    //           InputChip(label: Text('Category: ${f.category}'), onDeleted: _clearCategory),
-    //         if (f.subcategory != null)
-    //           InputChip(label: Text('Sub: ${f.subcategory}'), onDeleted: _clearSubcategory),
-    //         ...((f.diets ?? {}).map(
-    //           (d) => InputChip(label: Text(d), onDeleted: () => _removeDiet(d)),
-    //         )),
-    //       ],
-    //     ),
-    //   ],
-    // );
-    return SizedBox();
+    return Column(
+      children: [
+        GPSGaps.h16,
+        Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: [
+            if (state.distance != null)
+              InputChip(
+                label: Text('Distance: ${state.distance}'),
+                onDeleted: () => state.distance = null,
+              ),
+            if (state.subCategory != null)
+              InputChip(
+                label: Text('Category: ${state.subCategory?.name}'),
+                onDeleted: () => state.subCategory = null,
+              ),
+            if (state.diet != null)
+              InputChip(label: Text(state.diet?.name ?? ''), onDeleted: () => state.diet = null),
+          ],
+        ),
+      ],
+    );
   }
 
   @override
@@ -146,7 +149,7 @@ class _SearchRowState extends State<SearchRow> {
               child: Text('test'),
             ),
             searchRow,
-            _buildFilters(),
+            FiltersRow(),
             if (_showSuggestions) ...[
               GPSGaps.h8,
               // Your SuggestionList should support `items`, `onSelect`, maybe `onClose`

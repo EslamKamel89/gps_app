@@ -29,4 +29,8 @@ class SearchCubit extends Cubit<SearchState> {
     pr(response, t);
     emit(state.copyWith(suggestions: response));
   }
+
+  void update() {
+    emit(state.copyWith());
+  }
 }
