@@ -12,7 +12,7 @@ import 'package:gps_app/features/search/cubits/search_cubit/search_cubit.dart';
 import 'package:gps_app/features/search/models/suggestion_model/suggestion_model.dart';
 import 'package:gps_app/features/user/preferences/models/diet_model.dart';
 
-class SearchController {
+class SuggestionsController {
   final api = serviceLocator<ApiConsumer>();
 
   Future<ApiResponseModel<List<DietModel>>> dietsIndex() async {

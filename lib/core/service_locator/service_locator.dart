@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:gps_app/core/api_service/api_consumer.dart';
 import 'package:gps_app/core/api_service/dio_consumer.dart';
@@ -10,6 +9,7 @@ import 'package:gps_app/features/auth/controllers/auth_controller.dart';
 import 'package:gps_app/features/blogs/controllers/blog_controller.dart';
 import 'package:gps_app/features/favorites/controller/favorites_controller.dart';
 import 'package:gps_app/features/item_info/controllers/item_info_controller.dart';
+import 'package:gps_app/features/search/controllers/suggestions_controller.dart';
 import 'package:gps_app/features/user/preferences/controllers/preferences_controller.dart';
 import 'package:gps_app/features/user/restaurant_details/controllers/restaurants_controller.dart';
 import 'package:gps_app/features/user/store_details/controllers/store_controller.dart';
@@ -39,7 +39,7 @@ Future initServiceLocator() async {
   serviceLocator.registerLazySingleton<StoreController>(() => StoreController());
   serviceLocator.registerLazySingleton<BlogController>(() => BlogController());
   serviceLocator.registerLazySingleton<FavoritesController>(() => FavoritesController());
-  serviceLocator.registerLazySingleton<SearchController>(() => SearchController());
+  serviceLocator.registerLazySingleton<SuggestionsController>(() => SuggestionsController());
 
   // serviceLocator.registerLazySingleton<HomeRepo>(() => HomeRepoImp(homeRemoteDataSource: serviceLocator()));
 }

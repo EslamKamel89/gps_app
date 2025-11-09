@@ -10,6 +10,7 @@ import 'package:gps_app/core/service_locator/service_locator.dart';
 import 'package:gps_app/core/themes/theme_cubit.dart';
 import 'package:gps_app/features/blogs/cubits/blogs_cubit.dart';
 import 'package:gps_app/features/favorites/cubits/favorites_cubit.dart';
+import 'package:gps_app/features/search/cubits/search_cubit/search_cubit.dart';
 import 'package:gps_app/features/user/preferences/cubits/preferences/preferences_cubit.dart';
 import 'package:gps_app/features/user/restaurant_details/cubits/restaurant_cubit.dart';
 import 'package:gps_app/features/user/store_details/cubits/store_cubit.dart';
@@ -53,6 +54,7 @@ class MyApp extends StatelessWidget {
           BlocProvider(create: (context) => UserCubit()),
           BlocProvider(create: (context) => BlogsCubit()),
           BlocProvider(create: (context) => FavoritesCubit()),
+          BlocProvider(create: (context) => SearchCubit()),
         ],
         child: Builder(
           builder: (context) {
