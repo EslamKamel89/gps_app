@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:gps_app/core/api_service/api_consumer.dart';
 import 'package:gps_app/core/api_service/dio_consumer.dart';
@@ -19,9 +20,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 final GetIt serviceLocator = GetIt.instance;
 
 Future initServiceLocator() async {
-  serviceLocator.registerLazySingleton<ApiConsumer>(
-    () => DioConsumer(dio: serviceLocator()),
-  );
+  serviceLocator.registerLazySingleton<ApiConsumer>(() => DioConsumer(dio: serviceLocator()));
   final prefs = await SharedPreferences.getInstance();
   serviceLocator.registerLazySingleton<LocalStorage>(() => LocalStorage(prefs));
   serviceLocator.registerLazySingleton<ImagePicker>(() => ImagePicker());
@@ -30,30 +29,17 @@ Future initServiceLocator() async {
   serviceLocator.registerLazySingleton<AppMiddleWare>(
     () => AppMiddleWare(sharedPreferences: serviceLocator()),
   );
-  serviceLocator.registerLazySingleton<AppRouter>(
-    () => AppRouter(appMiddleWare: serviceLocator()),
-  );
+  serviceLocator.registerLazySingleton<AppRouter>(() => AppRouter(appMiddleWare: serviceLocator()));
 
-  serviceLocator.registerLazySingleton<PreferencesController>(
-    () => PreferencesController(),
-  );
+  serviceLocator.registerLazySingleton<PreferencesController>(() => PreferencesController());
   serviceLocator.registerLazySingleton<AuthController>(() => AuthController());
-  serviceLocator.registerLazySingleton<RestaurantsController>(
-    () => RestaurantsController(),
-  );
-  serviceLocator.registerLazySingleton<WishListController>(
-    () => WishListController(),
-  );
-  serviceLocator.registerLazySingleton<ItemInfoController>(
-    () => ItemInfoController(),
-  );
-  serviceLocator.registerLazySingleton<StoreController>(
-    () => StoreController(),
-  );
+  serviceLocator.registerLazySingleton<RestaurantsController>(() => RestaurantsController());
+  serviceLocator.registerLazySingleton<WishListController>(() => WishListController());
+  serviceLocator.registerLazySingleton<ItemInfoController>(() => ItemInfoController());
+  serviceLocator.registerLazySingleton<StoreController>(() => StoreController());
   serviceLocator.registerLazySingleton<BlogController>(() => BlogController());
-  serviceLocator.registerLazySingleton<FavoritesController>(
-    () => FavoritesController(),
-  );
+  serviceLocator.registerLazySingleton<FavoritesController>(() => FavoritesController());
+  serviceLocator.registerLazySingleton<SearchController>(() => SearchController());
 
   // serviceLocator.registerLazySingleton<HomeRepo>(() => HomeRepoImp(homeRemoteDataSource: serviceLocator()));
 }

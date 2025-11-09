@@ -9,12 +9,8 @@ class HomeFilters {
   String? subcategory;
   final Set<String> diets;
 
-  HomeFilters({
-    this.distance,
-    this.category,
-    this.subcategory,
-    Set<String>? diets,
-  }) : diets = diets ?? <String>{};
+  HomeFilters({this.distance, this.category, this.subcategory, Set<String>? diets})
+    : diets = diets ?? <String>{};
 
   HomeFilters copyWith({
     String? distance,
@@ -34,25 +30,14 @@ class HomeFilters {
 class FilterDialog extends StatefulWidget {
   final HomeFilters initial;
 
-  const FilterDialog({
-    super.key,
-    required this.initial,
-    this.isBottomSheet = false,
-  });
-  final bool isBottomSheet;
+  const FilterDialog({super.key, required this.initial});
+
   @override
   State<FilterDialog> createState() => _FilterDialogState();
 }
 
 class _FilterDialogState extends State<FilterDialog> {
-  static const _distances = <String>[
-    'Any',
-    '1 mil',
-    '3 mil',
-    '5 mil',
-    '10 mil',
-    '20 mil',
-  ];
+  static const _distances = <String>['Any', '1 mil', '3 mil', '5 mil', '10 mil', '20 mil'];
 
   static const Map<String, List<String>> _categories = {
     'Burgers': ['Beef Burger', 'Chicken Burger', 'Veggie Burger'],
@@ -86,21 +71,15 @@ class _FilterDialogState extends State<FilterDialog> {
 
   @override
   Widget build(BuildContext context) {
-    final subcats =
-        _category != null ? _categories[_category] ?? [] : <String>[];
+    final subcats = _category != null ? _categories[_category] ?? [] : <String>[];
     final content = SingleChildScrollView(
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           DropdownButtonFormField<String>(
             initialValue: _distance,
-            decoration: const InputDecoration(
-              hintText: 'Please Select Distance',
-            ),
-            items:
-                _distances
-                    .map((d) => DropdownMenuItem(value: d, child: Text(d)))
-                    .toList(),
+            decoration: const InputDecoration(hintText: 'Please Select Distance'),
+            items: _distances.map((d) => DropdownMenuItem(value: d, child: Text(d))).toList(),
             onChanged: (v) => setState(() => _distance = v),
           ),
           const SizedBox(height: 12),
@@ -110,10 +89,7 @@ class _FilterDialogState extends State<FilterDialog> {
 
           Align(
             alignment: Alignment.centerLeft,
-            child: Text(
-              'Diets',
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
+            child: Text('Diets', style: Theme.of(context).textTheme.titleMedium),
           ),
           const SizedBox(height: 8),
           Wrap(
@@ -158,18 +134,11 @@ class _FilterDialogState extends State<FilterDialog> {
         child: const Text('apply'),
       ),
     ];
-    if (widget.isBottomSheet) {
-      return Container(
-        color: GPSColors.primary.withOpacity(0.4),
-        padding: EdgeInsets.all(20),
-        child: Column(children: [content, GPSGaps.h20, Row(children: actions)]),
-      );
-    }
-    return AlertDialog(
-      backgroundColor: GPSColors.background.withOpacity(0.9),
-      title: const Text('Filters'),
-      content: content,
-      actions: actions,
+
+    return Container(
+      color: GPSColors.primary.withOpacity(0.4),
+      padding: EdgeInsets.all(20),
+      child: Column(children: [content, GPSGaps.h20, Row(children: actions)]),
     );
   }
 }

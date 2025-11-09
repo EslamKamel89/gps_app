@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:gps_app/features/design/screens/user/home_search/widgets/filter_dialog.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gps_app/features/design/screens/user/home_search/widgets/round_square_buttom.dart';
 import 'package:gps_app/features/design/screens/user/home_search/widgets/suggestion_list.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
+import 'package:gps_app/features/search/cubits/search_cubit/search_cubit.dart';
+import 'package:gps_app/features/search/presentation/filter_dialog.dart';
 
 class SearchRow extends StatefulWidget {
   const SearchRow({super.key, this.hint = '', required this.onClear});
@@ -61,42 +63,28 @@ class _SearchRowState extends State<SearchRow> {
   }
 
   // -------- Filters --------
-  Future<void> _openFilters({bool isBottomSheet = false}) async {
+  Future<void> _openFilters() async {
     HomeFilters? result;
-    if (isBottomSheet) {
-      result = await showModalBottomSheet<HomeFilters>(
-        context: context,
-        builder: (_) {
-          return FilterDialog(
-            initial: _filters ?? HomeFilters(),
-            isBottomSheet: isBottomSheet,
-          );
-        },
-      );
-    } else {
-      result = await showDialog<HomeFilters>(
-        context: context,
-        builder: (_) => FilterDialog(initial: _filters ?? HomeFilters()),
-      );
-    }
+
+    result = await showModalBottomSheet<HomeFilters>(
+      context: context,
+      builder: (_) {
+        return FilterDialog(initial: _filters ?? HomeFilters());
+      },
+    );
+
     if (result != null) {
       setState(() => _filters = result);
     }
   }
 
-  void _clearDistance() => setState(
-    () => _filters = (_filters ?? HomeFilters()).copyWith(distance: null),
-  );
+  void _clearDistance() =>
+      setState(() => _filters = (_filters ?? HomeFilters()).copyWith(distance: null));
   void _clearCategory() => setState(
-    () =>
-        _filters = (_filters ?? HomeFilters()).copyWith(
-          category: null,
-          subcategory: null,
-        ),
+    () => _filters = (_filters ?? HomeFilters()).copyWith(category: null, subcategory: null),
   );
-  void _clearSubcategory() => setState(
-    () => _filters = (_filters ?? HomeFilters()).copyWith(subcategory: null),
-  );
+  void _clearSubcategory() =>
+      setState(() => _filters = (_filters ?? HomeFilters()).copyWith(subcategory: null));
   void _removeDiet(String d) {
     final f = _filters ?? HomeFilters();
     final next = Set<String>.from(f.diets)..remove(d);
@@ -174,8 +162,7 @@ class _SearchRowState extends State<SearchRow> {
     final q = _searchCtrl.text.trim().toLowerCase();
     if (q.isEmpty) return _allSuggestions;
     return _allSuggestions.where((r) {
-      return r.name.toLowerCase().contains(q) ||
-          r.address.toLowerCase().contains(q);
+      return r.name.toLowerCase().contains(q) || r.address.toLowerCase().contains(q);
     }).toList();
   }
 
@@ -198,20 +185,11 @@ class _SearchRowState extends State<SearchRow> {
           runSpacing: 8,
           children: [
             if (f.distance != null)
-              InputChip(
-                label: Text('Distance: ${f.distance}'),
-                onDeleted: _clearDistance,
-              ),
+              InputChip(label: Text('Distance: ${f.distance}'), onDeleted: _clearDistance),
             if (f.category != null)
-              InputChip(
-                label: Text('Category: ${f.category}'),
-                onDeleted: _clearCategory,
-              ),
+              InputChip(label: Text('Category: ${f.category}'), onDeleted: _clearCategory),
             if (f.subcategory != null)
-              InputChip(
-                label: Text('Sub: ${f.subcategory}'),
-                onDeleted: _clearSubcategory,
-              ),
+              InputChip(label: Text('Sub: ${f.subcategory}'), onDeleted: _clearSubcategory),
             ...((f.diets ?? {}).map(
               (d) => InputChip(label: Text(d), onDeleted: () => _removeDiet(d)),
             )),
@@ -241,10 +219,7 @@ class _SearchRowState extends State<SearchRow> {
             _searchCtrl.text.isEmpty
                 ? null
                 : IconButton(
-                  icon: const Icon(
-                    Icons.close_rounded,
-                    color: GPSColors.mutedText,
-                  ),
+                  icon: const Icon(Icons.close_rounded, color: GPSColors.mutedText),
                   onPressed: _clearText,
                 ),
       ),
@@ -252,35 +227,37 @@ class _SearchRowState extends State<SearchRow> {
 
     final searchRow = Row(
       children: [
-        Expanded(
-          child: field.animate().fadeIn(duration: 300.ms).slideY(begin: .1),
-        ),
+        Expanded(child: field.animate().fadeIn(duration: 300.ms).slideY(begin: .1)),
 
         GPSGaps.w12,
-        RoundSquareButton(
-          icon: Icons.tune_rounded,
-          onTap: () => _openFilters(isBottomSheet: true),
-        ),
+        RoundSquareButton(icon: Icons.tune_rounded, onTap: () => _openFilters()),
       ],
     );
 
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        searchRow,
-        _buildFilters(),
-        if (_showSuggestions) ...[
-          GPSGaps.h8,
-          // Your SuggestionList should support `items`, `onSelect`, maybe `onClose`
-          SuggestionsList(
-            items: _filtered,
-            onSelect: _selectSuggestion,
-            favorites: {},
-            onToggleFavorite: (value) {},
-            // onClose: () => setState(() => _showSuggestions = false),
-          ),
-        ],
-      ],
+    return BlocConsumer<SearchCubit, SearchState>(
+      listener: (context, state) {
+        // TODO: implement listener
+      },
+      builder: (context, state) {
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            searchRow,
+            _buildFilters(),
+            if (_showSuggestions) ...[
+              GPSGaps.h8,
+              // Your SuggestionList should support `items`, `onSelect`, maybe `onClose`
+              SuggestionsList(
+                items: _filtered,
+                onSelect: _selectSuggestion,
+                favorites: {},
+                onToggleFavorite: (value) {},
+                // onClose: () => setState(() => _showSuggestions = false),
+              ),
+            ],
+          ],
+        );
+      },
     );
   }
 
@@ -325,9 +302,7 @@ class SearchRowPlaceholder extends StatelessWidget {
           Expanded(
             child: Text(
               hint,
-              style: Theme.of(
-                context,
-              ).textTheme.bodyMedium?.copyWith(color: GPSColors.mutedText),
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: GPSColors.mutedText),
             ),
           ),
         ],

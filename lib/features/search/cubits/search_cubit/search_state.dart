@@ -7,6 +7,7 @@ class SearchState {
   int? subCategoryId;
   int? dietId;
   List<String>? types;
+  ApiResponseModel<List<SuggestionModel>>? suggestions;
   SearchState({
     this.currentLocation,
     this.search,
@@ -14,6 +15,7 @@ class SearchState {
     this.subCategoryId,
     this.dietId,
     this.types,
+    this.suggestions,
   });
 
   SearchState copyWith({
@@ -23,6 +25,7 @@ class SearchState {
     int? subCategoryId,
     int? dietId,
     List<String>? types,
+    ApiResponseModel<List<SuggestionModel>>? suggestions,
   }) {
     return SearchState(
       currentLocation: currentLocation ?? this.currentLocation,
@@ -31,6 +34,7 @@ class SearchState {
       subCategoryId: subCategoryId ?? this.subCategoryId,
       dietId: dietId ?? this.dietId,
       types: types ?? this.types,
+      suggestions: suggestions ?? this.suggestions,
     );
   }
 
