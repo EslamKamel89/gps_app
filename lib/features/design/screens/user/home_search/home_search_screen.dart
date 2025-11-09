@@ -5,19 +5,18 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:gps_app/core/extensions/context-extensions.dart';
 import 'package:gps_app/core/router/app_routes_names.dart';
 import 'package:gps_app/features/design/screens/user/home_search/widgets/featured_resturant_card.dart';
-import 'package:gps_app/features/design/screens/user/home_search/widgets/filter_chip_row.dart';
 import 'package:gps_app/features/design/screens/user/home_search/widgets/filter_dialog.dart';
 import 'package:gps_app/features/design/screens/user/home_search/widgets/incomple_profile_model.dart';
 import 'package:gps_app/features/design/screens/user/home_search/widgets/map/map.dart';
 import 'package:gps_app/features/design/screens/user/home_search/widgets/promo_card.dart';
 import 'package:gps_app/features/design/screens/user/home_search/widgets/resturant_list_item.dart';
-import 'package:gps_app/features/design/screens/user/home_search/widgets/search_row.dart';
 import 'package:gps_app/features/design/screens/user/home_search/widgets/suggestion_list.dart';
 import 'package:gps_app/features/design/screens/user/home_search/widgets/top_bar.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 import 'package:gps_app/features/design/widgets/categories_shortcut.dart';
 import 'package:gps_app/features/design/widgets/gps_bottom_nav.dart';
+import 'package:gps_app/features/search/presentation/search_row.dart';
 import 'package:gps_app/features/user/restaurant_details/models/restaurant_main_data.dart';
 import 'package:gps_app/features/user/restaurant_details/presentation/restaurant_detail_provider.dart';
 import 'package:gps_app/features/user/restaurant_details/presentation/widgets/most_loved_restaurants.dart';
@@ -322,8 +321,8 @@ class _HomeSearchScreenState extends State<HomeSearchScreen> {
                           },
                         ),
                         SizedBox(child: _buildFilters()),
-                        GPSGaps.h16,
-                        const FilterChipsRow(),
+                        // GPSGaps.h16,
+                        // const FilterChipsRow(),
                         GPSGaps.h16,
                         // CategoryShortcutWidget(items: _shortcutItems),
                         // GPSGaps.h16,
