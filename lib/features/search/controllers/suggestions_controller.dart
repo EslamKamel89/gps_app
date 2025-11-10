@@ -37,11 +37,11 @@ class SuggestionsController {
   Future<ApiResponseModel<List<SuggestionModel>>> search({required SearchState state}) async {
     final t = prt('suggestions - SearchController');
     try {
-      // final response = await api.get(EndPoint.diet);
-      // pr(response, '$t - response');
-      // final List<DietModel> models =
-      //     (response as List).map((json) => DietModel.fromJson(json)).toList();
-      return pr(ApiResponseModel(response: ResponseEnum.success, data: dummySuggestions), t);
+      final response = await api.post(EndPoint.search, data: state.toRequestBody());
+      pr(response, '$t - response');
+      final List<SuggestionModel> models =
+          (response['search_cards'] as List).map((json) => SuggestionModel.fromJson(json)).toList();
+      return pr(ApiResponseModel(response: ResponseEnum.success, data: models), t);
     } catch (e) {
       String errorMessage = e.toString();
       if (e is DioException) {

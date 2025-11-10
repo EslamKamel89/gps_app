@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:gps_app/core/helpers/image_url.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 import 'package:gps_app/features/search/models/suggestion_model/suggestion_model.dart';
@@ -51,7 +52,12 @@ class SuggestionsList extends StatelessWidget {
                   // thumbnail
                   ClipRRect(
                     borderRadius: BorderRadius.circular(8),
-                    child: Image.network(r.image ?? '', width: 48, height: 48, fit: BoxFit.cover),
+                    child: Image.network(
+                      getImageUrl(r.image),
+                      width: 48,
+                      height: 48,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                   GPSGaps.w12,
                   // main content

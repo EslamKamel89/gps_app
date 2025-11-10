@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gps_app/core/helpers/print_helper.dart';
 import 'package:gps_app/features/design/screens/user/home_search/widgets/round_square_buttom.dart';
 import 'package:gps_app/features/design/screens/user/home_search/widgets/suggestion_list.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
@@ -113,7 +112,7 @@ class _SearchRowState extends State<SearchRow> {
             FiltersRow(),
 
             GPSGaps.h8,
-            if (pr(state.search, 'search value')?.isNotEmpty == true)
+            if (state.search?.isNotEmpty == true)
               SuggestionsList(
                 items: state.suggestions?.data ?? [],
                 onSelect: (_) {},

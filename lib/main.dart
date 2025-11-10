@@ -54,7 +54,7 @@ class MyApp extends StatelessWidget {
           BlocProvider(create: (context) => UserCubit()),
           BlocProvider(create: (context) => BlogsCubit()),
           BlocProvider(create: (context) => FavoritesCubit()),
-          BlocProvider(create: (context) => SearchCubit()),
+          BlocProvider(create: (context) => SearchCubit()..init()),
         ],
         child: Builder(
           builder: (context) {

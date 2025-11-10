@@ -7,7 +7,7 @@ class SuggestionModel {
   int? restaurantId;
   String? name;
   String? image;
-  int? distance;
+  double? distance;
   String? address;
   Location? location;
 
@@ -36,7 +36,7 @@ class SuggestionModel {
       restaurantId: json['restaurant_id'] as int?,
       name: json['name'] as String?,
       image: json['image'] as String?,
-      distance: json['distance'] as int?,
+      distance: json['distance'] as double?,
       address: json['address'] as String?,
       location:
           json['location'] == null
@@ -64,7 +64,7 @@ class SuggestionModel {
     int? restaurantId,
     String? name,
     String? image,
-    int? distance,
+    double? distance,
     String? address,
     Location? location,
   }) {
