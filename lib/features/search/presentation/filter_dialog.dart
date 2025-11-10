@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gps_app/features/auth/presentation/widgets/state_district_selector.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 import 'package:gps_app/features/search/cubits/search_cubit/search_cubit.dart';
@@ -34,7 +35,7 @@ class _FilterDialogState extends State<FilterDialog> {
           const SizedBox(height: 12),
           Align(
             alignment: Alignment.centerLeft,
-            child: Text('Pick Distance', style: Theme.of(context).textTheme.titleMedium),
+            child: Text('Filter by Distance', style: Theme.of(context).textTheme.titleMedium),
           ),
           DropdownButtonFormField<int?>(
             initialValue: cubit.state.distance,
@@ -51,7 +52,7 @@ class _FilterDialogState extends State<FilterDialog> {
           const SizedBox(height: 12),
           Align(
             alignment: Alignment.centerLeft,
-            child: Text('Pick Category', style: Theme.of(context).textTheme.titleMedium),
+            child: Text('Filter by Category', style: Theme.of(context).textTheme.titleMedium),
           ),
           CategorySelectorProvider(
             onSelect: (c) {
@@ -59,11 +60,21 @@ class _FilterDialogState extends State<FilterDialog> {
               cubit.state.subCategory = c.selectedSubCategory;
             },
           ),
-          const SizedBox(height: 16),
-          const SizedBox(height: 8),
+          const SizedBox(height: 12),
           Align(
             alignment: Alignment.centerLeft,
-            child: Text('Diets', style: Theme.of(context).textTheme.titleMedium),
+            child: Text('Filter by State and city', style: Theme.of(context).textTheme.titleMedium),
+          ),
+          StateDistrictProvider(
+            onSelect: (SelectedStateAndDistrict s) {
+              cubit.state.state = s.selectedState;
+              cubit.state.district = s.selectedDistrict;
+            },
+          ),
+          const SizedBox(height: 12),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Text('Filter by Diets', style: Theme.of(context).textTheme.titleMedium),
           ),
           DietsRowProvider(),
           const SizedBox(height: 8),

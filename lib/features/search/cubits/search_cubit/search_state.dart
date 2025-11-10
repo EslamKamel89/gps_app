@@ -10,6 +10,8 @@ class SearchState {
   DietModel? diet;
   List<String>? types;
   ApiResponseModel<List<SuggestionModel>>? suggestions;
+  StateModel? state;
+  DistrictModel? district;
   SearchState({
     this.currentLocation,
     this.search,
@@ -19,6 +21,8 @@ class SearchState {
     this.diet,
     this.types,
     this.suggestions,
+    this.state,
+    this.district,
   });
 
   Map<String, dynamic> toRequestBody() {
@@ -32,6 +36,8 @@ class SearchState {
       "sub_category_id": subCategory?.id,
       "diet_id": diet?.id,
       "type": types,
+      "state_id": state?.id,
+      "district_id": district?.id,
     };
   }
 
@@ -44,6 +50,8 @@ class SearchState {
     DietModel? diet,
     List<String>? types,
     ApiResponseModel<List<SuggestionModel>>? suggestions,
+    StateModel? state,
+    DistrictModel? district,
   }) {
     return SearchState(
       currentLocation: currentLocation ?? this.currentLocation,
@@ -54,11 +62,13 @@ class SearchState {
       diet: diet ?? this.diet,
       types: types ?? this.types,
       suggestions: suggestions ?? this.suggestions,
+      state: state ?? this.state,
+      district: district ?? this.district,
     );
   }
 
   @override
   String toString() {
-    return 'SearchState(currentLocation: $currentLocation, search: $search, distance: $distance, category: $category, subCategory: $subCategory, diet: $diet, types: $types, suggestions: $suggestions)';
+    return 'SearchState(currentLocation: $currentLocation, search: $search, distance: $distance, category: $category, subCategory: $subCategory, diet: $diet, types: $types, suggestions: $suggestions, state: $state, district: $district)';
   }
 }

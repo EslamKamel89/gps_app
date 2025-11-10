@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gps_app/core/helpers/print_helper.dart';
 import 'package:gps_app/features/design/screens/user/home_search/widgets/round_square_buttom.dart';
+import 'package:gps_app/features/design/screens/user/home_search/widgets/suggestion_list.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 import 'package:gps_app/features/search/cubits/search_cubit/search_cubit.dart';
@@ -29,8 +31,14 @@ class _SearchRowState extends State<SearchRow> {
     super.initState();
   }
 
-  void _onQueryChanged(String _) {
+  void _onQueryChanged(String s) {
+    cubit.state.search = s;
     final hasText = _searchCtrl.text.trim().isNotEmpty;
+    if (hasText) {
+      cubit.search();
+    } else {
+      cubit.update();
+    }
   }
 
   void _clearText() {
@@ -105,15 +113,14 @@ class _SearchRowState extends State<SearchRow> {
             FiltersRow(),
 
             GPSGaps.h8,
-
-            // Your SuggestionList should support `items`, `onSelect`, maybe `onClose`
-            // SuggestionsList(
-            //   items: _filtered,
-            //   onSelect: _selectSuggestion,
-            //   favorites: {},
-            //   onToggleFavorite: (value) {},
-            //   // onClose: () => setState(() => _showSuggestions = false),
-            // ),
+            if (pr(state.search, 'search value')?.isNotEmpty == true)
+              SuggestionsList(
+                items: state.suggestions?.data ?? [],
+                onSelect: (_) {},
+                favorites: {},
+                onToggleFavorite: (value) {},
+                // onClose: () => setState(() => _showSuggestions = false),
+              ),
           ],
         );
       },

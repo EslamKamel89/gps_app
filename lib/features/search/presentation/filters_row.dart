@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 import 'package:gps_app/features/search/cubits/search_cubit/search_cubit.dart';
 
@@ -38,14 +39,25 @@ class _FiltersRowState extends State<FiltersRow> {
             if (state.distance != null)
               InputChip(
                 label: Text('Distance: ${state.distance}'),
+                backgroundColor: GPSColors.primary.withOpacity(0.2),
                 onDeleted:
                     () => setState(() {
                       state.distance = null;
                     }),
               ),
+            if (state.category != null)
+              InputChip(
+                label: Text('Category: ${state.category?.name}'),
+                backgroundColor: GPSColors.primary.withOpacity(0.2),
+                onDeleted:
+                    () => setState(() {
+                      state.category = null;
+                    }),
+              ),
             if (state.subCategory != null)
               InputChip(
-                label: Text('Category: ${state.subCategory?.name}'),
+                label: Text('Sub Category: ${state.subCategory?.name}'),
+                backgroundColor: GPSColors.primary.withOpacity(0.2),
                 onDeleted:
                     () => setState(() {
                       state.subCategory = null;
@@ -54,11 +66,24 @@ class _FiltersRowState extends State<FiltersRow> {
             if (state.diet != null)
               InputChip(
                 label: Text(state.diet?.name ?? ''),
+                backgroundColor: GPSColors.primary.withOpacity(0.2),
                 onDeleted:
                     () => setState(() {
                       state.diet = null;
                     }),
               ),
+            if (state.types?.isNotEmpty == true)
+              ...List.generate(state.types!.length, (index) {
+                final type = state.types![index];
+                return InputChip(
+                  backgroundColor: GPSColors.primary.withOpacity(0.2),
+                  label: Text(type),
+                  onDeleted:
+                      () => setState(() {
+                        state.types?.remove(type);
+                      }),
+                );
+              }),
           ],
         ),
       ],

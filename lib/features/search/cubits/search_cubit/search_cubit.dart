@@ -4,6 +4,8 @@ import 'package:gps_app/core/enums/response_type.dart';
 import 'package:gps_app/core/helpers/print_helper.dart';
 import 'package:gps_app/core/models/api_response_model.dart';
 import 'package:gps_app/core/service_locator/service_locator.dart';
+import 'package:gps_app/features/auth/models/district_model.dart';
+import 'package:gps_app/features/auth/models/state_model.dart';
 import 'package:gps_app/features/search/controllers/suggestions_controller.dart';
 import 'package:gps_app/features/search/models/suggestion_model/suggestion_model.dart';
 import 'package:gps_app/features/user/preferences/models/category_model/category_model.dart';

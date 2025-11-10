@@ -1,13 +1,13 @@
 {
   "Done todos": [
     "add a close search button and remove the logic to get out of the search by clearing the text field",
+    "fix the padding issue",
     "------------------------------------------------"
   ],
   "todos": [
     "handle the verified state in the categories in the restaurant details",
     "holidays are not handled in the ui of the profile page",
     "+++++++++++++++++++++++++++++++++++++++++++++++++",
-    "fix the padding issue",
     "add state_id and district_id to the search",
     "------------------------------------------------"
   ]
