@@ -37,6 +37,7 @@ class _HomeSearchScreenState extends State<HomeSearchScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         backgroundColor: GPSColors.background,
         body: Stack(
           children: [

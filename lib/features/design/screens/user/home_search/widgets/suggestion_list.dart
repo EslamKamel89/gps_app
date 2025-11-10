@@ -80,7 +80,7 @@ class SuggestionsList extends StatelessWidget {
                               ),
                             ),
                             GPSGaps.w8,
-                            _DistancePill(label: r.distance?.toString() ?? ''),
+                            _DistancePill(label: '${r.distance?.toString() ?? ''} ml'),
                           ],
                         ),
                         GPSGaps.h8,

@@ -36,6 +36,7 @@ class _SearchRowState extends State<SearchRow> {
     if (hasText) {
       cubit.search();
     } else {
+      cubit.state.suggestions?.data = [];
       cubit.update();
     }
   }
