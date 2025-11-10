@@ -7,6 +7,7 @@ import 'package:gps_app/features/design/screens/user/home_search/widgets/incompl
 import 'package:gps_app/features/design/screens/user/home_search/widgets/map/map.dart';
 import 'package:gps_app/features/design/screens/user/home_search/widgets/promo_card.dart';
 import 'package:gps_app/features/design/screens/user/home_search/widgets/resturant_list_item.dart';
+import 'package:gps_app/features/design/screens/user/home_search/widgets/round_square_buttom.dart';
 import 'package:gps_app/features/design/screens/user/home_search/widgets/top_bar.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
@@ -49,16 +50,19 @@ class _HomeSearchScreenState extends State<HomeSearchScreen> {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        const TopBar(),
+                        TopBar(),
 
                         GPSGaps.h16,
-                        InkWell(
-                          onTap: () {
-                            setState(() {
-                              _showMap = true;
-                            });
-                          },
-                          child: SearchRowPlaceholder(hint: 'Search....'),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 15),
+                          child: InkWell(
+                            onTap: () {
+                              setState(() {
+                                _showMap = true;
+                              });
+                            },
+                            child: SearchRowPlaceholder(hint: 'Search....'),
+                          ),
                         ),
                         // SizedBox(child: _buildFilters()),
                         // GPSGaps.h16,
@@ -75,17 +79,12 @@ class _HomeSearchScreenState extends State<HomeSearchScreen> {
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 16),
                           child: Text(
-                                'Farm to Fork',
-                                style: Theme.of(
-                                  context,
-                                ).textTheme.titleLarge?.copyWith(
-                                  color: GPSColors.text,
-                                  fontWeight: FontWeight.w800,
-                                ),
-                              )
-                              .animate()
-                              .fadeIn(duration: 300.ms)
-                              .slideY(begin: .2),
+                            'Farm to Fork',
+                            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                              color: GPSColors.text,
+                              fontWeight: FontWeight.w800,
+                            ),
+                          ).animate().fadeIn(duration: 300.ms).slideY(begin: .2),
                         ),
                         GPSGaps.h12,
                       ],
@@ -97,10 +96,7 @@ class _HomeSearchScreenState extends State<HomeSearchScreen> {
                         onTap: () {
                           Navigator.of(context).push(
                             MaterialPageRoute(
-                              builder:
-                                  (_) => RestaurantDetailProvider(
-                                    enableEdit: false,
-                                  ),
+                              builder: (_) => RestaurantDetailProvider(enableEdit: false),
                             ),
                           );
                         },
@@ -115,9 +111,7 @@ class _HomeSearchScreenState extends State<HomeSearchScreen> {
                         imageUrl:
                             'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=1200&auto=format&fit=crop',
                         onTap: () {
-                          Navigator.of(
-                            context,
-                          ).pushNamed(AppRoutesNames.restaurantDetailScreen);
+                          Navigator.of(context).pushNamed(AppRoutesNames.restaurantDetailScreen);
                         },
                       ),
                       GPSGaps.h12,
@@ -130,9 +124,7 @@ class _HomeSearchScreenState extends State<HomeSearchScreen> {
                         imageUrl:
                             'https://images.unsplash.com/photo-1543353071-10c8ba85a904?q=80&w=1200&auto=format&fit=crop',
                         onTap: () {
-                          Navigator.of(
-                            context,
-                          ).pushNamed(AppRoutesNames.restaurantDetailScreen);
+                          Navigator.of(context).pushNamed(AppRoutesNames.restaurantDetailScreen);
                         },
                       ),
                       GPSGaps.h24,
@@ -148,9 +140,7 @@ class _HomeSearchScreenState extends State<HomeSearchScreen> {
                 child: SizedBox(
                   width: context.width,
                   height: context.height,
-                  child: SizedBox(
-                    child: Stack(fit: StackFit.expand, children: [MapView()]),
-                  ),
+                  child: SizedBox(child: Stack(fit: StackFit.expand, children: [MapView()])),
                 ),
               ).animate().fadeIn(duration: 220.ms),
 
@@ -158,13 +148,22 @@ class _HomeSearchScreenState extends State<HomeSearchScreen> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const TopBar(),
+                    TopBar(
+                      action: RoundSquareButton(
+                        icon: Icons.arrow_back_ios,
+                        color: Colors.white,
+                        onTap:
+                            () => setState(() {
+                              _showMap = false;
+                            }),
+                      ),
+                    ),
                     GPSGaps.h16,
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       child: SearchRow(
                         hint: 'Search.....',
-                        onClear: () {
+                        closeSearch: () {
                           setState(() {
                             setState(() {
                               _showMap = false;

@@ -9,10 +9,10 @@ import 'package:gps_app/features/search/presentation/filter_dialog.dart';
 import 'package:gps_app/features/search/presentation/filters_row.dart';
 
 class SearchRow extends StatefulWidget {
-  const SearchRow({super.key, this.hint = '', required this.onClear});
+  const SearchRow({super.key, this.hint = '', required this.closeSearch});
 
   final String hint;
-  final VoidCallback onClear;
+  final VoidCallback closeSearch;
 
   @override
   State<SearchRow> createState() => _SearchRowState();
@@ -31,10 +31,6 @@ class _SearchRowState extends State<SearchRow> {
 
   void _onQueryChanged(String _) {
     final hasText = _searchCtrl.text.trim().isNotEmpty;
-
-    if (!hasText) {
-      widget.onClear();
-    }
   }
 
   void _clearText() {

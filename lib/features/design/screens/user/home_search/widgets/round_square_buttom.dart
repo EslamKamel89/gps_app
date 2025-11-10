@@ -3,9 +3,15 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 
 class RoundSquareButton extends StatelessWidget {
-  const RoundSquareButton({super.key, required this.icon, this.onTap});
+  const RoundSquareButton({
+    super.key,
+    required this.icon,
+    this.onTap,
+    this.color = GPSColors.primary,
+  });
   final IconData icon;
   final VoidCallback? onTap;
+  final Color color;
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -19,7 +25,7 @@ class RoundSquareButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(14),
           border: Border.all(color: GPSColors.cardBorder),
         ),
-        child: Icon(icon, color: GPSColors.primary),
+        child: Icon(icon, color: color),
       ),
     ).animate().fadeIn().scale(begin: const Offset(.95, .95));
   }
