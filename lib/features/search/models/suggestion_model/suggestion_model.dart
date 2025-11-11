@@ -36,7 +36,7 @@ class SuggestionModel {
       restaurantId: json['restaurant_id'] as int?,
       name: json['name'] as String?,
       image: json['image'] as String?,
-      distance: json['distance'] as double?,
+      distance: (json['distance'] as num?)?.toDouble(),
       address: json['address'] as String?,
       location:
           json['location'] == null

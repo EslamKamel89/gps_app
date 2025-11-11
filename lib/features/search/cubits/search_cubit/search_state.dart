@@ -10,6 +10,7 @@ class SearchState {
   DietModel? diet;
   List<String>? types;
   ApiResponseModel<List<SuggestionModel>>? suggestions;
+  ApiResponseModel<List<SuggestionModel>>? allLocations;
   StateModel? state;
   DistrictModel? district;
   SearchState({
@@ -23,6 +24,7 @@ class SearchState {
     this.suggestions,
     this.state,
     this.district,
+    this.allLocations,
   });
 
   Map<String, dynamic> toRequestBody() {
@@ -50,6 +52,7 @@ class SearchState {
     DietModel? diet,
     List<String>? types,
     ApiResponseModel<List<SuggestionModel>>? suggestions,
+    ApiResponseModel<List<SuggestionModel>>? allLocations,
     StateModel? state,
     DistrictModel? district,
   }) {
@@ -64,6 +67,7 @@ class SearchState {
       suggestions: suggestions ?? this.suggestions,
       state: state ?? this.state,
       district: district ?? this.district,
+      allLocations: allLocations ?? this.allLocations,
     );
   }
 

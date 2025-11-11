@@ -2,13 +2,18 @@
   "Done todos": [
     "add a close search button and remove the logic to get out of the search by clearing the text field",
     "fix the padding issue",
+    "add state_id and district_id to the search",
+    "make sure that all locations is fetched automatically",
+    "add filter with distance",
     "------------------------------------------------"
   ],
   "todos": [
     "handle the verified state in the categories in the restaurant details",
     "holidays are not handled in the ui of the profile page",
     "+++++++++++++++++++++++++++++++++++++++++++++++++",
-    "add state_id and district_id to the search",
+    "add selected location state and event",
+    "add the bloc consumer to the map widget",
+    "generate the code and test it",
     "------------------------------------------------"
   ]
 }
