@@ -8,6 +8,7 @@ import 'package:gps_app/features/design/utils/gps_gaps.dart';
 import 'package:gps_app/features/search/cubits/search_cubit/search_cubit.dart';
 import 'package:gps_app/features/search/presentation/filter_dialog.dart';
 import 'package:gps_app/features/search/presentation/filters_row.dart';
+import 'package:gps_app/features/search/presentation/map_legend.dart';
 
 class SearchRow extends StatefulWidget {
   const SearchRow({super.key, this.hint = '', required this.closeSearch});
@@ -23,6 +24,7 @@ class _SearchRowState extends State<SearchRow> {
   final TextEditingController _searchCtrl = TextEditingController();
   final FocusNode _searchFocus = FocusNode();
   late final SearchCubit cubit;
+  bool showSuggestions = false;
 
   @override
   void initState() {
@@ -31,6 +33,7 @@ class _SearchRowState extends State<SearchRow> {
   }
 
   void _onQueryChanged(String s) {
+    showSuggestions = true;
     cubit.state.search = s;
     final hasText = _searchCtrl.text.trim().isNotEmpty;
     if (hasText) {
@@ -76,6 +79,7 @@ class _SearchRowState extends State<SearchRow> {
       controller: _searchCtrl,
       focusNode: _searchFocus,
       onChanged: _onQueryChanged,
+
       decoration: _decoration(widget.hint).copyWith(
         prefixIcon: const Icon(Icons.search_rounded, color: GPSColors.primary),
         suffixIcon:
@@ -110,16 +114,45 @@ class _SearchRowState extends State<SearchRow> {
             //   child: Text('test'),
             // ),
             searchRow,
+            GPSGaps.h4,
+            MapLegend(),
+            GPSGaps.h4,
             FiltersRow(),
 
             GPSGaps.h8,
-            if (state.search?.isNotEmpty == true)
-              SuggestionsList(
-                items: state.suggestions?.data ?? [],
-                onSelect: (_) {},
-                favorites: {},
-                onToggleFavorite: (value) {},
-                // onClose: () => setState(() => _showSuggestions = false),
+            if (state.search?.isNotEmpty == true && showSuggestions)
+              Stack(
+                children: [
+                  SuggestionsList(
+                    items: state.suggestions?.data ?? [],
+                    onSelect: (s) {
+                      cubit.selectSuggestion(s);
+                      setState(() {
+                        showSuggestions = false;
+                      });
+                      cubit.update();
+                    },
+                    favorites: {},
+                    onToggleFavorite: (value) {},
+                    // onClose: () => setState(() => _showSuggestions = false),
+                  ),
+                  Positioned(
+                    top: 0,
+                    right: 0,
+                    child: InkWell(
+                      onTap: () {
+                        setState(() {
+                          showSuggestions = false;
+                        });
+                      },
+                      child: Container(
+                        padding: EdgeInsets.all(5),
+                        decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.red),
+                        child: Icon(Icons.close, color: Colors.white),
+                      ),
+                    ),
+                  ),
+                ],
               ),
           ],
         );

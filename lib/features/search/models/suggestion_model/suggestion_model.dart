@@ -39,9 +39,9 @@ class SuggestionModel {
       distance: (json['distance'] as num?)?.toDouble(),
       address: json['address'] as String?,
       location:
-          json['location'] == null
+          json['locations'] == null
               ? null
-              : Location.fromJson(json['location'] as Map<String, dynamic>),
+              : Location.fromJson(json['locations'] as Map<String, dynamic>),
     );
   }
 

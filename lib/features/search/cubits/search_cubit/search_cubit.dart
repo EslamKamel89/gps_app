@@ -19,13 +19,20 @@ class SearchCubit extends Cubit<SearchState> {
   final SuggestionsController controller = serviceLocator<SuggestionsController>();
   SearchCubit() : super(SearchState());
   Future init() async {
-    _currentLocation();
+    await _currentLocation();
     getAllLocations();
   }
 
   Future _currentLocation() async {
     final location = await getCurrentLocation();
-    state.currentLocation = location;
+    if (location != null) {
+      emit(
+        state.copyWith(
+          currentLocation: location,
+          searchStateEnum: SearchStateEnum.currentLocationAvailable,
+        ),
+      );
+    }
   }
 
   Future search() async {
@@ -52,6 +59,7 @@ class SearchCubit extends Cubit<SearchState> {
     final t = prt('getAllLocations - SearchCubit');
     emit(
       state.copyWith(
+        searchStateEnum: SearchStateEnum.allLocationsFetched,
         allLocations: state.allLocations?.copyWith(
           errorMessage: null,
           response: ResponseEnum.loading,
@@ -63,6 +71,15 @@ class SearchCubit extends Cubit<SearchState> {
     );
     pr(response, t);
     emit(state.copyWith(allLocations: response));
+  }
+
+  void selectSuggestion(SuggestionModel suggestion) {
+    emit(
+      state.copyWith(
+        selectedSuggestion: suggestion,
+        searchStateEnum: SearchStateEnum.suggestionSelected,
+      ),
+    );
   }
 
   void update() {

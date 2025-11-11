@@ -1,6 +1,6 @@
 class Location {
-  int? latitude;
-  int? longitude;
+  double? latitude;
+  double? longitude;
 
   Location({this.latitude, this.longitude});
 
@@ -10,19 +10,13 @@ class Location {
   }
 
   factory Location.fromJson(Map<String, dynamic> json) => Location(
-    latitude: json['latitude'] as int?,
-    longitude: json['longitude'] as int?,
+    latitude: (json['latitude'] as num?)?.toDouble(),
+    longitude: (json['longitude'] as num?)?.toDouble(),
   );
 
-  Map<String, dynamic> toJson() => {
-    'latitude': latitude,
-    'longitude': longitude,
-  };
+  Map<String, dynamic> toJson() => {'latitude': latitude, 'longitude': longitude};
 
-  Location copyWith({int? latitude, int? longitude}) {
-    return Location(
-      latitude: latitude ?? this.latitude,
-      longitude: longitude ?? this.longitude,
-    );
+  Location copyWith({double? latitude, double? longitude}) {
+    return Location(latitude: latitude ?? this.latitude, longitude: longitude ?? this.longitude);
   }
 }

@@ -1,5 +1,6 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 part of 'search_cubit.dart';
+
+enum SearchStateEnum { suggestionSelected, currentLocationAvailable, allLocationsFetched, update }
 
 class SearchState {
   LatLng? currentLocation;
@@ -10,6 +11,8 @@ class SearchState {
   DietModel? diet;
   List<String>? types;
   ApiResponseModel<List<SuggestionModel>>? suggestions;
+  SuggestionModel? selectedSuggestion;
+  SearchStateEnum searchStateEnum;
   ApiResponseModel<List<SuggestionModel>>? allLocations;
   StateModel? state;
   DistrictModel? district;
@@ -22,6 +25,8 @@ class SearchState {
     this.diet,
     this.types,
     this.suggestions,
+    this.selectedSuggestion,
+    this.searchStateEnum = SearchStateEnum.update,
     this.state,
     this.district,
     this.allLocations,
@@ -52,6 +57,8 @@ class SearchState {
     DietModel? diet,
     List<String>? types,
     ApiResponseModel<List<SuggestionModel>>? suggestions,
+    SuggestionModel? selectedSuggestion,
+    SearchStateEnum? searchStateEnum,
     ApiResponseModel<List<SuggestionModel>>? allLocations,
     StateModel? state,
     DistrictModel? district,
@@ -65,6 +72,8 @@ class SearchState {
       diet: diet ?? this.diet,
       types: types ?? this.types,
       suggestions: suggestions ?? this.suggestions,
+      selectedSuggestion: selectedSuggestion ?? this.selectedSuggestion,
+      searchStateEnum: searchStateEnum ?? this.searchStateEnum,
       state: state ?? this.state,
       district: district ?? this.district,
       allLocations: allLocations ?? this.allLocations,

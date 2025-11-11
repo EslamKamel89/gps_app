@@ -10,6 +10,7 @@
   "todos": [
     "handle the verified state in the categories in the restaurant details",
     "holidays are not handled in the ui of the profile page",
+    "there an issue with the tab bar count in the store and farm public profile screen ",
     "+++++++++++++++++++++++++++++++++++++++++++++++++",
     "add selected location state and event",
     "add the bloc consumer to the map widget",
