@@ -1,19 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:gps_app/core/extensions/context-extensions.dart';
-import 'package:gps_app/core/router/app_routes_names.dart';
-import 'package:gps_app/features/design/screens/user/home_search/widgets/featured_resturant_card.dart';
 import 'package:gps_app/features/design/screens/user/home_search/widgets/incomple_profile_model.dart';
 import 'package:gps_app/features/design/screens/user/home_search/widgets/map/map.dart';
-import 'package:gps_app/features/design/screens/user/home_search/widgets/promo_card.dart';
-import 'package:gps_app/features/design/screens/user/home_search/widgets/resturant_list_item.dart';
+import 'package:gps_app/features/design/screens/user/home_search/widgets/nearest_vendors.dart';
 import 'package:gps_app/features/design/screens/user/home_search/widgets/round_square_buttom.dart';
 import 'package:gps_app/features/design/screens/user/home_search/widgets/top_bar.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 import 'package:gps_app/features/design/widgets/gps_bottom_nav.dart';
 import 'package:gps_app/features/search/presentation/search_row.dart';
-import 'package:gps_app/features/user/restaurant_details/presentation/restaurant_detail_provider.dart';
 import 'package:gps_app/features/user/restaurant_details/presentation/widgets/most_loved_restaurants.dart';
 import 'package:gps_app/features/user/store_details/presentation/widgets/most_loved_stores.dart';
 
@@ -74,64 +70,65 @@ class _HomeSearchScreenState extends State<HomeSearchScreen> {
                         MostLovedRestaurantsProvider(),
                         MostLovedStoresProvider(isStore: true),
                         MostLovedStoresProvider(isStore: false),
+                        NearestVendors(),
                         // GPSGaps.h20,
-                        const PromoCard(),
-                        GPSGaps.h20,
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16),
-                          child: Text(
-                            'Farm to Fork',
-                            style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                              color: GPSColors.text,
-                              fontWeight: FontWeight.w800,
-                            ),
-                          ).animate().fadeIn(duration: 300.ms).slideY(begin: .2),
-                        ),
+                        // const PromoCard(),
+                        // GPSGaps.h20,
+                        // Padding(
+                        //   padding: const EdgeInsets.symmetric(horizontal: 16),
+                        //   child: Text(
+                        //     'Farm to Fork',
+                        //     style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                        //       color: GPSColors.text,
+                        //       fontWeight: FontWeight.w800,
+                        //     ),
+                        //   ).animate().fadeIn(duration: 300.ms).slideY(begin: .2),
+                        // ),
                         GPSGaps.h12,
                       ],
                     ),
                   ),
-                  SliverList(
-                    delegate: SliverChildListDelegate([
-                      FeaturedRestaurantCard(
-                        onTap: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (_) => RestaurantDetailProvider(enableEdit: false),
-                            ),
-                          );
-                        },
-                      ),
-                      GPSGaps.h12,
-                      RestaurantListItem(
-                        title: 'Farm to Fork',
-                        subtitle: '100% grass-fed or organic, gluten free',
-                        time: '45–10 min',
-                        distance: '2.9 mi',
-                        verified: true,
-                        imageUrl:
-                            'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=1200&auto=format&fit=crop',
-                        onTap: () {
-                          Navigator.of(context).pushNamed(AppRoutesNames.restaurantDetailScreen);
-                        },
-                      ),
-                      GPSGaps.h12,
-                      RestaurantListItem(
-                        title: 'Greenhouse Cafe',
-                        subtitle: '100% organic, gluten free',
-                        time: '30–1 hr',
-                        distance: '3.0 mi',
-                        verified: false,
-                        imageUrl:
-                            'https://images.unsplash.com/photo-1543353071-10c8ba85a904?q=80&w=1200&auto=format&fit=crop',
-                        onTap: () {
-                          Navigator.of(context).pushNamed(AppRoutesNames.restaurantDetailScreen);
-                        },
-                      ),
-                      GPSGaps.h24,
-                      GPSGaps.h24,
-                    ]),
-                  ),
+                  // SliverList(
+                  //   delegate: SliverChildListDelegate([
+                  //     FeaturedRestaurantCard(
+                  //       onTap: () {
+                  //         Navigator.of(context).push(
+                  //           MaterialPageRoute(
+                  //             builder: (_) => RestaurantDetailProvider(enableEdit: false),
+                  //           ),
+                  //         );
+                  //       },
+                  //     ),
+                  //     GPSGaps.h12,
+                  //     RestaurantListItem(
+                  //       title: 'Farm to Fork',
+                  //       subtitle: '100% grass-fed or organic, gluten free',
+                  //       time: '45–10 min',
+                  //       distance: '2.9 mi',
+                  //       verified: true,
+                  //       imageUrl:
+                  //           'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=1200&auto=format&fit=crop',
+                  //       onTap: () {
+                  //         Navigator.of(context).pushNamed(AppRoutesNames.restaurantDetailScreen);
+                  //       },
+                  //     ),
+                  //     GPSGaps.h12,
+                  //     RestaurantListItem(
+                  //       title: 'Greenhouse Cafe',
+                  //       subtitle: '100% organic, gluten free',
+                  //       time: '30–1 hr',
+                  //       distance: '3.0 mi',
+                  //       verified: false,
+                  //       imageUrl:
+                  //           'https://images.unsplash.com/photo-1543353071-10c8ba85a904?q=80&w=1200&auto=format&fit=crop',
+                  //       onTap: () {
+                  //         Navigator.of(context).pushNamed(AppRoutesNames.restaurantDetailScreen);
+                  //       },
+                  //     ),
+                  //     GPSGaps.h24,
+                  //     GPSGaps.h24,
+                  //   ]),
+                  // ),
                 ],
               ),
             if (_showMap) ...[

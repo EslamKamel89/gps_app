@@ -112,6 +112,30 @@ class _MapViewState extends State<MapView> {
     );
   }
 
+  void _handleNavigation(SuggestionModel s) {
+    if (s.type == 'farm' || s.type == 'store') {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder:
+              (_) => StoreDetailsScreen(
+                userId: s.userId,
+                publicPage: true,
+                enableEdit: false,
+                enableCompleteProfile: true,
+              ),
+        ),
+      );
+    } else if (s.type == 'restaurant') {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder:
+              (_) =>
+                  RestaurantDetailProvider(restaurantId: s.restaurantId ?? -1, enableEdit: false),
+        ),
+      );
+    }
+  }
+
   void _rebuildMarkersFromState(SearchState state) {
     final Set<Marker> next = {};
 
@@ -134,41 +158,12 @@ class _MapViewState extends State<MapView> {
           position: LatLng(lat, lng),
           icon: BitmapDescriptor.defaultMarkerWithHue(hue),
           zIndex: zIndex,
-          infoWindow: InfoWindow(
-            title: s.name ?? '',
-            onTap: () {
-              // pr('hello world');
-              if (s.type == 'farm' || s.type == 'store') {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder:
-                        (_) => StoreDetailsScreen(
-                          userId: s.userId,
-                          publicPage: true,
-                          enableEdit: false,
-                          enableCompleteProfile: true,
-                        ),
-                  ),
-                );
-              } else if (s.type == 'restaurant') {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder:
-                        (_) => RestaurantDetailProvider(
-                          restaurantId: s.restaurantId ?? -1,
-                          enableEdit: false,
-                        ),
-                  ),
-                );
-              }
-            },
-          ),
+          infoWindow: InfoWindow(title: s.name ?? '', onTap: () => _handleNavigation(s)),
           onTap: () {},
         ),
       );
     }
 
-    // 2) Suggestions layer (render after so they sit above by default)
     final suggestions = state.suggestions?.data ?? const <SuggestionModel>[];
     for (final s in suggestions) {
       final lat = s.location?.latitude;
@@ -185,12 +180,7 @@ class _MapViewState extends State<MapView> {
           position: LatLng(lat, lng),
           icon: BitmapDescriptor.defaultMarkerWithHue(hue),
           zIndex: zIndex,
-          infoWindow: InfoWindow(
-            title: s.name ?? '',
-            onTap: () {
-              // TODO: navigate to profile screen
-            },
-          ),
+          infoWindow: InfoWindow(title: s.name ?? '', onTap: () => _handleNavigation(s)),
           onTap: () {
             // no-op; InfoWindow shows. Optionally: cubit.selectSuggestion(s);
           },

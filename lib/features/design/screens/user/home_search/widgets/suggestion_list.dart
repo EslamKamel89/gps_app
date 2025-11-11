@@ -12,12 +12,14 @@ class SuggestionsList extends StatelessWidget {
     required this.onSelect,
     required this.favorites,
     required this.onToggleFavorite,
+    this.isScrollable = true,
   });
 
   final List<SuggestionModel> items;
   final ValueChanged<SuggestionModel> onSelect;
   final Set<String> favorites;
   final ValueChanged<SuggestionModel> onToggleFavorite;
+  final bool isScrollable;
 
   @override
   Widget build(BuildContext context) {
@@ -33,9 +35,10 @@ class SuggestionsList extends StatelessWidget {
     }
 
     return Container(
-      decoration: _box,
-      constraints: const BoxConstraints(maxHeight: 320),
+      decoration: isScrollable ? _box : null,
+      constraints: isScrollable ? BoxConstraints(maxHeight: 320) : null,
       child: ListView.separated(
+        physics: isScrollable ? null : NeverScrollableScrollPhysics(),
         shrinkWrap: true,
         itemCount: items.length,
         separatorBuilder: (_, __) => const Divider(height: 1, color: GPSColors.cardBorder),

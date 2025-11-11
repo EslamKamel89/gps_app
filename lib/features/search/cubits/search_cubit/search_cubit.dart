@@ -21,6 +21,8 @@ class SearchCubit extends Cubit<SearchState> {
   Future init() async {
     await _currentLocation();
     getAllLocations();
+    // Future.delayed(1000.ms).then((_) {
+    // });
   }
 
   Future _currentLocation() async {
@@ -67,7 +69,7 @@ class SearchCubit extends Cubit<SearchState> {
       ),
     );
     final ApiResponseModel<List<SuggestionModel>> response = await controller.search(
-      state: SearchState(),
+      state: SearchState(currentLocation: state.currentLocation),
     );
     pr(response, t);
     emit(state.copyWith(allLocations: response));
