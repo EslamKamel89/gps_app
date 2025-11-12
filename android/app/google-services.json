@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "509381849125",
+    "project_id": "gps-grass-organic",
+    "storage_bucket": "gps-grass-organic.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:509381849125:android:a0bf42ee0e615879fe8fcc",
+        "android_client_info": {
+          "package_name": "com.gaztec.gps_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB9oK6fRqMDlj19WASzVg72KfpiNUZlfvA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
