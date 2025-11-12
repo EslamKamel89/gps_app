@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gps_app/core/enums/response_type.dart';
+import 'package:gps_app/core/extensions/capitalize.dart';
 import 'package:gps_app/core/extensions/context-extensions.dart';
 import 'package:gps_app/core/models/api_response_model.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
@@ -61,7 +62,7 @@ class _DietsRowWidgetState extends State<DietsRowWidget> {
               (state.data ?? []).map((d) {
                 return FilterChip(
                   label: Text(
-                    d.name ?? '',
+                    d.name?.toCapitalize ?? '',
                     style: TextStyle(
                       color: searchCubit.state.diet?.id == d.id ? Colors.white : null,
                     ),

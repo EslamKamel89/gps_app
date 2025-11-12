@@ -43,8 +43,7 @@ class _FilterDialogState extends State<FilterDialog> {
             items:
                 _distances
                     .map(
-                      (d) =>
-                          DropdownMenuItem(value: d, child: Text(d == null ? 'Any' : '$d miles')),
+                      (d) => DropdownMenuItem(value: d, child: Text(d == null ? 'Any' : '$d ml')),
                     )
                     .toList(),
             onChanged: (v) => setState(() => cubit.state.distance = v),
@@ -115,7 +114,7 @@ class _FilterDialogState extends State<FilterDialog> {
             color: GPSColors.accent,
             borderRadius: BorderRadius.circular(10),
           ),
-          child: const Text('apply', style: TextStyle(color: Colors.white)),
+          child: const Text('Apply', style: TextStyle(color: Colors.white)),
         ),
       ),
     ];

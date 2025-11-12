@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gps_app/core/helpers/print_helper.dart';
+import 'package:gps_app/core/extensions/capitalize.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 
 class TypeMultiSelect extends StatefulWidget {
@@ -47,7 +47,7 @@ class _TypeMultiSelectState extends State<TypeMultiSelect> {
 
   @override
   Widget build(BuildContext context) {
-    pr(_selectedTypes, 'selected types');
+    // pr(_selectedTypes, 'selected types');
     return Container(
       decoration: BoxDecoration(
         color: Colors.transparent,
@@ -69,7 +69,7 @@ class _TypeMultiSelectState extends State<TypeMultiSelect> {
           for (final label in _types)
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: Text(label, style: const TextStyle(fontWeight: FontWeight.w600)),
+              child: Text(label.toCapitalize, style: const TextStyle(fontWeight: FontWeight.w600)),
             ),
         ],
       ),
