@@ -38,7 +38,7 @@ class _FilterDialogState extends State<FilterDialog> {
             child: Text('Filter by Distance', style: Theme.of(context).textTheme.titleMedium),
           ),
           DropdownButtonFormField<int?>(
-            initialValue: cubit.state.distance,
+            // initialValue: cubit.state.distance,
             decoration: const InputDecoration(hintText: 'Please Select Distance'),
             items:
                 _distances
