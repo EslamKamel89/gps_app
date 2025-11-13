@@ -5,7 +5,7 @@ import 'package:gps_app/core/api_service/api_consumer.dart';
 import 'package:gps_app/core/api_service/end_points.dart';
 import 'package:gps_app/core/cache/local_storage.dart';
 import 'package:gps_app/core/enums/response_type.dart';
-import 'package:gps_app/core/helpers/fiirebase.dart';
+import 'package:gps_app/core/helpers/firebase.dart';
 import 'package:gps_app/core/helpers/print_helper.dart';
 import 'package:gps_app/core/helpers/snackbar.dart';
 import 'package:gps_app/core/models/api_response_model.dart';
