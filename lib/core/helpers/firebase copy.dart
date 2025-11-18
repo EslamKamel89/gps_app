@@ -37,11 +37,12 @@ Future<void> requestPermissions() async {
     );
     pr('FCM permission: ${settings.authorizationStatus}', 'FCM');
 
-    await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
-      alert: true,
-      badge: true,
-      sound: true,
-    );
+    await FirebaseMessaging.instance
+        .setForegroundNotificationPresentationOptions(
+          alert: true,
+          badge: true,
+          sound: true,
+        );
   } catch (e, st) {
     pr('Error requesting FCM permissions: $e\n$st', 'FCM');
   }
@@ -87,7 +88,10 @@ void setupInteractionHandlers() {
 
   FirebaseMessaging.instance.getInitialMessage().then((message) {
     if (message != null) {
-      pr('App opened from terminated state by notification: ${message.messageId}', 'FCM');
+      pr(
+        'App opened from terminated state by notification: ${message.messageId}',
+        'FCM',
+      );
     }
   });
 

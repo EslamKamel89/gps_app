@@ -53,7 +53,10 @@ class _NearestVendorsState extends State<NearestVendors> {
   }
 }
 
-List<SuggestionModel> sortAndLimitSuggestions(List<SuggestionModel>? suggestions, int limit) {
+List<SuggestionModel> sortAndLimitSuggestions(
+  List<SuggestionModel>? suggestions,
+  int limit,
+) {
   if (suggestions == null || suggestions.isEmpty) {
     return [];
   }

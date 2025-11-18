@@ -69,7 +69,10 @@ class _TypeMultiSelectState extends State<TypeMultiSelect> {
           for (final label in _types)
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: Text(label.toCapitalize, style: const TextStyle(fontWeight: FontWeight.w600)),
+              child: Text(
+                label.toCapitalize,
+                style: const TextStyle(fontWeight: FontWeight.w600),
+              ),
             ),
         ],
       ),

@@ -16,7 +16,8 @@ import 'package:gps_app/features/user/preferences/models/diet_model.dart';
 part 'search_state.dart';
 
 class SearchCubit extends Cubit<SearchState> {
-  final SuggestionsController controller = serviceLocator<SuggestionsController>();
+  final SuggestionsController controller =
+      serviceLocator<SuggestionsController>();
   SearchCubit() : super(SearchState());
   Future init() async {
     await _currentLocation();
@@ -47,7 +48,8 @@ class SearchCubit extends Cubit<SearchState> {
         ),
       ),
     );
-    final ApiResponseModel<List<SuggestionModel>> response = await controller.search(state: state);
+    final ApiResponseModel<List<SuggestionModel>> response = await controller
+        .search(state: state);
     response.data =
         response.data?.where((s) {
           if (state.distance == null || s.distance == null) return true;
@@ -68,9 +70,8 @@ class SearchCubit extends Cubit<SearchState> {
         ),
       ),
     );
-    final ApiResponseModel<List<SuggestionModel>> response = await controller.search(
-      state: SearchState(currentLocation: state.currentLocation),
-    );
+    final ApiResponseModel<List<SuggestionModel>> response = await controller
+        .search(state: SearchState(currentLocation: state.currentLocation));
     pr(response, t);
     emit(state.copyWith(allLocations: response));
   }

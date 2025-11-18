@@ -8,11 +8,13 @@ import 'package:gps_app/features/user/preferences/models/diet_model.dart';
 
 class DietsCubit extends Cubit<ApiResponseModel<List<DietModel>>> {
   DietsCubit() : super(ApiResponseModel());
-  final SuggestionsController controller = serviceLocator<SuggestionsController>();
+  final SuggestionsController controller =
+      serviceLocator<SuggestionsController>();
   Future diets() async {
     final t = prt('diets - DietsCubit');
     emit(state.copyWith(errorMessage: null, response: ResponseEnum.loading));
-    final ApiResponseModel<List<DietModel>> response = await controller.dietsIndex();
+    final ApiResponseModel<List<DietModel>> response =
+        await controller.dietsIndex();
     pr(response, t);
     emit(response);
   }

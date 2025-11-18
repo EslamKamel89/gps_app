@@ -30,7 +30,7 @@ class _TopBarState extends State<TopBar> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.fromLTRB(16, 8, 16, 12),
+      padding: const EdgeInsets.fromLTRB(30, 20, 26, 12),
       decoration: const BoxDecoration(
         color: GPSColors.primary,
         borderRadius: BorderRadius.vertical(bottom: Radius.circular(24)),
@@ -59,10 +59,35 @@ class _TopBarState extends State<TopBar> {
               ],
             ),
           ),
-          GPSGaps.w12,
 
+          GPSGaps.w12,
           ClickDropdown(
-            child: RoundIcon(icon: Icons.person_outline),
+            child: Stack(
+              clipBehavior: Clip.none,
+              children: [
+                RoundIcon(icon: Icons.person_outline),
+                Positioned(
+                  top: 0,
+                  right: 0,
+                  // startFocus
+                  child: Transform.translate(
+                    offset: Offset(15, -20),
+                    child: Container(
+                      padding: EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: Colors.red,
+                        shape: BoxShape.circle,
+                      ),
+                      child: Text(
+                        '8',
+                        style: TextStyle(fontSize: 20, color: Colors.white),
+                      ),
+                    ),
+                  ),
+                  // endFocus
+                ),
+              ],
+            ),
             offset: Offset(-200, 0),
             children: [
               UserProfileTile(
@@ -75,8 +100,19 @@ class _TopBarState extends State<TopBar> {
                 label: 'Edit Food Preferences',
                 onTap: () {
                   Future.delayed(100.ms, () {
-                    Navigator.of(context).pushNamed(AppRoutesNames.categorySelectionScreen);
+                    Navigator.of(
+                      context,
+                    ).pushNamed(AppRoutesNames.categorySelectionScreen);
                   });
+                },
+              ),
+              const Divider(height: 8, thickness: 0.7),
+              MenuActionItem(
+                icon: Icons.notifications,
+                label: 'Notifications',
+                danger: false,
+                onTap: () {
+                  // Navigator.of(context).pushNamed(AppRoutesNames.aboutScreen);
                 },
               ),
               const Divider(height: 8, thickness: 0.7),
@@ -111,8 +147,10 @@ class _TopBarState extends State<TopBar> {
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder:
-                            (_) =>
-                                UserDetailsScreen(enableEdit: false, enableCompleteProfile: true),
+                            (_) => UserDetailsScreen(
+                              enableEdit: false,
+                              enableCompleteProfile: true,
+                            ),
                       ),
                     );
                   } else {
@@ -155,7 +193,10 @@ class _TopBarState extends State<TopBar> {
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder:
-                            (_) => UserDetailsScreen(enableEdit: true, enableCompleteProfile: true),
+                            (_) => UserDetailsScreen(
+                              enableEdit: true,
+                              enableCompleteProfile: true,
+                            ),
                       ),
                     );
                   } else {
@@ -203,18 +244,26 @@ class _TopBarState extends State<TopBar> {
 
           backgroundColor: GPSColors.primary.withOpacity(0.8),
           title: Text("Log out? We'll be here when you get back"),
-          titleTextStyle: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+          titleTextStyle: TextStyle(
+            color: Colors.white,
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
 
           actions: [
             TextButton(
               onPressed: () async {
                 await serviceLocator<AuthController>().logout();
                 serviceLocator<LocalStorage>().logout();
-                Navigator.of(
-                  context,
-                ).pushNamedAndRemoveUntil(AppRoutesNames.loginScreen, (_) => false);
+                Navigator.of(context).pushNamedAndRemoveUntil(
+                  AppRoutesNames.loginScreen,
+                  (_) => false,
+                );
               },
-              child: Text('👋 Yes, Logout!', style: TextStyle(color: Colors.white)),
+              child: Text(
+                '👋 Yes, Logout!',
+                style: TextStyle(color: Colors.white),
+              ),
             ),
             TextButton(
               onPressed: () {

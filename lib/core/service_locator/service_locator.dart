@@ -21,7 +21,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 final GetIt serviceLocator = GetIt.instance;
 
 Future initServiceLocator() async {
-  serviceLocator.registerLazySingleton<ApiConsumer>(() => DioConsumer(dio: serviceLocator()));
+  serviceLocator.registerLazySingleton<ApiConsumer>(
+    () => DioConsumer(dio: serviceLocator()),
+  );
   final prefs = await SharedPreferences.getInstance();
   serviceLocator.registerLazySingleton<LocalStorage>(() => LocalStorage(prefs));
   serviceLocator.registerLazySingleton<ImagePicker>(() => ImagePicker());
@@ -30,18 +32,36 @@ Future initServiceLocator() async {
   serviceLocator.registerLazySingleton<AppMiddleWare>(
     () => AppMiddleWare(sharedPreferences: serviceLocator()),
   );
-  serviceLocator.registerLazySingleton<AppRouter>(() => AppRouter(appMiddleWare: serviceLocator()));
+  serviceLocator.registerLazySingleton<AppRouter>(
+    () => AppRouter(appMiddleWare: serviceLocator()),
+  );
 
-  serviceLocator.registerLazySingleton<PreferencesController>(() => PreferencesController());
+  serviceLocator.registerLazySingleton<PreferencesController>(
+    () => PreferencesController(),
+  );
   serviceLocator.registerLazySingleton<AuthController>(() => AuthController());
-  serviceLocator.registerLazySingleton<RestaurantsController>(() => RestaurantsController());
-  serviceLocator.registerLazySingleton<WishListController>(() => WishListController());
-  serviceLocator.registerLazySingleton<ItemInfoController>(() => ItemInfoController());
-  serviceLocator.registerLazySingleton<StoreController>(() => StoreController());
+  serviceLocator.registerLazySingleton<RestaurantsController>(
+    () => RestaurantsController(),
+  );
+  serviceLocator.registerLazySingleton<WishListController>(
+    () => WishListController(),
+  );
+  serviceLocator.registerLazySingleton<ItemInfoController>(
+    () => ItemInfoController(),
+  );
+  serviceLocator.registerLazySingleton<StoreController>(
+    () => StoreController(),
+  );
   serviceLocator.registerLazySingleton<BlogController>(() => BlogController());
-  serviceLocator.registerLazySingleton<FavoritesController>(() => FavoritesController());
-  serviceLocator.registerLazySingleton<SuggestionsController>(() => SuggestionsController());
-  serviceLocator.registerLazySingleton<AboutController>(() => AboutController()..getAbout());
+  serviceLocator.registerLazySingleton<FavoritesController>(
+    () => FavoritesController(),
+  );
+  serviceLocator.registerLazySingleton<SuggestionsController>(
+    () => SuggestionsController(),
+  );
+  serviceLocator.registerLazySingleton<AboutController>(
+    () => AboutController()..getAbout(),
+  );
 
   // serviceLocator.registerLazySingleton<HomeRepo>(() => HomeRepoImp(homeRemoteDataSource: serviceLocator()));
 }

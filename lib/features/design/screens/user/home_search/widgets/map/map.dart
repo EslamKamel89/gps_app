@@ -19,7 +19,8 @@ class MapView extends StatefulWidget {
 }
 
 class _MapViewState extends State<MapView> {
-  final Completer<GoogleMapController> _controller = Completer<GoogleMapController>();
+  final Completer<GoogleMapController> _controller =
+      Completer<GoogleMapController>();
 
   static const CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(27.6648, 81.5158),
@@ -61,7 +62,9 @@ class _MapViewState extends State<MapView> {
     if (!_controller.isCompleted) return;
     final controller = await _controller.future;
     await controller.animateCamera(
-      CameraUpdate.newCameraPosition(CameraPosition(target: target, zoom: zoom)),
+      CameraUpdate.newCameraPosition(
+        CameraPosition(target: target, zoom: zoom),
+      ),
     );
   }
 
@@ -129,8 +132,10 @@ class _MapViewState extends State<MapView> {
       Navigator.of(context).push(
         MaterialPageRoute(
           builder:
-              (_) =>
-                  RestaurantDetailProvider(restaurantId: s.restaurantId ?? -1, enableEdit: false),
+              (_) => RestaurantDetailProvider(
+                restaurantId: s.restaurantId ?? -1,
+                enableEdit: false,
+              ),
         ),
       );
     }
@@ -158,7 +163,10 @@ class _MapViewState extends State<MapView> {
           position: LatLng(lat, lng),
           icon: BitmapDescriptor.defaultMarkerWithHue(hue),
           zIndex: zIndex,
-          infoWindow: InfoWindow(title: s.name ?? '', onTap: () => _handleNavigation(s)),
+          infoWindow: InfoWindow(
+            title: s.name ?? '',
+            onTap: () => _handleNavigation(s),
+          ),
           onTap: () {},
         ),
       );
@@ -180,7 +188,10 @@ class _MapViewState extends State<MapView> {
           position: LatLng(lat, lng),
           icon: BitmapDescriptor.defaultMarkerWithHue(hue),
           zIndex: zIndex,
-          infoWindow: InfoWindow(title: s.name ?? '', onTap: () => _handleNavigation(s)),
+          infoWindow: InfoWindow(
+            title: s.name ?? '',
+            onTap: () => _handleNavigation(s),
+          ),
           onTap: () {
             // no-op; InfoWindow shows. Optionally: cubit.selectSuggestion(s);
           },
@@ -194,8 +205,10 @@ class _MapViewState extends State<MapView> {
   }
 
   bool _sameSuggestion(SuggestionModel a, SuggestionModel b) {
-    if (a.vendorId != null && b.vendorId != null) return a.vendorId == b.vendorId;
-    if (a.restaurantId != null && b.restaurantId != null) return a.restaurantId == b.restaurantId;
+    if (a.vendorId != null && b.vendorId != null)
+      return a.vendorId == b.vendorId;
+    if (a.restaurantId != null && b.restaurantId != null)
+      return a.restaurantId == b.restaurantId;
     if (a.userId != null && b.userId != null) return a.userId == b.userId;
     return (a.name != null && b.name != null && a.name == b.name);
   }

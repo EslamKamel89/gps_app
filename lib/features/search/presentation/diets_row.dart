@@ -15,7 +15,10 @@ class DietsRowProvider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(create: (context) => DietsCubit()..diets(), child: const DietsRowWidget());
+    return BlocProvider(
+      create: (context) => DietsCubit()..diets(),
+      child: const DietsRowWidget(),
+    );
   }
 }
 
@@ -45,13 +48,15 @@ class _DietsRowWidgetState extends State<DietsRowWidget> {
             children:
                 List.generate(6, (i) => i).map((d) {
                   return FilterChip(
-                    label: Container(
-                      decoration: BoxDecoration(color: Colors.transparent),
-                      width: (context.width / 3) - 80,
-                      height: 20,
-                    ),
-                    onSelected: (_) {},
-                  ).animate(onPlay: (c) => c.repeat()).shimmer(duration: 500.ms);
+                        label: Container(
+                          decoration: BoxDecoration(color: Colors.transparent),
+                          width: (context.width / 3) - 80,
+                          height: 20,
+                        ),
+                        onSelected: (_) {},
+                      )
+                      .animate(onPlay: (c) => c.repeat())
+                      .shimmer(duration: 500.ms);
                 }).toList(),
           );
         }
@@ -64,12 +69,16 @@ class _DietsRowWidgetState extends State<DietsRowWidget> {
                   label: Text(
                     d.name?.toCapitalize ?? '',
                     style: TextStyle(
-                      color: searchCubit.state.diet?.id == d.id ? Colors.white : null,
+                      color:
+                          searchCubit.state.diet?.id == d.id
+                              ? Colors.white
+                              : null,
                     ),
                   ),
                   selected: searchCubit.state.diet?.id == d.id,
                   selectedColor: GPSColors.accent,
-                  checkmarkColor: searchCubit.state.diet?.id == d.id ? Colors.white : null,
+                  checkmarkColor:
+                      searchCubit.state.diet?.id == d.id ? Colors.white : null,
                   // backgroundColor:
                   // searchCubit.state.diet?.id == d.id ? GPSColors.accent : GPSColors.primary,
                   onSelected: (val) {

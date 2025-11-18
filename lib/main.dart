@@ -35,13 +35,13 @@ void main() async {
 
   FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
 
-  const AndroidInitializationSettings initializationSettingsAndroid = AndroidInitializationSettings(
-    '@mipmap/ic_launcher',
-  );
+  const AndroidInitializationSettings initializationSettingsAndroid =
+      AndroidInitializationSettings('@mipmap/ic_launcher');
 
-  final DarwinInitializationSettings initializationSettingsIOS = DarwinInitializationSettings(
-    // todo: onDidReceiveLocalNotification for older iOS if needed.
-  );
+  final DarwinInitializationSettings initializationSettingsIOS =
+      DarwinInitializationSettings(
+        // todo: onDidReceiveLocalNotification for older iOS if needed.
+      );
 
   final InitializationSettings initializationSettings = InitializationSettings(
     android: initializationSettingsAndroid,
@@ -60,7 +60,9 @@ void main() async {
 
   if (Platform.isAndroid) {
     await flutterLocalNotificationsPlugin
-        .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
+        .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin
+        >()
         ?.createNotificationChannel(channel);
   }
 

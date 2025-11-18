@@ -1,6 +1,11 @@
 part of 'search_cubit.dart';
 
-enum SearchStateEnum { suggestionSelected, currentLocationAvailable, allLocationsFetched, update }
+enum SearchStateEnum {
+  suggestionSelected,
+  currentLocationAvailable,
+  allLocationsFetched,
+  update,
+}
 
 class SearchState {
   LatLng? currentLocation;

@@ -22,32 +22,57 @@ class SuggestionsController {
       pr(response, '$t - response');
       final List<DietModel> models =
           (response as List).map((json) => DietModel.fromJson(json)).toList();
-      return pr(ApiResponseModel(response: ResponseEnum.success, data: models), t);
+      return pr(
+        ApiResponseModel(response: ResponseEnum.success, data: models),
+        t,
+      );
     } catch (e) {
       String errorMessage = e.toString();
       if (e is DioException) {
         errorMessage = jsonEncode(e.response?.data ?? 'Unknown error occurred');
       }
       showSnackbar('Error', errorMessage, true);
-      return pr(ApiResponseModel(errorMessage: errorMessage, response: ResponseEnum.failed), t);
+      return pr(
+        ApiResponseModel(
+          errorMessage: errorMessage,
+          response: ResponseEnum.failed,
+        ),
+        t,
+      );
     }
   }
 
-  Future<ApiResponseModel<List<SuggestionModel>>> search({required SearchState state}) async {
+  Future<ApiResponseModel<List<SuggestionModel>>> search({
+    required SearchState state,
+  }) async {
     final t = prt('suggestions - SearchController');
     try {
-      final response = await api.post(EndPoint.search, data: state.toRequestBody());
+      final response = await api.post(
+        EndPoint.search,
+        data: state.toRequestBody(),
+      );
       pr(response, '$t - response');
       final List<SuggestionModel> models =
-          (response['search_cards'] as List).map((json) => SuggestionModel.fromJson(json)).toList();
-      return pr(ApiResponseModel(response: ResponseEnum.success, data: models), t);
+          (response['search_cards'] as List)
+              .map((json) => SuggestionModel.fromJson(json))
+              .toList();
+      return pr(
+        ApiResponseModel(response: ResponseEnum.success, data: models),
+        t,
+      );
     } catch (e) {
       String errorMessage = e.toString();
       if (e is DioException) {
         errorMessage = jsonEncode(e.response?.data ?? 'Unknown error occurred');
       }
       showSnackbar('Error', errorMessage, true);
-      return pr(ApiResponseModel(errorMessage: errorMessage, response: ResponseEnum.failed), t);
+      return pr(
+        ApiResponseModel(
+          errorMessage: errorMessage,
+          response: ResponseEnum.failed,
+        ),
+        t,
+      );
     }
   }
 }

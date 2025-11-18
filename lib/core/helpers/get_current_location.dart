@@ -5,7 +5,11 @@ import 'package:gps_app/core/helpers/snackbar.dart';
 Future<LatLng?> getCurrentLocation() async {
   bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
   if (!serviceEnabled) {
-    showSnackbar('Error', 'Location services are disabled. Please enable them.', true);
+    showSnackbar(
+      'Error',
+      'Location services are disabled. Please enable them.',
+      true,
+    );
     return null;
   }
 
@@ -28,7 +32,9 @@ Future<LatLng?> getCurrentLocation() async {
     return null;
   }
 
-  Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+  Position position = await Geolocator.getCurrentPosition(
+    desiredAccuracy: LocationAccuracy.high,
+  );
 
   return LatLng(position.latitude, position.longitude);
 }

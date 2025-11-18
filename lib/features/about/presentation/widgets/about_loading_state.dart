@@ -13,7 +13,10 @@ class AboutLoadingState extends StatelessWidget {
       widthFactor: widthFactor,
       child: Container(
         height: 14,
-        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(6)),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(6),
+        ),
       ),
     );
   }
@@ -31,7 +34,11 @@ class AboutLoadingState extends StatelessWidget {
           _shimmer(
             ClipRRect(
               borderRadius: BorderRadius.circular(14),
-              child: Container(height: 200, width: double.infinity, color: cardSelected),
+              child: Container(
+                height: 200,
+                width: double.infinity,
+                color: cardSelected,
+              ),
             ),
           ),
 
@@ -44,7 +51,13 @@ class AboutLoadingState extends StatelessWidget {
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(8),
                 border: Border.all(color: cardBorder),
-                boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 6, offset: Offset(0, 3))],
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black12,
+                    blurRadius: 6,
+                    offset: Offset(0, 3),
+                  ),
+                ],
               ),
             ),
           ),

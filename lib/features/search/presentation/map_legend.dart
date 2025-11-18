@@ -36,7 +36,10 @@ class MapLegend extends StatelessWidget {
                         Container(
                           width: 14,
                           height: 14,
-                          decoration: BoxDecoration(color: item.color, shape: BoxShape.circle),
+                          decoration: BoxDecoration(
+                            color: item.color,
+                            shape: BoxShape.circle,
+                          ),
                         ),
                         const SizedBox(width: 6),
                         Text(item.label, style: const TextStyle(fontSize: 13)),

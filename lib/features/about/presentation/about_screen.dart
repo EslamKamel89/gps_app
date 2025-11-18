@@ -43,17 +43,29 @@ class _AboutScreenState extends State<AboutScreen> {
                 state.response == ResponseEnum.loading || state.data == null
                     ? AboutLoadingState()
                     : SingleChildScrollView(
-                      padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 18,
+                        vertical: 16,
+                      ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           // Image header
                           state.data!.image == null
-                              ? Center(child: const PinLeafLogo(size: 140, isSplashScreen: false))
+                              ? Center(
+                                child: const PinLeafLogo(
+                                  size: 140,
+                                  isSplashScreen: false,
+                                ),
+                              )
                               : _imageHeader(state.data!)
                                   .animate()
                                   .fadeIn(duration: 550.ms)
-                                  .slideY(begin: 0.04, end: 0, duration: 550.ms),
+                                  .slideY(
+                                    begin: 0.04,
+                                    end: 0,
+                                    duration: 550.ms,
+                                  ),
 
                           GPSGaps.h16,
 
@@ -101,13 +113,17 @@ class _AboutScreenState extends State<AboutScreen> {
                         if (progress == null) return child;
                         return Container(
                           color: GPSColors.cardSelected,
-                          child: const Center(child: CircularProgressIndicator()),
+                          child: const Center(
+                            child: CircularProgressIndicator(),
+                          ),
                         );
                       },
                       errorBuilder: (c, e, s) {
                         return Container(
                           color: GPSColors.cardSelected,
-                          child: const Center(child: Icon(Icons.broken_image, size: 40)),
+                          child: const Center(
+                            child: Icon(Icons.broken_image, size: 40),
+                          ),
                         );
                       },
                     )
@@ -118,7 +134,11 @@ class _AboutScreenState extends State<AboutScreen> {
           )
           // apply subtle parallax-like scaling on entrance
           .animate()
-          .scale(begin: Offset(1.02, 1.02), end: Offset(1.0, 1.0), duration: 650.ms),
+          .scale(
+            begin: Offset(1.02, 1.02),
+            end: Offset(1.0, 1.0),
+            duration: 650.ms,
+          ),
     );
   }
 
@@ -152,12 +172,15 @@ class _AboutScreenState extends State<AboutScreen> {
 
           Expanded(
             child: Text(
-              about.title ?? '',
-              style: textTheme.titleLarge?.copyWith(
-                color: GPSColors.text,
-                fontWeight: FontWeight.w700,
-              ),
-            ).animate().moveX(begin: -6, end: 0, duration: 420.ms).fadeIn(duration: 420.ms),
+                  about.title ?? '',
+                  style: textTheme.titleLarge?.copyWith(
+                    color: GPSColors.text,
+                    fontWeight: FontWeight.w700,
+                  ),
+                )
+                .animate()
+                .moveX(begin: -6, end: 0, duration: 420.ms)
+                .fadeIn(duration: 420.ms),
           ),
         ],
       ),
@@ -174,9 +197,15 @@ class _AboutScreenState extends State<AboutScreen> {
       ),
       padding: const EdgeInsets.all(16),
       child: Text(
-        about.content ?? '',
-        style: textTheme.bodyLarge?.copyWith(color: GPSColors.text, height: 1.6),
-      ).animate().fadeIn(duration: 600.ms).moveY(begin: 14, end: 0, duration: 600.ms),
+            about.content ?? '',
+            style: textTheme.bodyLarge?.copyWith(
+              color: GPSColors.text,
+              height: 1.6,
+            ),
+          )
+          .animate()
+          .fadeIn(duration: 600.ms)
+          .moveY(begin: 14, end: 0, duration: 600.ms),
     );
   }
 }

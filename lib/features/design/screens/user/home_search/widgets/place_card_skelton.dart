@@ -5,13 +5,18 @@ class PlaceCardSkeleton extends StatelessWidget {
   const PlaceCardSkeleton({super.key});
 
   Color _base(BuildContext context) =>
-      Theme.of(context).brightness == Brightness.dark ? Colors.grey.shade800 : Colors.grey.shade300;
+      Theme.of(context).brightness == Brightness.dark
+          ? Colors.grey.shade800
+          : Colors.grey.shade300;
 
   Widget _line(BuildContext context, {double height = 12, double width = 120}) {
     return Container(
       height: height,
       width: width,
-      decoration: BoxDecoration(color: _base(context), borderRadius: BorderRadius.circular(8)),
+      decoration: BoxDecoration(
+        color: _base(context),
+        borderRadius: BorderRadius.circular(8),
+      ),
     );
   }
 
@@ -24,7 +29,9 @@ class PlaceCardSkeleton extends StatelessWidget {
           decoration: BoxDecoration(
             color: Theme.of(context).cardColor,
             borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: Theme.of(context).dividerColor.withOpacity(0.2)),
+            border: Border.all(
+              color: Theme.of(context).dividerColor.withOpacity(0.2),
+            ),
           ),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -33,7 +40,10 @@ class PlaceCardSkeleton extends StatelessWidget {
               Container(
                 width: 52,
                 height: 52,
-                decoration: BoxDecoration(color: base, borderRadius: BorderRadius.circular(12)),
+                decoration: BoxDecoration(
+                  color: base,
+                  borderRadius: BorderRadius.circular(12),
+                ),
               ),
 
               const SizedBox(width: 12),
@@ -51,7 +61,10 @@ class PlaceCardSkeleton extends StatelessWidget {
                         Container(
                           width: 16,
                           height: 16,
-                          decoration: BoxDecoration(color: base, shape: BoxShape.circle),
+                          decoration: BoxDecoration(
+                            color: base,
+                            shape: BoxShape.circle,
+                          ),
                         ),
                         const SizedBox(width: 8),
                         _line(context, width: 120), // subtitle
@@ -67,7 +80,10 @@ class PlaceCardSkeleton extends StatelessWidget {
               Container(
                 height: 28,
                 width: 92,
-                decoration: BoxDecoration(color: base, borderRadius: BorderRadius.circular(20)),
+                decoration: BoxDecoration(
+                  color: base,
+                  borderRadius: BorderRadius.circular(20),
+                ),
               ),
             ],
           ),

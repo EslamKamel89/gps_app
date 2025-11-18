@@ -86,7 +86,10 @@ class _SearchRowState extends State<SearchRow> {
             _searchCtrl.text.isEmpty
                 ? null
                 : IconButton(
-                  icon: const Icon(Icons.close_rounded, color: GPSColors.mutedText),
+                  icon: const Icon(
+                    Icons.close_rounded,
+                    color: GPSColors.mutedText,
+                  ),
                   onPressed: _clearText,
                 ),
       ),
@@ -94,10 +97,15 @@ class _SearchRowState extends State<SearchRow> {
 
     final searchRow = Row(
       children: [
-        Expanded(child: field.animate().fadeIn(duration: 300.ms).slideY(begin: .1)),
+        Expanded(
+          child: field.animate().fadeIn(duration: 300.ms).slideY(begin: .1),
+        ),
 
         GPSGaps.w12,
-        RoundSquareButton(icon: Icons.tune_rounded, onTap: () => _openFilters()),
+        RoundSquareButton(
+          icon: Icons.tune_rounded,
+          onTap: () => _openFilters(),
+        ),
       ],
     );
 
@@ -147,7 +155,10 @@ class _SearchRowState extends State<SearchRow> {
                       },
                       child: Container(
                         padding: EdgeInsets.all(5),
-                        decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.red),
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.red,
+                        ),
                         child: Icon(Icons.close, color: Colors.white),
                       ),
                     ),
@@ -201,7 +212,9 @@ class SearchRowPlaceholder extends StatelessWidget {
           Expanded(
             child: Text(
               hint,
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: GPSColors.mutedText),
+              style: Theme.of(
+                context,
+              ).textTheme.bodyMedium?.copyWith(color: GPSColors.mutedText),
             ),
           ),
         ],

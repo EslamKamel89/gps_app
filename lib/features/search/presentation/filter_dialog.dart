@@ -35,15 +35,23 @@ class _FilterDialogState extends State<FilterDialog> {
           const SizedBox(height: 12),
           Align(
             alignment: Alignment.centerLeft,
-            child: Text('Filter by Distance', style: Theme.of(context).textTheme.titleMedium),
+            child: Text(
+              'Filter by Distance',
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
           ),
           DropdownButtonFormField<int?>(
             // initialValue: cubit.state.distance,
-            decoration: const InputDecoration(hintText: 'Please Select Distance'),
+            decoration: const InputDecoration(
+              hintText: 'Please Select Distance',
+            ),
             items:
                 _distances
                     .map(
-                      (d) => DropdownMenuItem(value: d, child: Text(d == null ? 'Any' : '$d ml')),
+                      (d) => DropdownMenuItem(
+                        value: d,
+                        child: Text(d == null ? 'Any' : '$d ml'),
+                      ),
                     )
                     .toList(),
             onChanged: (v) => setState(() => cubit.state.distance = v),
@@ -51,7 +59,10 @@ class _FilterDialogState extends State<FilterDialog> {
           const SizedBox(height: 12),
           Align(
             alignment: Alignment.centerLeft,
-            child: Text('Filter by Category', style: Theme.of(context).textTheme.titleMedium),
+            child: Text(
+              'Filter by Category',
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
           ),
           CategorySelectorProvider(
             onSelect: (c) {
@@ -62,7 +73,10 @@ class _FilterDialogState extends State<FilterDialog> {
           const SizedBox(height: 12),
           Align(
             alignment: Alignment.centerLeft,
-            child: Text('Filter by State and city', style: Theme.of(context).textTheme.titleMedium),
+            child: Text(
+              'Filter by State and city',
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
           ),
           StateDistrictProvider(
             onSelect: (SelectedStateAndDistrict s) {
@@ -73,7 +87,10 @@ class _FilterDialogState extends State<FilterDialog> {
           const SizedBox(height: 12),
           Align(
             alignment: Alignment.centerLeft,
-            child: Text('Filter by Diets', style: Theme.of(context).textTheme.titleMedium),
+            child: Text(
+              'Filter by Diets',
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
           ),
           DietsRowProvider(),
           const SizedBox(height: 8),

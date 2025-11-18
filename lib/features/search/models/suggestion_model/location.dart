@@ -14,9 +14,15 @@ class Location {
     longitude: (json['longitude'] as num?)?.toDouble(),
   );
 
-  Map<String, dynamic> toJson() => {'latitude': latitude, 'longitude': longitude};
+  Map<String, dynamic> toJson() => {
+    'latitude': latitude,
+    'longitude': longitude,
+  };
 
   Location copyWith({double? latitude, double? longitude}) {
-    return Location(latitude: latitude ?? this.latitude, longitude: longitude ?? this.longitude);
+    return Location(
+      latitude: latitude ?? this.latitude,
+      longitude: longitude ?? this.longitude,
+    );
   }
 }
