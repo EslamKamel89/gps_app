@@ -12,6 +12,7 @@ import 'package:gps_app/features/design/screens/user/home_search/widgets/round_i
 import 'package:gps_app/features/design/screens/user/home_search/widgets/user_profile_tile.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
+import 'package:gps_app/features/notifications/presentation/widgets/notification_count.dart';
 import 'package:gps_app/features/user/restaurant_details/presentation/restaurant_detail_provider.dart';
 import 'package:gps_app/features/user/store_details/presentation/store_details_screen.dart';
 import 'package:gps_app/features/user/user_details/presentation/user_details_screen.dart';
@@ -70,20 +71,7 @@ class _TopBarState extends State<TopBar> {
                   top: 0,
                   right: 0,
                   // startFocus
-                  child: Transform.translate(
-                    offset: Offset(15, -20),
-                    child: Container(
-                      padding: EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        color: Colors.red,
-                        shape: BoxShape.circle,
-                      ),
-                      child: Text(
-                        '8',
-                        style: TextStyle(fontSize: 20, color: Colors.white),
-                      ),
-                    ),
-                  ),
+                  child: Transform.translate(offset: Offset(15, -20), child: NotificationCount()),
                   // endFocus
                 ),
               ],
@@ -100,9 +88,7 @@ class _TopBarState extends State<TopBar> {
                 label: 'Edit Food Preferences',
                 onTap: () {
                   Future.delayed(100.ms, () {
-                    Navigator.of(
-                      context,
-                    ).pushNamed(AppRoutesNames.categorySelectionScreen);
+                    Navigator.of(context).pushNamed(AppRoutesNames.categorySelectionScreen);
                   });
                 },
               ),
@@ -112,7 +98,7 @@ class _TopBarState extends State<TopBar> {
                 label: 'Notifications',
                 danger: false,
                 onTap: () {
-                  // Navigator.of(context).pushNamed(AppRoutesNames.aboutScreen);
+                  Navigator.of(context).pushNamed(AppRoutesNames.notificationScreen);
                 },
               ),
               const Divider(height: 8, thickness: 0.7),
@@ -147,10 +133,8 @@ class _TopBarState extends State<TopBar> {
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder:
-                            (_) => UserDetailsScreen(
-                              enableEdit: false,
-                              enableCompleteProfile: true,
-                            ),
+                            (_) =>
+                                UserDetailsScreen(enableEdit: false, enableCompleteProfile: true),
                       ),
                     );
                   } else {
@@ -193,10 +177,7 @@ class _TopBarState extends State<TopBar> {
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder:
-                            (_) => UserDetailsScreen(
-                              enableEdit: true,
-                              enableCompleteProfile: true,
-                            ),
+                            (_) => UserDetailsScreen(enableEdit: true, enableCompleteProfile: true),
                       ),
                     );
                   } else {
@@ -244,26 +225,18 @@ class _TopBarState extends State<TopBar> {
 
           backgroundColor: GPSColors.primary.withOpacity(0.8),
           title: Text("Log out? We'll be here when you get back"),
-          titleTextStyle: TextStyle(
-            color: Colors.white,
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-          ),
+          titleTextStyle: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
 
           actions: [
             TextButton(
               onPressed: () async {
                 await serviceLocator<AuthController>().logout();
                 serviceLocator<LocalStorage>().logout();
-                Navigator.of(context).pushNamedAndRemoveUntil(
-                  AppRoutesNames.loginScreen,
-                  (_) => false,
-                );
+                Navigator.of(
+                  context,
+                ).pushNamedAndRemoveUntil(AppRoutesNames.loginScreen, (_) => false);
               },
-              child: Text(
-                '👋 Yes, Logout!',
-                style: TextStyle(color: Colors.white),
-              ),
+              child: Text('👋 Yes, Logout!', style: TextStyle(color: Colors.white)),
             ),
             TextButton(
               onPressed: () {

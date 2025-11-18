@@ -6,14 +6,30 @@ import 'package:gps_app/core/service_locator/service_locator.dart';
 import 'package:gps_app/features/notifications/controller/notification_controller.dart';
 import 'package:gps_app/features/notifications/models/notification_model.dart';
 
-class NotificationCubit extends Cubit<ApiResponseModel<NotificationModel>> {
+class NotificationCubit extends Cubit<ApiResponseModel<List<NotificationModel>>> {
   NotificationCubit() : super(ApiResponseModel());
   final NotificationController controller = serviceLocator<NotificationController>();
+  List<NotificationModel> filtered = [];
   Future notifications() async {
     final t = prt('notifications - NotificationCubit');
     emit(state.copyWith(errorMessage: null, response: ResponseEnum.loading));
-    final ApiResponseModel<NotificationModel> response = await controller.notifications();
+    final ApiResponseModel<List<NotificationModel>> response = await controller.notifications();
+    filtered = response.data ?? [];
     pr(response, t);
     emit(response);
+  }
+
+  void filterByRead(String filterState) {
+    if (filterState != 'All') {
+      final isRead = filterState == 'Read' ? 1 : 0;
+      filtered = state.data?.where((n) => n.isRead == isRead).toList() ?? [];
+    } else {
+      filtered = state.data ?? [];
+    }
+    emit(state.copyWith());
+  }
+
+  int getUnreadCount() {
+    return state.data?.where((n) => n.isRead == 0).length ?? 0;
   }
 }

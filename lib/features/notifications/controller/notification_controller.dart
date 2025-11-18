@@ -12,7 +12,7 @@ import 'package:gps_app/features/notifications/models/notification_model.dart';
 
 class NotificationController {
   final _api = serviceLocator<ApiConsumer>();
-  Future<ApiResponseModel<NotificationModel>> notifications() async {
+  Future<ApiResponseModel<List<NotificationModel>>> notifications() async {
     final t = prt('notifications - NotificationController');
     try {
       final response = await _api.get(EndPoint.notifications);
@@ -21,7 +21,7 @@ class NotificationController {
           (response['notifications'] as List)
               .map((json) => NotificationModel.fromJson(json))
               .toList();
-      return pr(ApiResponseModel(response: ResponseEnum.success, data: models[0]), t);
+      return pr(ApiResponseModel(response: ResponseEnum.success, data: models), t);
     } catch (e) {
       String errorMessage = e.toString();
       if (e is DioException) {
