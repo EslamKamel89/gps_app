@@ -31,19 +31,16 @@ import 'firebase_options.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Initialize Firebase for the default platform
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  // Register background message handler (must be registered after Firebase.initializeApp)
   FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
 
-  // Local notifications initialization
   const AndroidInitializationSettings initializationSettingsAndroid = AndroidInitializationSettings(
     '@mipmap/ic_launcher',
   );
 
   final DarwinInitializationSettings initializationSettingsIOS = DarwinInitializationSettings(
-    // Provide onDidReceiveLocalNotification for older iOS if needed.
+    // todo: onDidReceiveLocalNotification for older iOS if needed.
   );
 
   final InitializationSettings initializationSettings = InitializationSettings(
@@ -52,30 +49,26 @@ void main() async {
     macOS: initializationSettingsIOS,
   );
 
-  // Initialize the plugin (this must be done before showing any local notifications)
   await flutterLocalNotificationsPlugin.initialize(
     initializationSettings,
     onDidReceiveNotificationResponse: (NotificationResponse response) {
       final payload = response.payload;
       pr('Local notification tapped. payload: $payload', 'FCM');
-      // Optionally handle navigation based on payload
+      // todo: handle navigation based on payload
     },
   );
 
-  // Create Android channel early (safe even if called again in the helper)
   if (Platform.isAndroid) {
     await flutterLocalNotificationsPlugin
         .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
         ?.createNotificationChannel(channel);
   }
 
-  // Any other app initialization
   enableAndroidPhotoPicker();
   await initServiceLocator();
   await findSystemLocale();
   await EasyLocalization.ensureInitialized();
 
-  // Run the app
   runApp(
     EasyLocalization(
       supportedLocales: const [Locale('en'), Locale('ar')],
@@ -98,7 +91,6 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
 
-    // Initialize notifications in a microtask so it does not block build
     Future.microtask(() => initializeNotifications());
   }
 

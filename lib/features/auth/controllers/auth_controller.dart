@@ -50,6 +50,22 @@ class AuthController {
     }
   }
 
+  Future<ApiResponseModel<bool>> logout() async {
+    final t = 'AuthController - logout';
+    try {
+      final res = await _api.post(EndPoint.logout, data: {'access_token': await getFcmToken()});
+      pr(res, t);
+      return ApiResponseModel(data: true, response: ResponseEnum.success);
+    } catch (e) {
+      String errorMessage = e.toString();
+      if (e is DioException) {
+        errorMessage = jsonEncode(e.response?.data ?? 'Unknown error occurred');
+      }
+      showSnackbar('Error', errorMessage, true);
+      return pr(ApiResponseModel(errorMessage: errorMessage, response: ResponseEnum.failed), t);
+    }
+  }
+
   Future<ApiResponseModel<List<StateModel>>> states() async {
     final t = prt('states - AuthController');
     try {

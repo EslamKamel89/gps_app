@@ -6,6 +6,7 @@ import 'package:gps_app/core/helpers/snackbar.dart';
 import 'package:gps_app/core/helpers/user.dart';
 import 'package:gps_app/core/router/app_routes_names.dart';
 import 'package:gps_app/core/service_locator/service_locator.dart';
+import 'package:gps_app/features/auth/controllers/auth_controller.dart';
 import 'package:gps_app/features/design/screens/user/home_search/widgets/click_dropdown.dart';
 import 'package:gps_app/features/design/screens/user/home_search/widgets/round_icon.dart';
 import 'package:gps_app/features/design/screens/user/home_search/widgets/user_profile_tile.dart';
@@ -168,6 +169,8 @@ class _TopBarState extends State<TopBar> {
               ),
 
               const Divider(height: 8, thickness: 0.7),
+              MenuActionItem(icon: Icons.info, label: 'About GPS', danger: false, onTap: () {}),
+              const Divider(height: 8, thickness: 0.7),
               MenuActionItem(
                 icon: Icons.logout_rounded,
                 label: 'Sign Out',
@@ -198,7 +201,8 @@ class _TopBarState extends State<TopBar> {
           actions: [
             TextButton(
               onPressed: () async {
-                await serviceLocator<LocalStorage>().logout();
+                await serviceLocator<AuthController>().logout();
+                serviceLocator<LocalStorage>().logout();
                 Navigator.of(
                   context,
                 ).pushNamedAndRemoveUntil(AppRoutesNames.loginScreen, (_) => false);

@@ -11,6 +11,7 @@ class EndPoint {
   static const String user = "$baseUrl/api/user";
   static const String vendorRegister = "$baseUrl/api/vendor-register";
   static const String login = "$baseUrl/api/login";
+  static const String logout = "$baseUrl/api/logout-user";
   static const String uploadImages = "$baseUrl/api/uploads/images";
   static const String vendorCatalogSection = "$baseUrl/api/vendors/catalog/bulk";
   static const String otpVerify = "$baseUrl/api/email/otp/verify";
