@@ -36,4 +36,5 @@ class EndPoint {
   static const String store = "$baseUrl/api/store";
   static const String farm = "$baseUrl/api/farm";
   static const String search = "$baseUrl/api/search";
+  static const String about = "$baseUrl/api/pages";
 }

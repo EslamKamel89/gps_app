@@ -169,7 +169,14 @@ class _TopBarState extends State<TopBar> {
               ),
 
               const Divider(height: 8, thickness: 0.7),
-              MenuActionItem(icon: Icons.info, label: 'About GPS', danger: false, onTap: () {}),
+              MenuActionItem(
+                icon: Icons.info,
+                label: 'About GPS',
+                danger: false,
+                onTap: () {
+                  Navigator.of(context).pushNamed(AppRoutesNames.aboutScreen);
+                },
+              ),
               const Divider(height: 8, thickness: 0.7),
               MenuActionItem(
                 icon: Icons.logout_rounded,

@@ -5,6 +5,7 @@ import 'package:gps_app/core/api_service/dio_consumer.dart';
 import 'package:gps_app/core/cache/local_storage.dart';
 import 'package:gps_app/core/router/app_router.dart';
 import 'package:gps_app/core/router/middleware.dart';
+import 'package:gps_app/features/about/controller/about_controller.dart';
 import 'package:gps_app/features/auth/controllers/auth_controller.dart';
 import 'package:gps_app/features/blogs/controllers/blog_controller.dart';
 import 'package:gps_app/features/favorites/controller/favorites_controller.dart';
@@ -40,6 +41,7 @@ Future initServiceLocator() async {
   serviceLocator.registerLazySingleton<BlogController>(() => BlogController());
   serviceLocator.registerLazySingleton<FavoritesController>(() => FavoritesController());
   serviceLocator.registerLazySingleton<SuggestionsController>(() => SuggestionsController());
+  serviceLocator.registerLazySingleton<AboutController>(() => AboutController()..getAbout());
 
   // serviceLocator.registerLazySingleton<HomeRepo>(() => HomeRepoImp(homeRemoteDataSource: serviceLocator()));
 }
