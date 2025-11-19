@@ -7,6 +7,7 @@ import 'package:gps_app/core/models/api_response_model.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 import 'package:gps_app/features/notifications/cubits/notification_cubit.dart';
+import 'package:gps_app/features/notifications/helpers/on_notification_click.dart';
 import 'package:gps_app/features/notifications/models/notification_model.dart';
 import 'package:gps_app/features/notifications/presentation/widgets/notification_filter_toggle.dart';
 import 'package:gps_app/features/notifications/presentation/widgets/notification_loading_indicator.dart';
@@ -79,7 +80,8 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
 
                           return InkWell(
                             onTap: () {
-                              cubit.markAsRead(notification);
+                              if (notification.isRead != 1) cubit.markAsRead(notification);
+                              onNotificationClick(notification);
                             },
                             child: Container(
                                   margin: const EdgeInsets.only(bottom: 12),
