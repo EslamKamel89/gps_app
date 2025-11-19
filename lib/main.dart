@@ -55,7 +55,7 @@ void main() async {
     onDidReceiveNotificationResponse: (NotificationResponse response) {
       final payload = response.payload;
       pr('Local notification tapped. payload: $payload', 'FCM');
-      // todo: handle navigation based on payload
+      pr(response.data, 'FCM - flutterLocalNotificationsPlugin.initialize');
     },
   );
 

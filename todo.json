@@ -1,5 +1,10 @@
 {
   "Done todos": [
+    [
+      "wishList",
+      "blogListScreen",
+      "favoritesScreen"
+    ],
     "------------------------------------------------"
   ],
   "todos": [
@@ -7,6 +12,15 @@
     "holidays are not handled in the ui of the profile page",
     "there an issue with the tab bar count in the store and farm public profile screen ",
     "+++++++++++++++++++++++++++++++++++++++++++++++++",
+    [
+      "homeSearchScreen",
+      "restaurantDetailScreen",
+      "wishList",
+      "accountBlockedScreen",
+      "itemInfoScreen",
+      "blogListScreen",
+      "favoritesScreen"
+    ],
     "------------------------------------------------"
   ]
 }

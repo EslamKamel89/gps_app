@@ -67,12 +67,11 @@ Future<void> requestPermissions() async {
     pr('FCM permission (iOS): ${settings.authorizationStatus}', 'FCM');
 
     // For iOS: ensure foreground notifications are presented
-    await FirebaseMessaging.instance
-        .setForegroundNotificationPresentationOptions(
-          alert: true,
-          badge: true,
-          sound: true,
-        );
+    await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+      alert: true,
+      badge: true,
+      sound: true,
+    );
   } catch (e, st) {
     pr('Error requesting FCM permissions (iOS): $e\n$st', 'FCM');
   }
@@ -92,10 +91,7 @@ Future<void> _ensureAndroidNotificationPermission() async {
       pr('Android notification permission requested: $result', 'FCM');
     }
   } catch (e, st) {
-    pr(
-      'Error checking/requesting Android notification permission: $e\n$st',
-      'FCM',
-    );
+    pr('Error checking/requesting Android notification permission: $e\n$st', 'FCM');
   }
 }
 
@@ -104,9 +100,7 @@ Future<void> _createAndroidNotificationChannel() async {
   try {
     final androidImpl =
         flutterLocalNotificationsPlugin
-            .resolvePlatformSpecificImplementation<
-              AndroidFlutterLocalNotificationsPlugin
-            >();
+            .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>();
     if (androidImpl != null) {
       await androidImpl.createNotificationChannel(channel);
       pr('Android notification channel created: ${channel.id}', 'FCM');
@@ -127,6 +121,7 @@ void setupForegroundMessageHandler() {
         'Foreground message received: ${message.notification?.title} / ${message.notification?.body}',
         'FCM',
       );
+      pr(message.data, 'FCM-data setupForegroundMessageHandler');
 
       final notification = message.notification;
 
@@ -179,16 +174,14 @@ void setupInteractionHandlers() {
   // App opened from background by tapping notification
   FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
     pr('Opened from notification: ${message.messageId}', 'FCM');
+    pr(message.data, 'FCM-data setupInteractionHandlers');
     // Optionally handle navigation based on message.data
   });
 
   // App launched from terminated state by tapping a notification
   FirebaseMessaging.instance.getInitialMessage().then((message) {
     if (message != null) {
-      pr(
-        'App opened from terminated state by notification: ${message.messageId}',
-        'FCM',
-      );
+      pr('App opened from terminated state by notification: ${message.messageId}', 'FCM');
       // Optionally handle initial navigation
     }
   });
