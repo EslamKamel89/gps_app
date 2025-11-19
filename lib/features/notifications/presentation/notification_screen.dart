@@ -77,69 +77,74 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                                   ? timeago.format(dateTime, locale: 'en')
                                   : 'Just now';
 
-                          return Container(
-                                margin: const EdgeInsets.only(bottom: 12),
-                                padding: const EdgeInsets.all(16),
-                                decoration: BoxDecoration(
-                                  color: isUnread ? GPSColors.cardSelected : Colors.white,
-                                  borderRadius: BorderRadius.circular(12),
-                                  border: Border.all(
-                                    color:
-                                        isUnread
-                                            ? GPSColors.primary.withOpacity(0.3)
-                                            : GPSColors.cardBorder,
-                                  ),
-                                ),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    if (isUnread)
-                                      Container(
-                                            width: 10,
-                                            height: 10,
-                                            decoration: BoxDecoration(
-                                              color: GPSColors.primary,
-                                              shape: BoxShape.circle,
-                                            ),
-                                          )
-                                          .animate()
-                                          .fadeIn(duration: 300.ms)
-                                          .slideX(begin: -0.5, end: 0, duration: 400.ms),
-                                    if (isUnread) GPSGaps.w10,
-                                    Expanded(
-                                      child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                notification.content ?? 'No content',
-                                                style: TextStyle(
-                                                  color: GPSColors.text,
-                                                  fontWeight:
-                                                      isUnread
-                                                          ? FontWeight.bold
-                                                          : FontWeight.normal,
-                                                ),
-                                              ),
-                                              GPSGaps.h6,
-                                              Text(
-                                                formattedTime,
-                                                style: TextStyle(
-                                                  color: GPSColors.mutedText,
-                                                  fontSize: 12,
-                                                ),
-                                              ),
-                                            ],
-                                          )
-                                          .animate()
-                                          .fadeIn(duration: 400.ms)
-                                          .slideY(begin: 10, end: 0, duration: 500.ms),
+                          return InkWell(
+                            onTap: () {
+                              cubit.markAsRead(notification);
+                            },
+                            child: Container(
+                                  margin: const EdgeInsets.only(bottom: 12),
+                                  padding: const EdgeInsets.all(16),
+                                  decoration: BoxDecoration(
+                                    color: isUnread ? GPSColors.cardSelected : Colors.white,
+                                    borderRadius: BorderRadius.circular(12),
+                                    border: Border.all(
+                                      color:
+                                          isUnread
+                                              ? GPSColors.primary.withOpacity(0.3)
+                                              : GPSColors.cardBorder,
                                     ),
-                                  ],
-                                ),
-                              )
-                              .animate()
-                              .fadeIn(duration: 500.ms)
-                              .slideY(begin: 20, end: 0, duration: 600.ms);
+                                  ),
+                                  child: Row(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      if (isUnread)
+                                        Container(
+                                              width: 10,
+                                              height: 10,
+                                              decoration: BoxDecoration(
+                                                color: GPSColors.primary,
+                                                shape: BoxShape.circle,
+                                              ),
+                                            )
+                                            .animate()
+                                            .fadeIn(duration: 300.ms)
+                                            .slideX(begin: -0.5, end: 0, duration: 400.ms),
+                                      if (isUnread) GPSGaps.w10,
+                                      Expanded(
+                                        child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  notification.content ?? 'No content',
+                                                  style: TextStyle(
+                                                    color: GPSColors.text,
+                                                    fontWeight:
+                                                        isUnread
+                                                            ? FontWeight.bold
+                                                            : FontWeight.normal,
+                                                  ),
+                                                ),
+                                                GPSGaps.h6,
+                                                Text(
+                                                  formattedTime,
+                                                  style: TextStyle(
+                                                    color: GPSColors.mutedText,
+                                                    fontSize: 12,
+                                                  ),
+                                                ),
+                                              ],
+                                            )
+                                            .animate()
+                                            .fadeIn(duration: 400.ms)
+                                            .slideY(begin: 10, end: 0, duration: 500.ms),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                                .animate()
+                                .fadeIn(duration: 500.ms)
+                                .slideY(begin: 20, end: 0, duration: 600.ms),
+                          );
                         },
                       ),
                     ),

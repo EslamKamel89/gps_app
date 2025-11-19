@@ -32,4 +32,10 @@ class NotificationCubit extends Cubit<ApiResponseModel<List<NotificationModel>>>
   int getUnreadCount() {
     return state.data?.where((n) => n.isRead == 0).length ?? 0;
   }
+
+  Future<void> markAsRead(NotificationModel notification) async {
+    notification.isRead = 1;
+    emit(state.copyWith());
+    controller.markAsRead(notification.id);
+  }
 }
