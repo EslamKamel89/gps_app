@@ -8,6 +8,7 @@ import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 import 'package:gps_app/features/item_info/cubits/item_info_cubit.dart';
 import 'package:gps_app/features/item_info/models/item_info.dart';
+import 'package:gps_app/features/user/restaurant_details/presentation/widgets/price_badge.dart';
 
 class ItemInfoScreen extends StatefulWidget {
   const ItemInfoScreen({super.key, this.acceptorId, this.type, required this.itemId});
@@ -139,6 +140,7 @@ class _ItemInfoScreenState extends State<ItemInfoScreen> {
                             children: [
                               _BadgeChip(label: item.isMeal == true ? 'Meal' : 'Product'),
                               if (item.sectionName != null) _BadgeChip(label: item.sectionName!),
+                              PriceBadge(price: double.parse(item.price ?? '0')),
                             ],
                           )
                           .animate()
