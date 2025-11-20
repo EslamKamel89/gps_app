@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:gps_app/features/auth/models/user_model.dart';
 import 'package:gps_app/features/user/preferences/models/category_model/category_model.dart';
 import 'package:gps_app/features/user/preferences/models/category_model/sub_category_model.dart';
@@ -30,10 +31,7 @@ class WishModel {
     description: json['description'] as String?,
     status: json['status'] as int?,
     acceptorsCount: json['acceptors_count'] as int?,
-    user:
-        json['user'] == null
-            ? null
-            : UserModel.fromJson(json['user'] as Map<String, dynamic>),
+    user: json['user'] == null ? null : UserModel.fromJson(json['user'] as Map<String, dynamic>),
     category:
         json['category'] == null
             ? null
@@ -41,12 +39,15 @@ class WishModel {
     subcategory:
         json['subcategory'] == null
             ? null
-            : SubCategoryModel.fromJson(
-              json['subcategory'] as Map<String, dynamic>,
-            ),
+            : SubCategoryModel.fromJson(json['subcategory'] as Map<String, dynamic>),
     acceptors:
         (json['acceptors'] as List<dynamic>?)
             ?.map((e) => AcceptorModel.fromJson(e as Map<String, dynamic>))
             .toList(),
   );
+
+  @override
+  String toString() {
+    return 'WishModel(id: $id, description: $description, status: $status, acceptorsCount: $acceptorsCount, user: $user, category: $category, subcategory: $subcategory, acceptors: $acceptors)';
+  }
 }

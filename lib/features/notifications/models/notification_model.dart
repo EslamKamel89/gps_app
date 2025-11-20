@@ -27,15 +27,24 @@ class NotificationModel {
   }
 
   factory NotificationModel.fromJson(Map<String, dynamic> json) {
+    int? toInt(dynamic value) {
+      if (value == null) return null;
+      if (value is int) return value;
+      if (value is String && value.trim().isNotEmpty) {
+        return int.tryParse(value.trim());
+      }
+      return null;
+    }
+
     return NotificationModel(
-      id: json['id'] as int?,
+      id: toInt(json['id']),
       path: json['path'] as String?,
       content: json['content'] as String?,
-      pathId: json['path_id'] as int?,
+      pathId: toInt(json['path_id']),
       createdAt: json['created_at'] as String?,
-      deviceId: json['device_id'] as int?,
-      isRead: json['is_read'] as int?,
-      userId: json['user_id'] as int?,
+      deviceId: toInt(json['device_id']),
+      isRead: toInt(json['is_read']),
+      userId: toInt(json['user_id']),
       accessToken: json['access_token'] as String?,
     );
   }

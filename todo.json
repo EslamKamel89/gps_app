@@ -1,10 +1,12 @@
 {
   "Done todos": [
     [
+      "homeSearchScreen",
       "wishList",
-      "blogListScreen",
-      "favoritesScreen"
+      "accountBlockedScreen",
+      "blogListScreen"
     ],
+    "fix the home screen appbar",
     "------------------------------------------------"
   ],
   "todos": [
@@ -13,14 +15,11 @@
     "there an issue with the tab bar count in the store and farm public profile screen ",
     "+++++++++++++++++++++++++++++++++++++++++++++++++",
     [
-      "homeSearchScreen",
-      "restaurantDetailScreen",
-      "wishList",
-      "accountBlockedScreen",
       "itemInfoScreen",
-      "blogListScreen",
       "favoritesScreen"
     ],
+    "add navigation to the itemInfoScreen from the profile screen",
+    "don't show the categories selection screen after login",
     "------------------------------------------------"
   ]
 }

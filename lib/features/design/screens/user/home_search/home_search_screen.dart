@@ -38,98 +38,107 @@ class _HomeSearchScreenState extends State<HomeSearchScreen> {
         body: Stack(
           children: [
             SizedBox(width: context.width, height: context.height),
+            Positioned(top: 0, left: 0, right: 0, child: TopBar()),
             if (!_showMap)
-              CustomScrollView(
-                shrinkWrap: true,
-                slivers: [
-                  SliverToBoxAdapter(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        TopBar(),
-
-                        GPSGaps.h16,
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 15),
-                          child: InkWell(
-                            onTap: () {
-                              setState(() {
-                                _showMap = true;
-                              });
-                            },
-                            child: SearchRowPlaceholder(hint: 'Search....'),
+              Padding(
+                padding: const EdgeInsets.only(top: 70),
+                child: CustomScrollView(
+                  shrinkWrap: true,
+                  slivers: [
+                    SliverToBoxAdapter(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          GPSGaps.h16,
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 15),
+                            child: InkWell(
+                              onTap: () {
+                                setState(() {
+                                  _showMap = true;
+                                });
+                              },
+                              child: SearchRowPlaceholder(hint: 'Search....'),
+                            ),
                           ),
-                        ),
-                        // SizedBox(child: _buildFilters()),
-                        // GPSGaps.h16,
-                        // const FilterChipsRow(),
-                        GPSGaps.h16,
-                        // CategoryShortcutWidget(items: _shortcutItems),
-                        // GPSGaps.h16,
-                        MostLovedRestaurantsProvider(),
-                        MostLovedStoresProvider(isStore: true),
-                        MostLovedStoresProvider(isStore: false),
-                        NearestVendors(),
-                        // GPSGaps.h20,
-                        // const PromoCard(),
-                        // GPSGaps.h20,
-                        // Padding(
-                        //   padding: const EdgeInsets.symmetric(horizontal: 16),
-                        //   child: Text(
-                        //     'Farm to Fork',
-                        //     style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                        //       color: GPSColors.text,
-                        //       fontWeight: FontWeight.w800,
-                        //     ),
-                        //   ).animate().fadeIn(duration: 300.ms).slideY(begin: .2),
-                        // ),
-                        GPSGaps.h12,
-                      ],
+                          // SizedBox(child: _buildFilters()),
+                          // GPSGaps.h16,
+                          // const FilterChipsRow(),
+                          GPSGaps.h16,
+                          // CategoryShortcutWidget(items: _shortcutItems),
+                          // GPSGaps.h16,
+                          MostLovedRestaurantsProvider(),
+                          MostLovedStoresProvider(isStore: true),
+                          MostLovedStoresProvider(isStore: false),
+                          // NearestVendors(),
+                          // GPSGaps.h20,
+                          // const PromoCard(),
+                          // GPSGaps.h20,
+                          // Padding(
+                          //   padding: const EdgeInsets.symmetric(horizontal: 16),
+                          //   child: Text(
+                          //     'Farm to Fork',
+                          //     style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                          //       color: GPSColors.text,
+                          //       fontWeight: FontWeight.w800,
+                          //     ),
+                          //   ).animate().fadeIn(duration: 300.ms).slideY(begin: .2),
+                          // ),
+                          GPSGaps.h12,
+                        ],
+                      ),
                     ),
-                  ),
-                  // SliverList(
-                  //   delegate: SliverChildListDelegate([
-                  //     FeaturedRestaurantCard(
-                  //       onTap: () {
-                  //         Navigator.of(context).push(
-                  //           MaterialPageRoute(
-                  //             builder: (_) => RestaurantDetailProvider(enableEdit: false),
-                  //           ),
-                  //         );
-                  //       },
-                  //     ),
-                  //     GPSGaps.h12,
-                  //     RestaurantListItem(
-                  //       title: 'Farm to Fork',
-                  //       subtitle: '100% grass-fed or organic, gluten free',
-                  //       time: '45–10 min',
-                  //       distance: '2.9 mi',
-                  //       verified: true,
-                  //       imageUrl:
-                  //           'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=1200&auto=format&fit=crop',
-                  //       onTap: () {
-                  //         Navigator.of(context).pushNamed(AppRoutesNames.restaurantDetailScreen);
-                  //       },
-                  //     ),
-                  //     GPSGaps.h12,
-                  //     RestaurantListItem(
-                  //       title: 'Greenhouse Cafe',
-                  //       subtitle: '100% organic, gluten free',
-                  //       time: '30–1 hr',
-                  //       distance: '3.0 mi',
-                  //       verified: false,
-                  //       imageUrl:
-                  //           'https://images.unsplash.com/photo-1543353071-10c8ba85a904?q=80&w=1200&auto=format&fit=crop',
-                  //       onTap: () {
-                  //         Navigator.of(context).pushNamed(AppRoutesNames.restaurantDetailScreen);
-                  //       },
-                  //     ),
-                  //     GPSGaps.h24,
-                  //     GPSGaps.h24,
-                  //   ]),
-                  // ),
-                ],
+                    SliverToBoxAdapter(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [NearestVendors()],
+                      ),
+                    ),
+                    // SliverList(
+                    //   delegate: SliverChildListDelegate([
+                    //     FeaturedRestaurantCard(
+                    //       onTap: () {
+                    //         Navigator.of(context).push(
+                    //           MaterialPageRoute(
+                    //             builder: (_) => RestaurantDetailProvider(enableEdit: false),
+                    //           ),
+                    //         );
+                    //       },
+                    //     ),
+                    //     GPSGaps.h12,
+                    //     RestaurantListItem(
+                    //       title: 'Farm to Fork',
+                    //       subtitle: '100% grass-fed or organic, gluten free',
+                    //       time: '45–10 min',
+                    //       distance: '2.9 mi',
+                    //       verified: true,
+                    //       imageUrl:
+                    //           'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=1200&auto=format&fit=crop',
+                    //       onTap: () {
+                    //         Navigator.of(context).pushNamed(AppRoutesNames.restaurantDetailScreen);
+                    //       },
+                    //     ),
+                    //     GPSGaps.h12,
+                    //     RestaurantListItem(
+                    //       title: 'Greenhouse Cafe',
+                    //       subtitle: '100% organic, gluten free',
+                    //       time: '30–1 hr',
+                    //       distance: '3.0 mi',
+                    //       verified: false,
+                    //       imageUrl:
+                    //           'https://images.unsplash.com/photo-1543353071-10c8ba85a904?q=80&w=1200&auto=format&fit=crop',
+                    //       onTap: () {
+                    //         Navigator.of(context).pushNamed(AppRoutesNames.restaurantDetailScreen);
+                    //       },
+                    //     ),
+                    //     GPSGaps.h24,
+                    //     GPSGaps.h24,
+                    //   ]),
+                    // ),
+                  ],
+                ),
               ),
             if (_showMap) ...[
               Positioned(
@@ -138,9 +147,7 @@ class _HomeSearchScreenState extends State<HomeSearchScreen> {
                 child: SizedBox(
                   width: context.width,
                   height: context.height,
-                  child: SizedBox(
-                    child: Stack(fit: StackFit.expand, children: [MapView()]),
-                  ),
+                  child: SizedBox(child: Stack(fit: StackFit.expand, children: [MapView()])),
                 ),
               ).animate().fadeIn(duration: 220.ms),
 

@@ -11,7 +11,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gps_app/core/globals.dart';
 import 'package:gps_app/core/helpers/enable_android_photo_picker.dart';
 import 'package:gps_app/core/helpers/firebase.dart'; // updated import
-import 'package:gps_app/core/helpers/print_helper.dart';
 import 'package:gps_app/core/router/app_router.dart';
 import 'package:gps_app/core/router/app_routes_names.dart';
 import 'package:gps_app/core/service_locator/service_locator.dart';
@@ -52,11 +51,7 @@ void main() async {
 
   await flutterLocalNotificationsPlugin.initialize(
     initializationSettings,
-    onDidReceiveNotificationResponse: (NotificationResponse response) {
-      final payload = response.payload;
-      pr('Local notification tapped. payload: $payload', 'FCM');
-      pr(response.data, 'FCM - flutterLocalNotificationsPlugin.initialize');
-    },
+    onDidReceiveNotificationResponse: onDidReceiveLocalNotificationResponse,
   );
 
   if (Platform.isAndroid) {
