@@ -54,6 +54,7 @@ class _ItemCardState extends State<ItemCard> {
 
     return InkWell(
       onTap: () {
+        if (_showEdit) return;
         Navigator.pushNamed(
           context,
           AppRoutesNames.itemInfoScreen,

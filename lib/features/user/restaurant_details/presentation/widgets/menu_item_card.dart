@@ -41,6 +41,7 @@ class _MenuItemCardState extends State<MenuItemCard> {
     final textTheme = Theme.of(context).textTheme;
     return InkWell(
       onTap: () {
+        if (showEdit) return;
         Navigator.pushNamed(
           context,
           AppRoutesNames.itemInfoScreen,
