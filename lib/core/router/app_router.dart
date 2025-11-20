@@ -166,6 +166,7 @@ class AppRouter {
                 child: ItemInfoScreen(
                   itemId: (args as Map<String, dynamic>)['itemId'],
                   acceptorId: args['acceptorId'],
+                  type: args['type'],
                 ),
               ),
           settings: routeSettings,

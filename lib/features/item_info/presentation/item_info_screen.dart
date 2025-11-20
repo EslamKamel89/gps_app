@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gps_app/core/api_service/end_points.dart';
 import 'package:gps_app/core/enums/response_type.dart';
-import 'package:gps_app/core/helpers/print_helper.dart';
+import 'package:gps_app/core/helpers/image_url.dart';
 import 'package:gps_app/core/models/api_response_model.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
@@ -11,12 +10,9 @@ import 'package:gps_app/features/item_info/cubits/item_info_cubit.dart';
 import 'package:gps_app/features/item_info/models/item_info.dart';
 
 class ItemInfoScreen extends StatefulWidget {
-  const ItemInfoScreen({
-    super.key,
-    required this.acceptorId,
-    required this.itemId,
-  });
-  final int acceptorId;
+  const ItemInfoScreen({super.key, this.acceptorId, this.type, required this.itemId});
+  final int? acceptorId;
+  final String? type;
   final int itemId;
   @override
   State<ItemInfoScreen> createState() => _ItemInfoScreenState();
@@ -28,14 +24,13 @@ class _ItemInfoScreenState extends State<ItemInfoScreen> {
   @override
   void initState() {
     cubit = context.read<ItemInfoCubit>();
-    cubit.getItem(acceptorId: widget.acceptorId, itemId: widget.itemId);
+    cubit.getItem(type: widget.type, acceptorId: widget.acceptorId, itemId: widget.itemId);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     final txt = Theme.of(context).textTheme;
-
     return BlocConsumer<ItemInfoCubit, ApiResponseModel<ItemInfoEntity>>(
       listener: (context, state) {
         // TODO: implement listener
@@ -43,10 +38,7 @@ class _ItemInfoScreenState extends State<ItemInfoScreen> {
       builder: (context, state) {
         return SafeArea(
           child: Scaffold(
-            appBar: AppBar(
-              backgroundColor: GPSColors.primary,
-              title: Text(state.data?.name ?? ''),
-            ),
+            appBar: AppBar(backgroundColor: GPSColors.primary, title: Text(state.data?.name ?? '')),
             body: SingleChildScrollView(
               physics: const ClampingScrollPhysics(),
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
@@ -59,104 +51,85 @@ class _ItemInfoScreenState extends State<ItemInfoScreen> {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      if (item.itemImagePath != null)
-                        Stack(
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(20),
-                              child: AspectRatio(
-                                aspectRatio: 16 / 9,
-                                child: Image.network(
-                                      pr(
-                                        "${EndPoint.baseUrl}/${item.itemImagePath!}",
-                                      ),
-                                      fit: BoxFit.cover,
-                                      alignment: Alignment.center,
-                                      frameBuilder: (c, child, frame, wasSync) {
-                                        if (frame == null) {
-                                          return Container(
-                                            color: Colors.black12,
-                                          );
-                                        }
-                                        return child;
-                                      },
-                                      errorBuilder:
-                                          (_, __, ___) => Container(
-                                            color: Colors.white,
-                                            alignment: Alignment.center,
-                                            child: const Icon(
-                                              Icons.broken_image_rounded,
-                                              color: GPSColors.mutedText,
-                                              size: 40,
-                                            ),
+                      // if (item.itemImagePath != null)
+                      Stack(
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(20),
+                            child: AspectRatio(
+                              aspectRatio: 16 / 9,
+                              child: Image.network(
+                                    getImageUrl(item.itemImagePath),
+                                    fit: BoxFit.cover,
+                                    alignment: Alignment.center,
+                                    frameBuilder: (c, child, frame, wasSync) {
+                                      if (frame == null) {
+                                        return Container(color: Colors.black12);
+                                      }
+                                      return child;
+                                    },
+                                    errorBuilder:
+                                        (_, __, ___) => Container(
+                                          color: Colors.white,
+                                          alignment: Alignment.center,
+                                          child: const Icon(
+                                            Icons.broken_image_rounded,
+                                            color: GPSColors.mutedText,
+                                            size: 40,
                                           ),
-                                    )
-                                    .animate()
-                                    .fadeIn(
-                                      duration: 350.ms,
-                                      curve: Curves.easeOutCubic,
-                                    )
-                                    .scale(
-                                      begin: const Offset(1.02, 1.02),
-                                      end: const Offset(1, 1),
-                                      duration: 400.ms,
-                                      curve: Curves.easeOut,
-                                    ),
-                              ),
+                                        ),
+                                  )
+                                  .animate()
+                                  .fadeIn(duration: 350.ms, curve: Curves.easeOutCubic)
+                                  .scale(
+                                    begin: const Offset(1.02, 1.02),
+                                    end: const Offset(1, 1),
+                                    duration: 400.ms,
+                                    curve: Curves.easeOut,
+                                  ),
                             ),
+                          ),
 
-                            Positioned.fill(
-                              child: IgnorePointer(
-                                child: DecoratedBox(
-                                  decoration: const BoxDecoration(
-                                    gradient: LinearGradient(
-                                      begin: Alignment.topCenter,
-                                      end: Alignment.bottomCenter,
-                                      colors: [
-                                        Colors.transparent,
-                                        Color(0x66000000),
-                                      ],
-                                    ),
+                          Positioned.fill(
+                            child: IgnorePointer(
+                              child: DecoratedBox(
+                                decoration: const BoxDecoration(
+                                  gradient: LinearGradient(
+                                    begin: Alignment.topCenter,
+                                    end: Alignment.bottomCenter,
+                                    colors: [Colors.transparent, Color(0x66000000)],
                                   ),
                                 ),
                               ),
                             ),
+                          ),
 
-                            Positioned(
-                              top: 12,
-                              right: 12,
-                              child: Row(
-                                children: [
-                                  _CircleIconButton(
-                                        icon:
-                                            _isFav
-                                                ? Icons.favorite_rounded
-                                                : Icons.favorite_border_rounded,
-                                        onTap:
-                                            () => setState(
-                                              () => _isFav = !_isFav,
-                                            ),
-                                        foreground:
-                                            _isFav
-                                                ? Colors.redAccent
-                                                : Colors.white,
-                                      )
-                                      .animate()
-                                      .fadeIn(duration: 220.ms)
-                                      .scale(begin: const Offset(.9, .9)),
-                                  GPSGaps.w8,
-                                  _CircleIconButton(
-                                        icon: Icons.share_rounded,
-                                        onTap: () {},
-                                      )
-                                      .animate(delay: 60.ms)
-                                      .fadeIn(duration: 220.ms)
-                                      .scale(begin: const Offset(.9, .9)),
-                                ],
-                              ),
+                          Positioned(
+                            top: 12,
+                            right: 12,
+                            child: Row(
+                              children: [
+                                _CircleIconButton(
+                                      icon:
+                                          _isFav
+                                              ? Icons.favorite_rounded
+                                              : Icons.favorite_border_rounded,
+                                      onTap: () => setState(() => _isFav = !_isFav),
+                                      foreground: _isFav ? Colors.redAccent : Colors.white,
+                                    )
+                                    .animate()
+                                    .fadeIn(duration: 220.ms)
+                                    .scale(begin: const Offset(.9, .9)),
+                                GPSGaps.w8,
+                                _CircleIconButton(icon: Icons.share_rounded, onTap: () {})
+                                    .animate(delay: 60.ms)
+                                    .fadeIn(duration: 220.ms)
+                                    .scale(begin: const Offset(.9, .9)),
+                              ],
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
+                      ),
 
                       GPSGaps.h16,
 
@@ -164,11 +137,8 @@ class _ItemInfoScreenState extends State<ItemInfoScreen> {
                             spacing: 8,
                             runSpacing: 8,
                             children: [
-                              _BadgeChip(
-                                label: item.isMeal == true ? 'Meal' : 'Product',
-                              ),
-                              if (item.sectionName != null)
-                                _BadgeChip(label: item.sectionName!),
+                              _BadgeChip(label: item.isMeal == true ? 'Meal' : 'Product'),
+                              if (item.sectionName != null) _BadgeChip(label: item.sectionName!),
                             ],
                           )
                           .animate()
@@ -242,10 +212,9 @@ class _BadgeChip extends StatelessWidget {
           GPSGaps.w8,
           Text(
             label,
-            style: Theme.of(context).textTheme.labelMedium?.copyWith(
-              color: GPSColors.text,
-              fontWeight: FontWeight.w700,
-            ),
+            style: Theme.of(
+              context,
+            ).textTheme.labelMedium?.copyWith(color: GPSColors.text, fontWeight: FontWeight.w700),
           ),
         ],
       ),
@@ -254,11 +223,7 @@ class _BadgeChip extends StatelessWidget {
 }
 
 class _CircleIconButton extends StatelessWidget {
-  const _CircleIconButton({
-    required this.icon,
-    this.onTap,
-    this.foreground = Colors.white,
-  });
+  const _CircleIconButton({required this.icon, this.onTap, this.foreground = Colors.white});
 
   final IconData icon;
   final VoidCallback? onTap;
@@ -290,9 +255,7 @@ class _LoadingShimmer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final width =
-        MediaQuery.of(context).size.width -
-        32; // padding accounted for in parent
+    final width = MediaQuery.of(context).size.width - 32; // padding accounted for in parent
     final chipHeights = 34.0;
 
     return Column(
@@ -358,11 +321,7 @@ class _LoadingShimmer extends StatelessWidget {
 }
 
 class _ShimmerBox extends StatelessWidget {
-  const _ShimmerBox({
-    required this.width,
-    required this.height,
-    this.radius = 12,
-  });
+  const _ShimmerBox({required this.width, required this.height, this.radius = 12});
 
   final double width;
   final double height;

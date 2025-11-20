@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:gps_app/core/helpers/print_helper.dart';
 import 'package:gps_app/features/item_info/models/item_model/item_model.dart';
 import 'package:gps_app/features/item_info/models/meal_model/meal_model.dart';
 
@@ -25,6 +26,7 @@ class ItemInfoModel {
       entity.sectionName = item?.section?.name;
     }
     if (meal != null) {
+      pr(meal?.image, 'debug');
       if (meal?.image?.isNotEmpty == true) {
         entity.itemImagePath = meal?.image?[0].path;
       }
@@ -43,13 +45,7 @@ class ItemInfoEntity {
   String? name;
   String? description;
   String? sectionName;
-  ItemInfoEntity({
-    this.itemImagePath,
-    this.isMeal,
-    this.name,
-    this.description,
-    this.sectionName,
-  });
+  ItemInfoEntity({this.itemImagePath, this.isMeal, this.name, this.description, this.sectionName});
 
   @override
   String toString() {

@@ -9,11 +9,14 @@ import 'package:gps_app/features/item_info/models/item_info.dart';
 class ItemInfoCubit extends Cubit<ApiResponseModel<ItemInfoEntity>> {
   ItemInfoCubit() : super(ApiResponseModel());
   final ItemInfoController controller = serviceLocator<ItemInfoController>();
-  Future getItem({required int acceptorId, required int itemId}) async {
+  Future getItem({String? type, int? acceptorId, required int itemId}) async {
     final t = prt('getItem - ItemInfoCubit');
     emit(state.copyWith(errorMessage: null, response: ResponseEnum.loading));
-    final ApiResponseModel<ItemInfoEntity> response = await controller
-        .getItemInfo(acceptorId: acceptorId, itemId: itemId);
+    final ApiResponseModel<ItemInfoEntity> response = await controller.getItemInfo(
+      type: type,
+      acceptorId: acceptorId,
+      itemId: itemId,
+    );
     pr(response, t);
     emit(response);
   }

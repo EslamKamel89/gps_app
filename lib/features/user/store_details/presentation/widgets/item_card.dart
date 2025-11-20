@@ -4,6 +4,7 @@ import 'package:gps_app/core/api_service/end_points.dart';
 import 'package:gps_app/core/cache/local_storage.dart';
 import 'package:gps_app/core/enums/response_type.dart';
 import 'package:gps_app/core/helpers/update_controller.dart';
+import 'package:gps_app/core/router/app_routes_names.dart';
 import 'package:gps_app/core/service_locator/service_locator.dart';
 import 'package:gps_app/core/widgets/uploads/uploaded_image.dart';
 import 'package:gps_app/features/auth/models/catalog_item_model.dart';
@@ -51,139 +52,146 @@ class _ItemCardState extends State<ItemCard> {
     final txt = Theme.of(context).textTheme;
     final price = (widget.item.price ?? '').isEmpty ? null : widget.item.price;
 
-    return CustomStack(
-      enableEdit: widget.enableEdit,
-      actionWidget: EditButton(
-        onPressed: () {
-          setState(() {
-            _showEdit = !_showEdit;
-          });
-        },
-      ),
-      child: Stack(
-        children: [
-          Ink(
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: GPSColors.cardBorder),
-              boxShadow: const [
-                BoxShadow(
-                  blurRadius: 14,
-                  spreadRadius: -4,
-                  offset: Offset(0, 6),
-                  color: Color(0x1A000000),
-                ),
-              ],
-            ),
-            child: Row(
-              children: [
-                // Image
-                CustomStack(
-                  enableEdit: widget.enableEdit && _showEdit,
-                  actionWidget: EditButton(
-                    onPressed: () {
-                      _updateItemImage(widget.item);
-                    },
+    return InkWell(
+      onTap: () {
+        Navigator.pushNamed(
+          context,
+          AppRoutesNames.itemInfoScreen,
+          arguments: {'type': 'item', 'itemId': widget.item.id},
+        );
+      },
+      child: CustomStack(
+        enableEdit: widget.enableEdit,
+        actionWidget: EditButton(
+          onPressed: () {
+            setState(() {
+              _showEdit = !_showEdit;
+            });
+          },
+        ),
+        child: Stack(
+          children: [
+            Ink(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(color: GPSColors.cardBorder),
+                boxShadow: const [
+                  BoxShadow(
+                    blurRadius: 14,
+                    spreadRadius: -4,
+                    offset: Offset(0, 6),
+                    color: Color(0x1A000000),
                   ),
-                  child: ClipRRect(
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(16),
-                      bottomLeft: Radius.circular(16),
+                ],
+              ),
+              child: Row(
+                children: [
+                  // Image
+                  CustomStack(
+                    enableEdit: widget.enableEdit && _showEdit,
+                    actionWidget: EditButton(
+                      onPressed: () {
+                        _updateItemImage(widget.item);
+                      },
                     ),
-                    child: Hero(
-                      tag: widget.heroTag,
-                      child: Image.network(
-                        _imageUrl(),
-                        width: 110,
-                        height: 110,
-                        fit: BoxFit.cover,
+                    child: ClipRRect(
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(16),
+                        bottomLeft: Radius.circular(16),
+                      ),
+                      child: Hero(
+                        tag: widget.heroTag,
+                        child: Image.network(
+                          _imageUrl(),
+                          width: 110,
+                          height: 110,
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
                   ),
-                ),
 
-                // Content
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(14),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        CustomStack(
-                          enableEdit: widget.enableEdit && _showEdit,
-                          actionWidget: EditButton(
-                            onPressed: () {
-                              _updateItemName(widget.item);
-                            },
-                          ),
-                          child: Text(
-                            widget.item.name ?? 'Item',
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: txt.titleSmall?.copyWith(
-                              color: GPSColors.text,
-                              fontWeight: FontWeight.w800,
-                            ),
-                          ),
-                        ),
-                        GPSGaps.h8,
-                        if ((widget.item.description ?? '').isNotEmpty)
+                  // Content
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(14),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
                           CustomStack(
                             enableEdit: widget.enableEdit && _showEdit,
                             actionWidget: EditButton(
                               onPressed: () {
-                                _updateItemDescription(widget.item);
+                                _updateItemName(widget.item);
                               },
                             ),
                             child: Text(
-                              widget.item.description!,
-                              maxLines: 2,
+                              widget.item.name ?? 'Item',
+                              maxLines: 1,
                               overflow: TextOverflow.ellipsis,
-                              style: txt.bodyMedium?.copyWith(
-                                color: GPSColors.mutedText,
-                                height: 1.35,
-                              ),
-                            ),
-                          ),
-                        GPSGaps.h8,
-                        if (price != null)
-                          CustomStack(
-                            enableEdit: widget.enableEdit && _showEdit,
-                            actionWidget: EditButton(
-                              onPressed: () {
-                                _updateItemPrice(widget.item);
-                              },
-                            ),
-                            child: Text(
-                              price,
                               style: txt.titleSmall?.copyWith(
                                 color: GPSColors.text,
                                 fontWeight: FontWeight.w800,
-                                fontFeatures: const [
-                                  FontFeature.tabularFigures(),
-                                ],
                               ),
                             ),
                           ),
-                      ],
+                          GPSGaps.h8,
+                          if ((widget.item.description ?? '').isNotEmpty)
+                            CustomStack(
+                              enableEdit: widget.enableEdit && _showEdit,
+                              actionWidget: EditButton(
+                                onPressed: () {
+                                  _updateItemDescription(widget.item);
+                                },
+                              ),
+                              child: Text(
+                                widget.item.description!,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: txt.bodyMedium?.copyWith(
+                                  color: GPSColors.mutedText,
+                                  height: 1.35,
+                                ),
+                              ),
+                            ),
+                          GPSGaps.h8,
+                          if (price != null)
+                            CustomStack(
+                              enableEdit: widget.enableEdit && _showEdit,
+                              actionWidget: EditButton(
+                                onPressed: () {
+                                  _updateItemPrice(widget.item);
+                                },
+                              ),
+                              child: Text(
+                                price,
+                                style: txt.titleSmall?.copyWith(
+                                  color: GPSColors.text,
+                                  fontWeight: FontWeight.w800,
+                                  fontFeatures: const [FontFeature.tabularFigures()],
+                                ),
+                              ),
+                            ),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              ],
-            ),
-          ),
-          if (_showEdit && widget.enableEdit)
-            Positioned(
-              top: 0,
-              left: 0,
-              child: DeleteButton(
-                onTap: () {
-                  _deleteItem(section: widget.section, item: widget.item);
-                },
+                ],
               ),
             ),
-        ],
+            if (_showEdit && widget.enableEdit)
+              Positioned(
+                top: 0,
+                left: 0,
+                child: DeleteButton(
+                  onTap: () {
+                    _deleteItem(section: widget.section, item: widget.item);
+                  },
+                ),
+              ),
+          ],
+        ),
       ),
     );
   }
@@ -194,11 +202,8 @@ class _ItemCardState extends State<ItemCard> {
     final String? newVal = await showFormBottomSheet<String>(
       context,
       builder:
-          (ctx, ctl) => ProfileTextForm(
-            initialValue: item.name,
-            controller: ctl,
-            label: 'Update Item Name',
-          ),
+          (ctx, ctl) =>
+              ProfileTextForm(initialValue: item.name, controller: ctl, label: 'Update Item Name'),
     );
     if (newVal == null) return;
     item.name = newVal;
@@ -268,9 +273,7 @@ class _ItemCardState extends State<ItemCard> {
     final cubit = context.read<StoreCubit>();
     final UploadedImage? newVal = await showFormBottomSheet<UploadedImage>(
       context,
-      builder:
-          (ctx, ctl) =>
-              ProfileImageForm(controller: ctl, label: 'Update Item image'),
+      builder: (ctx, ctl) => ProfileImageForm(controller: ctl, label: 'Update Item image'),
     );
     if (newVal == null) return;
     item.image?.path = newVal.path;
