@@ -143,9 +143,9 @@ class DioConsumer extends ApiConsumer {
     } else {
       dio.options.headers.addAll({"Authorization": 'Bearer $token'});
       // dio.options.headers.addAll({
-      //   "Authorization": 'Bearer f01BpAsx798u672ASmJi242agoukbB1ea55OvNpR4ae92a14',
+      //   "Authorization": 'Bearer iz3ulBx68HLPUiWLCOC2UDwmRF0PMhwYNvwFX0Fw0e44de87',
       // });
-      // localStorage.setString(CacheKeys.token, 'f01BpAsx798u672ASmJi242agoukbB1ea55OvNpR4ae92a14');
+      // localStorage.setString(CacheKeys.token, 'iz3ulBx68HLPUiWLCOC2UDwmRF0PMhwYNvwFX0Fw0e44de87');
     }
   }
 }

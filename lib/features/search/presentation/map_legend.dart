@@ -7,7 +7,7 @@ class MapLegend extends StatelessWidget {
   Widget build(BuildContext context) {
     const legendItems = [
       _LegendItem(color: Colors.red, label: 'Selected'),
-      _LegendItem(color: Colors.blue, label: 'Locations near you'),
+      _LegendItem(color: Colors.blue, label: 'Near you'),
       _LegendItem(color: Colors.green, label: 'Suggestions'),
     ];
 
@@ -36,10 +36,7 @@ class MapLegend extends StatelessWidget {
                         Container(
                           width: 14,
                           height: 14,
-                          decoration: BoxDecoration(
-                            color: item.color,
-                            shape: BoxShape.circle,
-                          ),
+                          decoration: BoxDecoration(color: item.color, shape: BoxShape.circle),
                         ),
                         const SizedBox(width: 6),
                         Text(item.label, style: const TextStyle(fontSize: 13)),

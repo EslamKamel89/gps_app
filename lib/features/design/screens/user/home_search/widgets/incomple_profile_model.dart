@@ -4,10 +4,10 @@ import 'package:gps_app/core/cache/local_storage.dart';
 import 'package:gps_app/core/globals.dart';
 import 'package:gps_app/core/helpers/user.dart';
 import 'package:gps_app/core/service_locator/service_locator.dart';
-import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/user/restaurant_details/presentation/restaurant_detail_provider.dart';
 
-bool _callOnce = false;
+//! this alert is disabled
+bool _callOnce = true;
 Future<void> handleIncompleteProfile() async {
   if (_callOnce) return;
   _callOnce = true;
@@ -16,8 +16,7 @@ Future<void> handleIncompleteProfile() async {
   final ctx = navigatorKey.currentContext;
   if (user == null || ctx == null) return;
 
-  // Only warn restaurant users
-  if (user.userType?.type != 'restaurant') return;
+  if (user.userType?.type == 'user') return;
 
   await showDialog<void>(
     context: ctx,
@@ -34,23 +33,18 @@ class _IncompleteProfileDialog extends StatelessWidget {
     final cs = Theme.of(context).colorScheme;
 
     return AlertDialog(
-      // Modern look & feel
       elevation: 2,
       backgroundColor: cs.surface,
       surfaceTintColor: cs.surfaceTint,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       insetPadding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
 
-      // Header with warning icon + title
       titlePadding: const EdgeInsets.fromLTRB(24, 20, 24, 0),
       title: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            decoration: BoxDecoration(
-              color: cs.errorContainer,
-              shape: BoxShape.circle,
-            ),
+            decoration: BoxDecoration(color: cs.errorContainer, shape: BoxShape.circle),
             padding: const EdgeInsets.all(8),
             child: Icon(
               Icons.warning_amber_rounded,
@@ -63,15 +57,12 @@ class _IncompleteProfileDialog extends StatelessWidget {
           Expanded(
             child: Text(
               "You're almost set!",
-              style: Theme.of(
-                context,
-              ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w700),
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w700),
             ),
           ),
         ],
       ),
 
-      // Friendly, concise message
       content: const Padding(
         padding: EdgeInsets.only(top: 8),
         child: Text(
@@ -79,7 +70,6 @@ class _IncompleteProfileDialog extends StatelessWidget {
         ),
       ),
 
-      // Action buttons
       actionsPadding: const EdgeInsets.fromLTRB(24, 0, 24, 16),
       actionsAlignment: MainAxisAlignment.spaceBetween,
       actions: [
@@ -88,7 +78,6 @@ class _IncompleteProfileDialog extends StatelessWidget {
           child: const Text("Remind me later"),
         ),
         FilledButton.icon(
-          // Use your routing here, or accept a callback
           onPressed: () {
             Navigator.of(context).maybePop();
             Navigator.of(context).push(
@@ -105,13 +94,8 @@ class _IncompleteProfileDialog extends StatelessWidget {
           icon: const Icon(Icons.arrow_forward_rounded),
           label: const Text("Complete now"),
           style: FilledButton.styleFrom(
-            backgroundColor: GPSColors.primary,
-            // subtle warning vibe via tertiary / secondary hues
-            // (keeps good contrast in light/dark themes)
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(14),
-            ),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
           ),
         ),
       ],

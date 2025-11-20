@@ -17,6 +17,7 @@ import 'package:gps_app/core/service_locator/service_locator.dart';
 import 'package:gps_app/core/themes/theme_cubit.dart';
 import 'package:gps_app/features/blogs/cubits/blogs_cubit.dart';
 import 'package:gps_app/features/favorites/cubits/favorites_cubit.dart';
+import 'package:gps_app/features/item_info/cubits/item_info_cubit.dart';
 import 'package:gps_app/features/notifications/cubits/notification_cubit.dart';
 import 'package:gps_app/features/search/cubits/search_cubit/search_cubit.dart';
 import 'package:gps_app/features/user/preferences/cubits/preferences/preferences_cubit.dart';
@@ -108,6 +109,7 @@ class _MyAppState extends State<MyApp> {
           BlocProvider(create: (context) => FavoritesCubit()),
           BlocProvider(create: (context) => SearchCubit()..init()),
           BlocProvider(create: (context) => NotificationCubit()..notifications()),
+          BlocProvider(create: (context) => ItemInfoCubit()),
         ],
         child: Builder(
           builder: (context) {

@@ -29,7 +29,6 @@ import 'package:gps_app/features/design/screens/user/market_place/market_place_s
 import 'package:gps_app/features/design/screens/user/scann_image/scan_image_screen.dart';
 import 'package:gps_app/features/design/screens/user/splash/splash_screen.dart';
 import 'package:gps_app/features/favorites/presentation/favorites_screen.dart';
-import 'package:gps_app/features/item_info/cubits/item_info_cubit.dart';
 import 'package:gps_app/features/item_info/presentation/item_info_screen.dart';
 import 'package:gps_app/features/notifications/presentation/notification_screen.dart';
 import 'package:gps_app/features/user/preferences/presentation/category_selection_screen.dart';
@@ -161,13 +160,10 @@ class AppRouter {
       case AppRoutesNames.itemInfoScreen:
         return CustomPageRoute(
           builder:
-              (context) => BlocProvider(
-                create: (context) => ItemInfoCubit(),
-                child: ItemInfoScreen(
-                  itemId: (args as Map<String, dynamic>)['itemId'],
-                  acceptorId: args['acceptorId'],
-                  type: args['type'],
-                ),
+              (context) => ItemInfoScreen(
+                itemId: (args as Map<String, dynamic>)['itemId'],
+                acceptorId: args['acceptorId'],
+                type: args['type'],
               ),
           settings: routeSettings,
         );
