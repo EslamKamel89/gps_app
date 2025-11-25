@@ -67,128 +67,135 @@ class _TopBarState extends State<TopBar> {
               clipBehavior: Clip.none,
               children: [
                 RoundIcon(icon: Icons.person_outline),
-                Positioned(
-                  top: 0,
-                  right: 0,
-                  // startFocus
-                  child: Transform.translate(offset: Offset(15, -20), child: NotificationCount()),
-                  // endFocus
-                ),
+                if (auth())
+                  Positioned(
+                    top: 0,
+                    right: 0,
+                    // startFocus
+                    child: Transform.translate(offset: Offset(15, -20), child: NotificationCount()),
+                    // endFocus
+                  ),
               ],
             ),
             offset: Offset(-200, 0),
             children: [
-              UserProfileTile(
-                name: userInMemory()?.userName ?? '',
-                email: userInMemory()?.email ?? '',
-                avatarUrl: "${EndPoint.baseUrl}/${userInMemory()?.image?.path}",
-              ),
-              MenuActionItem(
-                icon: MdiIcons.food,
-                label: 'Edit Food Preferences',
-                onTap: () {
-                  Future.delayed(100.ms, () {
-                    Navigator.of(context).pushNamed(AppRoutesNames.categorySelectionScreen);
-                  });
-                },
-              ),
+              if (auth())
+                UserProfileTile(
+                  name: userInMemory()?.userName ?? '',
+                  email: userInMemory()?.email ?? '',
+                  avatarUrl: "${EndPoint.baseUrl}/${userInMemory()?.image?.path}",
+                ),
+              if (auth())
+                MenuActionItem(
+                  icon: MdiIcons.food,
+                  label: 'Edit Food Preferences',
+                  onTap: () {
+                    Future.delayed(100.ms, () {
+                      Navigator.of(context).pushNamed(AppRoutesNames.categorySelectionScreen);
+                    });
+                  },
+                ),
               const Divider(height: 8, thickness: 0.7),
-              MenuActionItem(
-                icon: Icons.notifications,
-                label: 'Notifications',
-                danger: false,
-                onTap: () {
-                  Navigator.of(context).pushNamed(AppRoutesNames.notificationScreen);
-                },
-              ),
+              if (auth())
+                MenuActionItem(
+                  icon: Icons.notifications,
+                  label: 'Notifications',
+                  danger: false,
+                  onTap: () {
+                    Navigator.of(context).pushNamed(AppRoutesNames.notificationScreen);
+                  },
+                ),
               const Divider(height: 8, thickness: 0.7),
-              MenuActionItem(
-                icon: Icons.person_rounded,
-                label: 'View Profile',
-                onTap: () {
-                  String? type = userInMemory()?.userType?.type;
-                  if (type == 'restaurant') {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder:
-                            (_) => RestaurantDetailProvider(
-                              restaurantId: userInMemory()?.restaurant?.id ?? 1,
-                              enableEdit: false,
-                              enableCompleteProfile: true,
-                            ),
-                      ),
-                    );
-                  } else if (type == 'store' || type == 'farm') {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder:
-                            (_) => StoreDetailsScreen(
-                              publicPage: false,
-                              enableEdit: false,
-                              enableCompleteProfile: true,
-                            ),
-                      ),
-                    );
-                  } else if (type == 'user') {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder:
-                            (_) =>
-                                UserDetailsScreen(enableEdit: false, enableCompleteProfile: true),
-                      ),
-                    );
-                  } else {
-                    showSnackbar(
-                      'Sorry',
-                      'the profile feature is not implemented for $type yet',
-                      true,
-                    );
-                  }
-                },
-              ),
-              MenuActionItem(
-                icon: MdiIcons.pen,
-                label: 'Edit Profile',
-                onTap: () {
-                  String? type = userInMemory()?.userType?.type;
-                  if (type == 'restaurant') {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder:
-                            (_) => RestaurantDetailProvider(
-                              restaurantId: userInMemory()?.restaurant?.id ?? 1,
-                              enableEdit: true,
-                              enableCompleteProfile: true,
-                            ),
-                      ),
-                    );
-                  } else if (type == 'farm' || type == 'store') {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder:
-                            (_) => StoreDetailsScreen(
-                              publicPage: false,
-                              enableEdit: true,
-                              enableCompleteProfile: true,
-                            ),
-                      ),
-                    );
-                  } else if (type == 'user') {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder:
-                            (_) => UserDetailsScreen(enableEdit: true, enableCompleteProfile: true),
-                      ),
-                    );
-                  } else {
-                    showSnackbar(
-                      'Sorry',
-                      'the profile feature is not implemented for $type yet',
-                      true,
-                    );
-                  }
-                },
-              ),
+              if (auth())
+                MenuActionItem(
+                  icon: Icons.person_rounded,
+                  label: 'View Profile',
+                  onTap: () {
+                    String? type = userInMemory()?.userType?.type;
+                    if (type == 'restaurant') {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder:
+                              (_) => RestaurantDetailProvider(
+                                restaurantId: userInMemory()?.restaurant?.id ?? 1,
+                                enableEdit: false,
+                                enableCompleteProfile: true,
+                              ),
+                        ),
+                      );
+                    } else if (type == 'store' || type == 'farm') {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder:
+                              (_) => StoreDetailsScreen(
+                                publicPage: false,
+                                enableEdit: false,
+                                enableCompleteProfile: true,
+                              ),
+                        ),
+                      );
+                    } else if (type == 'user') {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder:
+                              (_) =>
+                                  UserDetailsScreen(enableEdit: false, enableCompleteProfile: true),
+                        ),
+                      );
+                    } else {
+                      showSnackbar(
+                        'Sorry',
+                        'the profile feature is not implemented for $type yet',
+                        true,
+                      );
+                    }
+                  },
+                ),
+              if (auth())
+                MenuActionItem(
+                  icon: MdiIcons.pen,
+                  label: 'Edit Profile',
+                  onTap: () {
+                    String? type = userInMemory()?.userType?.type;
+                    if (type == 'restaurant') {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder:
+                              (_) => RestaurantDetailProvider(
+                                restaurantId: userInMemory()?.restaurant?.id ?? 1,
+                                enableEdit: true,
+                                enableCompleteProfile: true,
+                              ),
+                        ),
+                      );
+                    } else if (type == 'farm' || type == 'store') {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder:
+                              (_) => StoreDetailsScreen(
+                                publicPage: false,
+                                enableEdit: true,
+                                enableCompleteProfile: true,
+                              ),
+                        ),
+                      );
+                    } else if (type == 'user') {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder:
+                              (_) =>
+                                  UserDetailsScreen(enableEdit: true, enableCompleteProfile: true),
+                        ),
+                      );
+                    } else {
+                      showSnackbar(
+                        'Sorry',
+                        'the profile feature is not implemented for $type yet',
+                        true,
+                      );
+                    }
+                  },
+                ),
 
               const Divider(height: 8, thickness: 0.7),
               MenuActionItem(
@@ -200,14 +207,15 @@ class _TopBarState extends State<TopBar> {
                 },
               ),
               const Divider(height: 8, thickness: 0.7),
-              MenuActionItem(
-                icon: Icons.logout_rounded,
-                label: 'Sign Out',
-                danger: true,
-                onTap: () {
-                  signout();
-                },
-              ),
+              if (auth())
+                MenuActionItem(
+                  icon: Icons.logout_rounded,
+                  label: 'Sign Out',
+                  danger: true,
+                  onTap: () {
+                    signout();
+                  },
+                ),
             ],
           ),
         ],

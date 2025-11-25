@@ -9,3 +9,11 @@ UserModel? userInMemory() {
 int? userId() {
   return userInMemory()?.id;
 }
+
+bool auth() {
+  return serviceLocator<LocalStorage>().isSignedIn;
+}
+
+bool guest() {
+  return !serviceLocator<LocalStorage>().isSignedIn;
+}
