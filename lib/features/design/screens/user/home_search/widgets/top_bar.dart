@@ -260,7 +260,7 @@ class _TopBarState extends State<TopBar> {
                 serviceLocator<LocalStorage>().logout();
                 Navigator.of(
                   context,
-                ).pushNamedAndRemoveUntil(AppRoutesNames.loginScreen, (_) => false);
+                ).pushNamedAndRemoveUntil(AppRoutesNames.homeSearchScreen, (_) => false);
               },
               child: Text('👋 Yes, Logout!', style: TextStyle(color: Colors.white)),
             ),
