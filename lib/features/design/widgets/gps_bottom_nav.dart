@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:gps_app/core/helpers/user.dart';
 import 'package:gps_app/core/router/app_routes_names.dart';
-import 'package:gps_app/core/widgets/show_auth_request_dailog.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
@@ -49,7 +48,11 @@ class GPSBottomNav extends StatelessWidget {
                       context,
                     ).pushNamedAndRemoveUntil(AppRoutesNames.favoritesScreen, (_) => false);
                   } else {
-                    showAuthRequiredDialog();
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                      AppRoutesNames.authRequiredScreen,
+                      (_) => false,
+                      arguments: {"currentTab": 1},
+                    );
                   }
                 }
                 if (i == 2) {
@@ -58,9 +61,17 @@ class GPSBottomNav extends StatelessWidget {
                   ).pushNamedAndRemoveUntil(AppRoutesNames.scanImageScreen, (_) => false);
                 }
                 if (i == 3) {
-                  Navigator.of(
-                    context,
-                  ).pushNamedAndRemoveUntil(AppRoutesNames.wishList, (_) => false);
+                  if (auth()) {
+                    Navigator.of(
+                      context,
+                    ).pushNamedAndRemoveUntil(AppRoutesNames.wishList, (_) => false);
+                  } else {
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                      AppRoutesNames.authRequiredScreen,
+                      (_) => false,
+                      arguments: {"currentTab": 3},
+                    );
+                  }
                 }
                 if (i == 4) {
                   Navigator.of(

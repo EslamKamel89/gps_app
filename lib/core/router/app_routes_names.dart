@@ -25,6 +25,7 @@ class AppRoutesNames {
   static const String wishList = '/wishList';
   static const String wishListCreate = '/wishListCreate';
   static const String accountBlockedScreen = '/accountBlockedScreen';
+  static const String authRequiredScreen = '/authRequiredScreen';
   static const String otpScreen = '/otpScreen';
   static const String itemInfoScreen = '/itemInfoScreen';
   static const String blogListScreen = '/blogListScreen';

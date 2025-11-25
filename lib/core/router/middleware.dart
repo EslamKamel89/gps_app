@@ -46,11 +46,12 @@ class AppMiddleWare {
   }
 
   bool detectConflict(String? routeName) {
-    return (guestOnlyRoutes.contains(routeName) && !_storage.isGuest) ||
-        (signedInButNotVerifiedRoutes.contains(routeName) &&
-            !_storage.isSignedIn &&
-            _storage.isVerified) ||
-        (verifiedRoutes.contains(routeName) && !_storage.isSignedIn && !_storage.isVerified);
+    return false;
+    // return (guestOnlyRoutes.contains(routeName) && !_storage.isGuest) ||
+    //     (signedInButNotVerifiedRoutes.contains(routeName) &&
+    //         !_storage.isSignedIn &&
+    //         _storage.isVerified) ||
+    //     (verifiedRoutes.contains(routeName) && !_storage.isSignedIn && !_storage.isVerified);
   }
 
   String _handleEntryPoint() {

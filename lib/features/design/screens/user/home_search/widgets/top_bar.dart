@@ -79,13 +79,31 @@ class _TopBarState extends State<TopBar> {
             ),
             offset: Offset(-200, 0),
             children: [
-              if (auth())
+              if (guest()) ...[
+                MenuActionItem(
+                  icon: Icons.verified_user_sharp,
+                  label: 'Create Account',
+                  danger: false,
+                  onTap: () {
+                    Navigator.of(context).pushNamed(AppRoutesNames.registerScreen);
+                  },
+                ),
+                MenuActionItem(
+                  icon: Icons.person,
+                  label: 'Sign in',
+                  danger: false,
+                  onTap: () {
+                    Navigator.of(context).pushNamed(AppRoutesNames.loginScreen);
+                  },
+                ),
+                const Divider(height: 8, thickness: 0.7),
+              ],
+              if (auth()) ...[
                 UserProfileTile(
                   name: userInMemory()?.userName ?? '',
                   email: userInMemory()?.email ?? '',
                   avatarUrl: "${EndPoint.baseUrl}/${userInMemory()?.image?.path}",
                 ),
-              if (auth())
                 MenuActionItem(
                   icon: MdiIcons.food,
                   label: 'Edit Food Preferences',
@@ -95,8 +113,7 @@ class _TopBarState extends State<TopBar> {
                     });
                   },
                 ),
-              const Divider(height: 8, thickness: 0.7),
-              if (auth())
+                const Divider(height: 8, thickness: 0.7),
                 MenuActionItem(
                   icon: Icons.notifications,
                   label: 'Notifications',
@@ -105,8 +122,7 @@ class _TopBarState extends State<TopBar> {
                     Navigator.of(context).pushNamed(AppRoutesNames.notificationScreen);
                   },
                 ),
-              const Divider(height: 8, thickness: 0.7),
-              if (auth())
+                const Divider(height: 8, thickness: 0.7),
                 MenuActionItem(
                   icon: Icons.person_rounded,
                   label: 'View Profile',
@@ -151,7 +167,6 @@ class _TopBarState extends State<TopBar> {
                     }
                   },
                 ),
-              if (auth())
                 MenuActionItem(
                   icon: MdiIcons.pen,
                   label: 'Edit Profile',
@@ -197,7 +212,9 @@ class _TopBarState extends State<TopBar> {
                   },
                 ),
 
-              const Divider(height: 8, thickness: 0.7),
+                const Divider(height: 8, thickness: 0.7),
+              ],
+
               MenuActionItem(
                 icon: Icons.info,
                 label: 'About GPS',
@@ -206,8 +223,8 @@ class _TopBarState extends State<TopBar> {
                   Navigator.of(context).pushNamed(AppRoutesNames.aboutScreen);
                 },
               ),
-              const Divider(height: 8, thickness: 0.7),
-              if (auth())
+              if (auth()) ...[
+                const Divider(height: 8, thickness: 0.7),
                 MenuActionItem(
                   icon: Icons.logout_rounded,
                   label: 'Sign Out',
@@ -216,6 +233,7 @@ class _TopBarState extends State<TopBar> {
                     signout();
                   },
                 ),
+              ],
             ],
           ),
         ],
