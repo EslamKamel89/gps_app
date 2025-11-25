@@ -39,10 +39,7 @@ class AppMiddleWare {
     }
     if (detectConflict(routeName)) {
       final newRoute = _handleEntryPoint();
-      pr(
-        'conflict detected, original route : $routeName , newRoute: $newRoute',
-        'AppMiddleware',
-      );
+      pr('conflict detected, original route : $routeName , newRoute: $newRoute', 'AppMiddleware');
       return newRoute;
     }
     return routeName;
@@ -53,22 +50,21 @@ class AppMiddleWare {
         (signedInButNotVerifiedRoutes.contains(routeName) &&
             !_storage.isSignedIn &&
             _storage.isVerified) ||
-        (verifiedRoutes.contains(routeName) &&
-            !_storage.isSignedIn &&
-            !_storage.isVerified);
+        (verifiedRoutes.contains(routeName) && !_storage.isSignedIn && !_storage.isVerified);
   }
 
   String _handleEntryPoint() {
     if (_storage.isBlocked) {
       return AppRoutesNames.accountBlockedScreen;
     }
-    if (_storage.isGuest) {
-      return AppRoutesNames.loginScreen;
-    }
-    if (!_storage.isVerified) {
-      // return AppRoutesNames.loginScreen;
-      // return AppRoutesNames.otpScreen;
-    }
+    return AppRoutesNames.homeSearchScreen;
+    // if (_storage.isGuest) {
+    //   return AppRoutesNames.loginScreen;
+    // }
+    // if (!_storage.isVerified) {
+    // return AppRoutesNames.loginScreen;
+    // return AppRoutesNames.otpScreen;
+    // }
     // handle not complete profile logic
     // if (_storage.isFarm && !_storage.isFarmProfileComplete) {
     //   showSnackbar(
@@ -96,18 +92,6 @@ class AppMiddleWare {
     // }
 
     // todo: later each type of user will have his own screen
-    if (_storage.isUser) {
-      return AppRoutesNames.homeSearchScreen;
-    }
-    if (_storage.isFarm) {
-      return AppRoutesNames.homeSearchScreen;
-    }
-    if (_storage.isStore) {
-      return AppRoutesNames.homeSearchScreen;
-    }
-    if (_storage.isRestaurant) {
-      return AppRoutesNames.homeSearchScreen;
-    }
-    return AppRoutesNames.loginScreen;
+    //
   }
 }

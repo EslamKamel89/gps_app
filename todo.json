@@ -1,12 +1,5 @@
 {
   "Done todos": [
-    [
-      "homeSearchScreen",
-      "wishList",
-      "accountBlockedScreen",
-      "itemInfoScreen",
-      "blogListScreen"
-    ],
     "fix the home screen appbar",
     "don't show the categories selection screen after login",
     "add navigation to the itemInfoScreen from the profile screen",
@@ -17,9 +10,7 @@
     "handle the verified state in the categories in the restaurant details",
     "holidays are not handled in the ui of the profile page",
     "+++++++++++++++++++++++++++++++++++++++++++++++++",
-    [
-      "favoritesScreen"
-    ],
+    "remove the access to the notification page",
     "------------------------------------------------"
   ]
 }

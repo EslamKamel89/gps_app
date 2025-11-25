@@ -16,12 +16,10 @@ class SubCategorySelectionScreen extends StatefulWidget {
   const SubCategorySelectionScreen({super.key});
 
   @override
-  State<SubCategorySelectionScreen> createState() =>
-      _SubCategorySelectionScreenState();
+  State<SubCategorySelectionScreen> createState() => _SubCategorySelectionScreenState();
 }
 
-class _SubCategorySelectionScreenState
-    extends State<SubCategorySelectionScreen> {
+class _SubCategorySelectionScreenState extends State<SubCategorySelectionScreen> {
   late PreferencesCubit cubit;
   @override
   void initState() {
@@ -29,12 +27,18 @@ class _SubCategorySelectionScreenState
     super.initState();
   }
 
+  String search = '';
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<PreferencesCubit, PreferencesState>(
       builder: (context, state) {
         final selectedCategories = state.selectedCategories;
-        final subCategories = _mergeSubCategory(selectedCategories);
+        final subCategories =
+            _mergeSubCategory(selectedCategories)
+                .where(
+                  (c) => c.name?.toLowerCase().trim().contains(search.toLowerCase().trim()) == true,
+                )
+                .toList();
         return Scaffold(
           backgroundColor: GPSColors.background,
           body: SafeArea(
@@ -45,11 +49,8 @@ class _SubCategorySelectionScreenState
                 children: [
                   GPSGaps.h24,
                   const GpsHeader(
-                        title: 'Which sub-categories are you interested in?',
-                      )
-                      .animate()
-                      .fadeIn(duration: 300.ms)
-                      .slideY(begin: .2, curve: Curves.easeOutQuad),
+                    title: 'Which sub-categories are you interested in?',
+                  ).animate().fadeIn(duration: 300.ms).slideY(begin: .2, curve: Curves.easeOutQuad),
                   GPSGaps.h24,
 
                   Builder(
@@ -92,48 +93,45 @@ class _SubCategorySelectionScreenState
                               //   },
                               // ),
                               // GPSGaps.h12,
-                              SelectedSubcategoriesInfo(
-                                count: state.selectedSubCategories.length,
+                              TextFormField(
+                                onChanged: (v) {
+                                  setState(() {
+                                    search = v;
+                                  });
+                                },
+                                decoration: InputDecoration(hintText: 'Search...'),
                               ),
                               GPSGaps.h12,
+                              SelectedSubcategoriesInfo(count: state.selectedSubCategories.length),
+                              GPSGaps.h12,
+
                               Builder(
                                 builder: (context) {
                                   if (subCategories.isEmpty) {
-                                    return Text(
-                                      'There are no subcategories found',
-                                    );
+                                    return Text('There are no subcategories found');
                                   }
                                   return Wrap(
                                     runSpacing: 10,
                                     spacing: 5,
                                     children: List.generate(
-                                      pr(
-                                        subCategories,
-                                        'sub categories',
-                                      ).length,
+                                      pr(subCategories, 'sub categories').length,
                                       (index) {
                                         final subCat = subCategories[index];
                                         final selected =
                                             state.selectedSubCategories
-                                                .where(
-                                                  (cat) => cat.id == subCat.id,
-                                                )
+                                                .where((cat) => cat.id == subCat.id)
                                                 .isNotEmpty;
                                         return InkWell(
                                               onTap: () {
-                                                cubit.toggleSelectedSubCategory(
-                                                  subCat,
-                                                );
+                                                cubit.toggleSelectedSubCategory(subCat);
                                               },
                                               child: Container(
                                                 decoration: BoxDecoration(
                                                   color:
                                                       selected
                                                           ? GPSColors.primary
-                                                          : GPSColors.primary
-                                                              .withOpacity(0.2),
-                                                  borderRadius:
-                                                      BorderRadius.circular(5),
+                                                          : GPSColors.primary.withOpacity(0.2),
+                                                  borderRadius: BorderRadius.circular(5),
                                                 ),
                                                 // margin: EdgeInsets.all(5),
                                                 padding: EdgeInsets.only(
@@ -143,23 +141,17 @@ class _SubCategorySelectionScreenState
                                                   left: 5,
                                                 ),
                                                 child: Row(
-                                                  mainAxisSize:
-                                                      MainAxisSize.min,
+                                                  mainAxisSize: MainAxisSize.min,
                                                   children: [
                                                     Icon(
                                                       Icons.add,
-                                                      color:
-                                                          selected
-                                                              ? Colors.white
-                                                              : Colors.black,
+                                                      color: selected ? Colors.white : Colors.black,
                                                     ),
                                                     Text(
                                                       subCat.name ?? '',
                                                       style: TextStyle(
                                                         color:
-                                                            selected
-                                                                ? Colors.white
-                                                                : Colors.black,
+                                                            selected ? Colors.white : Colors.black,
                                                         fontSize: 20,
                                                       ),
                                                     ),
@@ -190,14 +182,10 @@ class _SubCategorySelectionScreenState
 
                   Footer(
                     onSkip:
-                        () => Navigator.of(
-                          context,
-                        ).pushNamed(AppRoutesNames.dietSelectionScreen),
+                        () => Navigator.of(context).pushNamed(AppRoutesNames.dietSelectionScreen),
                     onNext: () {
                       cubit.submitSubCategories();
-                      Navigator.of(
-                        context,
-                      ).pushNamed(AppRoutesNames.dietSelectionScreen);
+                      Navigator.of(context).pushNamed(AppRoutesNames.dietSelectionScreen);
                     },
                   ),
                 ],
