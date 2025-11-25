@@ -9,6 +9,7 @@ import 'package:gps_app/features/about/controller/about_controller.dart';
 import 'package:gps_app/features/auth/controllers/auth_controller.dart';
 import 'package:gps_app/features/blogs/controllers/blog_controller.dart';
 import 'package:gps_app/features/favorites/controller/favorites_controller.dart';
+import 'package:gps_app/features/image_scan/controllers/image_scan_controller.dart';
 import 'package:gps_app/features/item_info/controllers/item_info_controller.dart';
 import 'package:gps_app/features/notifications/controller/notification_controller.dart';
 import 'package:gps_app/features/search/controllers/suggestions_controller.dart';
@@ -22,11 +23,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 final GetIt serviceLocator = GetIt.instance;
 
 Future initServiceLocator() async {
+  serviceLocator.registerLazySingleton<Dio>(() => Dio());
   serviceLocator.registerLazySingleton<ApiConsumer>(() => DioConsumer(dio: serviceLocator()));
+  // serviceLocator.registerLazySingleton<DioConsumer>(() => dioConsumer);
   final prefs = await SharedPreferences.getInstance();
   serviceLocator.registerLazySingleton<LocalStorage>(() => LocalStorage(prefs));
   serviceLocator.registerLazySingleton<ImagePicker>(() => ImagePicker());
-  serviceLocator.registerLazySingleton<Dio>(() => Dio());
   serviceLocator.registerLazySingleton<SharedPreferences>(() => prefs);
   serviceLocator.registerLazySingleton<AppMiddleWare>(
     () => AppMiddleWare(sharedPreferences: serviceLocator()),
@@ -44,6 +46,7 @@ Future initServiceLocator() async {
   serviceLocator.registerLazySingleton<SuggestionsController>(() => SuggestionsController());
   serviceLocator.registerLazySingleton<AboutController>(() => AboutController());
   serviceLocator.registerLazySingleton<NotificationController>(() => NotificationController());
+  serviceLocator.registerLazySingleton<ImageScanController>(() => ImageScanController());
 
   // serviceLocator.registerLazySingleton<HomeRepo>(() => HomeRepoImp(homeRemoteDataSource: serviceLocator()));
 }

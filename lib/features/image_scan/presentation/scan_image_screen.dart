@@ -35,7 +35,6 @@ class _ScanImageScreenState extends State<ScanImageScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              // Header
               Text(
                 'Point. Snap. Learn.',
                 style: t.headlineSmall?.copyWith(fontWeight: FontWeight.w800),
