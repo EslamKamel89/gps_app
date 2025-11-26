@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:gps_app/core/api_service/end_points.dart';
 import 'package:gps_app/core/enums/response_type.dart';
 import 'package:gps_app/core/extensions/context-extensions.dart';
 import 'package:gps_app/core/service_locator/service_locator.dart';
@@ -75,10 +74,29 @@ class _HeroCardState extends State<HeroCard> {
                   color: GPSColors.cardSelected,
                 ).animate(onPlay: (c) => c.repeat(period: 3.seconds)).shimmer(duration: 1200.ms),
                 const SizedBox(height: 16),
-                Text(
-                  'Scan a product photo',
-                  textAlign: TextAlign.center,
-                  style: t.titleLarge?.copyWith(fontWeight: FontWeight.w800, color: Colors.white),
+                InkWell(
+                  onTap: () async {
+                    // if (images.isEmpty) return;
+                    setState(() {
+                      loading = true;
+                      // path = "${EndPoint.baseUrl}/${images[0].path}";
+                      path =
+                          "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?q=80&w=387&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
+                      // "https://plus.unsplash.com/premium_photo-1675252369719-dd52bc69c3df?q=80&w=387&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
+                    });
+                    final res = await serviceLocator<ImageScanController>().scan(imageUrl: path!);
+                    if (res.response == ResponseEnum.success && res.data?.isNotEmpty == true) {
+                      showResult(res.data ?? '');
+                    }
+                    setState(() {
+                      loading = false;
+                    });
+                  },
+                  child: Text(
+                    'Scan a product photo',
+                    textAlign: TextAlign.center,
+                    style: t.titleLarge?.copyWith(fontWeight: FontWeight.w800, color: Colors.white),
+                  ),
                 ),
                 const SizedBox(height: 18, width: double.infinity),
                 ImageUploadField(
@@ -90,9 +108,9 @@ class _HeroCardState extends State<HeroCard> {
                     if (images.isEmpty) return;
                     setState(() {
                       loading = true;
-                      path = "${EndPoint.baseUrl}/${images[0].path}";
-                      // path =
-                      // "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?q=80&w=387&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
+                      // path = "${EndPoint.baseUrl}/${images[0].path}";
+                      path =
+                          "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?q=80&w=387&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
                       // "https://plus.unsplash.com/premium_photo-1675252369719-dd52bc69c3df?q=80&w=387&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
                     });
                     final res = await serviceLocator<ImageScanController>().scan(imageUrl: path!);

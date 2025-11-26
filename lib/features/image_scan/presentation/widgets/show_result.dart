@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:gps_app/core/globals.dart';
+import 'package:gps_app/core/helpers/clean_reply.dart';
+import 'package:gps_app/core/helpers/print_helper.dart';
 
 void showResult(String content) {
   final context = navigatorKey.currentContext;
@@ -49,7 +52,16 @@ void showResult(String content) {
                   child: SingleChildScrollView(
                     controller: controller,
                     padding: const EdgeInsets.only(bottom: 16),
-                    child: Text(content, style: const TextStyle(fontSize: 15, height: 1.35)),
+                    child: Html(
+                      data: pr(cleanReply(content), 'clean reply'),
+                      // textAlign: TextAlign.right,
+                      style: {
+                        'h1': Style(fontSize: FontSize(30)),
+                        'h2': Style(fontSize: FontSize(28)),
+                        'p': Style(fontSize: FontSize(16)),
+                        '*': Style(textAlign: TextAlign.left),
+                      },
+                    ),
                   ),
                 ),
 
