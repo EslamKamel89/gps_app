@@ -8,6 +8,7 @@ import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 import 'package:gps_app/features/report/cubits/add_report_cubit.dart';
 import 'package:gps_app/features/report/models/report_param.dart';
+import 'package:gps_app/features/report/presentation/report_modal.dart';
 
 Future<Map<String, String>?> openReportBottomSheet(
   BuildContext context, {
@@ -242,6 +243,9 @@ class _ReportBottomSheetContentState extends State<ReportBottomSheetContent> {
                       listener: (context, state) {
                         if (state.response == ResponseEnum.success) {
                           Navigator.of(context).pop();
+                          Future.delayed(500.ms, () {
+                            showReportAcknowledgementModal();
+                          });
                         }
                       },
                       builder: (context, state) {
