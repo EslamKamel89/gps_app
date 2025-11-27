@@ -23,7 +23,7 @@ class ReportParam {
   Map<String, dynamic> toJson() => {
     'type_id': typeId,
     'type': type,
-    'description': description,
+    'description': option == 'Other' ? description : null,
     'option': option,
     "user_id": userInMemory()?.id,
   };

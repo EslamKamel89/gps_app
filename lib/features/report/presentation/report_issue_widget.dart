@@ -7,8 +7,9 @@ import 'package:gps_app/features/design/utils/gps_gaps.dart';
 import 'package:gps_app/features/report/presentation/report_bottom_sheet.dart';
 
 class ReportIssueWidget extends StatefulWidget {
-  const ReportIssueWidget({super.key});
-
+  const ReportIssueWidget({super.key, required this.typeId, required this.type});
+  final int typeId;
+  final String type;
   @override
   State<ReportIssueWidget> createState() => _ReportIssueWidgetState();
 }
@@ -50,7 +51,7 @@ class _ReportIssueWidgetState extends State<ReportIssueWidget> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        openReportBottomSheet(context);
+        openReportBottomSheet(context, typeId: widget.typeId, type: widget.type);
       },
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
