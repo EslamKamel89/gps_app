@@ -15,36 +15,45 @@ void onNotificationClick(NotificationModel model) {
   // return;
   if (context == null) return;
   if (_clean(model.path) == _clean(AppRoutesNames.wishList)) {
-    Navigator.of(
-      context,
-    ).push(MaterialPageRoute(builder: (_) => WishListScreen(scrollTo: model.pathId)));
+    Navigator.of(context).push(
+      MaterialPageRoute(builder: (_) => WishListScreen(scrollTo: model.pathId)),
+    );
     return;
   }
   if (_clean(model.path) == _clean(AppRoutesNames.favoritesScreen)) {
-    Navigator.of(
-      context,
-    ).push(MaterialPageRoute(builder: (_) => FavoritesScreen(scrollTo: model.pathId)));
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => FavoritesScreen(scrollTo: model.pathId),
+      ),
+    );
     return;
   }
   if (_clean(model.path) == _clean(AppRoutesNames.blogListScreen)) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (_) => BlogListScreen(scrollTo: 4)));
+    Navigator.of(
+      context,
+    ).push(MaterialPageRoute(builder: (_) => BlogListScreen(scrollTo: 4)));
     return;
   }
 
   if (_clean(model.path) == _clean(AppRoutesNames.accountBlockedScreen)) {
-    Navigator.of(
-      context,
-    ).pushAndRemoveUntil(MaterialPageRoute(builder: (_) => AccountBlockedScreen()), (_) => false);
+    Navigator.of(context).pushAndRemoveUntil(
+      MaterialPageRoute(builder: (_) => AccountBlockedScreen()),
+      (_) => false,
+    );
     return;
   }
   if (_clean(model.path) == _clean(AppRoutesNames.itemInfoScreen)) {
     if (model.content?.toLowerCase().contains('catalog item') == true) {
       Navigator.of(context).push(
-        MaterialPageRoute(builder: (_) => ItemInfoScreen(itemId: model.id ?? -1, type: 'item')),
+        MaterialPageRoute(
+          builder: (_) => ItemInfoScreen(itemId: model.id ?? -1, type: 'item'),
+        ),
       );
     } else {
       Navigator.of(context).push(
-        MaterialPageRoute(builder: (_) => ItemInfoScreen(itemId: model.id ?? -1, type: 'meal')),
+        MaterialPageRoute(
+          builder: (_) => ItemInfoScreen(itemId: model.id ?? -1, type: 'meal'),
+        ),
       );
     }
     return;

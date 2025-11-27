@@ -19,7 +19,8 @@ Future<Map<String, String>?> openReportBottomSheet(BuildContext context) {
 
 class _ReportBottomSheetContent extends StatefulWidget {
   @override
-  State<_ReportBottomSheetContent> createState() => _ReportBottomSheetContentState();
+  State<_ReportBottomSheetContent> createState() =>
+      _ReportBottomSheetContentState();
 }
 
 class _ReportBottomSheetContentState extends State<_ReportBottomSheetContent> {
@@ -93,7 +94,11 @@ class _ReportBottomSheetContentState extends State<_ReportBottomSheetContent> {
                     color: GPSColors.warning.withOpacity(0.12),
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: Icon(Icons.report_problem, color: GPSColors.warning, size: 20),
+                  child: Icon(
+                    Icons.report_problem,
+                    color: GPSColors.warning,
+                    size: 20,
+                  ),
                 ),
                 GPSGaps.w12,
                 Expanded(
@@ -102,12 +107,18 @@ class _ReportBottomSheetContentState extends State<_ReportBottomSheetContent> {
                     children: const [
                       Text(
                         'Report content',
-                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
                       SizedBox(height: 4),
                       Text(
                         'Select a reason so our moderators can review the content',
-                        style: TextStyle(fontSize: 13, color: Color(0xFF6B6B6B)),
+                        style: TextStyle(
+                          fontSize: 13,
+                          color: Color(0xFF6B6B6B),
+                        ),
                       ),
                     ],
                   ),
@@ -118,7 +129,9 @@ class _ReportBottomSheetContentState extends State<_ReportBottomSheetContent> {
             GPSGaps.h16,
 
             ConstrainedBox(
-              constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.45),
+              constraints: BoxConstraints(
+                maxHeight: MediaQuery.of(context).size.height * 0.45,
+              ),
               child: SingleChildScrollView(
                 child: Column(
                   children:
@@ -155,7 +168,10 @@ class _ReportBottomSheetContentState extends State<_ReportBottomSheetContent> {
                   children: [
                     const Text(
                       'Please describe',
-                      style: TextStyle(fontWeight: FontWeight.w600, fontSize: 13),
+                      style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 13,
+                      ),
                     ),
                     GPSGaps.h8,
                     TextField(
@@ -172,7 +188,10 @@ class _ReportBottomSheetContentState extends State<_ReportBottomSheetContent> {
                           borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide(color: GPSColors.cardBorder),
                         ),
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 10,
+                        ),
                       ),
                     ),
                   ],
@@ -211,7 +230,9 @@ class _ReportBottomSheetContentState extends State<_ReportBottomSheetContent> {
                               final result = {
                                 'reason': _selected!,
                                 'description':
-                                    (_selected == 'Other') ? (_otherController.text.trim()) : '',
+                                    (_selected == 'Other')
+                                        ? (_otherController.text.trim())
+                                        : '',
                               };
                               Navigator.of(context).pop(result);
                             },
@@ -257,7 +278,10 @@ class _ReportOptionTile extends StatelessWidget {
           color: selected ? GPSColors.cardSelected : Colors.grey.shade100,
           borderRadius: BorderRadius.circular(8),
           border: Border.all(
-            color: selected ? GPSColors.primary.withOpacity(0.2) : Colors.transparent,
+            color:
+                selected
+                    ? GPSColors.primary.withOpacity(0.2)
+                    : Colors.transparent,
           ),
         ),
         child: Icon(
@@ -296,7 +320,10 @@ class DemoApp extends StatelessWidget {
     return MaterialApp(
       title: 'Report BottomSheet Demo',
       home: Scaffold(
-        appBar: AppBar(title: const Text('Reporting demo'), backgroundColor: GPSColors.primary),
+        appBar: AppBar(
+          title: const Text('Reporting demo'),
+          backgroundColor: GPSColors.primary,
+        ),
         body: Center(
           child: ElevatedButton(
             onPressed: () async {
@@ -308,7 +335,11 @@ class DemoApp extends StatelessWidget {
                 final desc = (res['description'] ?? '').trim();
 
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Reported: $reason${desc.isNotEmpty ? " — $desc" : ""}')),
+                  SnackBar(
+                    content: Text(
+                      'Reported: $reason${desc.isNotEmpty ? " — $desc" : ""}',
+                    ),
+                  ),
                 );
               }
             },

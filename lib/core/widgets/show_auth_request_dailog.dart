@@ -22,9 +22,16 @@ Future<void> showAuthRequiredDialog() async {
             mainAxisSize: MainAxisSize.min,
             children: [
               Container(
-                decoration: BoxDecoration(color: GPSColors.cardSelected, shape: BoxShape.circle),
+                decoration: BoxDecoration(
+                  color: GPSColors.cardSelected,
+                  shape: BoxShape.circle,
+                ),
                 padding: const EdgeInsets.all(12),
-                child: Icon(Icons.lock_outline, size: 28, color: GPSColors.primary),
+                child: Icon(
+                  Icons.lock_outline,
+                  size: 28,
+                  color: GPSColors.primary,
+                ),
               ),
 
               GPSGaps.h16,
@@ -32,7 +39,11 @@ Future<void> showAuthRequiredDialog() async {
               Text(
                 'You’re almost there!',
                 textAlign: TextAlign.center,
-                style: TextStyle(color: GPSColors.text, fontSize: 18, fontWeight: FontWeight.w700),
+                style: TextStyle(
+                  color: GPSColors.text,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700,
+                ),
               ),
 
               GPSGaps.h8,
@@ -41,7 +52,11 @@ Future<void> showAuthRequiredDialog() async {
                 'Please sign in or create an account to continue. '
                 'It only takes a minute and keeps your progress safe.',
                 textAlign: TextAlign.center,
-                style: TextStyle(color: GPSColors.mutedText, fontSize: 14, height: 1.4),
+                style: TextStyle(
+                  color: GPSColors.mutedText,
+                  fontSize: 14,
+                  height: 1.4,
+                ),
               ),
 
               GPSGaps.h20,
@@ -52,16 +67,23 @@ Future<void> showAuthRequiredDialog() async {
                     child: OutlinedButton(
                       onPressed: () {
                         Navigator.of(ctx).pop();
-                        Navigator.of(ctx).pushNamed(AppRoutesNames.registerScreen);
+                        Navigator.of(
+                          ctx,
+                        ).pushNamed(AppRoutesNames.registerScreen);
                       },
                       style: OutlinedButton.styleFrom(
                         side: BorderSide(color: GPSColors.cardBorder),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
                         padding: const EdgeInsets.symmetric(vertical: 14),
                       ),
                       child: Text(
                         'Create Account',
-                        style: TextStyle(color: GPSColors.text, fontWeight: FontWeight.w600),
+                        style: TextStyle(
+                          color: GPSColors.text,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     ),
                   ),
@@ -77,11 +99,16 @@ Future<void> showAuthRequiredDialog() async {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: GPSColors.primary,
                         foregroundColor: Colors.white,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
                         padding: const EdgeInsets.symmetric(vertical: 14),
                         elevation: 2,
                       ),
-                      child: Text('Sign In', style: TextStyle(fontWeight: FontWeight.w700)),
+                      child: Text(
+                        'Sign In',
+                        style: TextStyle(fontWeight: FontWeight.w700),
+                      ),
                     ),
                   ),
                 ],

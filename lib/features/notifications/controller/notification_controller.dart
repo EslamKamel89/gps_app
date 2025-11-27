@@ -22,30 +22,50 @@ class NotificationController {
               // (dummyData['notifications'] as List)
               .map((json) => NotificationModel.fromJson(json))
               .toList();
-      return pr(ApiResponseModel(response: ResponseEnum.success, data: models), t);
+      return pr(
+        ApiResponseModel(response: ResponseEnum.success, data: models),
+        t,
+      );
     } catch (e) {
       String errorMessage = e.toString();
       if (e is DioException) {
         errorMessage = jsonEncode(e.response?.data ?? 'Unknown error occurred');
       }
       showSnackbar('Error', errorMessage, true);
-      return pr(ApiResponseModel(errorMessage: errorMessage, response: ResponseEnum.failed), t);
+      return pr(
+        ApiResponseModel(
+          errorMessage: errorMessage,
+          response: ResponseEnum.failed,
+        ),
+        t,
+      );
     }
   }
 
   Future<ApiResponseModel<bool>> markAsRead(int? notificationId) async {
     final t = prt('markAsRead - NotificationController');
     try {
-      final response = await _api.put("${EndPoint.notifications}/$notificationId");
+      final response = await _api.put(
+        "${EndPoint.notifications}/$notificationId",
+      );
       pr(response, '$t - response');
-      return pr(ApiResponseModel(response: ResponseEnum.success, data: true), t);
+      return pr(
+        ApiResponseModel(response: ResponseEnum.success, data: true),
+        t,
+      );
     } catch (e) {
       String errorMessage = e.toString();
       if (e is DioException) {
         errorMessage = jsonEncode(e.response?.data ?? 'Unknown error occurred');
       }
       showSnackbar('Error', errorMessage, true);
-      return pr(ApiResponseModel(errorMessage: errorMessage, response: ResponseEnum.failed), t);
+      return pr(
+        ApiResponseModel(
+          errorMessage: errorMessage,
+          response: ResponseEnum.failed,
+        ),
+        t,
+      );
     }
   }
 }

@@ -39,7 +39,11 @@ class _DietSelectionScreenState extends State<DietSelectionScreen> {
         final diets =
             state.diets.data
                 ?.where(
-                  (c) => c.name?.toLowerCase().trim().contains(search.toLowerCase().trim()) == true,
+                  (c) =>
+                      c.name?.toLowerCase().trim().contains(
+                        search.toLowerCase().trim(),
+                      ) ==
+                      true,
                 )
                 .toList() ??
             [];
@@ -53,9 +57,12 @@ class _DietSelectionScreenState extends State<DietSelectionScreen> {
                 children: [
                   GPSGaps.h24,
                   GpsHeader(
-                    title: 'Which of these diets do you follow?',
-                    // onBack: () => Navigator.of(context).maybePop(),
-                  ).animate().fadeIn(duration: 300.ms).slideY(begin: .2, curve: Curves.easeOutQuad),
+                        title: 'Which of these diets do you follow?',
+                        // onBack: () => Navigator.of(context).maybePop(),
+                      )
+                      .animate()
+                      .fadeIn(duration: 300.ms)
+                      .slideY(begin: .2, curve: Curves.easeOutQuad),
                   GPSGaps.h24,
                   TextFormField(
                     onChanged: (v) {
@@ -72,12 +79,13 @@ class _DietSelectionScreenState extends State<DietSelectionScreen> {
                         if (state.diets.response == ResponseEnum.loading) {
                           return GridView.builder(
                             padding: EdgeInsets.zero,
-                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              mainAxisSpacing: 14,
-                              crossAxisSpacing: 14,
-                              childAspectRatio: 1.05,
-                            ),
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
+                                  mainAxisSpacing: 14,
+                                  crossAxisSpacing: 14,
+                                  childAspectRatio: 1.05,
+                                ),
                             itemCount: 6,
                             itemBuilder: (context, index) {
                               return DietCardPlaceholder()
@@ -93,19 +101,22 @@ class _DietSelectionScreenState extends State<DietSelectionScreen> {
                         }
                         return GridView.builder(
                           padding: EdgeInsets.zero,
-                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            mainAxisSpacing: 14,
-                            crossAxisSpacing: 14,
-                            childAspectRatio: 1.05,
-                          ),
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                mainAxisSpacing: 14,
+                                crossAxisSpacing: 14,
+                                childAspectRatio: 1.05,
+                              ),
                           itemCount: diets.length,
                           itemBuilder: (context, index) {
                             final diet = diets[index];
                             final card = DietCard(
                               diet: diet,
                               selected:
-                                  state.selectedDiets.where((d) => d.id == diet.id).isNotEmpty,
+                                  state.selectedDiets
+                                      .where((d) => d.id == diet.id)
+                                      .isNotEmpty,
                               onTap: () {
                                 cubit.toggleSelectedDiet(diet);
                               },
@@ -115,7 +126,10 @@ class _DietSelectionScreenState extends State<DietSelectionScreen> {
                                 .animate(delay: (80 * index).ms)
                                 .fadeIn(duration: 300.ms)
                                 .slideY(begin: .15)
-                                .scale(begin: const Offset(0.98, 0.98), curve: Curves.easeOutBack);
+                                .scale(
+                                  begin: const Offset(0.98, 0.98),
+                                  curve: Curves.easeOutBack,
+                                );
                           },
                         );
                       },
@@ -127,11 +141,15 @@ class _DietSelectionScreenState extends State<DietSelectionScreen> {
                   // Footer actions
                   Footer(
                     onSkip: () {
-                      Navigator.of(context).pushNamed(AppRoutesNames.homeSearchScreen);
+                      Navigator.of(
+                        context,
+                      ).pushNamed(AppRoutesNames.homeSearchScreen);
                     },
                     onNext: () {
                       cubit.submitDiets();
-                      Navigator.of(context).pushNamed(AppRoutesNames.homeSearchScreen);
+                      Navigator.of(
+                        context,
+                      ).pushNamed(AppRoutesNames.homeSearchScreen);
                     },
                   ),
                 ],

@@ -4,7 +4,12 @@ class Blob extends StatelessWidget {
   final double size;
   final double opacity;
   final Color color;
-  const Blob({super.key, required this.size, required this.opacity, required this.color});
+  const Blob({
+    super.key,
+    required this.size,
+    required this.opacity,
+    required this.color,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +20,11 @@ class Blob extends StatelessWidget {
         color: color.withOpacity(opacity),
         borderRadius: BorderRadius.circular(size),
         boxShadow: [
-          BoxShadow(color: color.withOpacity(opacity * .6), blurRadius: 30, spreadRadius: 8),
+          BoxShadow(
+            color: color.withOpacity(opacity * .6),
+            blurRadius: 30,
+            spreadRadius: 8,
+          ),
         ],
       ),
     );

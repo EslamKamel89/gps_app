@@ -45,7 +45,10 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
   Future<void> _maybeScrollToIndex(int id, int itemCount) async {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       try {
-        await _autoScrollController.scrollToIndex(id, preferPosition: AutoScrollPosition.begin);
+        await _autoScrollController.scrollToIndex(
+          id,
+          preferPosition: AutoScrollPosition.begin,
+        );
         _autoScrollController.highlight(id);
       } catch (e) {
         pr(e, '_maybeScrollToIndex - FavoritesScreen');
@@ -71,7 +74,10 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
             centerTitle: true,
             title: Text(
               '💖 Favorites',
-              style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700),
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w700,
+              ),
             ),
           ),
           body: SingleChildScrollView(
@@ -91,7 +97,9 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                           index: fav.id ?? 1,
                           highlightColor: GPSColors.primary.withOpacity(0.3),
                           child: FavoriteCard(
-                                key: ValueKey('fav_${fav.id}-${fav.favoriteType}'),
+                                key: ValueKey(
+                                  'fav_${fav.id}-${fav.favoriteType}',
+                                ),
                                 favorite: fav,
                               )
                               .animate(delay: (50 * i).ms)

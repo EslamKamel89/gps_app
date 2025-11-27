@@ -18,7 +18,10 @@ class ItemInfoController {
     final response =
         acceptorId != null
             ? (await _api.get("${EndPoint.itemDetails}/$itemId/$acceptorId"))
-            : (await _api.post("${EndPoint.itemDetails}/$itemId", data: {"type": type}));
+            : (await _api.post(
+              "${EndPoint.itemDetails}/$itemId",
+              data: {"type": type},
+            ));
     pr(response, '$t - response');
     final ItemInfoEntity model = ItemInfoModel.fromJson(response).toEntity();
     return pr(ApiResponseModel(response: ResponseEnum.success, data: model), t);

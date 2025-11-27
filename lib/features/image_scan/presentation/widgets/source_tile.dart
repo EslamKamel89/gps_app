@@ -45,11 +45,16 @@ class SourceTile extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(label, style: t.titleMedium?.copyWith(fontWeight: FontWeight.w700)),
+                  Text(
+                    label,
+                    style: t.titleMedium?.copyWith(fontWeight: FontWeight.w700),
+                  ),
                   const SizedBox(height: 2),
                   Text(
                     subtitle,
-                    style: t.bodySmall?.copyWith(color: t.bodySmall?.color?.withOpacity(.75)),
+                    style: t.bodySmall?.copyWith(
+                      color: t.bodySmall?.color?.withOpacity(.75),
+                    ),
                   ),
                 ],
               ),

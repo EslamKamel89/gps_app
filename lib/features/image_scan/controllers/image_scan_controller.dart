@@ -60,7 +60,13 @@ class ImageScanController {
         errorMessage = jsonEncode(e.response?.data ?? 'Unknown error occurred');
       }
       showSnackbar('Error', errorMessage, true);
-      return pr(ApiResponseModel(errorMessage: errorMessage, response: ResponseEnum.failed), t);
+      return pr(
+        ApiResponseModel(
+          errorMessage: errorMessage,
+          response: ResponseEnum.failed,
+        ),
+        t,
+      );
     }
   }
 
@@ -109,7 +115,8 @@ your output must have the following structure
     final trimmed = s.trim();
     if (trimmed.isEmpty) return true;
     // markdown table pipe or many repeated numbers
-    if (trimmed.contains('|') && RegExp(r'\|\s*\d').hasMatch(trimmed)) return true;
+    if (trimmed.contains('|') && RegExp(r'\|\s*\d').hasMatch(trimmed))
+      return true;
     // CSV-like lines of numbers
     if (RegExp(r'^[-\d.,\s]{20,}$').hasMatch(trimmed)) return true;
     // many numbers separated by spaces (more than, say, 10 small numbers)
@@ -117,7 +124,8 @@ your output must have the following structure
     if (numbers > 20) return true;
     // repeating short fragment heuristic
     final prefix = trimmed.length >= 30 ? trimmed.substring(0, 30) : trimmed;
-    final occurrences = RegExp(RegExp.escape(prefix)).allMatches(trimmed).length;
+    final occurrences =
+        RegExp(RegExp.escape(prefix)).allMatches(trimmed).length;
     if (occurrences > 3) return true;
     return false;
   }

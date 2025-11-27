@@ -6,14 +6,17 @@ import 'package:gps_app/core/service_locator/service_locator.dart';
 import 'package:gps_app/features/notifications/controller/notification_controller.dart';
 import 'package:gps_app/features/notifications/models/notification_model.dart';
 
-class NotificationCubit extends Cubit<ApiResponseModel<List<NotificationModel>>> {
+class NotificationCubit
+    extends Cubit<ApiResponseModel<List<NotificationModel>>> {
   NotificationCubit() : super(ApiResponseModel());
-  final NotificationController controller = serviceLocator<NotificationController>();
+  final NotificationController controller =
+      serviceLocator<NotificationController>();
   List<NotificationModel> filtered = [];
   Future notifications() async {
     final t = prt('notifications - NotificationCubit');
     emit(state.copyWith(errorMessage: null, response: ResponseEnum.loading));
-    final ApiResponseModel<List<NotificationModel>> response = await controller.notifications();
+    final ApiResponseModel<List<NotificationModel>> response =
+        await controller.notifications();
     filtered = response.data ?? [];
     pr(response, t);
     emit(response);

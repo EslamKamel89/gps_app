@@ -12,6 +12,7 @@ import 'package:gps_app/features/favorites/controller/favorites_controller.dart'
 import 'package:gps_app/features/image_scan/controllers/image_scan_controller.dart';
 import 'package:gps_app/features/item_info/controllers/item_info_controller.dart';
 import 'package:gps_app/features/notifications/controller/notification_controller.dart';
+import 'package:gps_app/features/report/controller/report_controller.dart';
 import 'package:gps_app/features/search/controllers/suggestions_controller.dart';
 import 'package:gps_app/features/user/preferences/controllers/preferences_controller.dart';
 import 'package:gps_app/features/user/restaurant_details/controllers/restaurants_controller.dart';
@@ -47,6 +48,7 @@ Future initServiceLocator() async {
   serviceLocator.registerLazySingleton<AboutController>(() => AboutController());
   serviceLocator.registerLazySingleton<NotificationController>(() => NotificationController());
   serviceLocator.registerLazySingleton<ImageScanController>(() => ImageScanController());
+  serviceLocator.registerLazySingleton<ReportController>(() => ReportController());
 
   // serviceLocator.registerLazySingleton<HomeRepo>(() => HomeRepoImp(homeRemoteDataSource: serviceLocator()));
 }

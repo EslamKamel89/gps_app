@@ -36,13 +36,20 @@ class _ScanImageScreenState extends State<ScanImageScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Text(
-                'Point. Snap. Learn.',
-                style: t.headlineSmall?.copyWith(fontWeight: FontWeight.w800),
-              ).animate().fadeIn(duration: 350.ms).moveY(begin: 14, curve: Curves.easeOut),
+                    'Point. Snap. Learn.',
+                    style: t.headlineSmall?.copyWith(
+                      fontWeight: FontWeight.w800,
+                    ),
+                  )
+                  .animate()
+                  .fadeIn(duration: 350.ms)
+                  .moveY(begin: 14, curve: Curves.easeOut),
               const SizedBox(height: 6),
               Text(
                 'Take a photo of any product and we’ll analyze it for ingredients, nutrition, and suitability—soon!',
-                style: t.bodyMedium?.copyWith(color: t.bodyMedium?.color?.withOpacity(.75)),
+                style: t.bodyMedium?.copyWith(
+                  color: t.bodyMedium?.color?.withOpacity(.75),
+                ),
               ).animate().fadeIn(duration: 400.ms, delay: 80.ms),
 
               const SizedBox(height: 20),

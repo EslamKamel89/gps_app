@@ -44,7 +44,10 @@ class _BlogListScreenState extends State<BlogListScreen> {
   Future<void> _maybeScrollToIndex(int id, int itemCount) async {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       try {
-        await _autoScrollController.scrollToIndex(id, preferPosition: AutoScrollPosition.begin);
+        await _autoScrollController.scrollToIndex(
+          id,
+          preferPosition: AutoScrollPosition.begin,
+        );
         _autoScrollController.highlight(id);
       } catch (e) {
         pr(e, '_maybeScrollToIndex - BlogListScreen');
@@ -89,7 +92,11 @@ class _BlogListScreenState extends State<BlogListScreen> {
                           child: BlogCard(blog: blog)
                               .animate(delay: delay)
                               .fadeIn(duration: 400.ms)
-                              .slideY(begin: 0.2, end: 0, curve: Curves.easeOut),
+                              .slideY(
+                                begin: 0.2,
+                                end: 0,
+                                curve: Curves.easeOut,
+                              ),
                         );
                       }),
                     ),

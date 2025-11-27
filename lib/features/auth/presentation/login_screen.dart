@@ -35,7 +35,10 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Future<void> _submit(BuildContext context) async {
     if (!_formKey.currentState!.validate()) return;
-    context.read<LoginCubit>().login(email: _emailCtrl.text.trim(), password: _passCtrl.text);
+    context.read<LoginCubit>().login(
+      email: _emailCtrl.text.trim(),
+      password: _passCtrl.text,
+    );
   }
 
   @override
@@ -48,8 +51,11 @@ class _LoginScreenState extends State<LoginScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
             child: BlocConsumer<LoginCubit, ApiResponseModel<UserModel>>(
               listener: (context, state) {
-                if (state.response == ResponseEnum.success && state.data != null) {
-                  Navigator.of(context).pushReplacementNamed(AppRoutesNames.homeSearchScreen);
+                if (state.response == ResponseEnum.success &&
+                    state.data != null) {
+                  Navigator.of(
+                    context,
+                  ).pushReplacementNamed(AppRoutesNames.homeSearchScreen);
                 }
               },
               builder: (context, state) {
@@ -72,9 +78,14 @@ class _LoginScreenState extends State<LoginScreen> {
                           keyboardType: TextInputType.emailAddress,
                           textInputAction: TextInputAction.next,
                           validator:
-                              (v) =>
-                                  validator(input: v, label: 'Email or Username', isRequired: true),
-                          decoration: _inputDecoration('Enter your email or username'),
+                              (v) => validator(
+                                input: v,
+                                label: 'Email or Username',
+                                isRequired: true,
+                              ),
+                          decoration: _inputDecoration(
+                            'Enter your email or username',
+                          ),
                         ),
                       ),
                       GPSGaps.h16,
@@ -84,53 +95,71 @@ class _LoginScreenState extends State<LoginScreen> {
                           controller: _passCtrl,
                           obscureText: _obscure,
                           validator:
-                              (v) => validator(input: v, label: 'Password', isRequired: true),
-                          decoration: _inputDecoration('Enter your password').copyWith(
+                              (v) => validator(
+                                input: v,
+                                label: 'Password',
+                                isRequired: true,
+                              ),
+                          decoration: _inputDecoration(
+                            'Enter your password',
+                          ).copyWith(
                             suffixIcon: IconButton(
                               icon: Icon(
-                                _obscure ? Icons.visibility_off : Icons.visibility,
+                                _obscure
+                                    ? Icons.visibility_off
+                                    : Icons.visibility,
                                 color: GPSColors.mutedText,
                               ),
-                              onPressed: () => setState(() => _obscure = !_obscure),
+                              onPressed:
+                                  () => setState(() => _obscure = !_obscure),
                             ),
                           ),
                         ),
                       ),
                       GPSGaps.h20,
                       SizedBox(
-                        height: 52,
-                        child: ElevatedButton(
-                          onPressed: loading ? null : () => _submit(context),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: GPSColors.primary,
-                            foregroundColor: Colors.white,
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                          ),
-                          child:
-                              loading
-                                  ? const SizedBox(
-                                    height: 22,
-                                    width: 22,
-                                    child: CircularProgressIndicator(
-                                      strokeWidth: 2,
-                                      color: Colors.white,
-                                    ),
-                                  )
-                                  : const Text(
-                                    'Login',
-                                    style: TextStyle(fontWeight: FontWeight.w700),
-                                  ),
-                        ),
-                      ).animate().fadeIn(duration: 280.ms, delay: 120.ms).slideY(begin: .08),
+                            height: 52,
+                            child: ElevatedButton(
+                              onPressed:
+                                  loading ? null : () => _submit(context),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: GPSColors.primary,
+                                foregroundColor: Colors.white,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                              ),
+                              child:
+                                  loading
+                                      ? const SizedBox(
+                                        height: 22,
+                                        width: 22,
+                                        child: CircularProgressIndicator(
+                                          strokeWidth: 2,
+                                          color: Colors.white,
+                                        ),
+                                      )
+                                      : const Text(
+                                        'Login',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w700,
+                                        ),
+                                      ),
+                            ),
+                          )
+                          .animate()
+                          .fadeIn(duration: 280.ms, delay: 120.ms)
+                          .slideY(begin: .08),
                       GPSGaps.h24,
                       RichText(
                         textAlign: TextAlign.center,
                         text: TextSpan(
-                          style: Theme.of(
-                            context,
-                          ).textTheme.bodyMedium?.copyWith(color: GPSColors.mutedText),
+                          style: Theme.of(context).textTheme.bodyMedium
+                              ?.copyWith(color: GPSColors.mutedText),
                           children: [
-                            const TextSpan(text: "Don't have an account? Please "),
+                            const TextSpan(
+                              text: "Don't have an account? Please ",
+                            ),
                             TextSpan(
                               text: 'register',
                               style: const TextStyle(
@@ -140,9 +169,9 @@ class _LoginScreenState extends State<LoginScreen> {
                               recognizer:
                                   TapGestureRecognizer()
                                     ..onTap =
-                                        () => Navigator.of(
-                                          context,
-                                        ).pushNamed(AppRoutesNames.registerScreen),
+                                        () => Navigator.of(context).pushNamed(
+                                          AppRoutesNames.registerScreen,
+                                        ),
                             ),
                           ],
                         ),
@@ -151,9 +180,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       RichText(
                         textAlign: TextAlign.center,
                         text: TextSpan(
-                          style: Theme.of(
-                            context,
-                          ).textTheme.bodyMedium?.copyWith(color: GPSColors.mutedText),
+                          style: Theme.of(context).textTheme.bodyMedium
+                              ?.copyWith(color: GPSColors.mutedText),
                           children: [
                             const TextSpan(text: 'Forget '),
                             TextSpan(

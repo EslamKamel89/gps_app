@@ -38,5 +38,6 @@ class EndPoint {
   static const String search = "$baseUrl/api/search";
   static const String about = "$baseUrl/api/pages";
   static const String notifications = "$baseUrl/api/notifications";
+  static const String report = "$baseUrl/api/report";
   static const String deepInfraUrl = 'https://api.deepinfra.com/v1/openai/chat/completions';
 }

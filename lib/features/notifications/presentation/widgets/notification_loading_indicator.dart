@@ -10,7 +10,9 @@ class NotificationsLoadingIndicator extends StatelessWidget {
     return ListView.builder(
       itemCount: 5, // Simulate 5 notifications loading
       itemBuilder: (context, index) {
-        return ShimmerNotificationItem().animate().fadeIn(duration: 300.ms); // Staggered entrance
+        return ShimmerNotificationItem().animate().fadeIn(
+          duration: 300.ms,
+        ); // Staggered entrance
       },
     );
   }
@@ -36,7 +38,10 @@ class ShimmerNotificationItem extends StatelessWidget {
               Container(
                 width: 10,
                 height: 10,
-                decoration: const BoxDecoration(color: Colors.transparent, shape: BoxShape.circle),
+                decoration: const BoxDecoration(
+                  color: Colors.transparent,
+                  shape: BoxShape.circle,
+                ),
               ),
               const SizedBox(width: 10),
               Expanded(

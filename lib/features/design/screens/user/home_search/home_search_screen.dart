@@ -147,7 +147,9 @@ class _HomeSearchScreenState extends State<HomeSearchScreen> {
                 child: SizedBox(
                   width: context.width,
                   height: context.height,
-                  child: SizedBox(child: Stack(fit: StackFit.expand, children: [MapView()])),
+                  child: SizedBox(
+                    child: Stack(fit: StackFit.expand, children: [MapView()]),
+                  ),
                 ),
               ).animate().fadeIn(duration: 220.ms),
 

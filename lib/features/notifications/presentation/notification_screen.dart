@@ -31,13 +31,19 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<NotificationCubit, ApiResponseModel<List<NotificationModel>>>(
+    return BlocBuilder<
+      NotificationCubit,
+      ApiResponseModel<List<NotificationModel>>
+    >(
       builder: (context, state) {
         final notifications = cubit.filtered;
         return Scaffold(
           backgroundColor: GPSColors.background,
           appBar: AppBar(
-            title: const Text('Notifications', style: TextStyle(color: Colors.white)),
+            title: const Text(
+              'Notifications',
+              style: TextStyle(color: Colors.white),
+            ),
             backgroundColor: GPSColors.primary,
             elevation: 0,
             foregroundColor: Colors.white,
@@ -68,7 +74,9 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                           DateTime? dateTime;
                           if (notification.createdAt != null) {
                             try {
-                              dateTime = DateTime.parse(notification.createdAt!);
+                              dateTime = DateTime.parse(
+                                notification.createdAt!,
+                              );
                             } catch (e) {
                               // handle invalid date if needed
                             }
@@ -80,24 +88,31 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
 
                           return InkWell(
                             onTap: () {
-                              if (notification.isRead != 1) cubit.markAsRead(notification);
+                              if (notification.isRead != 1)
+                                cubit.markAsRead(notification);
                               onNotificationClick(notification);
                             },
                             child: Container(
                                   margin: const EdgeInsets.only(bottom: 12),
                                   padding: const EdgeInsets.all(16),
                                   decoration: BoxDecoration(
-                                    color: isUnread ? GPSColors.cardSelected : Colors.white,
+                                    color:
+                                        isUnread
+                                            ? GPSColors.cardSelected
+                                            : Colors.white,
                                     borderRadius: BorderRadius.circular(12),
                                     border: Border.all(
                                       color:
                                           isUnread
-                                              ? GPSColors.primary.withOpacity(0.3)
+                                              ? GPSColors.primary.withOpacity(
+                                                0.3,
+                                              )
                                               : GPSColors.cardBorder,
                                     ),
                                   ),
                                   child: Row(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       if (isUnread)
                                         Container(
@@ -110,14 +125,20 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                                             )
                                             .animate()
                                             .fadeIn(duration: 300.ms)
-                                            .slideX(begin: -0.5, end: 0, duration: 400.ms),
+                                            .slideX(
+                                              begin: -0.5,
+                                              end: 0,
+                                              duration: 400.ms,
+                                            ),
                                       if (isUnread) GPSGaps.w10,
                                       Expanded(
                                         child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
                                               children: [
                                                 Text(
-                                                  notification.content ?? 'No content',
+                                                  notification.content ??
+                                                      'No content',
                                                   style: TextStyle(
                                                     color: GPSColors.text,
                                                     fontWeight:
@@ -138,7 +159,11 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                                             )
                                             .animate()
                                             .fadeIn(duration: 400.ms)
-                                            .slideY(begin: 10, end: 0, duration: 500.ms),
+                                            .slideY(
+                                              begin: 10,
+                                              end: 0,
+                                              duration: 500.ms,
+                                            ),
                                       ),
                                     ],
                                   ),

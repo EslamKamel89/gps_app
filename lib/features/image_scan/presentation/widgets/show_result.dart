@@ -26,7 +26,11 @@ void showResult(String content) {
                 topRight: Radius.circular(22),
               ),
               boxShadow: [
-                BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, spreadRadius: 2),
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.1),
+                  blurRadius: 10,
+                  spreadRadius: 2,
+                ),
               ],
             ),
             child: Column(
@@ -73,7 +77,9 @@ void showResult(String content) {
                       backgroundColor: Colors.black87,
                       foregroundColor: Colors.white,
                       padding: const EdgeInsets.symmetric(vertical: 14),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(14),
+                      ),
                     ),
                     child: const Text("Close", style: TextStyle(fontSize: 16)),
                   ),

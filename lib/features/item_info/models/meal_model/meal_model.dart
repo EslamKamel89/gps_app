@@ -54,7 +54,9 @@ class MealModel {
     subcategory:
         json['subcategory'] == null
             ? null
-            : SubCategoryModel.fromJson(json['subcategory'] as Map<String, dynamic>),
+            : SubCategoryModel.fromJson(
+              json['subcategory'] as Map<String, dynamic>,
+            ),
     image:
         json['image'] == null
             ? null
@@ -66,7 +68,9 @@ class MealModel {
     restaurantMenu:
         json['restaurant_menu'] == null
             ? null
-            : RestaurantMenu.fromJson(json['restaurant_menu'] as Map<String, dynamic>),
+            : RestaurantMenu.fromJson(
+              json['restaurant_menu'] as Map<String, dynamic>,
+            ),
   );
 
   Map<String, dynamic> toJson() => {
@@ -125,7 +129,12 @@ final _response = {
   "category_id": 1,
   "sub_category_id": 1,
   "category": {"id": 1, "name": "Meat", "description": "Meat"},
-  "subcategory": {"id": 1, "category_id": 1, "name": "Sheep Meat", "description": "Sheep Meat"},
+  "subcategory": {
+    "id": 1,
+    "category_id": 1,
+    "name": "Sheep Meat",
+    "description": "Sheep Meat",
+  },
   "image": [
     {
       "id": 3,
@@ -140,6 +149,12 @@ final _response = {
     "name": "menu name",
     "description": "menu description",
     "image_id": 1,
-    "restaurant": {"id": 6, "user_id": 26, "vendor_id": 7, "website": null, "verified": 0},
+    "restaurant": {
+      "id": 6,
+      "user_id": 26,
+      "vendor_id": 7,
+      "website": null,
+      "verified": 0,
+    },
   },
 };

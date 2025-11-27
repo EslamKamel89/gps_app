@@ -7,7 +7,8 @@ class NotificationFilterToggle extends StatefulWidget {
   const NotificationFilterToggle({super.key});
 
   @override
-  State<NotificationFilterToggle> createState() => _NotificationFilterToggleState();
+  State<NotificationFilterToggle> createState() =>
+      _NotificationFilterToggleState();
 }
 
 class _NotificationFilterToggleState extends State<NotificationFilterToggle> {
@@ -35,7 +36,10 @@ class _NotificationFilterToggleState extends State<NotificationFilterToggle> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(color: Colors.transparent, borderRadius: BorderRadius.circular(12)),
+      decoration: BoxDecoration(
+        color: Colors.transparent,
+        borderRadius: BorderRadius.circular(12),
+      ),
       padding: const EdgeInsets.all(6),
       child: ToggleButtons(
         isSelected: _isSelected,
@@ -52,7 +56,13 @@ class _NotificationFilterToggleState extends State<NotificationFilterToggle> {
           for (final label in _filters)
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12),
-              child: Text(label, style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 14)),
+              child: Text(
+                label,
+                style: const TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 14,
+                ),
+              ),
             ),
         ],
       ),

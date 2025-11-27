@@ -72,7 +72,10 @@ class _TopBarState extends State<TopBar> {
                     top: 0,
                     right: 0,
                     // startFocus
-                    child: Transform.translate(offset: Offset(15, -20), child: NotificationCount()),
+                    child: Transform.translate(
+                      offset: Offset(15, -20),
+                      child: NotificationCount(),
+                    ),
                     // endFocus
                   ),
               ],
@@ -85,7 +88,9 @@ class _TopBarState extends State<TopBar> {
                   label: 'Create Account',
                   danger: false,
                   onTap: () {
-                    Navigator.of(context).pushNamed(AppRoutesNames.registerScreen);
+                    Navigator.of(
+                      context,
+                    ).pushNamed(AppRoutesNames.registerScreen);
                   },
                 ),
                 MenuActionItem(
@@ -102,14 +107,17 @@ class _TopBarState extends State<TopBar> {
                 UserProfileTile(
                   name: userInMemory()?.userName ?? '',
                   email: userInMemory()?.email ?? '',
-                  avatarUrl: "${EndPoint.baseUrl}/${userInMemory()?.image?.path}",
+                  avatarUrl:
+                      "${EndPoint.baseUrl}/${userInMemory()?.image?.path}",
                 ),
                 MenuActionItem(
                   icon: MdiIcons.food,
                   label: 'Edit Food Preferences',
                   onTap: () {
                     Future.delayed(100.ms, () {
-                      Navigator.of(context).pushNamed(AppRoutesNames.categorySelectionScreen);
+                      Navigator.of(
+                        context,
+                      ).pushNamed(AppRoutesNames.categorySelectionScreen);
                     });
                   },
                 ),
@@ -119,7 +127,9 @@ class _TopBarState extends State<TopBar> {
                   label: 'Notifications',
                   danger: false,
                   onTap: () {
-                    Navigator.of(context).pushNamed(AppRoutesNames.notificationScreen);
+                    Navigator.of(
+                      context,
+                    ).pushNamed(AppRoutesNames.notificationScreen);
                   },
                 ),
                 const Divider(height: 8, thickness: 0.7),
@@ -133,7 +143,8 @@ class _TopBarState extends State<TopBar> {
                         MaterialPageRoute(
                           builder:
                               (_) => RestaurantDetailProvider(
-                                restaurantId: userInMemory()?.restaurant?.id ?? 1,
+                                restaurantId:
+                                    userInMemory()?.restaurant?.id ?? 1,
                                 enableEdit: false,
                                 enableCompleteProfile: true,
                               ),
@@ -154,8 +165,10 @@ class _TopBarState extends State<TopBar> {
                       Navigator.of(context).push(
                         MaterialPageRoute(
                           builder:
-                              (_) =>
-                                  UserDetailsScreen(enableEdit: false, enableCompleteProfile: true),
+                              (_) => UserDetailsScreen(
+                                enableEdit: false,
+                                enableCompleteProfile: true,
+                              ),
                         ),
                       );
                     } else {
@@ -177,7 +190,8 @@ class _TopBarState extends State<TopBar> {
                         MaterialPageRoute(
                           builder:
                               (_) => RestaurantDetailProvider(
-                                restaurantId: userInMemory()?.restaurant?.id ?? 1,
+                                restaurantId:
+                                    userInMemory()?.restaurant?.id ?? 1,
                                 enableEdit: true,
                                 enableCompleteProfile: true,
                               ),
@@ -198,8 +212,10 @@ class _TopBarState extends State<TopBar> {
                       Navigator.of(context).push(
                         MaterialPageRoute(
                           builder:
-                              (_) =>
-                                  UserDetailsScreen(enableEdit: true, enableCompleteProfile: true),
+                              (_) => UserDetailsScreen(
+                                enableEdit: true,
+                                enableCompleteProfile: true,
+                              ),
                         ),
                       );
                     } else {
@@ -251,18 +267,26 @@ class _TopBarState extends State<TopBar> {
 
           backgroundColor: GPSColors.primary.withOpacity(0.8),
           title: Text("Log out? We'll be here when you get back"),
-          titleTextStyle: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+          titleTextStyle: TextStyle(
+            color: Colors.white,
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
 
           actions: [
             TextButton(
               onPressed: () async {
                 await serviceLocator<AuthController>().logout();
                 serviceLocator<LocalStorage>().logout();
-                Navigator.of(
-                  context,
-                ).pushNamedAndRemoveUntil(AppRoutesNames.homeSearchScreen, (_) => false);
+                Navigator.of(context).pushNamedAndRemoveUntil(
+                  AppRoutesNames.homeSearchScreen,
+                  (_) => false,
+                );
               },
-              child: Text('👋 Yes, Logout!', style: TextStyle(color: Colors.white)),
+              child: Text(
+                '👋 Yes, Logout!',
+                style: TextStyle(color: Colors.white),
+              ),
             ),
             TextButton(
               onPressed: () {

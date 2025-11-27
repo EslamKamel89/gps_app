@@ -44,7 +44,10 @@ class _IncompleteProfileDialog extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            decoration: BoxDecoration(color: cs.errorContainer, shape: BoxShape.circle),
+            decoration: BoxDecoration(
+              color: cs.errorContainer,
+              shape: BoxShape.circle,
+            ),
             padding: const EdgeInsets.all(8),
             child: Icon(
               Icons.warning_amber_rounded,
@@ -57,7 +60,9 @@ class _IncompleteProfileDialog extends StatelessWidget {
           Expanded(
             child: Text(
               "You're almost set!",
-              style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w700),
+              style: Theme.of(
+                context,
+              ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w700),
             ),
           ),
         ],
@@ -95,7 +100,9 @@ class _IncompleteProfileDialog extends StatelessWidget {
           label: const Text("Complete now"),
           style: FilledButton.styleFrom(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(14),
+            ),
           ),
         ),
       ],

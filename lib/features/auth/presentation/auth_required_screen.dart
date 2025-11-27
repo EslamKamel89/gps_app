@@ -27,9 +27,16 @@ class _AuthRequiredScreenState extends State<AuthRequiredScreen> {
 
               // Top icon
               Container(
-                decoration: BoxDecoration(color: GPSColors.cardSelected, shape: BoxShape.circle),
+                decoration: BoxDecoration(
+                  color: GPSColors.cardSelected,
+                  shape: BoxShape.circle,
+                ),
                 padding: const EdgeInsets.all(16),
-                child: Icon(Icons.lock_outline, size: 42, color: GPSColors.primary),
+                child: Icon(
+                  Icons.lock_outline,
+                  size: 42,
+                  color: GPSColors.primary,
+                ),
               ),
 
               GPSGaps.h24,
@@ -38,7 +45,11 @@ class _AuthRequiredScreenState extends State<AuthRequiredScreen> {
               Text(
                 'You’re almost there!',
                 textAlign: TextAlign.center,
-                style: TextStyle(color: GPSColors.text, fontSize: 24, fontWeight: FontWeight.w800),
+                style: TextStyle(
+                  color: GPSColors.text,
+                  fontSize: 24,
+                  fontWeight: FontWeight.w800,
+                ),
               ),
 
               GPSGaps.h12,
@@ -48,7 +59,11 @@ class _AuthRequiredScreenState extends State<AuthRequiredScreen> {
                 'Please sign in or create an account to continue. '
                 'It only takes a minute and keeps your progress safe.',
                 textAlign: TextAlign.center,
-                style: TextStyle(color: GPSColors.mutedText, fontSize: 16, height: 1.4),
+                style: TextStyle(
+                  color: GPSColors.mutedText,
+                  fontSize: 16,
+                  height: 1.4,
+                ),
               ),
 
               GPSGaps.h24,
@@ -62,12 +77,16 @@ class _AuthRequiredScreenState extends State<AuthRequiredScreen> {
                     width: double.infinity,
                     child: OutlinedButton(
                       onPressed: () {
-                        Navigator.of(context).pushNamed(AppRoutesNames.registerScreen);
+                        Navigator.of(
+                          context,
+                        ).pushNamed(AppRoutesNames.registerScreen);
                       },
                       style: OutlinedButton.styleFrom(
                         side: BorderSide(color: GPSColors.cardBorder),
                         padding: const EdgeInsets.symmetric(vertical: 16),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(14),
+                        ),
                       ),
                       child: Text(
                         'Create Account',
@@ -87,18 +106,25 @@ class _AuthRequiredScreenState extends State<AuthRequiredScreen> {
                     width: double.infinity,
                     child: ElevatedButton(
                       onPressed: () {
-                        Navigator.of(context).pushNamed(AppRoutesNames.loginScreen);
+                        Navigator.of(
+                          context,
+                        ).pushNamed(AppRoutesNames.loginScreen);
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: GPSColors.primary,
                         foregroundColor: Colors.white,
                         padding: const EdgeInsets.symmetric(vertical: 16),
                         elevation: 2,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(14),
+                        ),
                       ),
                       child: Text(
                         'Sign In',
-                        style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
+                        style: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 16,
+                        ),
                       ),
                     ),
                   ),
@@ -110,7 +136,10 @@ class _AuthRequiredScreenState extends State<AuthRequiredScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: GPSBottomNav(currentIndex: widget.currentTab, onChanged: (i) {}),
+      bottomNavigationBar: GPSBottomNav(
+        currentIndex: widget.currentTab,
+        onChanged: (i) {},
+      ),
     );
   }
 }
