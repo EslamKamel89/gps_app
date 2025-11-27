@@ -2,54 +2,81 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>UIBackgroundModes</key>
+	<!-- UIBackgroundModes 'location' removed/commented out.
+	     If you re-enable background location, re-add this key and include NSLocationAlwaysAndWhenInUseUsageDescription. -->
+	<!-- <key>UIBackgroundModes</key>
 	<array>
 		<string>location</string>
-	</array>
+	</array> -->
+
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
+
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
+
 	<key>CFBundleDisplayName</key>
 	<string>GPS Organic</string>
+
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
+
 	<key>CFBundleIdentifier</key>
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
+
+	<!-- Keep CFBundleName similar to display name to avoid reviewer confusion -->
 	<key>CFBundleName</key>
-	<string>GPS</string>
+	<string>GPS Organic</string>
+
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
+
 	<key>CFBundleShortVersionString</key>
 	<string>$(FLUTTER_BUILD_NAME)</string>
+
 	<key>CFBundleSignature</key>
 	<string>????</string>
+
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
+
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+
 	<key>NSCameraUsageDescription</key>
-	<string>We need access to your camera to take photos or videos.</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>We need access to your location to provide location-based services.</string>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>We need access to your microphone for audio recording.</string>
+	<string>Allow camera access so you can take photos or videos of products to list, compare, or attach to product reviews (for example: take a photo to add a new product or to upload an image when reporting product quality).</string>
+
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>We need access to your photo library to allow you to upload and share photos.</string>
+	<string>Allow access to your photo library to upload existing product images, receipts, or photos for product reviews (for example: choose an image of a product you want to list or share in a review).</string>
+
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Allow saving photos to your library so you can keep photos you take in the app (for example: save product photos or receipts to your device camera roll).</string>
+
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Allow microphone access to record short audio notes or product video sound when creating product reviews or seller listings (for example: record a 10–30 second voice note describing a product).</string>
+
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>We use your location while the app is open to show nearby stores and local product availability (for example: show stores within 10 km that currently stock a product you searched for). You can change this permission in Settings.</string>
+
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
+
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
+
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
@@ -57,8 +84,5 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>We need permission to save photos and videos to your library.</string>
-
 </dict>
 </plist>
