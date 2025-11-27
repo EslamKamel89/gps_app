@@ -8,4 +8,5 @@ class GPSColors {
   static const mutedText = Color(0xFF5A5A5A);
   static const cardBorder = Color(0xFFE1D9CC);
   static const cardSelected = Color(0xFFCAE1D8);
+  static const warning = Color(0xFFFFA726); // warm orange
 }
