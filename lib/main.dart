@@ -19,6 +19,7 @@ import 'package:gps_app/features/blogs/cubits/blogs_cubit.dart';
 import 'package:gps_app/features/favorites/cubits/favorites_cubit.dart';
 import 'package:gps_app/features/item_info/cubits/item_info_cubit.dart';
 import 'package:gps_app/features/notifications/cubits/notification_cubit.dart';
+import 'package:gps_app/features/report/cubits/add_report_cubit.dart';
 import 'package:gps_app/features/search/cubits/search_cubit/search_cubit.dart';
 import 'package:gps_app/features/user/preferences/cubits/preferences/preferences_cubit.dart';
 import 'package:gps_app/features/user/restaurant_details/cubits/restaurant_cubit.dart';
@@ -36,13 +37,13 @@ void main() async {
 
   FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
 
-  const AndroidInitializationSettings initializationSettingsAndroid =
-      AndroidInitializationSettings('@mipmap/ic_launcher');
+  const AndroidInitializationSettings initializationSettingsAndroid = AndroidInitializationSettings(
+    '@mipmap/ic_launcher',
+  );
 
-  final DarwinInitializationSettings initializationSettingsIOS =
-      DarwinInitializationSettings(
-        // todo: onDidReceiveLocalNotification for older iOS if needed.
-      );
+  final DarwinInitializationSettings initializationSettingsIOS = DarwinInitializationSettings(
+    // todo: onDidReceiveLocalNotification for older iOS if needed.
+  );
 
   final InitializationSettings initializationSettings = InitializationSettings(
     android: initializationSettingsAndroid,
@@ -57,9 +58,7 @@ void main() async {
 
   if (Platform.isAndroid) {
     await flutterLocalNotificationsPlugin
-        .resolvePlatformSpecificImplementation<
-          AndroidFlutterLocalNotificationsPlugin
-        >()
+        .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
         ?.createNotificationChannel(channel);
   }
 
@@ -110,9 +109,8 @@ class _MyAppState extends State<MyApp> {
           BlocProvider(create: (context) => BlogsCubit()),
           BlocProvider(create: (context) => FavoritesCubit()),
           BlocProvider(create: (context) => SearchCubit()..init()),
-          BlocProvider(
-            create: (context) => NotificationCubit()..notifications(),
-          ),
+          BlocProvider(create: (context) => AddReportCubit()),
+          BlocProvider(create: (context) => NotificationCubit()..notifications()),
           BlocProvider(create: (context) => ItemInfoCubit()),
         ],
         child: Builder(
