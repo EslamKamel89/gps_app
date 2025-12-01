@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gps_app/core/api_service/end_points.dart';
 import 'package:gps_app/core/cache/local_storage.dart';
 import 'package:gps_app/core/enums/response_type.dart';
+import 'package:gps_app/core/helpers/image_url.dart';
 import 'package:gps_app/core/helpers/update_controller.dart';
 import 'package:gps_app/core/router/app_routes_names.dart';
 import 'package:gps_app/core/service_locator/service_locator.dart';
@@ -43,7 +43,7 @@ class _ItemCardState extends State<ItemCard> {
     if (path == null) {
       return 'https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=1600&auto=format&fit=crop';
     }
-    return "${EndPoint.baseUrl}/$path";
+    return getImageUrl(path);
   }
 
   bool _showEdit = false;
@@ -170,9 +170,7 @@ class _ItemCardState extends State<ItemCard> {
                                 style: txt.titleSmall?.copyWith(
                                   color: GPSColors.text,
                                   fontWeight: FontWeight.w800,
-                                  fontFeatures: const [
-                                    FontFeature.tabularFigures(),
-                                  ],
+                                  fontFeatures: const [FontFeature.tabularFigures()],
                                 ),
                               ),
                             ),
@@ -205,11 +203,8 @@ class _ItemCardState extends State<ItemCard> {
     final String? newVal = await showFormBottomSheet<String>(
       context,
       builder:
-          (ctx, ctl) => ProfileTextForm(
-            initialValue: item.name,
-            controller: ctl,
-            label: 'Update Item Name',
-          ),
+          (ctx, ctl) =>
+              ProfileTextForm(initialValue: item.name, controller: ctl, label: 'Update Item Name'),
     );
     if (newVal == null) return;
     item.name = newVal;
@@ -279,9 +274,7 @@ class _ItemCardState extends State<ItemCard> {
     final cubit = context.read<StoreCubit>();
     final UploadedImage? newVal = await showFormBottomSheet<UploadedImage>(
       context,
-      builder:
-          (ctx, ctl) =>
-              ProfileImageForm(controller: ctl, label: 'Update Item image'),
+      builder: (ctx, ctl) => ProfileImageForm(controller: ctl, label: 'Update Item image'),
     );
     if (newVal == null) return;
     item.image?.path = newVal.path;

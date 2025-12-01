@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:gps_app/core/api_service/end_points.dart';
 import 'package:gps_app/core/cache/local_storage.dart';
 import 'package:gps_app/core/enums/response_type.dart';
+import 'package:gps_app/core/helpers/image_url.dart';
 import 'package:gps_app/core/helpers/update_controller.dart';
 import 'package:gps_app/core/models/api_response_model.dart';
 import 'package:gps_app/core/router/app_routes_names.dart';
@@ -64,7 +64,7 @@ class StoreDetailsScreenState extends State<StoreDetailsScreen>
     if (path == null) {
       return 'https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=1600&auto=format&fit=crop';
     }
-    return "${EndPoint.baseUrl}/$path";
+    return getImageUrl(path);
   }
 
   bool _isOpenNow(UserModel? user) {

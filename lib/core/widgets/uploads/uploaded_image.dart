@@ -1,10 +1,10 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
 class UploadedImage {
-  final int id;
-  final String path;
+  int id;
+  String path;
 
-  const UploadedImage({required this.id, required this.path});
+  UploadedImage({required this.id, required this.path});
 
   factory UploadedImage.fromJson(Map<String, dynamic> json) {
     return UploadedImage(
