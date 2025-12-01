@@ -228,6 +228,12 @@ class _UserRegisterScreenState extends State<UserRegisterScreen> {
                       },
                       child: CheckboxFormField(
                         label: "I accept the Terms & Conditions",
+                        onChange: () {
+                          setState(() {
+                            showCheckBox = true;
+                          });
+                          showTermsAlertModal();
+                        },
                         validator: (value) {
                           if (value == false) {
                             return "You must accept before continuing";

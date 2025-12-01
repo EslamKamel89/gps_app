@@ -8,6 +8,7 @@ class CheckboxFormField extends FormField<bool> {
     super.validator,
     bool super.initialValue = false,
     bool autovalidate = false,
+    VoidCallback? onChange,
   }) : super(
          builder: (FormFieldState<bool> state) {
            return Column(
@@ -19,6 +20,9 @@ class CheckboxFormField extends FormField<bool> {
                      value: state.value,
                      onChanged: (value) {
                        state.didChange(value);
+                       if (onChange != null) {
+                         onChange();
+                       }
                      },
                    ),
                    Text(label),
