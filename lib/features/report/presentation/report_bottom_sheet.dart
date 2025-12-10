@@ -29,12 +29,17 @@ Future<Map<String, String>?> openReportBottomSheet(
 }
 
 class ReportBottomSheetContent extends StatefulWidget {
-  const ReportBottomSheetContent({super.key, required this.typeId, required this.type});
+  const ReportBottomSheetContent({
+    super.key,
+    required this.typeId,
+    required this.type,
+  });
   final int typeId;
   final String type;
 
   @override
-  State<ReportBottomSheetContent> createState() => _ReportBottomSheetContentState();
+  State<ReportBottomSheetContent> createState() =>
+      _ReportBottomSheetContentState();
 }
 
 class _ReportBottomSheetContentState extends State<ReportBottomSheetContent> {
@@ -79,7 +84,9 @@ class _ReportBottomSheetContentState extends State<ReportBottomSheetContent> {
         FadeEffect(duration: 300.ms),
       ],
       child: SingleChildScrollView(
-        padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.of(context).viewInsets.bottom,
+        ),
         physics: const ClampingScrollPhysics(),
         child: Container(
           margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
@@ -116,7 +123,11 @@ class _ReportBottomSheetContentState extends State<ReportBottomSheetContent> {
                       color: GPSColors.warning.withOpacity(0.12),
                       borderRadius: BorderRadius.circular(8),
                     ),
-                    child: Icon(Icons.report_problem, color: GPSColors.warning, size: 20),
+                    child: Icon(
+                      Icons.report_problem,
+                      color: GPSColors.warning,
+                      size: 20,
+                    ),
                   ),
                   GPSGaps.w12,
                   Expanded(
@@ -125,12 +136,18 @@ class _ReportBottomSheetContentState extends State<ReportBottomSheetContent> {
                       children: const [
                         Text(
                           'Report content',
-                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700,
+                          ),
                         ),
                         SizedBox(height: 4),
                         Text(
                           'Select a reason so our moderators can review the content',
-                          style: TextStyle(fontSize: 13, color: Color(0xFF6B6B6B)),
+                          style: TextStyle(
+                            fontSize: 13,
+                            color: Color(0xFF6B6B6B),
+                          ),
                         ),
                       ],
                     ),
@@ -141,7 +158,9 @@ class _ReportBottomSheetContentState extends State<ReportBottomSheetContent> {
               GPSGaps.h16,
 
               ConstrainedBox(
-                constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.45),
+                constraints: BoxConstraints(
+                  maxHeight: MediaQuery.of(context).size.height * 0.45,
+                ),
                 child: SingleChildScrollView(
                   child: Column(
                     children:
@@ -174,7 +193,10 @@ class _ReportBottomSheetContentState extends State<ReportBottomSheetContent> {
                     children: [
                       const Text(
                         'Please describe',
-                        style: TextStyle(fontWeight: FontWeight.w600, fontSize: 13),
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 13,
+                        ),
                       ),
                       GPSGaps.h8,
                       TextField(
@@ -183,7 +205,8 @@ class _ReportBottomSheetContentState extends State<ReportBottomSheetContent> {
                         minLines: 3,
                         textInputAction: TextInputAction.newline,
                         decoration: InputDecoration(
-                          hintText: 'Add details (helpful for faster moderation)',
+                          hintText:
+                              'Add details (helpful for faster moderation)',
                           hintStyle: const TextStyle(fontSize: 13),
                           filled: true,
                           fillColor: GPSColors.background,
@@ -191,7 +214,10 @@ class _ReportBottomSheetContentState extends State<ReportBottomSheetContent> {
                             borderRadius: BorderRadius.circular(10),
                             borderSide: BorderSide(color: GPSColors.cardBorder),
                           ),
-                          contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                          contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 10,
+                          ),
                         ),
                       ),
                     ],
@@ -279,7 +305,9 @@ class _ReportBottomSheetContentState extends State<ReportBottomSheetContent> {
                                   alignment: Alignment.center,
                                   margin: EdgeInsets.only(right: 10),
                                   // color: Colors.red,
-                                  child: CircularProgressIndicator(color: Colors.white),
+                                  child: CircularProgressIndicator(
+                                    color: Colors.white,
+                                  ),
                                 ),
                               const Text('Submit'),
                             ],
@@ -324,7 +352,10 @@ class _ReportOptionTile extends StatelessWidget {
           color: selected ? GPSColors.cardSelected : Colors.grey.shade100,
           borderRadius: BorderRadius.circular(8),
           border: Border.all(
-            color: selected ? GPSColors.primary.withOpacity(0.2) : Colors.transparent,
+            color:
+                selected
+                    ? GPSColors.primary.withOpacity(0.2)
+                    : Colors.transparent,
           ),
         ),
         child: Icon(

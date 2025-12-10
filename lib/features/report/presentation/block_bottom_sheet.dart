@@ -32,7 +32,8 @@ class BlockBottomSheetContent extends StatefulWidget {
   final int blockUserId;
 
   @override
-  State<BlockBottomSheetContent> createState() => _BlockBottomSheetContentState();
+  State<BlockBottomSheetContent> createState() =>
+      _BlockBottomSheetContentState();
 }
 
 class _BlockBottomSheetContentState extends State<BlockBottomSheetContent> {
@@ -99,7 +100,11 @@ class _BlockBottomSheetContentState extends State<BlockBottomSheetContent> {
                       color: GPSColors.warning.withOpacity(0.12),
                       borderRadius: BorderRadius.circular(8),
                     ),
-                    child: Icon(Icons.report_problem, color: GPSColors.warning, size: 20),
+                    child: Icon(
+                      Icons.report_problem,
+                      color: GPSColors.warning,
+                      size: 20,
+                    ),
                   ),
                   GPSGaps.w12,
                   Expanded(
@@ -108,12 +113,18 @@ class _BlockBottomSheetContentState extends State<BlockBottomSheetContent> {
                       children: const [
                         Text(
                           'Block User',
-                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700,
+                          ),
                         ),
                         SizedBox(height: 4),
                         Text(
                           'Select a reason so our moderators can review the user',
-                          style: TextStyle(fontSize: 13, color: Color(0xFF6B6B6B)),
+                          style: TextStyle(
+                            fontSize: 13,
+                            color: Color(0xFF6B6B6B),
+                          ),
                         ),
                       ],
                     ),
@@ -133,7 +144,10 @@ class _BlockBottomSheetContentState extends State<BlockBottomSheetContent> {
                   children: [
                     const Text(
                       'Please describe',
-                      style: TextStyle(fontWeight: FontWeight.w600, fontSize: 13),
+                      style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 13,
+                      ),
                     ),
                     GPSGaps.h8,
                     TextField(
@@ -150,7 +164,10 @@ class _BlockBottomSheetContentState extends State<BlockBottomSheetContent> {
                           borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide(color: GPSColors.cardBorder),
                         ),
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 10,
+                        ),
                       ),
                     ),
                   ],
@@ -193,13 +210,16 @@ class _BlockBottomSheetContentState extends State<BlockBottomSheetContent> {
                       builder: (context, state) {
                         return ElevatedButton(
                           onPressed: () async {
-                            context.read<BlockUserCubit>().blockUser(widget.blockUserId, reason);
+                            context.read<BlockUserCubit>().blockUser(
+                              widget.blockUserId,
+                              reason,
+                            );
                             Future.delayed(500.ms, () {
                               showReportAcknowledgementModal(isBlock: true);
                             });
-                            Navigator.of(
-                              context,
-                            ).pushReplacementNamed(AppRoutesNames.homeSearchScreen);
+                            Navigator.of(context).pushReplacementNamed(
+                              AppRoutesNames.homeSearchScreen,
+                            );
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: GPSColors.primary,
@@ -215,7 +235,9 @@ class _BlockBottomSheetContentState extends State<BlockBottomSheetContent> {
                                   alignment: Alignment.center,
                                   margin: EdgeInsets.only(right: 10),
                                   // color: Colors.red,
-                                  child: CircularProgressIndicator(color: Colors.white),
+                                  child: CircularProgressIndicator(
+                                    color: Colors.white,
+                                  ),
                                 ),
                               const Text('Submit'),
                             ],

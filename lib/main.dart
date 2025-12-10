@@ -38,13 +38,13 @@ void main() async {
 
   FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
 
-  const AndroidInitializationSettings initializationSettingsAndroid = AndroidInitializationSettings(
-    '@mipmap/ic_launcher',
-  );
+  const AndroidInitializationSettings initializationSettingsAndroid =
+      AndroidInitializationSettings('@mipmap/ic_launcher');
 
-  final DarwinInitializationSettings initializationSettingsIOS = DarwinInitializationSettings(
-    // todo: onDidReceiveLocalNotification for older iOS if needed.
-  );
+  final DarwinInitializationSettings initializationSettingsIOS =
+      DarwinInitializationSettings(
+        // todo: onDidReceiveLocalNotification for older iOS if needed.
+      );
 
   final InitializationSettings initializationSettings = InitializationSettings(
     android: initializationSettingsAndroid,
@@ -59,7 +59,9 @@ void main() async {
 
   if (Platform.isAndroid) {
     await flutterLocalNotificationsPlugin
-        .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
+        .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin
+        >()
         ?.createNotificationChannel(channel);
   }
 
@@ -112,7 +114,9 @@ class _MyAppState extends State<MyApp> {
           BlocProvider(create: (context) => SearchCubit()..init()),
           BlocProvider(create: (context) => AddReportCubit()),
           BlocProvider(create: (context) => BlockUserCubit()),
-          BlocProvider(create: (context) => NotificationCubit()..notifications()),
+          BlocProvider(
+            create: (context) => NotificationCubit()..notifications(),
+          ),
           BlocProvider(create: (context) => ItemInfoCubit()),
         ],
         child: Builder(

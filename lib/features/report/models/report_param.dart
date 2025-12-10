@@ -28,7 +28,12 @@ class ReportParam {
     "user_id": userInMemory()?.id,
   };
 
-  ReportParam copyWith({int? typeId, String? type, String? description, String? option}) {
+  ReportParam copyWith({
+    int? typeId,
+    String? type,
+    String? description,
+    String? option,
+  }) {
     return ReportParam(
       typeId: typeId ?? this.typeId,
       type: type ?? this.type,

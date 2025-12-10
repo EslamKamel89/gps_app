@@ -30,7 +30,9 @@ class SuggestionsList extends StatelessWidget {
         padding: const EdgeInsets.all(14),
         child: Text(
           'No matches. Try a different term.',
-          style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: GPSColors.mutedText),
+          style: Theme.of(
+            context,
+          ).textTheme.bodyMedium?.copyWith(color: GPSColors.mutedText),
         ),
       ).animate().fadeIn(duration: 150.ms);
     }
@@ -42,7 +44,8 @@ class SuggestionsList extends StatelessWidget {
         physics: isScrollable ? null : NeverScrollableScrollPhysics(),
         shrinkWrap: true,
         itemCount: items.length,
-        separatorBuilder: (_, __) => const Divider(height: 1, color: GPSColors.cardBorder),
+        separatorBuilder:
+            (_, __) => const Divider(height: 1, color: GPSColors.cardBorder),
         itemBuilder: (context, i) {
           final r = items[i];
 
@@ -80,7 +83,11 @@ class SuggestionsList extends StatelessWidget {
                             height: 48,
                             color: Colors.grey.shade300,
                             alignment: Alignment.center,
-                            child: const Icon(Icons.error, size: 20, color: Colors.red),
+                            child: const Icon(
+                              Icons.error,
+                              size: 20,
+                              color: Colors.red,
+                            ),
                           ),
                     ),
                   ),
@@ -97,21 +104,29 @@ class SuggestionsList extends StatelessWidget {
                                 r.name ?? '',
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
-                                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                style: Theme.of(
+                                  context,
+                                ).textTheme.bodyMedium?.copyWith(
                                   color: GPSColors.text,
                                   fontWeight: FontWeight.w700,
                                 ),
                               ),
                             ),
                             GPSGaps.w8,
-                            _DistancePill(label: '${r.distance?.toString() ?? ''} ml'),
+                            _DistancePill(
+                              label: '${r.distance?.toString() ?? ''} ml',
+                            ),
                           ],
                         ),
                         GPSGaps.h8,
 
                         Row(
                           children: [
-                            const Icon(Icons.star_rounded, size: 16, color: Color(0xFFFFB300)),
+                            const Icon(
+                              Icons.star_rounded,
+                              size: 16,
+                              color: Color(0xFFFFB300),
+                            ),
                             const SizedBox(width: 4),
 
                             const SizedBox(width: 10),
@@ -120,7 +135,9 @@ class SuggestionsList extends StatelessWidget {
                                 r.address ?? '',
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
-                                style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                                style: Theme.of(
+                                  context,
+                                ).textTheme.labelMedium?.copyWith(
                                   color: GPSColors.mutedText,
                                   fontWeight: FontWeight.w500,
                                 ),
@@ -145,7 +162,11 @@ class SuggestionsList extends StatelessWidget {
     borderRadius: BorderRadius.circular(14),
     border: Border.all(color: GPSColors.cardBorder),
     boxShadow: [
-      BoxShadow(color: Colors.black.withOpacity(.08), blurRadius: 16, offset: const Offset(0, 6)),
+      BoxShadow(
+        color: Colors.black.withOpacity(.08),
+        blurRadius: 16,
+        offset: const Offset(0, 6),
+      ),
     ],
   );
 }
@@ -165,9 +186,10 @@ class _DistancePill extends StatelessWidget {
       ),
       child: Text(
         label,
-        style: Theme.of(
-          context,
-        ).textTheme.labelSmall?.copyWith(color: GPSColors.text, fontWeight: FontWeight.w600),
+        style: Theme.of(context).textTheme.labelSmall?.copyWith(
+          color: GPSColors.text,
+          fontWeight: FontWeight.w600,
+        ),
       ),
     );
   }

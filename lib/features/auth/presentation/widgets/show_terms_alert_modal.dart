@@ -16,12 +16,18 @@ Future<void>? showTermsAlertModal() {
         child: Animate(
           effects: [
             FadeEffect(duration: 250.ms),
-            ScaleEffect(begin: Offset(0.94, 0.94), end: Offset(1.0, 1.0), duration: 250.ms),
+            ScaleEffect(
+              begin: Offset(0.94, 0.94),
+              end: Offset(1.0, 1.0),
+              duration: 250.ms,
+            ),
           ],
           child: Dialog(
             insetPadding: const EdgeInsets.symmetric(horizontal: 24),
             backgroundColor: Colors.white,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
             child: Padding(
               padding: const EdgeInsets.fromLTRB(20, 20, 20, 16),
               child: Column(
@@ -34,7 +40,11 @@ Future<void>? showTermsAlertModal() {
                       color: GPSColors.cardSelected,
                       shape: BoxShape.circle,
                     ),
-                    child: Icon(Icons.security, size: 34, color: GPSColors.primary),
+                    child: Icon(
+                      Icons.security,
+                      size: 34,
+                      color: GPSColors.primary,
+                    ),
                   ),
 
                   GPSGaps.h12,
@@ -56,7 +66,11 @@ Future<void>? showTermsAlertModal() {
                     'offending accounts may be suspended or banned. You can report content using the in-app Flag button. '
                     'We will review reports and take action within 24 hours. Repeated violations may lead to permanent account suspension.',
                     textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 14, height: 1.4, color: GPSColors.mutedText),
+                    style: TextStyle(
+                      fontSize: 14,
+                      height: 1.4,
+                      color: GPSColors.mutedText,
+                    ),
                   ),
 
                   GPSGaps.h20,
@@ -67,13 +81,18 @@ Future<void>? showTermsAlertModal() {
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: GPSColors.primary,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
                         padding: const EdgeInsets.symmetric(vertical: 14),
                       ),
                       onPressed: () => Navigator.of(ctx).pop(),
                       child: const Text(
                         'OK',
-                        style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
                     ),
                   ),

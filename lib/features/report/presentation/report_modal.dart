@@ -16,13 +16,22 @@ Future<void>? showReportAcknowledgementModal({bool isBlock = false}) {
         child: Animate(
           effects: [
             FadeEffect(duration: 260.ms),
-            ScaleEffect(begin: Offset(0.96, 0.96), end: Offset(1.0, 1.0), duration: 260.ms),
+            ScaleEffect(
+              begin: Offset(0.96, 0.96),
+              end: Offset(1.0, 1.0),
+              duration: 260.ms,
+            ),
           ],
           child: Dialog(
-            insetPadding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+            insetPadding: const EdgeInsets.symmetric(
+              horizontal: 24,
+              vertical: 24,
+            ),
             backgroundColor: Colors.white,
             elevation: 12,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 520),
               child: Padding(
@@ -43,7 +52,11 @@ Future<void>? showReportAcknowledgementModal({bool isBlock = false}) {
                           ),
                         ],
                       ),
-                      child: Icon(Icons.check_circle_outline, size: 36, color: GPSColors.primary),
+                      child: Icon(
+                        Icons.check_circle_outline,
+                        size: 36,
+                        color: GPSColors.primary,
+                      ),
                     ),
 
                     GPSGaps.h12,
@@ -53,7 +66,10 @@ Future<void>? showReportAcknowledgementModal({bool isBlock = false}) {
                           ? 'Thanks — we’ve blocked the user and received your report'
                           : 'Thanks — we’ve received your report',
                       textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800),
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w800,
+                      ),
                     ),
 
                     GPSGaps.h8,
@@ -62,7 +78,11 @@ Future<void>? showReportAcknowledgementModal({bool isBlock = false}) {
                       'Our moderation team will review your report and take appropriate action. '
                       'We aim to respond within 24 hours. Thank you for helping keep the community safe.',
                       textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 14, color: GPSColors.mutedText, height: 1.4),
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: GPSColors.mutedText,
+                        height: 1.4,
+                      ),
                     ),
 
                     GPSGaps.h16,
@@ -70,11 +90,18 @@ Future<void>? showReportAcknowledgementModal({bool isBlock = false}) {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Icons.info_outline, size: 14, color: GPSColors.accent),
+                        Icon(
+                          Icons.info_outline,
+                          size: 14,
+                          color: GPSColors.accent,
+                        ),
                         GPSGaps.w8,
                         Text(
                           'You can always reach support from the Help section.',
-                          style: TextStyle(fontSize: 12, color: GPSColors.mutedText),
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: GPSColors.mutedText,
+                          ),
                         ),
                       ],
                     ),

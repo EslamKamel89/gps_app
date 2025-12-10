@@ -61,8 +61,13 @@ class _UserRegisterScreenState extends State<UserRegisterScreen> {
       showSnackbar('Validation Error', "Please select profile image", true);
       return;
     }
-    if (_stateAndDistrict.selectedDistrict == null || _stateAndDistrict.selectedState == null) {
-      showSnackbar('Validation Error', "You have to select the state and city", true);
+    if (_stateAndDistrict.selectedDistrict == null ||
+        _stateAndDistrict.selectedState == null) {
+      showSnackbar(
+        'Validation Error',
+        "You have to select the state and city",
+        true,
+      );
       return;
     }
     UserRegisterParam param = UserRegisterParam(
@@ -93,9 +98,10 @@ class _UserRegisterScreenState extends State<UserRegisterScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  const PinLeafLogo(
-                    size: 120,
-                  ).animate().fadeIn(duration: 250.ms).scale(begin: const Offset(0.9, 0.9)),
+                  const PinLeafLogo(size: 120)
+                      .animate()
+                      .fadeIn(duration: 250.ms)
+                      .scale(begin: const Offset(0.9, 0.9)),
                   GPSGaps.h16,
                   Center(
                     child: GpsShortDescription(),
@@ -133,7 +139,11 @@ class _UserRegisterScreenState extends State<UserRegisterScreen> {
                       textInputAction: TextInputAction.next,
                       decoration: _inputDecoration('Enter your full name'),
                       validator:
-                          (input) => validator(input: input, label: 'Full Name', isRequired: true),
+                          (input) => validator(
+                            input: input,
+                            label: 'Full Name',
+                            isRequired: true,
+                          ),
                     ),
                   ),
 
@@ -147,7 +157,11 @@ class _UserRegisterScreenState extends State<UserRegisterScreen> {
                       textInputAction: TextInputAction.next,
                       decoration: _inputDecoration('Choose a username'),
                       validator:
-                          (input) => validator(input: input, label: 'Username', isRequired: true),
+                          (input) => validator(
+                            input: input,
+                            label: 'Username',
+                            isRequired: true,
+                          ),
                     ),
                   ),
 
@@ -180,7 +194,9 @@ class _UserRegisterScreenState extends State<UserRegisterScreen> {
                       controller: _passwordCtrl,
                       obscureText: _obscure,
                       textInputAction: TextInputAction.next,
-                      decoration: _inputDecoration('Create a password').copyWith(
+                      decoration: _inputDecoration(
+                        'Create a password',
+                      ).copyWith(
                         suffixIcon: IconButton(
                           icon: Icon(
                             _obscure ? Icons.visibility_off : Icons.visibility,
@@ -190,7 +206,11 @@ class _UserRegisterScreenState extends State<UserRegisterScreen> {
                         ),
                       ),
                       validator:
-                          (input) => validator(input: input, label: 'Password', isRequired: true),
+                          (input) => validator(
+                            input: input,
+                            label: 'Password',
+                            isRequired: true,
+                          ),
                     ),
                   ),
 
@@ -213,7 +233,11 @@ class _UserRegisterScreenState extends State<UserRegisterScreen> {
                       textInputAction: TextInputAction.done,
                       decoration: _inputDecoration('Enter your mobile number'),
                       validator:
-                          (input) => validator(input: input, label: 'Mobile', isRequired: true),
+                          (input) => validator(
+                            input: input,
+                            label: 'Mobile',
+                            isRequired: true,
+                          ),
                     ),
                   ),
                   GPSGaps.h16,
@@ -255,42 +279,56 @@ class _UserRegisterScreenState extends State<UserRegisterScreen> {
                   GPSGaps.h20,
 
                   BlocConsumer<UserRegisterCubit, ApiResponseModel<UserModel>>(
-                    listener: (context, state) {
-                      if (state.response == ResponseEnum.success && state.data != null) {
-                        Navigator.of(context).pushAndRemoveUntil(
-                          MaterialPageRoute(builder: (_) => OTPScreen(onNext: onSuccess)),
-                          (_) => false,
-                        );
-                      }
-                    },
-                    builder: (context, state) {
-                      Widget child;
-                      if (state.response == ResponseEnum.loading) {
-                        child = const SizedBox(
-                          height: 22,
-                          width: 22,
-                          child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
-                        );
-                      } else {
-                        child = const Text(
-                          'Create Account',
-                          style: TextStyle(fontWeight: FontWeight.w700),
-                        );
-                      }
-                      return SizedBox(
-                        height: 52,
-                        child: ElevatedButton(
-                          onPressed: state.response == ResponseEnum.loading ? null : _onRegister,
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: GPSColors.primary,
-                            foregroundColor: Colors.white,
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                          ),
-                          child: child,
-                        ),
-                      );
-                    },
-                  ).animate().fadeIn(duration: 280.ms, delay: 90.ms).slideY(begin: .08),
+                        listener: (context, state) {
+                          if (state.response == ResponseEnum.success &&
+                              state.data != null) {
+                            Navigator.of(context).pushAndRemoveUntil(
+                              MaterialPageRoute(
+                                builder: (_) => OTPScreen(onNext: onSuccess),
+                              ),
+                              (_) => false,
+                            );
+                          }
+                        },
+                        builder: (context, state) {
+                          Widget child;
+                          if (state.response == ResponseEnum.loading) {
+                            child = const SizedBox(
+                              height: 22,
+                              width: 22,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                                color: Colors.white,
+                              ),
+                            );
+                          } else {
+                            child = const Text(
+                              'Create Account',
+                              style: TextStyle(fontWeight: FontWeight.w700),
+                            );
+                          }
+                          return SizedBox(
+                            height: 52,
+                            child: ElevatedButton(
+                              onPressed:
+                                  state.response == ResponseEnum.loading
+                                      ? null
+                                      : _onRegister,
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: GPSColors.primary,
+                                foregroundColor: Colors.white,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                              ),
+                              child: child,
+                            ),
+                          );
+                        },
+                      )
+                      .animate()
+                      .fadeIn(duration: 280.ms, delay: 90.ms)
+                      .slideY(begin: .08),
 
                   GPSGaps.h16,
 
@@ -298,9 +336,9 @@ class _UserRegisterScreenState extends State<UserRegisterScreen> {
                   Center(
                     child: RichText(
                       text: TextSpan(
-                        style: Theme.of(
-                          context,
-                        ).textTheme.bodyMedium?.copyWith(color: GPSColors.mutedText),
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: GPSColors.mutedText,
+                        ),
                         children: [
                           const TextSpan(text: 'Already have an account? '),
                           TextSpan(
@@ -314,7 +352,9 @@ class _UserRegisterScreenState extends State<UserRegisterScreen> {
                                   ..onTap =
                                       () => Navigator.of(
                                         context,
-                                      ).pushReplacementNamed(AppRoutesNames.loginScreen),
+                                      ).pushReplacementNamed(
+                                        AppRoutesNames.loginScreen,
+                                      ),
                           ),
                         ],
                       ),
@@ -334,7 +374,9 @@ class _UserRegisterScreenState extends State<UserRegisterScreen> {
   void onSuccess() {
     BuildContext? ctx = navigatorKey.currentContext;
     if (ctx == null) return;
-    Navigator.of(ctx).pushReplacementNamed(AppRoutesNames.categorySelectionScreen);
+    Navigator.of(
+      ctx,
+    ).pushReplacementNamed(AppRoutesNames.categorySelectionScreen);
   }
 
   InputDecoration _inputDecoration(String hint) {

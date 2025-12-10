@@ -11,7 +11,10 @@ class BlockUserCubit extends Cubit<ApiResponseModel<bool>> {
   Future blockUser(int blockUserId, String reason) async {
     final t = prt('blockUser - BlockUserCubit');
     emit(state.copyWith(errorMessage: null, response: ResponseEnum.loading));
-    final ApiResponseModel<bool> response = await controller.blockUser(blockUserId, reason);
+    final ApiResponseModel<bool> response = await controller.blockUser(
+      blockUserId,
+      reason,
+    );
     pr(response, t);
     emit(response);
   }
