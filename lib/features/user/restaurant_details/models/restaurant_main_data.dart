@@ -1,24 +1,23 @@
 class RestaurantMainData {
   int? id;
+  int? userId;
   int? verified;
   String? vendorName;
   String? path;
 
-  RestaurantMainData({this.id, this.verified, this.vendorName, this.path});
+  RestaurantMainData({this.id, this.verified, this.vendorName, this.path, this.userId});
 
   @override
   String toString() {
-    return 'RestaurantMainData(id: $id, verified: $verified, vendorName: $vendorName, path: $path)';
+    return 'RestaurantMainData(id: $id, userId: $userId , verified: $verified, vendorName: $vendorName, path: $path)';
   }
 
   factory RestaurantMainData.fromJson(Map<String, dynamic> json) {
     return RestaurantMainData(
       id: json['id'] as int?,
       verified: json['verified'] as int?,
-      vendorName:
-          json['vendor'] != null
-              ? json['vendor']['vendor_name'] as String?
-              : null,
+      userId: json['user_id'] as int?,
+      vendorName: json['vendor'] != null ? json['vendor']['vendor_name'] as String? : null,
       path:
           (json['user'] != null &&
                   json['user']['images'] != null &&
@@ -28,12 +27,7 @@ class RestaurantMainData {
     );
   }
 
-  RestaurantMainData copyWith({
-    int? id,
-    int? verified,
-    String? vendorName,
-    String? path,
-  }) {
+  RestaurantMainData copyWith({int? id, int? verified, String? vendorName, String? path}) {
     return RestaurantMainData(
       id: id ?? this.id,
       verified: verified ?? this.verified,

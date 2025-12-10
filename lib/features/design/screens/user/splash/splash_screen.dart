@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gps_app/core/router/app_routes_names.dart';
 import 'package:gps_app/core/service_locator/service_locator.dart';
 import 'package:gps_app/features/auth/controllers/auth_controller.dart';
@@ -6,6 +7,7 @@ import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 import 'package:gps_app/features/design/widgets/gps_description.dart';
 import 'package:gps_app/features/design/widgets/pinleaf_logo.dart';
+import 'package:gps_app/features/report/cubits/blocked_users_cubit.dart';
 
 class GPSSplashScreen extends StatefulWidget {
   const GPSSplashScreen({super.key});
@@ -23,11 +25,10 @@ class _GPSSplashScreenState extends State<GPSSplashScreen> {
   }
 
   Future _init() async {
+    await context.read<BlockedUsersCubit>().getBlockedUsers();
     await serviceLocator<AuthController>().userSync();
     await Future.delayed(const Duration(seconds: 3));
-    Navigator.of(
-      context,
-    ).pushNamedAndRemoveUntil(AppRoutesNames.entryPoint, (_) => false);
+    Navigator.of(context).pushNamedAndRemoveUntil(AppRoutesNames.entryPoint, (_) => false);
     // Navigator.of(
     //   context,
     // ).pushAndRemoveUntil(MaterialPageRoute(builder: (_) => GrassFedGuideScreen()), (_) => false);

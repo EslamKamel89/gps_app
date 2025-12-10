@@ -9,6 +9,7 @@ import 'package:gps_app/core/helpers/snackbar.dart';
 import 'package:gps_app/core/models/api_response_model.dart';
 import 'package:gps_app/core/service_locator/service_locator.dart';
 import 'package:gps_app/features/report/models/report_param.dart';
+import 'package:gps_app/features/report/models/user_blocked_model.dart';
 
 class ReportController {
   final _api = serviceLocator<ApiConsumer>();
@@ -17,30 +18,18 @@ class ReportController {
     try {
       final response = await _api.post(EndPoint.report, data: param.toJson());
       pr(response, '$t raw response');
-      return pr(
-        ApiResponseModel(response: ResponseEnum.success, data: true),
-        t,
-      );
+      return pr(ApiResponseModel(response: ResponseEnum.success, data: true), t);
     } catch (e) {
       String errorMessage = e.toString();
       if (e is DioException) {
         errorMessage = jsonEncode(e.response?.data ?? 'Unknown error occurred');
       }
       showSnackbar('Error', errorMessage, true);
-      return pr(
-        ApiResponseModel(
-          errorMessage: errorMessage,
-          response: ResponseEnum.failed,
-        ),
-        t,
-      );
+      return pr(ApiResponseModel(errorMessage: errorMessage, response: ResponseEnum.failed), t);
     }
   }
 
-  Future<ApiResponseModel<bool>> blockUser(
-    int blockUserId,
-    String reason,
-  ) async {
+  Future<ApiResponseModel<bool>> blockUser(int blockUserId, String reason) async {
     final t = prt('blockUser - ReportController');
     try {
       final response = await _api.post(
@@ -48,23 +37,32 @@ class ReportController {
         data: {"blocked_user_id": blockUserId, "reason": reason},
       );
       pr(response, '$t raw response');
-      return pr(
-        ApiResponseModel(response: ResponseEnum.success, data: true),
-        t,
-      );
+      return pr(ApiResponseModel(response: ResponseEnum.success, data: true), t);
     } catch (e) {
       String errorMessage = e.toString();
       if (e is DioException) {
         errorMessage = jsonEncode(e.response?.data ?? 'Unknown error occurred');
       }
       showSnackbar('Error', errorMessage, true);
-      return pr(
-        ApiResponseModel(
-          errorMessage: errorMessage,
-          response: ResponseEnum.failed,
-        ),
-        t,
-      );
+      return pr(ApiResponseModel(errorMessage: errorMessage, response: ResponseEnum.failed), t);
+    }
+  }
+
+  Future<ApiResponseModel<List<UserBlockedModel>>> blockedUsers() async {
+    final t = prt('blockedUsers - ReportController');
+    try {
+      final response = await _api.get(EndPoint.blockUser);
+      pr(response, '$t - response');
+      final List<UserBlockedModel> models =
+          (response as List).map((json) => UserBlockedModel.fromJson(json)).toList();
+      return pr(ApiResponseModel(response: ResponseEnum.success, data: models), t);
+    } catch (e) {
+      String errorMessage = e.toString();
+      if (e is DioException) {
+        errorMessage = jsonEncode(e.response?.data ?? 'Unknown error occurred');
+      }
+      // showSnackbar('Error', errorMessage, true);
+      return pr(ApiResponseModel(errorMessage: errorMessage, response: ResponseEnum.failed), t);
     }
   }
 }
