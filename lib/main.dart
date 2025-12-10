@@ -20,6 +20,7 @@ import 'package:gps_app/features/favorites/cubits/favorites_cubit.dart';
 import 'package:gps_app/features/item_info/cubits/item_info_cubit.dart';
 import 'package:gps_app/features/notifications/cubits/notification_cubit.dart';
 import 'package:gps_app/features/report/cubits/add_report_cubit.dart';
+import 'package:gps_app/features/report/cubits/block_user_cubit.dart';
 import 'package:gps_app/features/search/cubits/search_cubit/search_cubit.dart';
 import 'package:gps_app/features/user/preferences/cubits/preferences/preferences_cubit.dart';
 import 'package:gps_app/features/user/restaurant_details/cubits/restaurant_cubit.dart';
@@ -110,6 +111,7 @@ class _MyAppState extends State<MyApp> {
           BlocProvider(create: (context) => FavoritesCubit()),
           BlocProvider(create: (context) => SearchCubit()..init()),
           BlocProvider(create: (context) => AddReportCubit()),
+          BlocProvider(create: (context) => BlockUserCubit()),
           BlocProvider(create: (context) => NotificationCubit()..notifications()),
           BlocProvider(create: (context) => ItemInfoCubit()),
         ],

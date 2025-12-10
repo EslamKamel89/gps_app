@@ -4,7 +4,7 @@ import 'package:gps_app/core/globals.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 
-Future<void>? showReportAcknowledgementModal() {
+Future<void>? showReportAcknowledgementModal({bool isBlock = false}) {
   BuildContext? context = navigatorKey.currentContext;
   if (context == null) return null;
 
@@ -48,8 +48,10 @@ Future<void>? showReportAcknowledgementModal() {
 
                     GPSGaps.h12,
 
-                    const Text(
-                      'Thanks — we’ve received your report',
+                    Text(
+                      isBlock
+                          ? 'Thanks — we’ve blocked the user and received your report'
+                          : 'Thanks — we’ve received your report',
                       textAlign: TextAlign.center,
                       style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800),
                     ),

@@ -4,10 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gps_app/core/enums/response_type.dart';
 import 'package:gps_app/core/helpers/print_helper.dart';
 import 'package:gps_app/core/models/api_response_model.dart';
+import 'package:gps_app/core/router/app_routes_names.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
-import 'package:gps_app/features/report/cubits/add_report_cubit.dart';
-import 'package:gps_app/features/report/models/report_param.dart';
+import 'package:gps_app/features/report/cubits/block_user_cubit.dart';
 import 'package:gps_app/features/report/presentation/report_modal.dart';
 
 Future<Map<String, String>?> openBlockBottomSheet(
@@ -36,26 +36,23 @@ class BlockBottomSheetContent extends StatefulWidget {
 }
 
 class _BlockBottomSheetContentState extends State<BlockBottomSheetContent> {
-  late AddReportCubit cubit;
+  late BlockUserCubit cubit;
 
-  final ReportParam param = ReportParam();
   @override
   void initState() {
     super.initState();
-    cubit = context.read<AddReportCubit>();
-    // param.type = widget.type;
-    // param.typeId = widget.blockUserId;
-    // param.option = null;
+    cubit = context.read<BlockUserCubit>();
   }
 
   @override
   void dispose() {
     super.dispose();
-    // cubit.state.response = ResponseEnum.initial;
-    // cubit.state.errorMessage = null;
-    // cubit.state.data = null;
+    cubit.state.response = ResponseEnum.initial;
+    cubit.state.errorMessage = null;
+    cubit.state.data = null;
   }
 
+  String reason = '';
   bool validationError = false;
   @override
   Widget build(BuildContext context) {
@@ -65,7 +62,7 @@ class _BlockBottomSheetContentState extends State<BlockBottomSheetContent> {
         FadeEffect(duration: 300.ms),
       ],
       child: SingleChildScrollView(
-        padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+        // padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
         physics: const ClampingScrollPhysics(),
         child: Container(
           margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
@@ -140,7 +137,7 @@ class _BlockBottomSheetContentState extends State<BlockBottomSheetContent> {
                     ),
                     GPSGaps.h8,
                     TextField(
-                      onChanged: (value) => param.description = value,
+                      onChanged: (value) => reason = value,
                       maxLines: 4,
                       minLines: 3,
                       textInputAction: TextInputAction.newline,
@@ -162,7 +159,7 @@ class _BlockBottomSheetContentState extends State<BlockBottomSheetContent> {
 
               GPSGaps.h16,
 
-              BlocBuilder<AddReportCubit, ApiResponseModel<bool>>(
+              BlocBuilder<BlockUserCubit, ApiResponseModel<bool>>(
                 builder: (context, state) {
                   if (state.response == ResponseEnum.failed) {
                     return Text(
@@ -188,31 +185,21 @@ class _BlockBottomSheetContentState extends State<BlockBottomSheetContent> {
                   ),
                   GPSGaps.w12,
                   Expanded(
-                    child: BlocConsumer<AddReportCubit, ApiResponseModel<bool>>(
+                    child: BlocConsumer<BlockUserCubit, ApiResponseModel<bool>>(
                       listener: (context, state) {
-                        if (state.response == ResponseEnum.success) {
-                          Navigator.of(context).pop();
-                          Future.delayed(500.ms, () {
-                            showReportAcknowledgementModal();
-                          });
-                        }
+                        pr(state.response, 'debug');
+                        if (state.response == ResponseEnum.success) {}
                       },
                       builder: (context, state) {
                         return ElevatedButton(
                           onPressed: () async {
-                            pr(param.toJson(), 'param');
-                            if (param.option == null) {
-                              setState(() {
-                                validationError = true;
-                              });
-                              return;
-                            }
-                            if (validationError) {
-                              setState(() {
-                                validationError = false;
-                              });
-                            }
-                            await context.read<AddReportCubit>().add(param);
+                            context.read<BlockUserCubit>().blockUser(widget.blockUserId, reason);
+                            Future.delayed(500.ms, () {
+                              showReportAcknowledgementModal(isBlock: true);
+                            });
+                            Navigator.of(
+                              context,
+                            ).pushReplacementNamed(AppRoutesNames.homeSearchScreen);
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: GPSColors.primary,
