@@ -4,6 +4,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gps_app/core/cache/local_storage.dart';
 import 'package:gps_app/core/enums/response_type.dart';
+import 'package:gps_app/core/helpers/print_helper.dart';
 import 'package:gps_app/core/helpers/update_controller.dart';
 import 'package:gps_app/core/helpers/user.dart';
 import 'package:gps_app/core/models/api_response_model.dart';
@@ -14,6 +15,7 @@ import 'package:gps_app/features/auth/models/image_model.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
 import 'package:gps_app/features/favorites/presentation/widgets/fav_button.dart';
+import 'package:gps_app/features/report/presentation/block_user_widget.dart';
 import 'package:gps_app/features/report/presentation/report_issue_widget.dart';
 import 'package:gps_app/features/user/restaurant_details/controllers/restaurants_controller.dart';
 import 'package:gps_app/features/user/restaurant_details/cubits/restaurant_cubit.dart';
@@ -174,9 +176,15 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen>
                                 Positioned(
                                   top: 5,
                                   right: 5,
-                                  child: ReportIssueWidget(
-                                    typeId: state.data?.id ?? 0,
-                                    type: 'Restaurant',
+                                  child: Row(
+                                    children: [
+                                      ReportIssueWidget(
+                                        typeId: state.data?.id ?? 0,
+                                        type: 'Restaurant',
+                                      ),
+                                      if (pr(state.data?.user)?.id != userInMemory()?.id)
+                                        BlockUserWidget(blockUserId: state.data?.user?.id ?? -1),
+                                    ],
                                   ),
                                 ),
                             ],

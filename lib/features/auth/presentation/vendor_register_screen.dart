@@ -53,7 +53,7 @@ class _VendorRegisterScreenState extends State<VendorRegisterScreen> {
   final _capacityCtrl = TextEditingController();
   SelectedStateAndDistrict _stateAndDistrict = SelectedStateAndDistrict();
   UploadedImage? _profileImage;
-  VendorType? vendorType;
+  VendorType? vendorType = VendorType.restaurant;
   OperatingTimeModel? _operatingTimeModel;
   bool _obscure = true;
   final bool _loading = false;
@@ -168,15 +168,15 @@ class _VendorRegisterScreenState extends State<VendorRegisterScreen> {
                   ).animate().fadeIn(duration: 240.ms).slideY(begin: .08),
                   GPSGaps.h12,
                   RoleToggle(),
-                  GPSGaps.h24,
+                  // GPSGaps.h24,
 
-                  VendorTypeSelect(
-                    onSelect: (type) {
-                      setState(() {
-                        vendorType = type;
-                      });
-                    },
-                  ),
+                  // VendorTypeSelect(
+                  //   onSelect: (type) {
+                  //     setState(() {
+                  //       vendorType = type;
+                  //     });
+                  //   },
+                  // ),
                   GPSGaps.h12,
                   ImageUploadField(
                     multiple: false,

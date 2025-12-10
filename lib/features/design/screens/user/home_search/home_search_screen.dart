@@ -11,7 +11,6 @@ import 'package:gps_app/features/design/utils/gps_gaps.dart';
 import 'package:gps_app/features/design/widgets/gps_bottom_nav.dart';
 import 'package:gps_app/features/search/presentation/search_row.dart';
 import 'package:gps_app/features/user/restaurant_details/presentation/widgets/most_loved_restaurants.dart';
-import 'package:gps_app/features/user/store_details/presentation/widgets/most_loved_stores.dart';
 
 class HomeSearchScreen extends StatefulWidget {
   const HomeSearchScreen({super.key});
@@ -69,8 +68,8 @@ class _HomeSearchScreenState extends State<HomeSearchScreen> {
                           // CategoryShortcutWidget(items: _shortcutItems),
                           // GPSGaps.h16,
                           MostLovedRestaurantsProvider(),
-                          MostLovedStoresProvider(isStore: true),
-                          MostLovedStoresProvider(isStore: false),
+                          // MostLovedStoresProvider(isStore: true),
+                          // MostLovedStoresProvider(isStore: false),
                           // NearestVendors(),
                           // GPSGaps.h20,
                           // const PromoCard(),
@@ -147,9 +146,7 @@ class _HomeSearchScreenState extends State<HomeSearchScreen> {
                 child: SizedBox(
                   width: context.width,
                   height: context.height,
-                  child: SizedBox(
-                    child: Stack(fit: StackFit.expand, children: [MapView()]),
-                  ),
+                  child: SizedBox(child: Stack(fit: StackFit.expand, children: [MapView()])),
                 ),
               ).animate().fadeIn(duration: 220.ms),
 

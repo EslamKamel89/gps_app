@@ -4,17 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
-import 'package:gps_app/features/report/presentation/report_bottom_sheet.dart';
+import 'package:gps_app/features/report/presentation/block_bottom_sheet.dart';
 
-class ReportIssueWidget extends StatefulWidget {
-  const ReportIssueWidget({super.key, required this.typeId, required this.type});
-  final int typeId;
-  final String type;
+class BlockUserWidget extends StatefulWidget {
+  const BlockUserWidget({super.key, required this.blockUserId});
+  final int blockUserId;
   @override
-  State<ReportIssueWidget> createState() => _ReportIssueWidgetState();
+  State<BlockUserWidget> createState() => _BlockUserWidgetState();
 }
 
-class _ReportIssueWidgetState extends State<ReportIssueWidget> {
+class _BlockUserWidgetState extends State<BlockUserWidget> {
   bool _startHide = false;
   bool _removeText = false;
 
@@ -51,7 +50,7 @@ class _ReportIssueWidgetState extends State<ReportIssueWidget> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        openReportBottomSheet(context, typeId: widget.typeId, type: widget.type);
+        openBlockBottomSheet(context, blockUserId: widget.blockUserId);
       },
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -63,7 +62,7 @@ class _ReportIssueWidgetState extends State<ReportIssueWidget> {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.report, color: GPSColors.warning, size: 20),
+            Icon(Icons.block, color: Colors.red, size: 20),
 
             if (!_removeText) GPSGaps.w8,
 
@@ -71,7 +70,7 @@ class _ReportIssueWidgetState extends State<ReportIssueWidget> {
               Builder(
                 builder: (context) {
                   final textWidget = Text(
-                    'Report an issue',
+                    'Block User',
                     style: const TextStyle(
                       color: GPSColors.text,
                       fontSize: 14,
