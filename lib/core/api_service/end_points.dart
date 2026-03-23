@@ -14,8 +14,7 @@ class EndPoint {
   static const String login = "$baseUrl/api/login";
   static const String logout = "$baseUrl/api/logout-user";
   static const String uploadImages = "$baseUrl/api/uploads/images";
-  static const String vendorCatalogSection =
-      "$baseUrl/api/vendors/catalog/bulk";
+  static const String vendorCatalogSection = "$baseUrl/api/vendors/catalog/bulk";
   static const String otpVerify = "$baseUrl/api/email/otp/verify";
   static const String otpRequest = "$baseUrl/api/email/otp";
   static const String restaurantBranches = "$baseUrl/api/vendors/branch/bulk";
@@ -42,6 +41,6 @@ class EndPoint {
   static const String notifications = "$baseUrl/api/notifications";
   static const String report = "$baseUrl/api/report";
   static const String blockUser = "$baseUrl/api/block-users";
-  static const String deepInfraUrl =
-      'https://api.deepinfra.com/v1/openai/chat/completions';
+  static const String deepInfraUrl = 'https://api.deepinfra.com/v1/openai/chat/completions';
+  static const String deleteAccountForm = "https://gpsorganic.com/delete-user.php?id=";
 }
