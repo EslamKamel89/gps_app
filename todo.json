@@ -1,10 +1,10 @@
 {
   "Done todos": [
+    "show the restaurant cafe label",
+    "show the farm type",
     "------------------------------------------------"
   ],
   "todos": [
-    "show the restaurant cafe label",
-    "show the farm type",
     "make sure that the authentication works with correct types",
     "------------------------------------------------"
   ]
