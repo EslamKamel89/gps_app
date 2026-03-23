@@ -56,12 +56,11 @@ Future<void> requestPermissions() async {
     );
     pr('FCM permission (iOS): ${settings.authorizationStatus}', 'FCM');
 
-    await FirebaseMessaging.instance
-        .setForegroundNotificationPresentationOptions(
-          alert: true,
-          badge: true,
-          sound: true,
-        );
+    await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+      alert: true,
+      badge: true,
+      sound: true,
+    );
   } catch (e, st) {
     pr('Error requesting FCM permissions (iOS): $e\n$st', 'FCM');
   }
@@ -79,10 +78,7 @@ Future<void> _ensureAndroidNotificationPermission() async {
       pr('Android notification permission requested: $result', 'FCM');
     }
   } catch (e, st) {
-    pr(
-      'Error checking/requesting Android notification permission: $e\n$st',
-      'FCM',
-    );
+    pr('Error checking/requesting Android notification permission: $e\n$st', 'FCM');
   }
 }
 
@@ -90,9 +86,7 @@ Future<void> _createAndroidNotificationChannel() async {
   try {
     final androidImpl =
         flutterLocalNotificationsPlugin
-            .resolvePlatformSpecificImplementation<
-              AndroidFlutterLocalNotificationsPlugin
-            >();
+            .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>();
     if (androidImpl != null) {
       await androidImpl.createNotificationChannel(channel);
       pr('Android notification channel created: ${channel.id}', 'FCM');
@@ -107,9 +101,7 @@ Future<void> _createAndroidNotificationChannel() async {
 void setupInteractionHandlers() {
   FirebaseMessaging.onMessageOpenedApp.listen(onMessageOpenApp);
 
-  FirebaseMessaging.instance.getInitialMessage().then(
-    getInitialMessageFromTerminatedState,
-  );
+  FirebaseMessaging.instance.getInitialMessage().then(getInitialMessageFromTerminatedState);
 
   FirebaseMessaging.instance.onTokenRefresh.listen((newToken) {
     pr('FCM token refreshed: $newToken', 'FCM');
@@ -199,10 +191,7 @@ void onMessageOpenApp(RemoteMessage message) {
 //! Terminated (app launched from terminated state)
 void getInitialMessageFromTerminatedState(RemoteMessage? message) {
   if (message != null) {
-    pr(
-      'App opened from terminated state by notification: ${message.messageId}',
-      'FCM',
-    );
+    pr('App opened from terminated state by notification: ${message.messageId}', 'FCM');
     try {
       final map = message.data;
       if (map.isNotEmpty) {

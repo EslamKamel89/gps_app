@@ -1,19 +1,11 @@
 {
   "Done todos": [
-    "fix the home screen appbar",
-    "don't show the categories selection screen after login",
-    "add navigation to the itemInfoScreen from the profile screen",
-    "fix the alert that says go to complete your profile",
-    "remove the access to the notification page",
-    "create the login modal",
-    "work on the blog feature",
-    "add login and signin to the top bar",
     "------------------------------------------------"
   ],
   "todos": [
-    "handle the verified state in the categories in the restaurant details",
-    "holidays are not handled in the ui of the profile page",
-    "+++++++++++++++++++++++++++++++++++++++++++++++++",
+    "show the restaurant cafe label",
+    "show the farm type",
+    "make sure that the authentication works with correct types",
     "------------------------------------------------"
   ]
 }

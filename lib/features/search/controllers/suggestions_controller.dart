@@ -1,13 +1,16 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gps_app/core/api_service/api_consumer.dart';
 import 'package:gps_app/core/api_service/end_points.dart';
 import 'package:gps_app/core/enums/response_type.dart';
+import 'package:gps_app/core/globals.dart';
 import 'package:gps_app/core/helpers/print_helper.dart';
 import 'package:gps_app/core/helpers/snackbar.dart';
 import 'package:gps_app/core/models/api_response_model.dart';
 import 'package:gps_app/core/service_locator/service_locator.dart';
+import 'package:gps_app/features/report/cubits/blocked_users_cubit.dart';
 import 'package:gps_app/features/search/cubits/search_cubit/search_cubit.dart';
 import 'package:gps_app/features/search/models/suggestion_model/suggestion_model.dart';
 import 'package:gps_app/features/user/preferences/models/diet_model.dart';
@@ -22,57 +25,42 @@ class SuggestionsController {
       pr(response, '$t - response');
       final List<DietModel> models =
           (response as List).map((json) => DietModel.fromJson(json)).toList();
-      return pr(
-        ApiResponseModel(response: ResponseEnum.success, data: models),
-        t,
-      );
+      return pr(ApiResponseModel(response: ResponseEnum.success, data: models), t);
     } catch (e) {
       String errorMessage = e.toString();
       if (e is DioException) {
         errorMessage = jsonEncode(e.response?.data ?? 'Unknown error occurred');
       }
       showSnackbar('Error', errorMessage, true);
-      return pr(
-        ApiResponseModel(
-          errorMessage: errorMessage,
-          response: ResponseEnum.failed,
-        ),
-        t,
-      );
+      return pr(ApiResponseModel(errorMessage: errorMessage, response: ResponseEnum.failed), t);
     }
   }
 
-  Future<ApiResponseModel<List<SuggestionModel>>> search({
-    required SearchState state,
-  }) async {
+  Future<ApiResponseModel<List<SuggestionModel>>> search({required SearchState state}) async {
     final t = prt('suggestions - SearchController');
     try {
-      final response = await api.post(
-        EndPoint.search,
-        data: state.toRequestBody(),
-      );
+      final response = await api.post(EndPoint.search, data: state.toRequestBody());
       pr(response, '$t - response');
       final List<SuggestionModel> models =
-          (response['search_cards'] as List)
-              .map((json) => SuggestionModel.fromJson(json))
-              .toList();
-      return pr(
-        ApiResponseModel(response: ResponseEnum.success, data: models),
-        t,
-      );
+          (response['search_cards'] as List).map((json) => SuggestionModel.fromJson(json)).toList();
+      return pr(ApiResponseModel(response: ResponseEnum.success, data: models), t);
     } catch (e) {
       String errorMessage = e.toString();
       if (e is DioException) {
         errorMessage = jsonEncode(e.response?.data ?? 'Unknown error occurred');
       }
       showSnackbar('Error', errorMessage, true);
-      return pr(
-        ApiResponseModel(
-          errorMessage: errorMessage,
-          response: ResponseEnum.failed,
-        ),
-        t,
-      );
+      return pr(ApiResponseModel(errorMessage: errorMessage, response: ResponseEnum.failed), t);
     }
+  }
+
+  List<SuggestionModel>? filterBlocked(List<SuggestionModel>? suggestions) {
+    if (suggestions == null) return null;
+    final context = navigatorKey.currentContext;
+    if (context == null) return null;
+    final blockedUserCubit = context.read<BlockedUsersCubit>();
+    return suggestions
+        .where((suggestion) => !blockedUserCubit.isBlocked(suggestion.userId))
+        .toList();
   }
 }
