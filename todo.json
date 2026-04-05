@@ -3,11 +3,11 @@
     "show the restaurant cafe label",
     "show the farm type",
     "- must include a way to make user delete their accounts.",
+    "- Update the app to not require users to provide the following personal information: State - Mobile - Address",
+    "make sure that the authentication works with correct types",
     "------------------------------------------------"
   ],
   "todos": [
-    "make sure that the authentication works with correct types",
-    "- Update the app to not require users to provide the following personal information: State - Mobile - Address",
     "------------------------------------------------"
   ]
 }
