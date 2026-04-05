@@ -18,33 +18,19 @@ class FavoritesController {
       final response = await _api.get(EndPoint.favorites);
       pr(response, '$t - response');
       final List<FavoriteModel> models =
-          (response as List)
-              .map((json) => FavoriteModel.fromJson(json))
-              .toList();
-      return pr(
-        ApiResponseModel(response: ResponseEnum.success, data: models),
-        t,
-      );
+          (response as List).map((json) => FavoriteModel.fromJson(json)).toList();
+      return pr(ApiResponseModel(response: ResponseEnum.success, data: models), t);
     } catch (e) {
       String errorMessage = e.toString();
       if (e is DioException) {
         errorMessage = jsonEncode(e.response?.data ?? 'Unknown error occurred');
       }
       showSnackbar('Error', errorMessage, true);
-      return pr(
-        ApiResponseModel(
-          errorMessage: errorMessage,
-          response: ResponseEnum.failed,
-        ),
-        t,
-      );
+      return pr(ApiResponseModel(errorMessage: errorMessage, response: ResponseEnum.failed), t);
     }
   }
 
-  Future<ApiResponseModel<bool>> addToFavorite({
-    required int id,
-    required String type,
-  }) async {
+  Future<ApiResponseModel<bool>> addToFavorite({required int id, required String type}) async {
     final t = prt('addToFavorite - FavoritesController');
     try {
       final response = await _api.post(
@@ -52,23 +38,14 @@ class FavoritesController {
         data: {"favourite_id": id, "favourite_type": type},
       );
       pr(response, '$t - response');
-      return pr(
-        ApiResponseModel(response: ResponseEnum.success, data: true),
-        t,
-      );
+      return pr(ApiResponseModel(response: ResponseEnum.success, data: true), t);
     } catch (e) {
       String errorMessage = e.toString();
       if (e is DioException) {
         errorMessage = jsonEncode(e.response?.data ?? 'Unknown error occurred');
       }
       showSnackbar('Error', errorMessage, true);
-      return pr(
-        ApiResponseModel(
-          errorMessage: errorMessage,
-          response: ResponseEnum.failed,
-        ),
-        t,
-      );
+      return pr(ApiResponseModel(errorMessage: errorMessage, response: ResponseEnum.failed), t);
     }
   }
 
@@ -77,23 +54,14 @@ class FavoritesController {
     try {
       final response = await _api.delete("${EndPoint.favorites}/$id");
       pr(response, '$t - response');
-      return pr(
-        ApiResponseModel(response: ResponseEnum.success, data: true),
-        t,
-      );
+      return pr(ApiResponseModel(response: ResponseEnum.success, data: true), t);
     } catch (e) {
       String errorMessage = e.toString();
       if (e is DioException) {
         errorMessage = jsonEncode(e.response?.data ?? 'Unknown error occurred');
       }
       showSnackbar('Error', errorMessage, true);
-      return pr(
-        ApiResponseModel(
-          errorMessage: errorMessage,
-          response: ResponseEnum.failed,
-        ),
-        t,
-      );
+      return pr(ApiResponseModel(errorMessage: errorMessage, response: ResponseEnum.failed), t);
     }
   }
 }
