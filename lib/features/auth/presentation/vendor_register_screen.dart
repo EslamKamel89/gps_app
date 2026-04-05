@@ -18,7 +18,6 @@ import 'package:gps_app/features/auth/models/holiday_model.dart';
 import 'package:gps_app/features/auth/models/operating_time_model.dart';
 import 'package:gps_app/features/auth/models/user_model.dart';
 import 'package:gps_app/features/auth/models/vendor_register_params/vendor_register_params.dart';
-import 'package:gps_app/features/auth/presentation/otp_screen.dart';
 import 'package:gps_app/features/auth/presentation/widgets/check_box_form_field.dart';
 import 'package:gps_app/features/auth/presentation/widgets/gps_label_field.dart';
 import 'package:gps_app/features/auth/presentation/widgets/holiday_multi_select.dart';
@@ -504,12 +503,15 @@ class _VendorRegisterScreenState extends State<VendorRegisterScreen> {
                   BlocConsumer<VendorRegisterCubit, ApiResponseModel<UserModel>>(
                     listener: (context, state) {
                       if (state.response == ResponseEnum.success && state.data != null) {
-                        Navigator.of(context).pushAndRemoveUntil(
-                          MaterialPageRoute(
-                            builder: (_) => OTPScreen(onNext: _navigateOnRegisterSuccess),
-                          ),
-                          (_) => false,
-                        );
+                        Navigator.of(
+                          context,
+                        ).pushNamedAndRemoveUntil(AppRoutesNames.homeSearchScreen, (_) => false);
+                        // Navigator.of(context).pushAndRemoveUntil(
+                        //   MaterialPageRoute(
+                        //     builder: (_) => OTPScreen(onNext: _navigateOnRegisterSuccess),
+                        //   ),
+                        //   (_) => false,
+                        // );
                       }
                     },
                     builder: (context, state) {
