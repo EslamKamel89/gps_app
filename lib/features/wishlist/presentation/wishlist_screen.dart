@@ -21,8 +21,7 @@ class WishListScreen extends StatefulWidget {
   State<WishListScreen> createState() => _WishListScreenState();
 }
 
-class _WishListScreenState extends State<WishListScreen>
-    with TickerProviderStateMixin {
+class _WishListScreenState extends State<WishListScreen> with TickerProviderStateMixin {
   late final WishesCubit cubit;
   late final AutoScrollController _autoScrollController;
   int _currentTab = 3;
@@ -46,10 +45,7 @@ class _WishListScreenState extends State<WishListScreen>
   Future<void> _maybeScrollToIndex(int id, int itemCount) async {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       try {
-        await _autoScrollController.scrollToIndex(
-          id,
-          preferPosition: AutoScrollPosition.begin,
-        );
+        await _autoScrollController.scrollToIndex(id, preferPosition: AutoScrollPosition.begin);
         _autoScrollController.highlight(id);
       } catch (e) {
         pr(e, '_maybeScrollToIndex - WishListScreen');
@@ -90,10 +86,7 @@ class _WishListScreenState extends State<WishListScreen>
                           highlightColor: GPSColors.primary.withOpacity(0.3),
                           child: WishCard(wish: wish)
                               .animate(delay: (60 * index).ms)
-                              .fadeIn(
-                                duration: 280.ms,
-                                curve: Curves.easeOutCubic,
-                              )
+                              .fadeIn(duration: 280.ms, curve: Curves.easeOutCubic)
                               .slideY(begin: .08, curve: Curves.easeOutCubic)
                               .scale(begin: const Offset(.98, .98)),
                         );
@@ -106,10 +99,7 @@ class _WishListScreenState extends State<WishListScreen>
                       itemBuilder: (context, index) {
                         return WishCardSkeleton()
                             .animate(delay: (60 * index).ms)
-                            .fadeIn(
-                              duration: 280.ms,
-                              curve: Curves.easeOutCubic,
-                            )
+                            .fadeIn(duration: 280.ms, curve: Curves.easeOutCubic)
                             .slideY(begin: .08, curve: Curves.easeOutCubic)
                             .scale(begin: const Offset(.98, .98));
                       },
@@ -136,32 +126,22 @@ class _WishListScreenState extends State<WishListScreen>
       title: Row(
         children: [
           Container(
-                width: 38,
-                height: 38,
-                decoration: BoxDecoration(
-                  color: GPSColors.primary.withOpacity(.12),
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: GPSColors.cardBorder),
-                ),
-                child: const Icon(
-                  Icons.local_florist_rounded,
-                  color: GPSColors.primary,
-                  size: 22,
-                ),
-              )
-              .animate()
-              .fadeIn(duration: 280.ms)
-              .scale(begin: const Offset(.9, .9)),
+            width: 38,
+            height: 38,
+            decoration: BoxDecoration(
+              color: GPSColors.primary.withOpacity(.12),
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: GPSColors.cardBorder),
+            ),
+            child: const Icon(Icons.local_florist_rounded, color: GPSColors.primary, size: 22),
+          ).animate().fadeIn(duration: 280.ms).scale(begin: const Offset(.9, .9)),
           GPSGaps.w12,
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 userInMemory()?.userName ?? '',
-                style: TextStyle(
-                  color: GPSColors.text,
-                  fontWeight: FontWeight.w800,
-                ),
+                style: TextStyle(color: GPSColors.text, fontWeight: FontWeight.w800),
               ),
               // Text(
               //   _userRank,
