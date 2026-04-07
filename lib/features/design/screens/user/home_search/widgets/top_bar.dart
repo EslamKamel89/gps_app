@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:gps_app/core/api_service/end_points.dart';
 import 'package:gps_app/core/cache/local_storage.dart';
 import 'package:gps_app/core/helpers/image_url.dart';
-import 'package:gps_app/core/helpers/print_helper.dart';
 import 'package:gps_app/core/helpers/snackbar.dart';
 import 'package:gps_app/core/helpers/user.dart';
 import 'package:gps_app/core/router/app_routes_names.dart';
@@ -20,7 +18,6 @@ import 'package:gps_app/features/user/store_details/presentation/store_details_s
 import 'package:gps_app/features/user/user_details/presentation/user_details_screen.dart';
 import 'package:gps_app/utils/assets/assets.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class TopBar extends StatefulWidget {
   const TopBar({super.key, this.title = 'GPS', this.action});
@@ -232,12 +229,8 @@ class _TopBarState extends State<TopBar> {
                   icon: Icons.warning,
                   label: 'Delete Account',
                   danger: true,
-                  onTap: () async {
-                    final Uri url = Uri.parse("${EndPoint.deleteAccountForm}${userId()}");
-
-                    if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
-                      pr("can't open the delete account form");
-                    }
+                  onTap: () {
+                    deleteAccount();
                   },
                 ),
                 MenuActionItem(
@@ -278,6 +271,42 @@ class _TopBarState extends State<TopBar> {
                 ).pushNamedAndRemoveUntil(AppRoutesNames.homeSearchScreen, (_) => false);
               },
               child: Text('👋 Yes, Logout!', style: TextStyle(color: Colors.white)),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('❌ Cancel', style: TextStyle(color: Colors.white)),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future deleteAccount() async {
+    showDialog(
+      context: context,
+      builder: (_) {
+        return AlertDialog(
+          surfaceTintColor: Colors.green,
+          icon: Icon(Icons.warning, color: Colors.red, size: 35),
+
+          backgroundColor: GPSColors.primary.withOpacity(0.8),
+          title: Text("Are you sure you want to delete your account"),
+          titleTextStyle: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+
+          actions: [
+            TextButton(
+              onPressed: () async {
+                serviceLocator<AuthController>().deleteAccount().then((_) {
+                  serviceLocator<LocalStorage>().logout();
+                });
+                Navigator.of(
+                  context,
+                ).pushNamedAndRemoveUntil(AppRoutesNames.homeSearchScreen, (_) => true);
+              },
+              child: Text('Yes, Delete!', style: TextStyle(color: Colors.white)),
             ),
             TextButton(
               onPressed: () {
