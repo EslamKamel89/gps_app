@@ -11,11 +11,15 @@ plugins {
 }
 
 val keystoreProperties = Properties()
-val keystorePropertiesFile = rootProject.file("key.properties")
-if (keystorePropertiesFile.exists()) {
-    keystoreProperties.load(keystorePropertiesFile.inputStream())
+ val keystorePropertiesFile = rootProject.file("key.properties")
+// if (keystorePropertiesFile.exists()) {
+//     keystoreProperties.load(keystorePropertiesFile.inputStream())
+// }
+// val keystorePropertiesFile = file("key.properties")
+if (!keystorePropertiesFile.exists()) {
+    throw GradleException("key.properties NOT FOUND at: ${keystorePropertiesFile.absolutePath}")
 }
-
+keystoreProperties.load(keystorePropertiesFile.inputStream())
 android {
     namespace = "com.gaztec.gps_app"
     // compileSdk = 35
@@ -41,14 +45,15 @@ android {
         targetSdk = flutter.targetSdkVersion
         // versionCode = flutter.versionCode
         // versionName = flutter.versionName
-        versionCode = 10
-        versionName = "1.0.10"
+        versionCode = 18
+        versionName = "1.0.18"
     }
     signingConfigs {
         create("release") {
             keyAlias = keystoreProperties["keyAlias"] as String
             keyPassword = keystoreProperties["keyPassword"] as String
             storeFile = file(keystoreProperties["storeFile"] as String)
+            // storeFile = rootProject.file(keystoreProperties["storeFile"] as String)
             storePassword = keystoreProperties["storePassword"] as String
         }
     }
@@ -60,8 +65,8 @@ android {
         // }
         getByName("release") {
             signingConfig = signingConfigs.getByName("release")
-            isMinifyEnabled = true
-            isShrinkResources = true
+            isMinifyEnabled = false
+            isShrinkResources = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -80,3 +85,6 @@ flutter {
 dependencies {
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.4")
 }
+
+println("STORE FILE: " + keystoreProperties["storeFile"])
+println("KEY ALIAS: " + keystoreProperties["keyAlias"])
