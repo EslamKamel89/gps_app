@@ -5,6 +5,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -98,7 +99,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return ScreenUtilInit(
       designSize: const Size(360, 690),
-      minTextAdapt: true,
+      minTextAdapt: false,
       splitScreenMode: true,
       child: MultiBlocProvider(
         providers: [
@@ -129,6 +130,22 @@ class _MyAppState extends State<MyApp> {
               supportedLocales: context.supportedLocales,
               localizationsDelegates: context.localizationDelegates,
               onGenerateRoute: serviceLocator<AppRouter>().onGenerateRoute,
+              builder: (context, child) {
+                final mediaQuery = MediaQuery.of(context);
+                if (child == null) return const SizedBox();
+                return MediaQuery(
+                  data: mediaQuery.copyWith(textScaler: TextScaler.noScaling),
+                  child: NotificationListener<UserScrollNotification>(
+                    onNotification: (notification) {
+                      if (notification.direction != ScrollDirection.idle) {
+                        FocusScope.of(context).unfocus();
+                      }
+                      return false;
+                    },
+                    child: child,
+                  ),
+                );
+              },
             );
           },
         ),

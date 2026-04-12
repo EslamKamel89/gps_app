@@ -46,7 +46,7 @@ class AuthController {
       if (e is DioException) {
         errorMessage = jsonEncode(e.response?.data ?? 'Unknown error occurred');
       }
-      showSnackbar('Error', errorMessage, true);
+      showSnackbar('Error', "Sorry the Email or password you entered is not correct", true);
       return pr(ApiResponseModel(errorMessage: errorMessage, response: ResponseEnum.failed), t);
     }
   }

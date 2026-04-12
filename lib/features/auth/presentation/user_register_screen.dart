@@ -13,7 +13,6 @@ import 'package:gps_app/core/widgets/uploads/uploaded_image.dart';
 import 'package:gps_app/features/auth/cubits/user_register_cubit.dart';
 import 'package:gps_app/features/auth/models/user_model.dart';
 import 'package:gps_app/features/auth/models/user_register_param.dart';
-import 'package:gps_app/features/auth/presentation/otp_screen.dart';
 import 'package:gps_app/features/auth/presentation/widgets/check_box_form_field.dart';
 import 'package:gps_app/features/auth/presentation/widgets/gps_label_field.dart';
 import 'package:gps_app/features/auth/presentation/widgets/role_toggle.dart';
@@ -39,6 +38,7 @@ class _UserRegisterScreenState extends State<UserRegisterScreen> {
   final _emailCtrl = TextEditingController();
   final _passwordCtrl = TextEditingController();
   final _mobileCtrl = TextEditingController();
+  final _confirmPasswordCtrl = TextEditingController();
   UploadedImage? _profileImage;
   final SelectedStateAndDistrict _stateAndDistrict = SelectedStateAndDistrict();
   bool _obscure = true;
@@ -51,6 +51,7 @@ class _UserRegisterScreenState extends State<UserRegisterScreen> {
     _emailCtrl.dispose();
     _passwordCtrl.dispose();
     _mobileCtrl.dispose();
+    _confirmPasswordCtrl.dispose();
     super.dispose();
   }
 
@@ -194,6 +195,32 @@ class _UserRegisterScreenState extends State<UserRegisterScreen> {
                   ),
 
                   GPSGaps.h16,
+                  GpsLabeledField(
+                    label: 'Confirm Password',
+                    child: TextFormField(
+                      controller: _confirmPasswordCtrl,
+                      obscureText: _obscure,
+                      textInputAction: TextInputAction.done,
+                      decoration: _inputDecoration('Confirm your password').copyWith(
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            _obscure ? Icons.visibility_off : Icons.visibility,
+                            color: GPSColors.mutedText,
+                          ),
+                          onPressed: () => setState(() => _obscure = !_obscure),
+                        ),
+                      ),
+                      validator:
+                          (input) => validator(
+                            input: input,
+                            label: 'Confirm Password',
+                            isRequired: true,
+                            isConfirmPassword: true,
+                            firstPassword: _passwordCtrl.text,
+                          ),
+                    ),
+                  ),
+                  GPSGaps.h16,
 
                   // GpsLabeledField(label: 'Select State and City'),
                   // GPSGaps.h8,
@@ -260,10 +287,13 @@ class _UserRegisterScreenState extends State<UserRegisterScreen> {
                   BlocConsumer<UserRegisterCubit, ApiResponseModel<UserModel>>(
                     listener: (context, state) {
                       if (state.response == ResponseEnum.success && state.data != null) {
-                        Navigator.of(context).pushAndRemoveUntil(
-                          MaterialPageRoute(builder: (_) => OTPScreen(onNext: onSuccess)),
-                          (_) => false,
-                        );
+                        Navigator.of(
+                          context,
+                        ).pushNamedAndRemoveUntil(AppRoutesNames.homeSearchScreen, (_) => false);
+                        // Navigator.of(context).pushAndRemoveUntil(
+                        //   MaterialPageRoute(builder: (_) => OTPScreen(onNext: onSuccess)),
+                        //   (_) => false,
+                        // );
                       }
                     },
                     builder: (context, state) {

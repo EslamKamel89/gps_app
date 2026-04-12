@@ -50,6 +50,8 @@ class _VendorRegisterScreenState extends State<VendorRegisterScreen> {
   final _mobileCtrl = TextEditingController();
   final _restaurantAddressCtrl = TextEditingController();
   final _capacityCtrl = TextEditingController();
+  final _confirmPasswordCtrl = TextEditingController();
+
   SelectedStateAndDistrict _stateAndDistrict = SelectedStateAndDistrict();
   UploadedImage? _profileImage;
   VendorType? vendorType = VendorType.restaurant;
@@ -68,6 +70,7 @@ class _VendorRegisterScreenState extends State<VendorRegisterScreen> {
     _restaurantNameCtrl.dispose();
     _restaurantAddressCtrl.dispose();
     _capacityCtrl.dispose();
+    _confirmPasswordCtrl.dispose();
     super.dispose();
   }
 
@@ -325,6 +328,32 @@ class _VendorRegisterScreenState extends State<VendorRegisterScreen> {
                           (input) => validator(input: input, label: 'Password', isRequired: true),
                     ),
                   ).animate().fadeIn(duration: 240.ms),
+                  GPSGaps.h16,
+                  GpsLabeledField(
+                    label: 'Confirm Password',
+                    child: TextFormField(
+                      controller: _confirmPasswordCtrl,
+                      obscureText: _obscure,
+                      textInputAction: TextInputAction.done,
+                      decoration: _inputDecoration('Confirm your password').copyWith(
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            _obscure ? Icons.visibility_off : Icons.visibility,
+                            color: GPSColors.mutedText,
+                          ),
+                          onPressed: () => setState(() => _obscure = !_obscure),
+                        ),
+                      ),
+                      validator:
+                          (input) => validator(
+                            input: input,
+                            label: 'Confirm Password',
+                            isRequired: true,
+                            isConfirmPassword: true,
+                            firstPassword: _passwordCtrl.text,
+                          ),
+                    ),
+                  ),
 
                   GPSGaps.h16,
                   GpsLabeledField(label: 'Select State and City'),
