@@ -358,7 +358,7 @@ class StoreDetailsScreenState extends State<StoreDetailsScreen>
                                                           ? Colors.green
                                                           : GPSColors.mutedText,
                                                 ),
-                                                if (user?.userType?.type == 'Store')
+                                                if (user?.userType?.type == 'store')
                                                   const BadgeChip(
                                                     icon: Icons.storefront_rounded,
                                                     label: 'Store',
