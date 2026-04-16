@@ -358,13 +358,13 @@ class StoreDetailsScreenState extends State<StoreDetailsScreen>
                                                           ? Colors.green
                                                           : GPSColors.mutedText,
                                                 ),
-                                                if (user?.userType?.type == 'store')
+                                                if (user?.userType?.type == 'Store')
                                                   const BadgeChip(
                                                     icon: Icons.storefront_rounded,
                                                     label: 'Store',
                                                   ),
                                                 if (user?.userType?.type == 'farm')
-                                                  BadgeChip(icon: MdiIcons.tree, label: 'Store'),
+                                                  BadgeChip(icon: MdiIcons.tree, label: 'Farm'),
                                               ],
                                             )
                                             .animate(delay: 70.ms)
