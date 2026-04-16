@@ -6,6 +6,7 @@ import 'package:gps_app/core/cache/local_storage.dart';
 import 'package:gps_app/core/enums/response_type.dart';
 import 'package:gps_app/core/helpers/image_url.dart';
 import 'package:gps_app/core/helpers/update_controller.dart';
+import 'package:gps_app/core/helpers/user.dart';
 import 'package:gps_app/core/models/api_response_model.dart';
 import 'package:gps_app/core/router/app_routes_names.dart';
 import 'package:gps_app/core/service_locator/service_locator.dart';
@@ -18,6 +19,7 @@ import 'package:gps_app/features/auth/models/vendor_model/vendor_model.dart';
 import 'package:gps_app/features/auth/presentation/widgets/state_district_selector.dart';
 import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
+import 'package:gps_app/features/favorites/presentation/widgets/fav_button.dart';
 import 'package:gps_app/features/report/presentation/report_issue_widget.dart';
 import 'package:gps_app/features/user/restaurant_details/presentation/widgets/branch_map_screen.dart';
 import 'package:gps_app/features/user/restaurant_details/presentation/widgets/custom_stack.dart';
@@ -57,7 +59,7 @@ class StoreDetailsScreen extends StatefulWidget {
 
 class StoreDetailsScreenState extends State<StoreDetailsScreen>
     with SingleTickerProviderStateMixin {
-  bool _isFav = false;
+  final bool _isFav = false;
   bool _editNameLocation = false;
   String _imageUrl(UserModel? user) {
     final path = user?.image?.path;
@@ -328,21 +330,12 @@ class StoreDetailsScreenState extends State<StoreDetailsScreen>
                                                 ).animate(delay: 40.ms).fadeIn(duration: 150.ms),
                                               ),
 
-                                              IconButton(
-                                                tooltip:
-                                                    _isFav
-                                                        ? 'Remove from favorites'
-                                                        : 'Add to favorites',
-                                                onPressed: () => setState(() => _isFav = !_isFav),
-                                                icon: Icon(
-                                                  _isFav
-                                                      ? Icons.favorite_rounded
-                                                      : Icons.favorite_outline,
-                                                  color:
-                                                      _isFav
-                                                          ? Colors.redAccent
-                                                          : GPSColors.mutedText,
-                                                ),
+                                              FavoriteButton(
+                                                showFav:
+                                                    state.data?.id?.toString() !=
+                                                    userInMemory()?.farm?.id?.toString(),
+                                                id: state.data?.farm?.id,
+                                                type: 'farm',
                                               ),
                                             ],
                                           ).animate().fadeIn(duration: 280.ms).slideY(begin: .1),
