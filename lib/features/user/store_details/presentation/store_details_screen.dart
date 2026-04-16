@@ -332,7 +332,7 @@ class StoreDetailsScreenState extends State<StoreDetailsScreen>
 
                                               FavoriteButton(
                                                 showFav:
-                                                    state.data?.id?.toString() !=
+                                                    state.data?.farm?.id.toString() !=
                                                     userInMemory()?.farm?.id?.toString(),
                                                 id: state.data?.farm?.id,
                                                 type: 'farm',
