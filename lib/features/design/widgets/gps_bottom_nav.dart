@@ -6,11 +6,7 @@ import 'package:gps_app/features/design/utils/gps_colors.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class GPSBottomNav extends StatelessWidget {
-  const GPSBottomNav({
-    super.key,
-    required this.currentIndex,
-    required this.onChanged,
-  });
+  const GPSBottomNav({super.key, required this.currentIndex, required this.onChanged});
   final int currentIndex;
   final ValueChanged<int> onChanged;
 
@@ -23,7 +19,7 @@ class GPSBottomNav extends StatelessWidget {
       Icons.camera,
       // Icons.favorite_rounded,
       MdiIcons.giftOutline,
-      Icons.bookmark_rounded,
+      // Icons.bookmark_rounded,
     ];
 
     return Container(
@@ -42,17 +38,15 @@ class GPSBottomNav extends StatelessWidget {
               onTap: () {
                 onChanged(i);
                 if (i == 0) {
-                  Navigator.of(context).pushNamedAndRemoveUntil(
-                    AppRoutesNames.homeSearchScreen,
-                    (_) => false,
-                  );
+                  Navigator.of(
+                    context,
+                  ).pushNamedAndRemoveUntil(AppRoutesNames.homeSearchScreen, (_) => false);
                 }
                 if (i == 1) {
                   if (auth()) {
-                    Navigator.of(context).pushNamedAndRemoveUntil(
-                      AppRoutesNames.favoritesScreen,
-                      (_) => false,
-                    );
+                    Navigator.of(
+                      context,
+                    ).pushNamedAndRemoveUntil(AppRoutesNames.favoritesScreen, (_) => false);
                   } else {
                     Navigator.of(context).pushNamedAndRemoveUntil(
                       AppRoutesNames.authRequiredScreen,
@@ -62,17 +56,15 @@ class GPSBottomNav extends StatelessWidget {
                   }
                 }
                 if (i == 2) {
-                  Navigator.of(context).pushNamedAndRemoveUntil(
-                    AppRoutesNames.scanImageScreen,
-                    (_) => false,
-                  );
+                  Navigator.of(
+                    context,
+                  ).pushNamedAndRemoveUntil(AppRoutesNames.scanImageScreen, (_) => false);
                 }
                 if (i == 3) {
                   if (auth()) {
-                    Navigator.of(context).pushNamedAndRemoveUntil(
-                      AppRoutesNames.wishList,
-                      (_) => false,
-                    );
+                    Navigator.of(
+                      context,
+                    ).pushNamedAndRemoveUntil(AppRoutesNames.wishList, (_) => false);
                   } else {
                     Navigator.of(context).pushNamedAndRemoveUntil(
                       AppRoutesNames.authRequiredScreen,
@@ -81,12 +73,12 @@ class GPSBottomNav extends StatelessWidget {
                     );
                   }
                 }
-                if (i == 4) {
-                  Navigator.of(context).pushNamedAndRemoveUntil(
-                    AppRoutesNames.blogListScreen,
-                    (_) => false,
-                  );
-                }
+                // if (i == 4) {
+                //   Navigator.of(context).pushNamedAndRemoveUntil(
+                //     AppRoutesNames.blogListScreen,
+                //     (_) => false,
+                //   );
+                // }
               },
             ),
         ].animate(interval: 60.ms).fadeIn(duration: 300.ms).slideY(begin: .1),
@@ -96,11 +88,7 @@ class GPSBottomNav extends StatelessWidget {
 }
 
 class _NavIcon extends StatelessWidget {
-  const _NavIcon({
-    required this.icon,
-    required this.selected,
-    required this.onTap,
-  });
+  const _NavIcon({required this.icon, required this.selected, required this.onTap});
   final IconData icon;
   final bool selected;
   final VoidCallback onTap;
@@ -116,11 +104,7 @@ class _NavIcon extends StatelessWidget {
               color: selected ? Colors.white : Colors.white.withOpacity(.12),
               borderRadius: BorderRadius.circular(14),
             ),
-            child: Icon(
-              icon,
-              color: selected ? GPSColors.primary : Colors.white,
-              size: 22,
-            ),
+            child: Icon(icon, color: selected ? GPSColors.primary : Colors.white, size: 22),
           )
           .animate(target: selected ? 1 : 0)
           .scale(begin: const Offset(1, 1), end: const Offset(1.08, 1.08)),
