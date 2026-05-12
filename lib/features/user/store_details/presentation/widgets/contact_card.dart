@@ -80,7 +80,7 @@ class _ContactCardState extends State<ContactCard> {
         ),
       );
     }
-    if (_hasMobile && false) {
+    if (_hasMobile) {
       rows.add(
         CustomStack(
           enableEdit: widget.enableEdit && showEdit,

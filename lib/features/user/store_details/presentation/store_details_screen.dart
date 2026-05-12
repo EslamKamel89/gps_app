@@ -35,6 +35,7 @@ import 'package:gps_app/features/user/store_details/presentation/widgets/add_sec
 import 'package:gps_app/features/user/store_details/presentation/widgets/badge_chip.dart';
 import 'package:gps_app/features/user/store_details/presentation/widgets/contact_card.dart';
 import 'package:gps_app/features/user/store_details/presentation/widgets/items_list_view.dart';
+import 'package:gps_app/features/user/store_details/presentation/widgets/state_city_card.dart';
 import 'package:gps_app/features/user/store_details/presentation/widgets/store_details_skeleton.dart';
 import 'package:gps_app/features/user/store_details/presentation/widgets/today_hours_row.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -389,22 +390,22 @@ class StoreDetailsScreenState extends State<StoreDetailsScreen>
                                               ),
                                             ).animate().fadeIn(duration: 250.ms).slideY(begin: .06),
                                           ),
-                                        // if (user?.state != null && user?.district != null)
-                                        //   GPSGaps.h16,
-                                        // if (user?.state != null && user?.district != null)
-                                        //   CustomStack(
-                                        //     enableEdit: widget.enableEdit,
-                                        //     actionWidget: EditButton(
-                                        //       onPressed: () async {
-                                        //         _updateUserStateDistrict(user);
-                                        //       },
-                                        //     ),
-                                        //     child: StateCityCard(
-                                        //       state: (user?.state)!,
-                                        //       district: (user?.district)!,
-                                        //     ),
-                                        //   ),
-                                        // GPSGaps.h16,
+                                        if (user?.state != null && user?.district != null)
+                                          GPSGaps.h16,
+                                        if (user?.state != null && user?.district != null)
+                                          CustomStack(
+                                            enableEdit: widget.enableEdit,
+                                            actionWidget: EditButton(
+                                              onPressed: () async {
+                                                _updateUserStateDistrict(user);
+                                              },
+                                            ),
+                                            child: StateCityCard(
+                                              state: (user?.state)!,
+                                              district: (user?.district)!,
+                                            ),
+                                          ),
+                                        GPSGaps.h16,
                                         ContactCard(user: user, enableEdit: widget.enableEdit),
                                         if (vendor?.operatingHours != null) GPSGaps.h16,
                                         if (vendor?.operatingHours != null)

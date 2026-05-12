@@ -52,7 +52,7 @@ class _VendorRegisterScreenState extends State<VendorRegisterScreen> {
   final _capacityCtrl = TextEditingController();
   final _confirmPasswordCtrl = TextEditingController();
 
-  final SelectedStateAndDistrict _stateAndDistrict = SelectedStateAndDistrict();
+  SelectedStateAndDistrict _stateAndDistrict = SelectedStateAndDistrict();
   UploadedImage? _profileImage;
   VendorType? vendorType = VendorType.restaurant;
   OperatingTimeModel? _operatingTimeModel;
@@ -80,10 +80,10 @@ class _VendorRegisterScreenState extends State<VendorRegisterScreen> {
       showSnackbar('Validation Error', "Please select profile image", true);
       return;
     }
-    // if (_stateAndDistrict.selectedDistrict == null || _stateAndDistrict.selectedState == null) {
-    //   showSnackbar('Validation Error', "You have to select the state and city", true);
-    //   return;
-    // }
+    if (_stateAndDistrict.selectedDistrict == null || _stateAndDistrict.selectedState == null) {
+      showSnackbar('Validation Error', "You have to select the state and city", true);
+      return;
+    }
 
     VendorRegisterParams param = VendorRegisterParams(
       fullName: _fullNameCtrl.text,
@@ -356,14 +356,14 @@ class _VendorRegisterScreenState extends State<VendorRegisterScreen> {
                   ),
 
                   GPSGaps.h16,
-                  // GpsLabeledField(label: 'Select State and City'),
-                  // GPSGaps.h8,
-                  // StateDistrictProvider(
-                  //   onSelect: (SelectedStateAndDistrict s) {
-                  //     _stateAndDistrict = s;
-                  //   },
-                  // ),
-                  // GPSGaps.h16,
+                  GpsLabeledField(label: 'Select State and City'),
+                  GPSGaps.h8,
+                  StateDistrictProvider(
+                    onSelect: (SelectedStateAndDistrict s) {
+                      _stateAndDistrict = s;
+                    },
+                  ),
+                  GPSGaps.h16,
 
                   // Cuisine Type
                   // GpsLabeledField(
@@ -402,35 +402,36 @@ class _VendorRegisterScreenState extends State<VendorRegisterScreen> {
                   //   ),
                   // ).animate().fadeIn(duration: 260.ms),
                   // GPSGaps.h16,
-                  // GpsLabeledField(
-                  //   label: '${_vendorTypeName()} Address',
-                  //   child: TextFormField(
-                  //     controller: _restaurantAddressCtrl,
-                  //     textInputAction: TextInputAction.next,
-                  //     maxLines: 2,
-                  //     decoration: _inputDecoration('Enter full address'),
-                  //     validator:
-                  //         (input) => validator(input: input, label: 'Address', isRequired: true),
-                  //   ),
-                  // ).animate().fadeIn(duration: 270.ms),
+                  GpsLabeledField(
+                    label: '${_vendorTypeName()} Address',
+                    child: TextFormField(
+                      controller: _restaurantAddressCtrl,
+                      textInputAction: TextInputAction.next,
+                      maxLines: 2,
+                      decoration: _inputDecoration('Enter full address'),
+                      validator:
+                          (input) => validator(input: input, label: 'Address', isRequired: true),
+                    ),
+                  ).animate().fadeIn(duration: 270.ms),
 
-                  // // GPSGaps.h16,
                   // GPSGaps.h16,
+                  GPSGaps.h16,
 
                   // Mobile
-                  // GpsLabeledField(
-                  //   label: 'Mobile',
-                  //   child: TextFormField(
-                  //     controller: _mobileCtrl,
-                  //     keyboardType: TextInputType.phone,
-                  //     textInputAction: TextInputAction.next,
-                  //     decoration: _inputDecoration('Enter your mobile number'),
-                  //     validator:
-                  //         (input) => validator(input: input, label: 'Mobile', isRequired: true),
-                  //   ),
-                  // ).animate().fadeIn(duration: 300.ms),
+                  GpsLabeledField(
+                    label: 'Mobile',
+                    child: TextFormField(
+                      controller: _mobileCtrl,
+                      keyboardType: TextInputType.phone,
+                      textInputAction: TextInputAction.next,
+                      decoration: _inputDecoration('Enter your mobile number'),
+                      validator:
+                          (input) => validator(input: input, label: 'Mobile', isRequired: true),
+                    ),
+                  ).animate().fadeIn(duration: 300.ms),
 
-                  // GPSGaps.h16,
+                  GPSGaps.h16,
+
                   if (vendorType == VendorType.restaurant)
                     // Capacity
                     GpsLabeledField(
