@@ -81,12 +81,7 @@ class _AddSectionCardState extends State<AddSectionCard> {
                     });
                   },
                   decoration: const InputDecoration(hintText: 'e.g., Organic'),
-                  validator:
-                      (v) => validator(
-                        input: v,
-                        label: 'Category Name',
-                        isRequired: true,
-                      ),
+                  validator: (v) => validator(input: v, label: 'Category Name', isRequired: true),
                 ),
               ),
 
@@ -120,6 +115,6 @@ class _AddSectionCardState extends State<AddSectionCard> {
         });
       }
     }
-    cubit.user();
+    await cubit.user();
   }
 }

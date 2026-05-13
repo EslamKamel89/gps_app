@@ -5,6 +5,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gps_app/core/enums/response_type.dart';
 import 'package:gps_app/core/extensions/context-extensions.dart';
+import 'package:gps_app/core/helpers/print_helper.dart';
 import 'package:gps_app/core/helpers/snackbar.dart';
 import 'package:gps_app/core/helpers/validator.dart';
 import 'package:gps_app/core/service_locator/service_locator.dart';
@@ -47,6 +48,7 @@ class _AddItemCardState extends State<AddItemCard> {
 
   @override
   Widget build(BuildContext context) {
+    pr(widget.section, 'AddItemCard');
     return Form(
       key: _formKey,
       child: Container(
@@ -231,6 +233,7 @@ class _AddItemCardState extends State<AddItemCard> {
     widget.section.items ?? [];
     widget.section.items?.add(item);
     cubit.update(cubit.state.data!);
+    item.catalogSectionId = widget.section.id;
     final res = await controller.addItem(item: item);
     cubit.user();
     if (res.response == ResponseEnum.success) {

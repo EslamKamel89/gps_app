@@ -45,8 +45,8 @@ android {
         targetSdk = flutter.targetSdkVersion
         // versionCode = flutter.versionCode
         // versionName = flutter.versionName
-        versionCode = 20
-        versionName = "1.0.20"
+        versionCode = 27
+        versionName = "1.0.27"
     }
     signingConfigs {
         create("release") {

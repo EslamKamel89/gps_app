@@ -19,10 +19,10 @@ class StoreCubit extends Cubit<ApiResponseModel<UserModel>> {
       response = await controller.getUserById(userId: userId);
     }
     pr(response, t);
-    emit(response);
+    emit(state.copyWith(data: response.data));
   }
 
-  void update(final UserModel newState) async {
+  Future<void> update(final UserModel newState) async {
     emit(state.copyWith(data: newState));
   }
 }

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gps_app/features/auth/models/catalog_section_model.dart';
 import 'package:gps_app/features/design/utils/gps_gaps.dart';
+import 'package:gps_app/features/user/store_details/cubits/store_cubit.dart';
 import 'package:gps_app/features/user/store_details/presentation/widgets/add_item_card.dart';
 import 'package:gps_app/features/user/store_details/presentation/widgets/item_card.dart';
 
@@ -26,7 +28,7 @@ class _ItemsListViewState extends State<ItemsListView> {
   Widget build(BuildContext context) {
     widget.section.items ?? [];
     final items = widget.section.items;
-
+    context.watch<StoreCubit>();
     return ListView.separated(
       physics: const ClampingScrollPhysics(),
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 28),
